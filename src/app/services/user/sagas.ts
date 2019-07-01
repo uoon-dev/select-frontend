@@ -3,7 +3,7 @@ import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
-import { FetchErrorFlag } from 'app/constants';
+import { FetchErrorFlag, RoutePaths } from 'app/constants';
 import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
@@ -172,7 +172,7 @@ export function* watchCancelPurchase() {
       yield call(requestCancelPurchase, purchaseId);
       yield put(Actions.cancelPurchaseSuccess({ purchaseId }));
       alert('결제가 취소되었습니다.');
-      window.location.href = '/';
+      window.location.href = RoutePaths.HOME;
     } catch (e) {
       toast.failureMessage(e.data.message);
       yield put(Actions.cancelPurchaseFailure({ purchaseId }));

@@ -34,6 +34,7 @@ export enum PageTitleText {
 }
 
 export enum RoutePaths {
+  ROOT = '/',
   HOME = '/home',
   NEW_RELEASE = '/new-releases',
   CHARTS = '/charts',
@@ -48,7 +49,7 @@ export enum RoutePaths {
   SEARCH_RESULT = '/search',
   GUIDE = '/guide',
   AVAILABLE_BOOKS = '/books',
-  INTRO = '/',
+  INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
 }

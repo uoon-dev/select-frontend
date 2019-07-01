@@ -3,6 +3,7 @@ import { RouteProps } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import history from 'app/config/history';
+import { RoutePaths } from 'app/constants';
 
 export interface NonSubscriberOnlyRouteProps extends RouteProps {
   isFetching: boolean;
@@ -21,7 +22,7 @@ export const NonSubscriberOnlyRoute: React.SFC<NonSubscriberOnlyRouteProps> = (p
   }
 
   if (isSubscribing) {
-    history.replace('/home' + window.location.search);
+    history.replace(RoutePaths.HOME + window.location.search);
   }
 
   return <Route {...restProps} />;

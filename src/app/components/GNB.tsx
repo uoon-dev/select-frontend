@@ -6,16 +6,16 @@ import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
 import { GNBColorLevel } from 'app/services/commonUI';
 
+import { RoutePaths } from 'app/constants';
 import {
   getBackgroundColorRGBString,
   getGNBType,
-  getSolidBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import {
   getIsAndroidInApp,
-  getIsInAppRoot,
+  getIsInAppIntro,
+  getIsIntro,
   getIsIosInApp,
-  getIsRoot,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
@@ -23,16 +23,15 @@ import MediaQuery from 'react-responsive';
 
 interface Props {
   gnbType: GNBColorLevel;
-  solidBackgroundColorRGBString: string;
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
-  isInAppRoot: boolean;
+  isInAppIntro: boolean;
   isSubscribing: boolean;
-  isRoot: boolean;
+  isIntro: boolean;
 }
 
 export class GNB extends React.Component<Props> {
@@ -60,14 +59,14 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
-    const { isInAppRoot } = this.props;
+    const { isInAppIntro } = this.props;
     return (
-      <Link className="GNBLogoWrapper" to={isInAppRoot ? '/' : '/home'}>
+      <Link className="GNBLogoWrapper" to={isInAppIntro ? RoutePaths.INTRO : RoutePaths.HOME}>
         <Icon
           name="logo_ridiselect_1"
           className={classNames(
             'GNBLogo',
-            isInAppRoot ? 'GNBLogo-InAppIntro' : null,
+            isInAppIntro ? 'GNBLogo-InAppIntro' : null,
           )}
         />
         <h1 className="a11y">리디셀렉트</h1>
@@ -109,20 +108,19 @@ export class GNB extends React.Component<Props> {
 
   public renderGNBRight() {
     const {
-      isRoot,
+      isIntro,
       isLoggedIn,
-      isInAppRoot,
+      isInAppIntro,
       isSubscribing,
       BASE_URL_STORE,
       BASE_URL_RIDISELECT,
-      solidBackgroundColorRGBString,
     } = this.props;
-    if (isInAppRoot) {
+    if (isInAppIntro) {
       return null;
     }
     return (
       <>
-        {isRoot ? null : (
+        {isIntro ? null : (
           <MediaQuery maxWidth={840}>
             {(matches) => <ConnectedSearch isMobile={matches} />}
           </MediaQuery>
@@ -184,7 +182,6 @@ export class GNB extends React.Component<Props> {
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: getGNBType(rootState),
-  solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
   backgroundColorRGBString: getBackgroundColorRGBString(rootState),
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
@@ -192,8 +189,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isSubscribing: rootState.user.isSubscribing,
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
-  isInAppRoot: getIsInAppRoot(rootState),
-  isRoot: getIsRoot(rootState),
+  isInAppIntro: getIsInAppIntro(rootState),
+  isIntro: getIsIntro(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);
