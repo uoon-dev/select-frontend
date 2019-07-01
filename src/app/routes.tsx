@@ -1,7 +1,7 @@
 import * as pathToRegexp from 'path-to-regexp';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Switch } from 'react-router';
+import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
@@ -91,32 +91,33 @@ export const Routes: React.SFC<Props> = (props) => {
               )}
             />
             <Switch>
-              <PrivateRoute
+              <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+              <ConnectedPublicRoute
                 path={RoutePaths.HOME}
                 component={ConnectedHome}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.NEW_RELEASE}
                 component={ConnectedNewReleases}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.CHARTS}
                 component={ConnectedCharts}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.COLLECTION}
                 component={ConnectedCollection}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.CATEGORY}
                 component={ConnectedCategory}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.MY_SELECT}
                 component={ConnectedMySelect}
                 {...props}
@@ -126,32 +127,32 @@ export const Routes: React.SFC<Props> = (props) => {
                 component={ConnectedBookDetail}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.SETTING}
                 component={ConnectedSetting}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.MANAGE_SUBSCRIPTION}
                 component={ConnectedManageSubscription}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.ORDER_HISTORY}
                 component={ConnectedOrderHistory}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.MY_SELECT_HISTORY}
                 component={ConnectedMySelectHistory}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.SEARCH_RESULT}
                 component={ConnectedSearchResult}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.NOT_AVAILABLE_BOOK}
                 component={NotAvailableBook}
                 {...props}
@@ -166,7 +167,7 @@ export const Routes: React.SFC<Props> = (props) => {
                 component={ConnectedAvailableBooks}
                 {...props}
               />
-              <PrivateRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.CLOSING_RESERVED_BOOKS}
                 component={ConnectedClosingReservedBooks}
                 {...props}
