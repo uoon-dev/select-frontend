@@ -33,10 +33,13 @@ const MaintenancePage: React.SFC<ErrorResponseData> = (props: ErrorResponseData)
   </main>
 );
 
-const matStateProps = (rootState: RidiSelectState): ErrorResponseData => ({
-  period: rootState.serviceStatus.errorResponseData!.period,
-  status: rootState.serviceStatus.errorResponseData!.status,
-  unavailableService: rootState.serviceStatus.errorResponseData!.unavailableService,
-});
+const matStateProps = (rootState: RidiSelectState): ErrorResponseData => {
+  const errorResponseData = rootState.serviceStatus.errorResponseData;
+  return {
+    period: errorResponseData ? errorResponseData.period : '',
+    status: errorResponseData ? errorResponseData.status : '',
+    unavailableService: errorResponseData ? errorResponseData.unavailableService : [],
+  };
+};
 
 export const ConnectedMaintenancePage = connect(matStateProps)(MaintenancePage);
