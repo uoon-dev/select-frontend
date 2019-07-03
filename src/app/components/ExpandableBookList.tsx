@@ -37,7 +37,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
                 lazyloadThumbnail={false}
                 bookThumbnailSize={isMobile ? 110 : 120}
               />
-              {(!isMobile && !isExpanded) && (
+              {(books.length > 6 && !isMobile && !isExpanded) && (
                 <div className="ExpandableBookList_ExpandButton_Wrapper">
                   <Expander
                     onClick={() => setIsExpanded(!isExpanded)}
