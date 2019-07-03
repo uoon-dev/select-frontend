@@ -15,7 +15,7 @@ const MaintenancePage: React.SFC<ErrorResponseData> = (props: ErrorResponseData)
         <p className="MaintenanceDescription_Text">{props.period}</p>
         <h3 className="MaintenanceSubTitle">점검 중 이용이 제한되는 서비스</h3>
         <ul className="MaintenanceDescription_ServiceList">
-          {props.unavailableService.map((unavailableServiceText: string) => (
+          {props.unavailableService && props.unavailableService.map((unavailableServiceText: string) => (
             <li className="MaintenanceDescription_ServiceItem">
               {`- ${unavailableServiceText}`}
             </li>
