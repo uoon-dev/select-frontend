@@ -12,14 +12,13 @@ const MaintenancePage: React.SFC<ErrorResponseData> = (props: ErrorResponseData)
       <h2 className="MaintenanceTitle">점검 안내</h2>
       <div className="MaintenanceDescription MaintenanceDescription_Box">
         <h3 className="MaintenanceSubTitle">점검기간</h3>
-        <p className="MaintenanceDescription_Text">{props.period}</p>
+        <p className="MaintenanceDescription_Text">2019년 7월 4일(목) 새벽 3시 ~ 5시 (한국시간 기준, 2시간)</p>
         <h3 className="MaintenanceSubTitle">점검 중 이용이 제한되는 서비스</h3>
         <ul className="MaintenanceDescription_ServiceList">
-          {props.unavailableService && props.unavailableService.map((unavailableServiceText: string) => (
-            <li className="MaintenanceDescription_ServiceItem">
-              {`- ${unavailableServiceText}`}
-            </li>
-          ))}
+          <li className="MaintenanceDescription_ServiceItem">리디셀렉트(select.ridibooks.com) 전체 서비스,</li>
+          <li className="MaintenanceDescription_ServiceItem">리디북스 앱/페이퍼 내의 [구매목록] 및 [무료책] 이용,</li>
+          <li className="MaintenanceDescription_ServiceItem">리디북스 앱/페이퍼 내의 [독서노트] 및 [마지막 페이지] 동기화,</li>
+          <li className="MaintenanceDescription_ServiceItem">서비스 점검 중에도 리디북스 앱과 리디 페이퍼 내의 [내 서재], [책 읽기]는 이용 가능합니다.</li>
         </ul>
       </div>
       <p className="MaintenanceDescription">
