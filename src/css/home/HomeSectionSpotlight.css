@@ -1,7 +1,7 @@
 :root {
   --pc-spotlight-section-height: 420px;
   --inline-140-spotlight-section-height: 380px;
-} 
+}
 @custom-media --spotlight-slider-view (min-width: 901px);
 @custom-media --spotlight-inline-view (max-width: 900px);
 
@@ -11,7 +11,7 @@
   & .Skeleton {
     background-color: var(--slategray_10);
   }
-  
+
   @media (--spotlight-inline-view) {
     height: var(--inline-140-spotlight-section-height);
   }
@@ -34,7 +34,6 @@
     @media (hover: hover) {
       &:hover {
         & .InlineHorizontalBookList_Title {
-          color: #fff;
           opacity: .8;
         }
       }
@@ -42,7 +41,6 @@
     @media (hover: none) {
       &:active {
         & .InlineHorizontalBookList_Title {
-          color: #fff;
           opacity: .8;
         }
       }
@@ -97,6 +95,21 @@
     width: 825px;
     height: var(--pc-spotlight-section-height);
     margin: 0 auto;
+    & .Slider_ControlButton {
+      transition: opacity .2s;
+      @media (hover: hover) {
+        &:hover {
+          background-color: #fff;
+          opacity: .6;
+        }
+      }
+      @media (hover: none) {
+        &:active {
+          background-color: #fff;
+          opacity: .6;
+        }
+      }
+    }
     & .Slider_ControlButton_Left {
       left: -178px;
       border: none;
