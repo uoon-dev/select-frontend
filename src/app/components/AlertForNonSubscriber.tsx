@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Icon } from '@ridi/rsg';
 import history from 'app/config/history';
 import { GoToSubscribeButton } from './GoToSubscribeButton';
 
@@ -19,6 +20,16 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
         type="button"
         onClick={() => setIgnoreAlert(true)}
       >
+        <svg
+          className="AlertForNonSubscriber_CloseButton_Icon"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill-rule="nonzero"
+        >
+          <path d="M5.636 4.222l14.142 14.142-1.414 1.414L4.222 5.636z"/>
+          <path d="M18.364 4.222l1.414 1.414L5.636 19.778l-1.414-1.414z"/>
+        </svg>
         <span className="a11y">닫기</span>
       </button>
     </div>
