@@ -303,11 +303,3 @@
     font-size: 18px;
   }
 }
-
-.GNB_LinkButton-fill {
-  @media (--mobile-screen) {
-    border-color: white;
-    background-color: white;
-    color: var(--bluegray_90);
-  }
-}

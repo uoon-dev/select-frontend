@@ -106,52 +106,66 @@ export class GNB extends React.Component<Props> {
     );
   }
 
+  private renderLoginButton() {
+    const {
+      BASE_URL_STORE,
+    } = this.props;
+
+    return (
+      <a
+        href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+          window.location.href
+        }`}
+        className="GNB_LinkButton"
+      >
+        로그인
+      </a>
+    );
+  }
+
+  private renderLogoutButton() {
+    const {
+      BASE_URL_STORE,
+      BASE_URL_RIDISELECT,
+    } = this.props;
+
+    return (
+      <a
+        href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
+        className="GNB_LinkButton"
+      >
+        <h2 className="reset-heading">로그아웃</h2>
+      </a>
+    );
+  }
+
   public renderGNBRight() {
     const {
       isIntro,
       isLoggedIn,
       isInAppIntro,
       isSubscribing,
-      BASE_URL_STORE,
-      BASE_URL_RIDISELECT,
     } = this.props;
+
     if (isInAppIntro) {
       return null;
     }
+
+    if (isIntro && !isSubscribing) {
+      return (
+        <div className="GNBRightButtonWrapper">
+          {!isLoggedIn ? this.renderLoginButton() : this.renderLogoutButton()}
+        </div>
+      );
+    }
+
     return (
       <>
-        {isIntro ? null : (
-          <MediaQuery maxWidth={840}>
-            {(matches) => <ConnectedSearch isMobile={matches} />}
-          </MediaQuery>
-        )}
+        <MediaQuery maxWidth={840}>
+          {(matches) => <ConnectedSearch isMobile={matches} />}
+        </MediaQuery>
         <div className="GNBRightButtonWrapper">
-          {isSubscribing ? this.renderSettingButton() : null}
-          {(!isSubscribing && isLoggedIn) ? (
-            <a
-              href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
-              className="GNB_LinkButton"
-            >
-              <h2 className="reset-heading">로그아웃</h2>
-            </a>
-          ) : null}
-          {!isSubscribing && !isLoggedIn ? (
-            <MediaQuery maxWidth={840}>
-              {(matches) => (
-                <a
-                  href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-                    window.location.href
-                  }`}
-                  className={classNames(
-                    'GNB_LinkButton',
-                    !matches && 'GNB_LinkButton-fill',
-                  )}
-                >
-                  로그인
-                </a>
-              )}
-            </MediaQuery>
-          ) : null}
+          {(!isLoggedIn && !isSubscribing) ? this.renderLoginButton() : this.renderSettingButton()}
         </div>
       </>
     );
@@ -173,7 +187,9 @@ export class GNB extends React.Component<Props> {
             {this.renderGNBLogo()}
             {this.renderServiceLink()}
           </div>
-          <div className="GNBRight">{this.renderGNBRight()}</div>
+          <div className="GNBRight">
+            {this.renderGNBRight()}
+          </div>
         </div>
       </header>
     );
