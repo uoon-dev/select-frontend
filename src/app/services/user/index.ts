@@ -23,7 +23,9 @@ export const Actions = {
     response: SubscriptionResponse,
   }>('loadSubscriptionSuccess'),
 
-  loadSubscriptionFailure: createAction('loadSubscriptionFailure'),
+  loadSubscriptionFailure: createAction<{
+    isFetched: boolean,
+  }>('loadSubscriptionFailure'),
 
   clearPurchases: createAction('clearPurchases'),
 
@@ -163,7 +165,7 @@ export interface UserState {
   subscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionFetchStatus: FetchStatusFlag;
   unsubscriptionCancellationFetchStatus: FetchStatusFlag;
-  subscription?: SubscriptionState;
+  subscription?: SubscriptionState | null;
   mySelectHistory: MySelectHistroyState;
   purchaseHistory: PurchaseHistory;
 }
@@ -213,6 +215,16 @@ userReducer.on(Actions.loadSubscriptionSuccess, (state = INITIAL_STATE, payload)
     ...payload.response,
   },
 }));
+
+userReducer.on(Actions.loadSubscriptionFailure, (state = INITIAL_STATE, payload) => {
+  const { isFetched } = payload;
+
+  return {
+    ...state,
+    subscriptionFetchStatus: isFetched ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
+    subscription: isFetched ? null : undefined,
+  };
+});
 
 userReducer.on(Actions.loadAccountsMeRequest, (state = INITIAL_STATE, payload) => ({
   ...state,

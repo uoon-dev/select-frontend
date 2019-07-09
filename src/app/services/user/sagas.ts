@@ -71,9 +71,15 @@ export function* watchLoadSubscription() {
       } else {
         yield put(Actions.loadSubscriptionSuccess({ response }));
       }
-    } catch (e) {
-      yield put(Actions.loadSubscriptionFailure());
-      showMessageForRequestError(e);
+    } catch (error) {
+      let isFetched = true;
+
+      if (error.response.status !== 402) {
+        isFetched = false;
+        showMessageForRequestError(error);
+      }
+
+      yield put(Actions.loadSubscriptionFailure({ isFetched }));
     }
   }
 }
