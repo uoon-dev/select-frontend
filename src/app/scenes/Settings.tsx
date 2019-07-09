@@ -53,6 +53,70 @@ export class Settings extends React.PureComponent<SettingProps> {
     }
   }
 
+  private renderSubscriptionTermInfo() {
+    const { subscriptionState } = this.props;
+
+    return subscriptionState && (
+      <li className="CurrentSubscriptionInfo">
+        <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
+        <span className="CurrentSubscriptionInfo_Term">
+          {`${buildDateAndTimeFormat(subscriptionState.ticketStartDate)} ~ ${buildDateAndTimeFormat(subscriptionState.ticketEndDate)}`}
+        </span>
+      </li>
+    );
+  }
+
+  private renderLatestBillDateInfo() {
+    const { isPurchaseCancelFetching, latestPurchaseTicket } = this.props;
+    const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
+    const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
+    const latestPurchaseDate = latestPurchaseTicket && latestPurchaseTicket.purchaseDate;
+
+    if (
+      !latestPurchaseTicket ||
+      latestPurchaseTicket.isCanceled ||
+      latestPurchaseTicket.price === 0
+    ) {
+      return null;
+    }
+
+    return (
+      <li className="LatestBillDateInfo">
+        <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
+        <span className="LatestBillDateInfo_Term">
+        {`${buildOnlyDateFormat(latestPurchaseDate)}`}
+          {isPurchaseCancellable && latestPurchaseId &&
+            <span className="CancelSubscriptionButton_Wrapper">
+              <Button
+                color="gray"
+                size="small"
+                className="CancelSubscriptionButton"
+                onClick={this.handleCancelPurchaseButtonClick(latestPurchaseId)}
+                spinner={isPurchaseCancelFetching}
+              >
+                결제 취소
+              </Button>
+            </span>
+          }
+        </span>
+      </li>
+    );
+  }
+
+  private renderCancelReservedInfo() {
+    const { subscriptionState } = this.props;
+
+    return (subscriptionState && subscriptionState.isOptout) && (
+      <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled">
+        <Icon
+          name={subscriptionState.isOptout ? 'exclamation_3' : 'payment_3'}
+          className="NextSubscriptionInfo_Icon"
+        />
+        구독 해지가 예약되었습니다. 현재 구독 기간까지 이용 가능합니다.
+      </li>
+    );
+  }
+
   public componentDidMount() {
     const {
       isAccountMeRetried,
@@ -72,10 +136,7 @@ export class Settings extends React.PureComponent<SettingProps> {
   }
 
   public renderSubscriptionInfo() {
-    const { uId, subscriptionState, isPurchaseCancelFetching, latestPurchaseTicket } = this.props;
-    const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
-    const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
-    const latestPurchaseDate = latestPurchaseTicket && latestPurchaseTicket.purchaseDate;
+    const { uId, subscriptionState } = this.props;
 
     return (
       <div className="SubscriptionInfoWrapper">
@@ -86,52 +147,9 @@ export class Settings extends React.PureComponent<SettingProps> {
               <strong className="Id_Text">{uId}</strong><span className="Id_Postfix">님</span>
             </p>
           </li>
-          {
-            subscriptionState ? (
-              <>
-                <li className="CurrentSubscriptionInfo">
-                  <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
-                  <span className="CurrentSubscriptionInfo_Term">
-                    {`${buildDateAndTimeFormat(subscriptionState.ticketStartDate)} ~ ${buildDateAndTimeFormat(subscriptionState.ticketEndDate)}`}
-                  </span>
-                </li>
-                {
-                  !!latestPurchaseTicket &&
-                  !latestPurchaseTicket.isCanceled &&
-                  latestPurchaseTicket.price !== 0 &&
-                  <li className="LatestBillDateInfo">
-                    <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
-                    <span className="LatestBillDateInfo_Term">
-                    {`${buildOnlyDateFormat(latestPurchaseDate)}`}
-                      {isPurchaseCancellable && latestPurchaseId &&
-                        <span className="CancelSubscriptionButton_Wrapper">
-                          <Button
-                            color="gray"
-                            size="small"
-                            className="CancelSubscriptionButton"
-                            onClick={this.handleCancelPurchaseButtonClick(latestPurchaseId)}
-                            spinner={isPurchaseCancelFetching}
-                          >
-                            결제 취소
-                          </Button>
-                        </span>
-                      }
-                    </span>
-                  </li>
-                }
-                {
-                  subscriptionState.isOptout &&
-                  <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled">
-                    <Icon
-                      name={subscriptionState.isOptout ? 'exclamation_3' : 'payment_3'}
-                      className="NextSubscriptionInfo_Icon"
-                    />
-                    구독 해지가 예약되었습니다. 현재 구독 기간까지 이용 가능합니다.
-                  </li>
-                }
-              </>
-            ) : null
-          }
+          {this.renderSubscriptionTermInfo()}
+          {this.renderLatestBillDateInfo()}
+          {this.renderCancelReservedInfo()}
         </ul>
       </div>
     );
@@ -151,9 +169,7 @@ export class Settings extends React.PureComponent<SettingProps> {
       >
         <HelmetWithTitle titleName={PageTitleText.SETTING} />
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
-        {subscriptionFetchStatus !== FetchStatusFlag.IDLE ?
-          <SettingPlaceholder /> : this.renderSubscriptionInfo()
-        }
+        {subscriptionFetchStatus === FetchStatusFlag.IDLE ? this.renderSubscriptionInfo() : <SettingPlaceholder />}
         <ul className="SettingMenu">
           <li className="SettingMenu_Item">
             <Link className="SettingMenu_Link" to="/manage-subscription">
