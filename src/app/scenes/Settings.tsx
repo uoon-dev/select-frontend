@@ -53,6 +53,18 @@ export class Settings extends React.PureComponent<SettingProps> {
     }
   }
 
+  private renderAccountInfo() {
+    const { uId } = this.props;
+
+    return (
+      <li className="AccountInfo">
+        <p className="AccountInfo_Id">
+          <strong className="Id_Text">{uId}</strong><span className="Id_Postfix">님</span>
+        </p>
+      </li>
+    );
+  }
+
   private renderSubscriptionTermInfo() {
     const { subscriptionState } = this.props;
 
@@ -136,17 +148,11 @@ export class Settings extends React.PureComponent<SettingProps> {
   }
 
   public renderSubscriptionInfo() {
-    const { uId, subscriptionState } = this.props;
-
     return (
       <div className="SubscriptionInfoWrapper">
         <h3 className="a11y">구독 정보</h3>
         <ul className="SubscriptionInfoList">
-          <li className="AccountInfo">
-            <p className="AccountInfo_Id">
-              <strong className="Id_Text">{uId}</strong><span className="Id_Postfix">님</span>
-            </p>
-          </li>
+          {this.renderAccountInfo()}
           {this.renderSubscriptionTermInfo()}
           {this.renderLatestBillDateInfo()}
           {this.renderCancelReservedInfo()}

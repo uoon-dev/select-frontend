@@ -1,5 +1,5 @@
+import { ConnectedUpButton } from 'app/components/CustomHistory/UpButtons';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
-import { ConnectedUpButton } from 'app/services/customHistory/components/UpButtons';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import * as React from 'react';

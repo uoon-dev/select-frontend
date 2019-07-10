@@ -4,7 +4,7 @@ import { createAction, createReducer } from 'redux-act';
 import { HistoryStack, updateHistoryStack } from 'app/services/customHistory/historyStack.helpers';
 
 export * from './sagas';
-export * from './components';
+export * from '../../components/CustomHistory';
 
 export const Actions = {
   syncHistoryStack: createAction<{

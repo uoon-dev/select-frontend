@@ -1,6 +1,6 @@
+import { ConnectedWebActionBar } from 'app/components/CustomHistory/WebActionBar';
 import { RoutePaths } from 'app/constants';
 import { inAppGnbRoutes } from 'app/routes';
-import { ConnectedWebActionBar } from 'app/services/customHistory/components/WebActionBar';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Location } from 'history';

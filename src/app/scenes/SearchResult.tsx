@@ -13,9 +13,9 @@ import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions as CommonUIActions, GNBSearchActiveType } from 'app/services/commonUI';
 
+import { SearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as SearchResultActions, SearchResultBook, SearchResultState } from 'app/services/searchResult';
-import { SearchResultBookList } from 'app/services/searchResult/components/SearchResultBookList';
 
 import { Button, Icon } from '@ridi/rsg';
 import { getPageQuery } from 'app/services/routing/selectors';

@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
+import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
 import { Actions } from 'app/services/home';
-import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
-import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 import { RidiSelectState } from 'app/store';
 
 interface HomeStateProps {
