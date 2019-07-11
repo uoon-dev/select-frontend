@@ -36,8 +36,8 @@
   }
 }
 
-/* 홈화면 방금 나온 신간 영역 북 리스트 스켈레톤 스타일. */
-.HotReleaseBookList_Skeleton {
+/* 홈화면 한 주간 별점 베스트 영역 북 리스트 스켈레톤 스타일. */
+.SpotlightBookList_Skeleton {
   display: -webkit-box;
   display: inline-flex;
   flex-wrap: nowrap;
@@ -49,32 +49,31 @@
     margin: 21px 0 0;
     overflow: hidden;
 
-    & > .HotReleaseBookList_Item_Skeleton:first-child {
+    & > .SpotlightBookList_Item_Skeleton:first-child {
       padding-left: 0;
     }
 
-    & > .HotReleaseBookList_Item_Skeleton:last-child {
+    & > .SpotlightBookList_Item_Skeleton:last-child {
       padding-right: var(--horizontal-padding);
     }
   }
 }
 
-.HotReleaseBookList_Item_Skeleton {
-  width: var(--book-width-mobile);
-  & .Skeleton {
-    background-color: var(--slategray_10);
-  }
-  @media (--pc-screen) {
-    width: 140PX;
-    & .Book_Skeleton {
-      & .Thumbnail_Skeleton {
-        height: 215px;
-      }
+.SpotlightBookList_Item_Skeleton {
+  width: 140px;
+
+  & .Book_Skeleton {
+    & .Thumbnail_Skeleton {
+      height: 215px;
     }
   }
 
-  & + .HotReleaseBookList_Item_Skeleton {
-    margin-left: 10px;
+  & .Skeleton {
+    background-color: var(--slategray_10);
+  }
+
+  & + .SpotlightBookList_Item_Skeleton {
+    margin-left: 15px;
     @media (--pc-screen) {
       margin-left: 25px;
     }
