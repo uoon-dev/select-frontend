@@ -65,7 +65,8 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   }
 
   public render() {
-    const { isLoggedIn, isSubscribing } = this.props;
+    const { isSubscribing } = this.props;
+
     return (
       <main
         className={classNames(
@@ -79,7 +80,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
-        {(!isLoggedIn && !isSubscribing) && <AlertForNonSubscriber />}
+        {(!isSubscribing) && <AlertForNonSubscriber />}
       </main>
     );
   }

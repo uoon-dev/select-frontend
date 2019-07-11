@@ -4,10 +4,10 @@
   left: 0;
   width: 100%;
   padding: 0 10px 8px;
-  background: #fff;
+  background: #13202f;
   box-sizing: border-box;
   text-align: center;
-  opacity: .98;
+  opacity: .9;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
   border-top: 1px solid var(--slategray_20);
   z-index: 999;
@@ -19,12 +19,13 @@
   font-size: 16px;
   font-weight: 700;
   line-height: 1.4em;
+  color: #fff;
 }
 .AlertForNonSubscriber_SubText {
   margin: 0;
   padding-top: 10px;
   font-size: 13px;
-  color: var(--slategray_60);
+  color: var(--slategray_20);
 }
 
 .AlertForNonSubscriber_SubscribeButton {
