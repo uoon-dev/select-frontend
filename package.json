@@ -91,7 +91,7 @@
     "element-closest": "^3.0.0",
     "history": "^4.7.2",
     "immer": "^1.12.1",
-    "lodash-es": "^4.17.11",
+    "lodash-es": "^4.17.14",
     "node-vibrant": "^3.1.0",
     "normalize.css": "^8.0.1",
     "object-path-immutable": "^3.0.0",
