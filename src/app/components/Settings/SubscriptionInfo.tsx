@@ -1,4 +1,5 @@
 import { Button, Icon } from '@ridi/rsg';
+import { RoutePaths } from 'app/constants';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
@@ -6,9 +7,11 @@ import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDat
 import toast from 'app/utils/toast';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 interface SubscriptionInfoStateProps {
   uId: string;
+  hasSubscribedBefore: boolean;
   subscriptionState?: SubscriptionState | null;
   latestPurchaseTicket: Ticket;
   isPurchaseCancelFetching: boolean;
@@ -40,12 +43,13 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
 
   private renderSubscriptionTermInfo() {
     const { subscriptionState } = this.props;
+    const { ticketStartDate, ticketEndDate } = subscriptionState!;
 
-    return subscriptionState && (
+    return (
       <li className="CurrentSubscriptionInfo">
         <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
         <span className="CurrentSubscriptionInfo_Term">
-          {`${buildDateAndTimeFormat(subscriptionState.ticketStartDate)} ~ ${buildDateAndTimeFormat(subscriptionState.ticketEndDate)}`}
+          {`${buildDateAndTimeFormat(ticketStartDate)} ~ ${buildDateAndTimeFormat(ticketEndDate)}`}
         </span>
       </li>
     );
@@ -89,11 +93,12 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
   private renderCancelReservedInfo() {
     const { subscriptionState } = this.props;
+    const { isOptout } = subscriptionState!;
 
-    return (subscriptionState && subscriptionState.isOptout) && (
+    return isOptout && (
       <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled">
         <Icon
-          name={subscriptionState.isOptout ? 'exclamation_3' : 'payment_3'}
+          name={isOptout ? 'exclamation_3' : 'payment_3'}
           className="NextSubscriptionInfo_Icon"
         />
         구독 해지가 예약되었습니다. 현재 구독 기간까지 이용 가능합니다.
@@ -101,15 +106,34 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     );
   }
 
+  private renderSubscribeButton() {
+    const { hasSubscribedBefore } = this.props;
+
+    return (
+      <Button
+        className="SubscribeToUseButton"
+        component={Link}
+        color="blue"
+        size="large"
+        to={RoutePaths.INTRO}
+      >
+        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '1개월 무료로 읽어보기'}
+      </Button>
+    );
+  }
+
   public render() {
+    const { subscriptionState } = this.props;
     return (
       <div className="SubscriptionInfoWrapper">
         <h3 className="a11y">구독 정보</h3>
         <ul className="SubscriptionInfoList">
           {this.renderAccountInfo()}
-          {this.renderSubscriptionTermInfo()}
-          {this.renderLatestBillDateInfo()}
-          {this.renderCancelReservedInfo()}
+          {subscriptionState ? [
+            this.renderSubscriptionTermInfo(),
+            this.renderLatestBillDateInfo(),
+            this.renderCancelReservedInfo(),
+          ] : this.renderSubscribeButton()}
         </ul>
       </div>
     );
@@ -120,6 +144,7 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
   return {
     uId: state.user.uId,
     subscriptionState: state.user.subscription,
+    hasSubscribedBefore: state.user.hasSubscribedBefore,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
     isPurchaseCancelFetching: state.user.purchaseHistory.isCancelFetching,
   };
