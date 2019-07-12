@@ -43,7 +43,12 @@ export class Settings extends React.PureComponent<SettingProps> {
     const { subscriptionState, isIosInApp } = this.props;
     return (
       <SettingMenu key="Menus About Purchase">
-        <SettingMenuItem linkComponent={Link} to="/manage-subscription" key="ManageSubscription">
+        <SettingMenuItem
+          linkComponent={Link}
+          to="/manage-subscription"
+          key="ManageSubscription"
+          renderCondition={!!subscriptionState}
+        >
           <Icon
             name="invoice_1"
             className="SettingMenu_Icon SettingMenu_Invoice_Icon"

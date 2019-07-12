@@ -133,11 +133,6 @@ export const Routes: React.SFC<Props> = (props) => {
                 {...props}
               />
               <ConnectedPublicRoute
-                path={RoutePaths.MANAGE_SUBSCRIPTION}
-                component={ConnectedManageSubscription}
-                {...props}
-              />
-              <ConnectedPublicRoute
                 path={RoutePaths.ORDER_HISTORY}
                 component={ConnectedOrderHistory}
                 {...props}
@@ -180,6 +175,11 @@ export const Routes: React.SFC<Props> = (props) => {
               />
               <ConnectedPublicRoute
                 component={ConnectedErrorPage}
+                {...props}
+              />
+              <PrivateRoute
+                path={RoutePaths.MANAGE_SUBSCRIPTION}
+                component={ConnectedManageSubscription}
                 {...props}
               />
             </Switch>
