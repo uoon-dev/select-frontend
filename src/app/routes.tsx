@@ -36,7 +36,6 @@ import { RoutePaths } from 'app/constants';
 import {
   ConnectedPublicRoute,
   ConnectedScrollManager,
-  NonSubscriberOnlyRoute,
   PrivateRoute,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
@@ -167,7 +166,7 @@ export const Routes: React.SFC<Props> = (props) => {
                 component={ConnectedClosingReservedBooks}
                 {...props}
               />
-              <NonSubscriberOnlyRoute
+              <ConnectedPublicRoute
                 path={RoutePaths.INTRO}
                 exact={true}
                 component={props.isRidiApp ? InAppIntro : ConnectedIntro}
