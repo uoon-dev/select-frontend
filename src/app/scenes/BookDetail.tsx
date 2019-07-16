@@ -647,6 +647,7 @@ export class BookDetail extends React.Component<Props, State> {
               books={seriesBookList}
               className="PageBookDetail_Panel"
               listTitle="이 책의 시리즈"
+              pageTitleForTracking="book-detail"
               uiPartTitleForTracking="series-list"
             />
             {publisherReview && (
@@ -693,6 +694,7 @@ export class BookDetail extends React.Component<Props, State> {
               books={recommendedBooks}
               className="PageBookDetail_Panel"
               listTitle="'마이 셀렉트'에 함께 추가된 책"
+              pageTitleForTracking="book-detail"
               uiPartTitleForTracking="book-to-book-recommendation"
             />
             <section className="PageBookDetail_Panel Reviews_Wrapper">
