@@ -10,12 +10,13 @@ interface ExpandableBookListProps {
   className: string;
   listTitle: string;
   uiPartTitleForTracking: string;
+  pageTitleForTracking: string;
   books?: Book[];
 }
 
 export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps> = (props) =>  {
   const [isExpanded, setIsExpanded] = React.useState(false);
-  const { className, listTitle, uiPartTitleForTracking, books } = props;
+  const { className, listTitle, uiPartTitleForTracking, books, pageTitleForTracking } = props;
 
   return books && books.length > 0 ? (
     <section
@@ -36,6 +37,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
                 renderAuthor={false}
                 lazyloadThumbnail={false}
                 bookThumbnailSize={isMobile ? 110 : 120}
+                pageTitleForTracking={pageTitleForTracking}
               />
               {(books.length > 6 && !isMobile && !isExpanded) && (
                 <div className="ExpandableBookList_ExpandButton_Wrapper">
