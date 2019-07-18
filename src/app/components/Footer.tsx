@@ -70,14 +70,6 @@ export const Footer: React.SFC<Props> = (props) => {
         <li className="Footer_Terms_Item">
           <Link
             className="Footer_Term_Link"
-            to={RoutePaths.AVAILABLE_BOOKS}
-          >
-            서비스 도서 목록
-          </Link>
-        </li>
-        <li className="Footer_Terms_Item">
-          <Link
-            className="Footer_Term_Link"
             to={RoutePaths.CLOSING_RESERVED_BOOKS}
           >
             종료 예정 도서
