@@ -11,7 +11,6 @@ import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
-  ConnectedAvailableBooks,
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
@@ -154,11 +153,6 @@ export const Routes: React.SFC<Props> = (props) => {
               <ConnectedPublicRoute
                 path={RoutePaths.GUIDE}
                 component={ConnectedGuide}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.AVAILABLE_BOOKS}
-                component={ConnectedAvailableBooks}
                 {...props}
               />
               <ConnectedPublicRoute
