@@ -25,6 +25,7 @@ import {
   BookReviewSummary,
   BookThumbnailUrlMap,
   BookTitle,
+  formatFileCount,
   formatFileSize,
 } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
@@ -340,6 +341,16 @@ export class BookDetail extends React.Component<Props, State> {
                   )}
                 >
                   {`${file.format && file.format !== 'bom' ? ' · ' : ''}${formatFileSize(file.size)}`}
+                </span>
+              }
+              {file && file.format && file.format !== 'bom' &&
+                <span
+                  className={classNames(
+                    'PageBookDetail_FileCount',
+                  )}
+                >
+                  {file.format === 'pdf' && file.pageCount && ` · ${file.pageCount}쪽`}
+                  {file.format === 'epub' && file.characterCount && ` · ${formatFileCount(file.characterCount)}`}
                 </span>
               }
             </p>

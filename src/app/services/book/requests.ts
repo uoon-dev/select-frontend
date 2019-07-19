@@ -21,6 +21,8 @@ export interface Publisher {
 export interface BookFile {
   format: 'epub'|'pdf'|'bom';
   size: number;
+  pageCount?: number;
+  characterCount?: number;
 }
 
 export interface BookDetailPublishingDate {
