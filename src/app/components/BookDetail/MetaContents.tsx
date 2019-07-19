@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { Button, Icon } from '@ridi/rsg';
 
 import { ConnectedBookDetailDownloadButton } from 'app/components/BookDetail/DownloadButton';
-import { BookAuthor, formatFileSize, formatFileCount } from 'app/services/book';
+
+import { BookAuthor, BookTitle, formatFileSize, formatFileCount } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { GNBColorLevel } from 'app/services/commonUI';
 import { StarRating } from 'app/services/review';
@@ -20,30 +21,27 @@ interface BookDetailMetaContentsPorps {
 }
 
 interface BookDetailMetaContentsStatePorps {
+  title?: BookTitle;
   bookDetail?: BookDetailResponse;
   gnbColorLevel: GNBColorLevel;
   isSubscribing: boolean;
 }
 
 const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps> = (props) => {
-  const { bookId, isMobile, bookDetail, gnbColorLevel, isSubscribing } = props;
+  const { title, bookId, isMobile, bookDetail, gnbColorLevel, isSubscribing } = props;
 
-  if (bookDetail === undefined) {
-    return null;
-  }
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
 
   const {
-    title,
-    publisher,
-    file,
-    reviewSummary,
-    categories,
-    previewAvailable,
-    hasPreview,
-    previewBId,
-    authors,
-  } = bookDetail;
+    file = undefined,
+    publisher = undefined,
+    reviewSummary = undefined,
+    categories = undefined,
+    authors = undefined,
+    previewAvailable = undefined,
+    hasPreview = undefined,
+    previewBId = undefined,
+  } = bookDetail ? bookDetail : {};
 
   const hasMoreAuthors = some(authors, (people: BookAuthor[]) => (people && people.length > 2));
 
@@ -71,22 +69,24 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
       </ul>
       <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
       <p className="PageBookDetail_BookElements">
-        <span className="PageBookDetail_Authors">
-          {isAuthorsExpanded || !hasMoreAuthors ? (
-            stringifyAuthors(authors)
-          ) : (
-            <button
-              className="PageBookDetail_ExpandAuthors_Button"
-              onClick={() => setAuthorExpanded(true)}
-            >
-              {stringifyAuthors(authors, 2)}
-              <Icon
-                name="arrow_1_down"
-                className="PageBookDetail_ExpandAuthors_Button_Icon"
-              />
-            </button>
-          )}
-        </span>
+        {authors && (
+          <span className="PageBookDetail_Authors">
+            {isAuthorsExpanded || !hasMoreAuthors ? (
+              stringifyAuthors(authors)
+            ) : (
+              <button
+                className="PageBookDetail_ExpandAuthors_Button"
+                onClick={() => setAuthorExpanded(true)}
+              >
+                {stringifyAuthors(authors, 2)}
+                <Icon
+                  name="arrow_1_down"
+                  className="PageBookDetail_ExpandAuthors_Button_Icon"
+                />
+              </button>
+            )}
+          </span>
+        )}
         {publisher && (
           <span className="PageBookDetail_Publisher">{` · ${
             publisher.name
@@ -131,9 +131,8 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
             <span className="PageBookDetail_RatingSummaryAverage">{`${
               reviewSummary.buyerRatingAverage
             }점`}</span>
-            <span className="PageBookDetail_RatingSummaryCount">{`(${thousandsSeperator(
-              reviewSummary.buyerRatingCount,
-            )}명)`}</span>
+            <span className="PageBookDetail_RatingSummaryCount">{
+              `(${thousandsSeperator(reviewSummary.buyerRatingCount)}명)`}</span>
           </>
         )}
       </p>
@@ -163,10 +162,12 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContent
   const bookId = ownProps.bookId;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
+  const book = stateExists ? bookState.book : undefined;
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
 
   return {
     bookDetail,
+    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     isSubscribing: state.user.isSubscribing,
     gnbColorLevel: state.commonUI.gnbColorLevel,
   };

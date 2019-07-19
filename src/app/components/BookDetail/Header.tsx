@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { BookDetailResponse } from 'app/services/book/requests';
+import { BookThumbnailUrlMap, BookTitle } from 'app/services/book';
 import { GNBColorLevel } from 'app/services/commonUI';
 import {
   getBackgroundColorGradientToLeft,
@@ -18,8 +18,8 @@ interface BookDetailHeaderPorps {
 }
 
 interface BookDetailHeaderStatePorps {
-  bookDetail?: BookDetailResponse;
-
+  title?: BookTitle;
+  thumbnail?: BookThumbnailUrlMap;
   gnbColorLevel: GNBColorLevel;
   solidBackgroundColorRGBString: string;
   backgroundColorGradientToLeft: string;
@@ -29,7 +29,8 @@ interface BookDetailHeaderStatePorps {
 
 const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & BookDetailHeaderPorps> = (props) => {
   const {
-    bookDetail,
+    title,
+    thumbnail,
     gnbColorLevel,
     solidBackgroundColorRGBString,
     backgroundColorGradientToLeft,
@@ -37,12 +38,6 @@ const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & Boo
     transparentBackgroundColorRGBString,
     children,
   } = props;
-
-  if (bookDetail === undefined) {
-    return null;
-  }
-
-  const { thumbnail, title } = bookDetail;
 
   return (
     <div
@@ -96,10 +91,12 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps
   const bookId = ownProps.bookId;
   const stateExists = !!state.booksById[bookId];
   const bookState = state.booksById[bookId];
+  const book = stateExists ? bookState.book : undefined;
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
 
   return {
-    bookDetail,
+    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
+    thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
     gnbColorLevel: state.commonUI.gnbColorLevel,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     transparentBackgroundColorRGBString: getTransparentBackgroundColorRGBString(
