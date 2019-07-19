@@ -738,7 +738,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     fetchStatus: FetchStatusFlag.IDLE,
-    isFetched: stateExists && bookState.isDetailFetched,
+    isFetched: stateExists && bookState.isFetched,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     dominantColor: stateExists ? bookState.dominantColor : undefined,
