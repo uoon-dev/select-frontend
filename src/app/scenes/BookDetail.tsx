@@ -60,7 +60,6 @@ interface BookDetailStateProps {
   isSubscribing: boolean;
   hasSubscribedBefore: boolean;
   fetchStatus: FetchStatusFlag;
-  isFetched: boolean;
   isLoggedIn: boolean;
   isIosInApp: boolean;
   isInApp: boolean;
@@ -198,7 +197,7 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.mySelect.additionFetchStatus === FetchStatusFlag.FETCHING
 
   private fetchBookDetailPageData = (props: Props) => {
-    if (!props.isFetched) {
+    if (props.fetchStatus !== FetchStatusFlag.FETCHING && !props.bookEndDateTime) {
       props.dispatchLoadBookRequest(props.bookId);
     }
     if (!props.ownershipStatus && props.isLoggedIn) {
@@ -391,10 +390,10 @@ export class BookDetail extends React.Component<Props, State> {
     );
   }
   private renderOverlays() {
-    const { thumbnail, title, mySelect } = this.props;
+    const { thumbnail, title, fetchStatus } = this.props;
     const { thumbnailExapnded } = this.state;
 
-    return (
+    return fetchStatus === FetchStatusFlag.IDLE && thumbnail ? (
       <>
         {thumbnailExapnded && (
           <div
@@ -417,7 +416,7 @@ export class BookDetail extends React.Component<Props, State> {
           </div>
         )}
       </>
-    );
+    ) : null;
   }
 
   private getVideoSrc = (videoUrl: string): string | null => {
@@ -528,7 +527,10 @@ export class BookDetail extends React.Component<Props, State> {
     }
     if (
       (!this.props.thumbnail && nextProps.thumbnail) ||
-      (!this.props.isFetched && nextProps.isFetched)
+      (
+        (this.props.fetchStatus !== FetchStatusFlag.FETCHING && !this.props.bookEndDateTime) &&
+        (nextProps.fetchStatus !== FetchStatusFlag.FETCHING && !nextProps.bookEndDateTime)
+      )
     ) {
       this.updateDominantColor(nextProps);
     }
@@ -561,7 +563,6 @@ export class BookDetail extends React.Component<Props, State> {
       publisherReview,
       seriesBookList,
       bookEndDateTime,
-      isFetched,
       env,
       gnbColorLevel,
       solidBackgroundColorRGBString,
@@ -717,7 +718,7 @@ export class BookDetail extends React.Component<Props, State> {
                 />
               </LazyLoad>
             </section>
-            {isFetched && this.renderOverlays()}
+            {this.renderOverlays()}
           </main>
         )}
       </MediaQuery>
@@ -731,14 +732,14 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   const bookState = state.booksById[bookId];
   const book = stateExists ? bookState.book : undefined;
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
+  const fetchStatus = stateExists ? bookState.detailFetchStatus : FetchStatusFlag.IDLE;
 
   return {
     bookId,
+    fetchStatus,
     isSubscribing: state.user.isSubscribing,
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
-    fetchStatus: FetchStatusFlag.IDLE,
-    isFetched: stateExists && bookState.isFetched,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     dominantColor: stateExists ? bookState.dominantColor : undefined,
@@ -746,11 +747,9 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     authors: !!bookDetail ? bookDetail.authors : !!book ? book.authors : undefined,
     thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
-    reviewSummary: !!bookDetail
-    ? bookDetail.reviewSummary
-    : !!book
-    ? book.reviewSummary
-    : undefined,
+    reviewSummary: !!bookDetail ?
+      bookDetail.reviewSummary : !!book ?
+        book.reviewSummary : undefined,
     previewAvailable: !!bookDetail ? bookDetail.previewAvailable : false,
     hasPreview: !!bookDetail ? bookDetail.hasPreview : false,
     previewBId: !!bookDetail ? bookDetail.previewBId : bookId,

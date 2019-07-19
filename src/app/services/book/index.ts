@@ -142,7 +142,6 @@ export interface LocalStorageStaticBookState {
 }
 
 export interface BookStateItem extends StaticBookState {
-  isFetched: boolean;
   detailFetchStatus: FetchStatusFlag;
   bookToBookRecommendationFetchStatus: FetchStatusFlag;
   ownershipFetchStatus: FetchStatusFlag;
@@ -168,7 +167,6 @@ bookReducer.on(Actions.initializeBooks, (state, action) => {
         [id]: {
           ...staticBookState[id],
           detailFetchStatus: FetchStatusFlag.IDLE,
-          isFetched: false,
         },
       };
     }, {}),
@@ -180,7 +178,6 @@ bookReducer.on(Actions.updateBooks, (state, action) => {
   const newState: BookState = books.reduce((prev, book) => {
     prev[book.id] = {
       ...state[book.id],
-      isFetched: !!state[book.id] ? state[book.id].isFetched : false,
       detailFetchStatus: !!state[book.id] ? state[book.id].detailFetchStatus : FetchStatusFlag.IDLE,
       ownershipFetchStatus: !!state[book.id] ? state[book.id].ownershipFetchStatus : FetchStatusFlag.IDLE,
       book: !!state[book.id] ? { ...state[book.id].book, ...book } : book,
@@ -199,7 +196,6 @@ bookReducer.on(Actions.loadBookDetailRequest, (state, action) => {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCHING,
       ownershipFetchStatus: !!state[bookId] ? state[bookId].ownershipFetchStatus : FetchStatusFlag.IDLE,
-      isFetched: !!state[bookId] ? state[bookId].isFetched : false,
       bookDetail: !!book && book.bookDetail ? state[bookId].bookDetail : undefined,
     },
   };
@@ -212,7 +208,6 @@ bookReducer.on(Actions.loadBookDetailSuccess, (state, action) => {
     [bookId]: {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.IDLE,
-      isFetched: true,
       bookDetail: {
         ...bookDetail,
       },
@@ -227,7 +222,6 @@ bookReducer.on(Actions.loadBookDetailFailure, (state, action) => {
     [bookId]: {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCH_ERROR,
-      isFetched: false,
     },
   };
 });
