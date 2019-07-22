@@ -12,8 +12,8 @@ import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { Notice } from 'app/components/Notice';
 
 interface BookDetailNoticeListProps {
-  isMobile: boolean;
   bookId: number;
+  isMobile?: boolean;
 }
 
 interface BookDetailNoticeListStateProps {
@@ -26,7 +26,7 @@ type Props = BookDetailNoticeListProps & BookDetailNoticeListStateProps;
 
 const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
   const {
-    isMobile,
+    isMobile = false,
     isIosInApp,
     noticeList,
     bookEndDateTime,

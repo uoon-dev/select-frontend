@@ -5,7 +5,7 @@ import { BookDetailPanelWrapper } from './Panel';
 
 interface BookDetailMovieTrailerProps {
   bookId: number;
-  isMobile: boolean;
+  isMobile?: boolean;
 }
 
 interface BookDetailMovieTrailerStateProps {
@@ -15,7 +15,7 @@ interface BookDetailMovieTrailerStateProps {
 type Props = BookDetailMovieTrailerProps & BookDetailMovieTrailerStateProps;
 
 const BookDetailMovieTrailer: React.FunctionComponent<Props> = (props) => {
-  const { isMobile, introVideoUrl } = props;
+  const { isMobile = false, introVideoUrl } = props;
 
   if (!introVideoUrl) {
     return null;

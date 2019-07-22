@@ -17,7 +17,7 @@ import { stringifyAuthors } from 'app/utils/utils';
 
 interface BookDetailMetaContentsPorps {
   bookId: number;
-  isMobile: boolean;
+  isMobile?: boolean;
 }
 
 interface BookDetailMetaContentsStatePorps {
@@ -28,7 +28,7 @@ interface BookDetailMetaContentsStatePorps {
 }
 
 const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps> = (props) => {
-  const { title, bookId, isMobile, bookDetail, gnbColorLevel, isSubscribing } = props;
+  const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, isSubscribing } = props;
 
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
 

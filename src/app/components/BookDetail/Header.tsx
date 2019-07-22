@@ -13,7 +13,6 @@ import { RidiSelectState } from 'app/store';
 
 interface BookDetailHeaderPorps {
   bookId: number;
-  isMobile: boolean;
   children?: React.ReactNode;
 }
 
