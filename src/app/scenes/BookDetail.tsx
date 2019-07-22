@@ -277,10 +277,7 @@ export class BookDetail extends React.Component<Props, State> {
               }]}
             />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
-            <ConnectedBookDetailHeader
-              bookId={bookId}
-              isMobile={isMobile}
-            >
+            <ConnectedBookDetailHeader bookId={bookId} isMobile={isMobile}>
               {!isMobile && <ConnectedBookDetailMetaContents
                 isMobile={false}
                 bookId={bookId}
@@ -302,9 +299,11 @@ export class BookDetail extends React.Component<Props, State> {
             <BookDetailPanel
               title="책 소개"
               imageUrl={introImageUrl}
-              contents={introduction}
               isMobile={isMobile}
-            />
+              useSkeleton={true}
+            >
+              {introduction}
+            </BookDetailPanel>
             <ExpandableBookList
               books={seriesBookList}
               className="PageBookDetail_Panel"
@@ -312,39 +311,20 @@ export class BookDetail extends React.Component<Props, State> {
               pageTitleForTracking="book-detail"
               uiPartTitleForTracking="series-list"
             />
-            <BookDetailPanel
-              title="출판사 서평"
-              contents={publisherReview}
-              isMobile={isMobile}
-            />
-            <BookDetailPanel
-              title="저자 소개"
-              contents={authorIntroduction}
-              isMobile={isMobile}
-            />
-            <BookDetailPanel
-              title="목차"
-              contents={tableOfContents}
-              isMobile={isMobile}
-            />
-            <BookDetailPanelWrapper>
+            <BookDetailPanel title="출판사 서평" isMobile={isMobile}>{publisherReview}</BookDetailPanel>
+            <BookDetailPanel title="저자 소개" isMobile={isMobile}>{authorIntroduction}</BookDetailPanel>
+            <BookDetailPanel title="목차" isMobile={isMobile}>{tableOfContents}</BookDetailPanel>
+            <BookDetailPanel title="출간일" useTruncate={false}>
               {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
-                <>
-                  <h2 className="PageBookDetail_PanelTitle">출간일</h2>
-                  <div className="PageBookDetail_PanelContent">
-                    {publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
-                      ? (
-                        `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간`
-                      )
-                      : <>
-                        {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
-                        {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
-                      </>
-                    }
-                  </div>
-                </>
+                publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
+                  ? `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간` : (
+                    <>
+                      {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
+                      {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
+                    </>
+                  )
               )}
-            </BookDetailPanelWrapper>
+            </BookDetailPanel>
             <ExpandableBookList
               books={recommendedBooks}
               className="PageBookDetail_Panel"

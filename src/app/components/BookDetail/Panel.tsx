@@ -40,30 +40,42 @@ export const BookDetailPanelWrapper: React.FunctionComponent<BookDetailPanelWrap
 interface BookDetailPanelProps {
   title: string;
   imageUrl?: string;
-  contents?: TextWithLF;
   isMobile?: boolean;
+  useTruncate?: boolean;
+  useSkeleton?: boolean;
 }
 
-export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = ({ title, contents, isMobile = false, imageUrl }) => {
-  return contents ? (
+export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = (props) => {
+  const {
+    title,
+    children,
+    isMobile = false,
+    imageUrl,
+    useSkeleton = false,
+    useTruncate = true,
+  } = props;
+
+  return children ? (
     <BookDetailPanelWrapper>
       <h2 className="PageBookDetail_PanelTitle">{title}</h2>
       <div className="PageBookDetail_PanelContent">
-        <TextTruncate
-          lines={9}
-          text={`${imageUrl ? `<img src="${imageUrl}" /><br /><br />` : ''}${contents}`}
-          lineHeight={isMobile ? 23 : 25}
-          renderExpander={(({ expand, isExpanded, isTruncated }) => !isTruncated || isExpanded ? null : (
-            <div className="BookDetail_ContentTruncWrapper">
-              <Expander
-                onClick={expand}
-                text="계속 읽기"
-                isExpanded={false}
-              />
-            </div>
-          ))}
-        />
+        {useTruncate ? (
+          <TextTruncate
+            lines={9}
+            text={`${imageUrl ? `<img src="${imageUrl}" /><br /><br />` : ''}${children}`}
+            lineHeight={isMobile ? 23 : 25}
+            renderExpander={(({ expand, isExpanded, isTruncated }) => !isTruncated || isExpanded ? null : (
+              <div className="BookDetail_ContentTruncWrapper">
+                <Expander
+                  onClick={expand}
+                  text="계속 읽기"
+                  isExpanded={false}
+                />
+              </div>
+            ))}
+          />
+        ) : children}
       </div>
     </BookDetailPanelWrapper>
-  ) : <BookDetailSectionPlaceholder />;
+  ) : (useSkeleton ? <BookDetailSectionPlaceholder /> : null);
 };

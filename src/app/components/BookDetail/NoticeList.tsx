@@ -1,13 +1,15 @@
+import { isWithinRange } from 'date-fns';
+import * as React from 'react';
+import { connect } from 'react-redux';
+
 import { NoticeResponse } from 'app/services/book/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { isInNotAvailableConvertList } from 'app/utils/expiredDate';
 import { buildKoreanDayDateFormat } from 'app/utils/formatDate';
-import { isWithinRange } from 'date-fns';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Notice } from '../Notice';
-import { BookDetailPanel } from './Panel';
+
+import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
+import { Notice } from 'app/components/Notice';
 
 interface BookDetailNoticeListProps {
   isMobile: boolean;
@@ -37,7 +39,7 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <BookDetailPanel className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
+      <BookDetailPanelWrapper className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
         {noticeList && noticeList.length > 0 && (
           <>
             <h2 className="a11y">도서 운영 정보</h2>
@@ -53,15 +55,15 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
             </ul>
           </>
         )}
-      </BookDetailPanel>
-      <BookDetailPanel className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
+      </BookDetailPanelWrapper>
+      <BookDetailPanelWrapper className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
         {isInNotAvailableConvertList(bookEndDateTime) && (
           <Notice
             mainText={`이 책은 출판사 또는 저작권자와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`}
             detailLink={!isIosInApp ? 'https://help.ridibooks.com/hc/ko/articles/360022565173' : undefined}
           />
         )}
-      </BookDetailPanel>
+      </BookDetailPanelWrapper>
     </>
   );
 };
