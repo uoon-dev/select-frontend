@@ -30,6 +30,11 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
     bookEndDateTime,
   } = props;
 
+  const noticeContents = isIosInApp && noticeList ? noticeList.map(({ id, content }) => {
+    content = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
+    return { id, content };
+  }) : noticeList;
+
   return (
     <>
       <BookDetailPanel className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
@@ -37,21 +42,14 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
           <>
             <h2 className="a11y">도서 운영 정보</h2>
             <ul className="PageBookDetail_NoticeList">
-              {noticeList.map((noticeItem) => {
-                let { content } = noticeItem;
-                if (this.props.isIosInApp) {
-                  content = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
-                }
-
-                return (
-                  <li className="PageBookDetail_NoticeItem" key={noticeItem.id}>
-                    <p
-                      className="PageBookDetail_NoticeParagraph"
-                      dangerouslySetInnerHTML={{ __html: content.split('\n').join('<br />') }}
-                    />
-                  </li>
-                );
-              })}
+              {noticeContents && noticeContents.map(({id, content}) => (
+                <li className="PageBookDetail_NoticeItem" key={id}>
+                  <p
+                    className="PageBookDetail_NoticeParagraph"
+                    dangerouslySetInnerHTML={{ __html: content.split('\n').join('<br />') }}
+                  />
+                </li>
+              ))}
             </ul>
           </>
         )}
