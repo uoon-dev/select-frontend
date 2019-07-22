@@ -1,6 +1,6 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
-import LazyLoad, { forceCheck } from 'react-lazyload';
+import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -10,30 +10,26 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ConnectBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
-import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
-import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
-import { ExpandableBookList } from 'app/components/ExpandableBookList';
+import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
+import { Actions as BookActions } from 'app/services/book';
 import {
   Book,
   BookOwnershipStatus,
   BookThumbnailUrlMap,
   BookTitle,
 } from 'app/services/book';
-import { Actions as BookActions } from 'app/services/book';
-import { BookDetailPublishingDate } from 'app/services/book/requests';
 import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, RGB } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
-import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
-import { BookId, TextWithLF } from 'app/types';
-import { buildOnlyDateFormat } from 'app/utils/formatDate';
+import { BookId } from 'app/types';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 
 interface BookDetailStateProps {
@@ -45,14 +41,6 @@ interface BookDetailStateProps {
   thumbnail?: BookThumbnailUrlMap;
 
   bookEndDateTime: string;
-
-  seriesBookList?: Book[];
-  publisherReview?: TextWithLF;
-  authorIntroduction?: TextWithLF;
-  introduction?: TextWithLF;
-  introImageUrl?: string;
-  tableOfContents?: TextWithLF;
-  publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
 
   bookToBookRecommendationFetchStatus: FetchStatusFlag;
@@ -78,11 +66,6 @@ interface State {
 }
 
 export class BookDetail extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.checkAuth = this.checkAuth.bind(this);
-  }
-
   public state = {
     thumbnailExapnded: false,
     isAuthorsExpanded: false,
@@ -193,29 +176,12 @@ export class BookDetail extends React.Component<Props, State> {
     this.props.dispatchUpdateGNBColor(GNB_DEFAULT_COLOR);
   }
 
-  public checkAuth() {
-    if (this.props.isLoggedIn) {
-      return true;
-    }
-    if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-      window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
-    }
-    return false;
-  }
   public render() {
     const {
       bookId,
-      tableOfContents,
-      authorIntroduction,
-      publishingDate,
-      introduction,
-      introImageUrl,
       title,
-      publisherReview,
-      seriesBookList,
       env,
       solidBackgroundColorRGBString,
-      recommendedBooks,
     } = this.props;
 
     if (!title || !title.main) {
@@ -239,68 +205,17 @@ export class BookDetail extends React.Component<Props, State> {
             />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <ConnectedBookDetailHeader bookId={bookId} isMobile={isMobile}>
-              {!isMobile && <ConnectedBookDetailMetaContents
-                isMobile={false}
-                bookId={bookId}
-              />}
+              {!isMobile && (
+                <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />
+              )}
             </ConnectedBookDetailHeader>
             <BookDetailPanelWrapper renderCondition={isMobile}>
               {isMobile && (
-                <ConnectedBookDetailMetaContents
-                  isMobile={isMobile}
-                  bookId={bookId}
-                />
+                <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
               )}
-              <ConnectBookDetailNoticeList
-                isMobile={isMobile}
-                bookId={bookId}
-              />
+              <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
             </BookDetailPanelWrapper>
-            <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
-            <BookDetailPanel
-              title="책 소개"
-              imageUrl={introImageUrl}
-              isMobile={isMobile}
-              useSkeleton={true}
-            >
-              {introduction}
-            </BookDetailPanel>
-            <ExpandableBookList
-              books={seriesBookList}
-              className="PageBookDetail_Panel"
-              listTitle="이 책의 시리즈"
-              pageTitleForTracking="book-detail"
-              uiPartTitleForTracking="series-list"
-            />
-            <BookDetailPanel title="출판사 서평" isMobile={isMobile}>{publisherReview}</BookDetailPanel>
-            <BookDetailPanel title="저자 소개" isMobile={isMobile}>{authorIntroduction}</BookDetailPanel>
-            <BookDetailPanel title="목차" isMobile={isMobile}>{tableOfContents}</BookDetailPanel>
-            <BookDetailPanel title="출간일" useTruncate={false}>
-              {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
-                publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
-                  ? `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간` : (
-                    <>
-                      {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
-                      {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
-                    </>
-                  )
-              )}
-            </BookDetailPanel>
-            <ExpandableBookList
-              books={recommendedBooks}
-              className="PageBookDetail_Panel"
-              listTitle="'마이 셀렉트'에 함께 추가된 책"
-              pageTitleForTracking="book-detail"
-              uiPartTitleForTracking="book-to-book-recommendation"
-            />
-            <BookDetailPanelWrapper className="Reviews_Wrapper">
-              <LazyLoad height={200} once={true} offset={400}>
-                <ConnectedReviews
-                  bookId={bookId}
-                  checkAuth={this.checkAuth}
-                />
-              </LazyLoad>
-            </BookDetailPanelWrapper>
+            <ConnectBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
             {this.renderOverlays()}
           </main>
         )}
@@ -328,14 +243,6 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
-
-    introduction: !!bookDetail ? bookDetail.introduction : undefined,
-    introImageUrl: !!bookDetail ? bookDetail.introImageUrl : undefined,
-    authorIntroduction: !!bookDetail ? bookDetail.authorIntroduction : undefined,
-    tableOfContents: !!bookDetail ? bookDetail.tableOfContents : undefined,
-    seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,
-    publisherReview: !!bookDetail ? bookDetail.publisherReview : undefined,
-    publishingDate: !!bookDetail ? bookDetail.publishingDate : undefined,
 
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
