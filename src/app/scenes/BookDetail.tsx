@@ -1,3 +1,10 @@
+import * as classNames from 'classnames';
+import * as React from 'react';
+import { forceCheck } from 'react-lazyload';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import { RouteComponentProps, withRouter } from 'react-router';
+
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
@@ -7,22 +14,16 @@ import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import {
+  Actions as BookActions,
   Book,
   BookOwnershipStatus,
   BookTitle,
 } from 'app/services/book';
-import { Actions as BookActions } from 'app/services/book';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
-import * as classNames from 'classnames';
-import * as React from 'react';
-import { forceCheck } from 'react-lazyload';
-import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 interface BookDetailStateProps {
   bookId: BookId;
