@@ -354,13 +354,6 @@ export class BookDetail extends React.Component<Props, State> {
                 bookId={bookId}
               />}
             </ConnectedBookDetailHeader>
-            {!isMobile &&
-              !!noticeList &&
-              !!noticeList.length && (
-                <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
-                  {this.renderNoticeList(noticeList)}
-                </section>
-            )}
             {isMobile ? (
               <section className="PageBookDetail_Panel">
                 <ConnectedBookDetailMetaContents
@@ -373,6 +366,11 @@ export class BookDetail extends React.Component<Props, State> {
               </section>
             ) : (
               <>
+                {!!noticeList && !!noticeList.length && (
+                  <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
+                    {this.renderNoticeList(noticeList)}
+                  </section>
+                )}
                 <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
                   {this.renderBookWillBeNotAvailableNotice()}
                 </section>
