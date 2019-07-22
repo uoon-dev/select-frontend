@@ -13,7 +13,7 @@ import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
-import { BookDetailPanel } from 'app/components/BookDetail/Panel';
+import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { ExpandableBookList } from 'app/components/ExpandableBookList';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
@@ -24,9 +24,6 @@ import {
   BookTitle,
 } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
-import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
-import { Expander } from 'app/services/book/components/Expander';
-import { TextTruncate } from 'app/services/book/components/TextTruncate';
 import { BookDetailPublishingDate } from 'app/services/book/requests';
 import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, RGB } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
@@ -210,25 +207,6 @@ export class BookDetail extends React.Component<Props, State> {
     ) : null;
   }
 
-  private renderPanelContent = (text: TextWithLF, isMobile: boolean) => {
-    return (
-      <TextTruncate
-        lines={9}
-        text={text}
-        lineHeight={isMobile ? 23 : 25}
-        renderExpander={(({ expand, isExpanded, isTruncated }) => !isTruncated || isExpanded ? null : (
-          <div className="BookDetail_ContentTruncWrapper">
-            <Expander
-              onClick={expand}
-              text="계속 읽기"
-              isExpanded={false}
-            />
-          </div>
-        ))}
-      />
-    );
-  }
-
   public componentDidMount() {
     this.fetchBookDetailPageData(this.props);
     this.updateDominantColor(this.props);
@@ -308,7 +286,7 @@ export class BookDetail extends React.Component<Props, State> {
                 bookId={bookId}
               />}
             </ConnectedBookDetailHeader>
-            <BookDetailPanel renderCondition={isMobile}>
+            <BookDetailPanelWrapper renderCondition={isMobile}>
               {isMobile && (
                 <ConnectedBookDetailMetaContents
                   isMobile={isMobile}
@@ -319,16 +297,14 @@ export class BookDetail extends React.Component<Props, State> {
                 isMobile={isMobile}
                 bookId={bookId}
               />
-            </BookDetailPanel>
+            </BookDetailPanelWrapper>
             {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
-            {introduction ? (
-              <section className="PageBookDetail_Panel">
-                <h2 className="PageBookDetail_PanelTitle">책 소개</h2>
-                <div className="PageBookDetail_PanelContent">
-                  {this.renderPanelContent(`${introImageUrl ? `<img src="${introImageUrl}" /><br /><br />` : ''}${introduction}`, isMobile)}
-                </div>
-              </section>
-            ) : <BookDetailSectionPlaceholder />}
+            <BookDetailPanel
+              title="책 소개"
+              imageUrl={introImageUrl}
+              contents={introduction}
+              isMobile={isMobile}
+            />
             <ExpandableBookList
               books={seriesBookList}
               className="PageBookDetail_Panel"
@@ -336,46 +312,39 @@ export class BookDetail extends React.Component<Props, State> {
               pageTitleForTracking="book-detail"
               uiPartTitleForTracking="series-list"
             />
-            {publisherReview && (
-              <section className="PageBookDetail_Panel">
-                <h2 className="PageBookDetail_PanelTitle">출판사 서평</h2>
-                <div className="PageBookDetail_PanelContent">
-                  {this.renderPanelContent(publisherReview, isMobile)}
-                </div>
-              </section>
-            )}
-            {authorIntroduction && (
-              <section className="PageBookDetail_Panel">
-                <h2 className="PageBookDetail_PanelTitle">저자 소개</h2>
-                <div className="PageBookDetail_PanelContent">
-                  {this.renderPanelContent(authorIntroduction, isMobile)}
-                </div>
-              </section>
-            )}
-            {tableOfContents && (
-              <section className="PageBookDetail_Panel">
-                <h2 className="PageBookDetail_PanelTitle">목차</h2>
-                <div className="PageBookDetail_PanelContent">
-                  {this.renderPanelContent(tableOfContents, isMobile)}
-                </div>
-              </section>
-            )}
-            {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
-              <section className="PageBookDetail_Panel">
-                <h2 className="PageBookDetail_PanelTitle">출간일</h2>
-                <div className="PageBookDetail_PanelContent">
-                  {publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
-                    ? (
-                      `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간`
-                    )
-                    : <>
-                      {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
-                      {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
-                    </>
-                  }
-                </div>
-              </section>
-            )}
+            <BookDetailPanel
+              title="출판사 서평"
+              contents={publisherReview}
+              isMobile={isMobile}
+            />
+            <BookDetailPanel
+              title="저자 소개"
+              contents={authorIntroduction}
+              isMobile={isMobile}
+            />
+            <BookDetailPanel
+              title="목차"
+              contents={tableOfContents}
+              isMobile={isMobile}
+            />
+            <BookDetailPanelWrapper>
+              {publishingDate && (publishingDate.ebookPublishDate || publishingDate.paperBookPublishDate) && (
+                <>
+                  <h2 className="PageBookDetail_PanelTitle">출간일</h2>
+                  <div className="PageBookDetail_PanelContent">
+                    {publishingDate.ebookPublishDate === publishingDate.paperBookPublishDate
+                      ? (
+                        `${buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책, 종이책 동시 출간`
+                      )
+                      : <>
+                        {publishingDate.ebookPublishDate && <>{buildOnlyDateFormat(publishingDate.ebookPublishDate)} 전자책 출간<br /></>}
+                        {publishingDate.paperBookPublishDate && `${buildOnlyDateFormat(publishingDate.paperBookPublishDate)} 종이책 출간`}
+                      </>
+                    }
+                  </div>
+                </>
+              )}
+            </BookDetailPanelWrapper>
             <ExpandableBookList
               books={recommendedBooks}
               className="PageBookDetail_Panel"
@@ -383,15 +352,14 @@ export class BookDetail extends React.Component<Props, State> {
               pageTitleForTracking="book-detail"
               uiPartTitleForTracking="book-to-book-recommendation"
             />
-            <section className="PageBookDetail_Panel Reviews_Wrapper">
-              <h2 className="a11y">리뷰</h2>
+            <BookDetailPanelWrapper className="Reviews_Wrapper">
               <LazyLoad height={200} once={true} offset={400}>
                 <ConnectedReviews
                   bookId={bookId}
                   checkAuth={this.checkAuth}
                 />
               </LazyLoad>
-            </section>
+            </BookDetailPanelWrapper>
             {this.renderOverlays()}
           </main>
         )}
