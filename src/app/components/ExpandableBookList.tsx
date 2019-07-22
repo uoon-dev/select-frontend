@@ -3,8 +3,8 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components';
+import { Expander } from 'app/components/BookDetail/Expander';
 import { Book } from 'app/services/book';
-import { Expander } from 'app/services/book/components/Expander';
 
 interface ExpandableBookListProps {
   className: string;

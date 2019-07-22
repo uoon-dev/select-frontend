@@ -1,7 +1,6 @@
-import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
-import { Expander } from 'app/services/book/components/Expander';
-import { TextTruncate } from 'app/services/book/components/TextTruncate';
-import { TextWithLF } from 'app/types';
+import { BookDetailSectionPlaceholder } from 'app/components/BookDetail/BookDetailSectionPlaceholder';
+import { Expander } from 'app/components/BookDetail/Expander';
+import { TextTruncate } from 'app/components/BookDetail/TextTruncate';
 import * as classNames from 'classnames';
 import * as React from 'react';
 
