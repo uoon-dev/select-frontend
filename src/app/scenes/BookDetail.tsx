@@ -8,9 +8,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 const Vibrant = require('node-vibrant');
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
-import { Icon } from '@ridi/rsg';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { ConnectBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
+import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
@@ -60,17 +59,7 @@ type OwnProps = RouteProps & {};
 
 type Props = ReturnType<typeof mapDispatchToProps> & BookDetailStateProps & OwnProps;
 
-interface State {
-  thumbnailExapnded: boolean;
-  isAuthorsExpanded: boolean;
-}
-
-export class BookDetail extends React.Component<Props, State> {
-  public state = {
-    thumbnailExapnded: false,
-    isAuthorsExpanded: false,
-  };
-
+export class BookDetail extends React.Component<Props> {
   private updateDominantColor = (props: Props) => {
     const {
       dominantColor,
@@ -120,36 +109,6 @@ export class BookDetail extends React.Component<Props, State> {
     if (props.bookToBookRecommendationFetchStatus === FetchStatusFlag.IDLE && !props.recommendedBooks) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
-  }
-
-  private renderOverlays() {
-    const { thumbnail, title, fetchStatus } = this.props;
-    const { thumbnailExapnded } = this.state;
-
-    return fetchStatus === FetchStatusFlag.IDLE && thumbnail ? (
-      <>
-        {thumbnailExapnded && (
-          <div
-            className="PageBookDetail_ThumbnailPopup"
-            onClick={() => this.setState({ thumbnailExapnded: false })}
-          >
-            <div className="PageBookDetail_ThumbnailPopupContent">
-              <button
-                className="PageBookDetail_ThumbnailPopupCloseBtn"
-                onClick={() => this.setState({ thumbnailExapnded: false })}
-              >
-                <Icon name="close_2" />
-              </button>
-              <img
-                className="PageBookDetail_ThumbnailPopupImg"
-                src={`${thumbnail!.xxlarge}?dpi=xxhdpi`}
-                alt={title!.main}
-              />
-            </div>
-          </div>
-        )}
-      </>
-    ) : null;
   }
 
   public componentDidMount() {
@@ -215,8 +174,7 @@ export class BookDetail extends React.Component<Props, State> {
               )}
               <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
             </BookDetailPanelWrapper>
-            <ConnectBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
-            {this.renderOverlays()}
+            <ConnectedBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
           </main>
         )}
       </MediaQuery>

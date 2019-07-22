@@ -1,5 +1,6 @@
 import { Book } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
+import { EnvironmentState } from 'app/services/environment';
 import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -16,6 +17,7 @@ interface BookDetailContentPanelsProps {
 }
 
 interface BookDetailContentPanelsStateProps {
+  env: EnvironmentState;
   isLoggedIn: boolean;
   bookDetail?: BookDetailResponse;
   seriesBookList?: Book[];
@@ -25,7 +27,15 @@ interface BookDetailContentPanelsStateProps {
 type Props = BookDetailContentPanelsProps & BookDetailContentPanelsStateProps;
 
 const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
-  const { isLoggedIn, isMobile, bookId, bookDetail, seriesBookList, recommendedBooks } = props;
+  const {
+    env,
+    isLoggedIn,
+    isMobile,
+    bookId,
+    bookDetail,
+    seriesBookList,
+    recommendedBooks,
+  } = props;
   const {
     introImageUrl,
     introduction,
@@ -89,7 +99,7 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
                 return true;
               }
               if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-                window.location.replace(`${ this.props.env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+                window.location.replace(`${ env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
               }
               return false;
             }}
@@ -109,9 +119,10 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailContentPane
   return {
     isLoggedIn: state.user.isLoggedIn,
     bookDetail,
+    env: state.environment,
     seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,
     recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
   };
 };
 
-export const ConnectBookDetailContentPanels = connect(mapStateToProps, null)(BookDetailContentPanels);
+export const ConnectedBookDetailContentPanels = connect(mapStateToProps, null)(BookDetailContentPanels);

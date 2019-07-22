@@ -10,6 +10,7 @@ import {
   getTransparentBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
+import { ConnectedBookDetailOverlays } from './Overlays';
 
 interface BookDetailHeaderPorps {
   bookId: number;
@@ -28,6 +29,7 @@ interface BookDetailHeaderStatePorps {
 
 const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & BookDetailHeaderPorps> = (props) => {
   const {
+    bookId,
     title,
     thumbnail,
     gnbColorLevel,
@@ -37,6 +39,8 @@ const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & Boo
     transparentBackgroundColorRGBString,
     children,
   } = props;
+
+  const [thumbnailExapnded, setThumbnailExapnded] = React.useState(false);
 
   return (
     <div
@@ -68,7 +72,7 @@ const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & Boo
           <div className="PageBookDetail_ThumbnailWrapper">
             <button
               className="PageBookDetail_ThumbnailButton"
-              onClick={() => this.setState({ thumbnailExapnded: true })}
+              onClick={() => setThumbnailExapnded(true)}
             >
               {thumbnail && (
                 <img
@@ -82,6 +86,11 @@ const BookDetailHeader: React.FunctionComponent<BookDetailHeaderStatePorps & Boo
           {children}
         </div>
       </div>
+      <ConnectedBookDetailOverlays
+        bookId={bookId}
+        thumbnailExapnded={thumbnailExapnded}
+        onClick={() => setThumbnailExapnded(false)}
+      />
     </div>
   );
 };
