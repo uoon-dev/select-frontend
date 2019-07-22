@@ -12,6 +12,7 @@ import { Icon } from '@ridi/rsg';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
+import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
 import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { ExpandableBookList } from 'app/components/ExpandableBookList';
@@ -50,7 +51,6 @@ interface BookDetailStateProps {
   authorIntroduction?: TextWithLF;
   introduction?: TextWithLF;
   introImageUrl?: string;
-  introVideoUrl?: string;
   tableOfContents?: TextWithLF;
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
@@ -169,44 +169,6 @@ export class BookDetail extends React.Component<Props, State> {
     ) : null;
   }
 
-  private getVideoSrc = (videoUrl: string): string | null => {
-    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-      const token = videoUrl.match(/[\w-_]{10,}/);
-      if (token) {
-        return `//www.youtube-nocookie.com/embed/${token[0]}?rel=0`;
-      }
-    } else if (videoUrl.includes('vimeo')) {
-      const token = videoUrl.match(/\d[\w-_]{7,}/);
-      if (token) {
-        return `//player.vimeo.com/video/${token[0]}?byline=0&amp;portrait=0&amp;badge=0`;
-      }
-    }
-    return null;
-  }
-
-  private renderMovieTrailer = (videoUrl: string, isMobile: boolean) => {
-    const videoSrc = this.getVideoSrc(videoUrl);
-    return videoSrc ? (
-      <section
-        className={classNames(
-          'PageBookDetail_Panel',
-          { 'PageBookDetail_Panel-inMeta': isMobile },
-        )}
-      >
-        <h2 className={isMobile ? 'a11y' : 'PageBookDetail_PanelTitle'}>북 트레일러</h2>
-        <div className="PageBookDetail_PanelContent PageBookDetail_PanelContent-trailer">
-          <iframe
-            src={videoSrc}
-            width={isMobile ? 300 : 800}
-            height={isMobile ? 225 : 450}
-            frameBorder="0"
-            allowFullScreen={true}
-          />
-        </div>
-      </section>
-    ) : null;
-  }
-
   public componentDidMount() {
     this.fetchBookDetailPageData(this.props);
     this.updateDominantColor(this.props);
@@ -248,7 +210,6 @@ export class BookDetail extends React.Component<Props, State> {
       publishingDate,
       introduction,
       introImageUrl,
-      introVideoUrl,
       title,
       publisherReview,
       seriesBookList,
@@ -295,7 +256,7 @@ export class BookDetail extends React.Component<Props, State> {
                 bookId={bookId}
               />
             </BookDetailPanelWrapper>
-            {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
+            <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
             <BookDetailPanel
               title="책 소개"
               imageUrl={introImageUrl}
@@ -370,7 +331,6 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
 
     introduction: !!bookDetail ? bookDetail.introduction : undefined,
     introImageUrl: !!bookDetail ? bookDetail.introImageUrl : undefined,
-    introVideoUrl: !!bookDetail ? bookDetail.introVideoUrl : undefined,
     authorIntroduction: !!bookDetail ? bookDetail.authorIntroduction : undefined,
     tableOfContents: !!bookDetail ? bookDetail.tableOfContents : undefined,
     seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,
