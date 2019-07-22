@@ -126,13 +126,13 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     fetchStatus,
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
-    // Data that can be pre-fetched in home
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
     recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
+    // Data that can be pre-fetched in home
+    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
   };
 };
 

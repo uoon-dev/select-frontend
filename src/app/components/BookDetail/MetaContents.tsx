@@ -167,9 +167,10 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContent
 
   return {
     bookDetail,
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
     isSubscribing: state.user.isSubscribing,
     gnbColorLevel: state.commonUI.gnbColorLevel,
+    // Data that can be pre-fetched in home
+    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
   };
 };
 

@@ -148,17 +148,16 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailHeaderPorps
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
 
   return {
-    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
-    thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
     gnbColorLevel: state.commonUI.gnbColorLevel,
     dominantColor: stateExists ? bookState.dominantColor : undefined,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    transparentBackgroundColorRGBString: getTransparentBackgroundColorRGBString(
-      state,
-    ),
+    transparentBackgroundColorRGBString: getTransparentBackgroundColorRGBString(state),
     backgroundColorGradientToLeft: getBackgroundColorGradientToLeft(state),
     backgroundColorGradientToRight: getBackgroundColorGradientToRight(state),
-  };
+    // Data that can be pre-fetched in home
+    title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
+    thumbnail: !!bookDetail ? bookDetail.thumbnail : !!book ? book.thumbnail : undefined,
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
