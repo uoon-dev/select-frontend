@@ -1,5 +1,4 @@
 import * as classNames from 'classnames';
-import * as isWithinRange from 'date-fns/is_within_range';
 import * as React from 'react';
 import LazyLoad, { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
@@ -13,38 +12,36 @@ import { Icon } from '@ridi/rsg';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
+import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
+import { BookDetailPanel } from 'app/components/BookDetail/Panel';
 import { ExpandableBookList } from 'app/components/ExpandableBookList';
-import { Notice } from 'app/components/Notice';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
-import { Actions as BookActions } from 'app/services/book';
 import {
   Book,
   BookOwnershipStatus,
   BookThumbnailUrlMap,
   BookTitle,
 } from 'app/services/book';
+import { Actions as BookActions } from 'app/services/book';
 import { BookDetailSectionPlaceholder } from 'app/services/book/components/BookDetailSectionPlaceholder';
 import { Expander } from 'app/services/book/components/Expander';
 import { TextTruncate } from 'app/services/book/components/TextTruncate';
-import { BookDetailPublishingDate, NoticeResponse } from 'app/services/book/requests';
+import { BookDetailPublishingDate } from 'app/services/book/requests';
 import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, RGB } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
-import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { BookId, TextWithLF } from 'app/types';
-import { isInNotAvailableConvertList } from 'app/utils/expiredDate';
-import { buildKoreanDayDateFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
+import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
 
 interface BookDetailStateProps {
   bookId: BookId;
   fetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
-  isIosInApp: boolean;
 
   title?: BookTitle;
   thumbnail?: BookThumbnailUrlMap;
@@ -58,7 +55,6 @@ interface BookDetailStateProps {
   introImageUrl?: string;
   introVideoUrl?: string;
   tableOfContents?: TextWithLF;
-  noticeList?: NoticeResponse[];
   publishingDate?: BookDetailPublishingDate;
   dominantColor?: RGB;
 
@@ -214,35 +210,6 @@ export class BookDetail extends React.Component<Props, State> {
     ) : null;
   }
 
-  private renderNoticeList = (noticeList?: NoticeResponse[]) => {
-    if (!noticeList || !noticeList.length) {
-      return null;
-    }
-
-    return (
-      <>
-        <h2 className="a11y">도서 운영 정보</h2>
-        <ul className="PageBookDetail_NoticeList">
-          {noticeList.map((noticeItem) => {
-            let { content } = noticeItem;
-            if (this.props.isIosInApp) {
-              content = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
-            }
-
-            return (
-              <li className="PageBookDetail_NoticeItem" key={noticeItem.id}>
-                <p
-                  className="PageBookDetail_NoticeParagraph"
-                  dangerouslySetInnerHTML={{ __html: content.split('\n').join('<br />') }}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </>
-    );
-  }
-
   private renderPanelContent = (text: TextWithLF, isMobile: boolean) => {
     return (
       <TextTruncate
@@ -258,16 +225,6 @@ export class BookDetail extends React.Component<Props, State> {
             />
           </div>
         ))}
-      />
-    );
-  }
-
-  private renderBookWillBeNotAvailableNotice() {
-    const { bookEndDateTime, isIosInApp } = this.props;
-    return isInNotAvailableConvertList(bookEndDateTime) && (
-      <Notice
-        mainText={`이 책은 출판사 또는 저작권자와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`}
-        detailLink={!isIosInApp ? 'https://help.ridibooks.com/hc/ko/articles/360022565173' : undefined}
       />
     );
   }
@@ -311,7 +268,6 @@ export class BookDetail extends React.Component<Props, State> {
       tableOfContents,
       authorIntroduction,
       publishingDate,
-      noticeList,
       introduction,
       introImageUrl,
       introVideoUrl,
@@ -337,12 +293,10 @@ export class BookDetail extends React.Component<Props, State> {
           >
             <HelmetWithTitle
               titleName={title && title.main ? title.main : null}
-              meta={[
-                {
-                  name: 'theme-color',
-                  content: solidBackgroundColorRGBString,
-                },
-              ]}
+              meta={[{
+                name: 'theme-color',
+                content: solidBackgroundColorRGBString,
+              }]}
             />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
             <ConnectedBookDetailHeader
@@ -354,29 +308,19 @@ export class BookDetail extends React.Component<Props, State> {
                 bookId={bookId}
               />}
             </ConnectedBookDetailHeader>
-            {isMobile ? (
-              <section className="PageBookDetail_Panel">
+            <BookDetailPanel renderCondition={isMobile}>
+              {isMobile && (
                 <ConnectedBookDetailMetaContents
-                  isMobile={true}
+                  isMobile={isMobile}
                   bookId={bookId}
                 />
-                {this.renderNoticeList(noticeList)}
-                {this.renderBookWillBeNotAvailableNotice()}
-                {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
-              </section>
-            ) : (
-              <>
-                {!!noticeList && !!noticeList.length && (
-                  <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
-                    {this.renderNoticeList(noticeList)}
-                  </section>
-                )}
-                <section className="PageBookDetail_Panel PageBookDetail_Panel-notice">
-                  {this.renderBookWillBeNotAvailableNotice()}
-                </section>
-                {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
-              </>
-            )}
+              )}
+              <ConnectBookDetailNoticeList
+                isMobile={isMobile}
+                bookId={bookId}
+              />
+            </BookDetailPanel>
+            {introVideoUrl && this.renderMovieTrailer(introVideoUrl, isMobile)}
             {introduction ? (
               <section className="PageBookDetail_Panel">
                 <h2 className="PageBookDetail_PanelTitle">책 소개</h2>
@@ -484,14 +428,9 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,
     publisherReview: !!bookDetail ? bookDetail.publisherReview : undefined,
     publishingDate: !!bookDetail ? bookDetail.publishingDate : undefined,
-    noticeList: !!bookDetail && !!bookDetail.notices && Array.isArray(bookDetail.notices) ?
-      bookDetail.notices.filter((notice) =>
-        notice.isVisible && isWithinRange(new Date(), notice.beginDatetime, notice.endDatetime),
-      ) : undefined,
 
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    isIosInApp: getIsIosInApp(state),
     bookToBookRecommendationFetchStatus: !!bookDetail ? bookState.bookToBookRecommendationFetchStatus : FetchStatusFlag.IDLE,
     recommendedBooks: !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
   };

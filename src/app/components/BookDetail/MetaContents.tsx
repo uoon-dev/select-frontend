@@ -7,7 +7,7 @@ import { Button, Icon } from '@ridi/rsg';
 
 import { ConnectedBookDetailDownloadButton } from 'app/components/BookDetail/DownloadButton';
 
-import { BookAuthor, BookTitle, formatFileSize, formatFileCount } from 'app/services/book';
+import { BookAuthor, BookTitle, formatFileCount, formatFileSize } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { GNBColorLevel } from 'app/services/commonUI';
 import { StarRating } from 'app/services/review';
@@ -33,14 +33,14 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
 
   const {
-    file = undefined,
-    publisher = undefined,
-    reviewSummary = undefined,
-    categories = undefined,
-    authors = undefined,
-    previewAvailable = undefined,
-    hasPreview = undefined,
-    previewBId = undefined,
+    file,
+    publisher,
+    reviewSummary,
+    categories,
+    authors,
+    previewAvailable,
+    hasPreview,
+    previewBId,
   } = bookDetail ? bookDetail : {};
 
   const hasMoreAuthors = some(authors, (people: BookAuthor[]) => (people && people.length > 2));
