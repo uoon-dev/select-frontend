@@ -204,7 +204,7 @@ export class BookDetail extends React.Component<Props, State> {
               }]}
             />
             {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
-            <ConnectedBookDetailHeader bookId={bookId} isMobile={isMobile}>
+            <ConnectedBookDetailHeader bookId={bookId}>
               {!isMobile && (
                 <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />
               )}
