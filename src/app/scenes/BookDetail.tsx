@@ -51,9 +51,7 @@ interface BookDetailStateProps {
   ownershipStatus?: BookOwnershipStatus;
 }
 
-type RouteProps = RouteComponentProps<{
-  bookId: string;
-}>;
+type RouteProps = RouteComponentProps<{ bookId: string; }>;
 
 type OwnProps = RouteProps & {};
 
@@ -118,7 +116,6 @@ export class BookDetail extends React.Component<Props> {
   }
   public componentWillReceiveProps(nextProps: Props) {
     if (this.props.bookId !== nextProps.bookId) {
-      this.updateDominantColor(nextProps);
       this.fetchBookDetailPageData(nextProps);
     }
     if (
