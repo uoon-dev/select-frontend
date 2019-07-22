@@ -1,15 +1,16 @@
+import * as React from 'react';
+import LazyLoad from 'react-lazyload';
+import { connect } from 'react-redux';
+
+import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
+import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { Book } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { EnvironmentState } from 'app/services/environment';
 import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
-import * as React from 'react';
-import LazyLoad from 'react-lazyload';
-import { connect } from 'react-redux';
 import { ExpandableBookList } from '../ExpandableBookList';
-import { ConnectBookDetailMovieTrailer } from './MovieTrailer';
-import { BookDetailPanel, BookDetailPanelWrapper } from './Panel';
 
 interface BookDetailContentPanelsProps {
   bookId: number;

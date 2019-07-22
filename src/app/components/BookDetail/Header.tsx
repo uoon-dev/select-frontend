@@ -9,6 +9,7 @@ import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 import { Actions as BookActions, BookThumbnailUrlMap, BookTitle } from 'app/services/book';
 import { Actions as CommonUIActions, GNB_DEFAULT_COLOR, GNBColorLevel, RGB } from 'app/services/commonUI';
 
+import { ConnectedBookDetailOverlays } from 'app/components/BookDetail/Overlays';
 import {
   getBackgroundColorGradientToLeft,
   getBackgroundColorGradientToRight,
@@ -17,7 +18,6 @@ import {
 } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
-import { ConnectedBookDetailOverlays } from './Overlays';
 
 interface BookDetailHeaderPorps {
   bookId: number;

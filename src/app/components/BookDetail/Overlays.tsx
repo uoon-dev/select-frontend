@@ -1,9 +1,11 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+
 import { Icon } from '@ridi/rsg';
+
 import { FetchStatusFlag } from 'app/constants';
 import { BookThumbnailUrlMap, BookTitle } from 'app/services/book';
 import { RidiSelectState } from 'app/store';
-import * as React from 'react';
-import { connect } from 'react-redux';
 
 interface BookDetailOverlaysProps {
   bookId: number;

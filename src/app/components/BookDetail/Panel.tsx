@@ -1,8 +1,9 @@
+import * as classNames from 'classnames';
+import * as React from 'react';
+
 import { BookDetailSectionPlaceholder } from 'app/components/BookDetail/BookDetailSectionPlaceholder';
 import { Expander } from 'app/components/BookDetail/Expander';
 import { TextTruncate } from 'app/components/BookDetail/TextTruncate';
-import * as classNames from 'classnames';
-import * as React from 'react';
 
 interface BookDetailPanelWrapperProps {
   className?: string;
