@@ -48,24 +48,21 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
   return (
     <div className="PageBookDetail_Meta">
       <ul className="PageBookDetail_Categories">
-        {categories &&
-          categories.map((categoryGroup, key) => {
-            return (
-              <li className="PageBookDetail_CategoryItem" key={key}>
-                {categoryGroup.map((category, idx) => (
-                  <span key={`${category.name}${idx}`}>
-                    {category.name}
-                    {idx !== categoryGroup.length - 1 && (
-                      <Icon
-                        name="arrow_5_right"
-                        className="PageBookDetail_CategoryArrow"
-                      />
-                    )}
-                  </span>
-                ))}
-              </li>
-            );
-          })}
+        {categories && categories.map((categoryGroup, key) => (
+          <li className="PageBookDetail_CategoryItem" key={key}>
+            {categoryGroup.map((category, idx) => (
+              <span key={`${category.name}${idx}`}>
+                {category.name}
+                {idx !== categoryGroup.length - 1 && (
+                  <Icon
+                    name="arrow_5_right"
+                    className="PageBookDetail_CategoryArrow"
+                  />
+                )}
+              </span>
+            ))}
+          </li>
+        ))}
       </ul>
       <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
       <p className="PageBookDetail_BookElements">
@@ -88,23 +85,19 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
           </span>
         )}
         {publisher && (
-          <span className="PageBookDetail_Publisher">{` · ${
-            publisher.name
-          } 출판`}</span>
+          <span className="PageBookDetail_Publisher">{` · ${publisher.name} 출판`}</span>
         )}
         {file && file.format && file.format !== 'bom' && (
           <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>
         )}
         {file && file.size && (
           <span
-            className={classNames('PageBookDetail_FileSize', {
-              'PageBookDetail_FileSize-noFileType':
-                file.format && file.format === 'bom',
-            })}
+            className={classNames(
+              'PageBookDetail_FileSize',
+              (file.format && file.format === 'bom') && 'PageBookDetail_FileSize-noFileType',
+            )}
           >
-            {`${
-              file.format && file.format !== 'bom' ? ' · ' : ''
-            }${formatFileSize(file.size)}`}
+            {`${(file.format && file.format !== 'bom') && ' · '}${formatFileSize(file.size)}`}
           </span>
         )}
         {file && file.format && file.format !== 'bom' &&
@@ -128,16 +121,17 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
                 !isMobile && gnbColorLevel !== GNBColorLevel.BRIGHT
               }
             />
-            <span className="PageBookDetail_RatingSummaryAverage">{`${
-              reviewSummary.buyerRatingAverage
-            }점`}</span>
-            <span className="PageBookDetail_RatingSummaryCount">{
-              `(${thousandsSeperator(reviewSummary.buyerRatingCount)}명)`}</span>
+            <span className="PageBookDetail_RatingSummaryAverage">
+              {`${reviewSummary.buyerRatingAverage}점`}
+            </span>
+            <span className="PageBookDetail_RatingSummaryCount">
+              {`(${thousandsSeperator(reviewSummary.buyerRatingCount)}명)`}
+            </span>
           </>
         )}
       </p>
       <div className="PageBookDetail_DownloadWrapper">
-        {isSubscribing && previewAvailable && hasPreview ? (
+        {isSubscribing && previewAvailable && hasPreview && (
           <Button
             color={isMobile ? 'blue' : undefined}
             outline={true}
@@ -149,10 +143,8 @@ const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStat
             <Icon name="book_1" />
             <span className="PageBookDetail_PreviewButtonLabel">미리보기</span>
           </Button>
-        ) : null}
-        <ConnectedBookDetailDownloadButton
-          bookId={bookId}
-        />
+        )}
+        <ConnectedBookDetailDownloadButton bookId={bookId} />
       </div>
     </div>
   );
@@ -169,6 +161,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailMetaContent
     bookDetail,
     isSubscribing: state.user.isSubscribing,
     gnbColorLevel: state.commonUI.gnbColorLevel,
+
     // Data that can be pre-fetched in home
     title: !!bookDetail ? bookDetail.title : !!book ? book.title : undefined,
   };
