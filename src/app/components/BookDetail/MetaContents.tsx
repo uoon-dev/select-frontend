@@ -27,7 +27,9 @@ interface BookDetailMetaContentsStatePorps {
   isSubscribing: boolean;
 }
 
-const BookDetailMetaContents: React.FunctionComponent<BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps> = (props) => {
+type Props = BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps;
+
+const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
   const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, isSubscribing } = props;
 
   const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
