@@ -5,22 +5,23 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
+import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
+import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
+import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
+import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
+import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import history from 'app/config/history';
 import { FetchStatusFlag } from 'app/constants';
-import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
-import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
-import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
-import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
-import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
-import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import {
   Actions as BookActions,
   Book,
   BookOwnershipStatus,
   BookTitle,
 } from 'app/services/book';
+import { BookDetailResponse } from 'app/services/book/requests';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
@@ -41,6 +42,7 @@ interface BookDetailStateProps {
   env: EnvironmentState;
   solidBackgroundColorRGBString: string;
   ownershipStatus?: BookOwnershipStatus;
+  ownershipFetchStatus?: FetchStatusFlag;
 }
 
 type RouteProps = RouteComponentProps<{ bookId: string; }>;
@@ -57,7 +59,7 @@ export class BookDetail extends React.Component<Props> {
   }
 
   private fetchBookDetailAdditionalData = (props: Props) => {
-    if (!props.isFetched) {
+    if (props.fetchStatus !== FetchStatusFlag.IDLE || !props.bookEndDateTime) {
       return;
     }
     if (props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus && props.isLoggedIn) {
@@ -150,6 +152,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     location: !!bookDetail ? bookDetail.location : undefined,
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
+    ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
