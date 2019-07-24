@@ -2,7 +2,6 @@ import * as React from 'react';
 import LazyLoad from 'react-lazyload';
 import { connect } from 'react-redux';
 
-import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { Book } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
@@ -48,7 +47,6 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
       <BookDetailPanel
         title="책 소개"
         imageUrl={introImageUrl}

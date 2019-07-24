@@ -9,6 +9,7 @@ import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
+import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { FetchStatusFlag } from 'app/constants';
@@ -102,10 +103,14 @@ export class BookDetail extends React.Component<Props> {
             </ConnectedBookDetailHeader>
             <BookDetailPanelWrapper renderCondition={isMobile}>
               {isMobile && (
-                <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
+                <>
+                  <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
+                  <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
+                </>
               )}
               <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
             </BookDetailPanelWrapper>
+            {!isMobile && <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />}
             <ConnectedBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
           </main>
         )}
