@@ -1,10 +1,9 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
-import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, BookToBookRecommendationResponse } from 'app/services/book/requests';
+import { FetchStatusFlag } from 'app/constants';
+import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, RedirectionRequiredResponse } from 'app/services/book/requests';
 import { RGB } from 'app/services/commonUI';
 import { BookId, DateDTO } from 'app/types';
-import { AxiosError } from 'axios';
 
 export * from './utils';
 
@@ -24,6 +23,7 @@ export const Actions = {
   }>('loadBookDetailSuccess'),
   loadBookDetailFailure: createAction<{
     bookId: BookId,
+    response?: RedirectionRequiredResponse,
   }>('loadBookDetailFailure'),
   loadBookOwnershipRequest: createAction<{
     bookId: BookId,
@@ -216,13 +216,18 @@ bookReducer.on(Actions.loadBookDetailSuccess, (state, action) => {
 });
 
 bookReducer.on(Actions.loadBookDetailFailure, (state, action) => {
-  const { bookId } = action;
+  const { bookId, response } = action;
   return {
     ...state,
-    [bookId]: {
+    [bookId]: Object.assign({
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCH_ERROR,
-    },
+      isDetailFetched: false,
+    }, {
+      bookDetail: {
+        ...response,
+      },
+    }),
   };
 });
 

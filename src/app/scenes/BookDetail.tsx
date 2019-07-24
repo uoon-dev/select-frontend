@@ -5,15 +5,16 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
-import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
-import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
-import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
-import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
-import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
+import history from 'app/config/history';
 import { FetchStatusFlag } from 'app/constants';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
+import { ConnectedBookDetailHeader } from 'app/components/BookDetail/Header';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
+import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
+import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
+import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaContents';
+import { ConnectedBookDetailContentPanels } from 'app/components/BookDetail/ContentPanels';
 import {
   Actions as BookActions,
   Book,
@@ -25,9 +26,12 @@ import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
+import { bookDetailToPath } from 'app/utils/toPath';
 
 interface BookDetailStateProps {
   bookId: BookId;
+  status?: number;
+  location?: string;
   fetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
   title?: BookTitle;
@@ -50,10 +54,16 @@ export class BookDetail extends React.Component<Props> {
     if (props.fetchStatus !== FetchStatusFlag.FETCHING && !props.bookEndDateTime) {
       props.dispatchLoadBookRequest(props.bookId);
     }
-    if (!props.ownershipStatus && props.isLoggedIn) {
+  }
+
+  private fetchBookDetailAdditionalData = (props: Props) => {
+    if (!props.isFetched) {
+      return;
+    }
+    if (props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
-    if (props.bookToBookRecommendationFetchStatus === FetchStatusFlag.IDLE && !props.recommendedBooks) {
+    if (props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING && !props.recommendedBooks) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
   }
@@ -63,8 +73,14 @@ export class BookDetail extends React.Component<Props> {
     requestAnimationFrame(forceCheck);
   }
   public componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.status === 301) {
+      const correctedBookId = nextProps.location.replace('/api/books/', '');
+      history.replace(bookDetailToPath({ bookId: correctedBookId }));
+    }
     if (this.props.bookId !== nextProps.bookId) {
       this.fetchBookDetailPageData(nextProps);
+    } else {
+      this.fetchBookDetailAdditionalData(nextProps);
     }
   }
 
@@ -130,6 +146,8 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   return {
     bookId,
     fetchStatus,
+    status: !!bookDetail ? bookDetail.status : undefined,
+    location: !!bookDetail ? bookDetail.location : undefined,
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
