@@ -14,6 +14,11 @@ import {
 import { Category } from 'app/services/category';
 import { BookId, DateDTO, Omit, TextWithLF } from 'app/types';
 
+export interface RedirectionRequiredResponse {
+  location: string;
+  status: number;
+}
+
 export interface Publisher {
   name: string;
 }
@@ -73,7 +78,7 @@ export interface BookDetailResponseV1 extends Omit<BookDetailResponseV2, 'introd
   description: TextWithLF;
 }
 
-export type BookDetailResponse = BookDetailResponseV2;
+export type BookDetailResponse = BookDetailResponseV2 & RedirectionRequiredResponse;
 
 export interface RecommendedBook {
   score: number;
