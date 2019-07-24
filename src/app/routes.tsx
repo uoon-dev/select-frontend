@@ -6,7 +6,6 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
-import { ConnectedSplashScreen } from 'app/components/SplashScreen';
 import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
@@ -33,7 +32,6 @@ import {
 
 import { RoutePaths } from 'app/constants';
 import {
-  ConnectedPublicRoute,
   ConnectedScrollManager,
   PrivateRoute,
 } from 'app/hocs';
@@ -73,114 +71,109 @@ export const Routes: React.SFC<Props> = (props) => {
   const { errorResponseState } = props;
 
   return !errorResponseState ? (
-    <>
-      <ConnectedSplashScreen {...props} />
-      {!props.isFetching ? (
-        <ConnectedRouter history={history}>
-          <ConnectedScrollManager>
-            <Route
-              render={({ location }) => (
-                (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
-              )}
-            />
-            <Route
-              render={({ location }) => (
-                (LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
-              )}
-            />
-            <Switch>
-              <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
-              <ConnectedPublicRoute
-                path={RoutePaths.HOME}
-                component={ConnectedHome}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.NEW_RELEASE}
-                component={ConnectedNewReleases}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.CHARTS}
-                component={ConnectedCharts}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.COLLECTION}
-                component={ConnectedCollection}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.CATEGORY}
-                component={ConnectedCategory}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.MY_SELECT}
-                component={ConnectedMySelect}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.BOOK_DETAIL}
-                component={ConnectedBookDetail}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.SETTING}
-                component={ConnectedSetting}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.ORDER_HISTORY}
-                component={ConnectedOrderHistory}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.MY_SELECT_HISTORY}
-                component={ConnectedMySelectHistory}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.SEARCH_RESULT}
-                component={ConnectedSearchResult}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.NOT_AVAILABLE_BOOK}
-                component={NotAvailableBook}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.GUIDE}
-                component={ConnectedGuide}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.CLOSING_RESERVED_BOOKS}
-                component={ConnectedClosingReservedBooks}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                path={RoutePaths.INTRO}
-                exact={true}
-                component={props.isRidiApp ? InAppIntro : ConnectedIntro}
-                {...props}
-              />
-              <ConnectedPublicRoute
-                component={ConnectedErrorPage}
-                {...props}
-              />
-              <PrivateRoute
-                path={RoutePaths.MANAGE_SUBSCRIPTION}
-                component={ConnectedManageSubscription}
-                {...props}
-              />
-            </Switch>
-            {!props.isRidiApp && <ConnectedFooter />}
-          </ConnectedScrollManager>
-        </ConnectedRouter>
-      ) : null}
-    </>
+    <ConnectedRouter history={history}>
+      <ConnectedScrollManager>
+        <Route
+          render={({ location }) => (
+            (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
+          )}
+        />
+        <Route
+          render={({ location }) => (
+            (LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
+          )}
+        />
+        <Switch>
+          <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Route
+            path={RoutePaths.HOME}
+            component={ConnectedHome}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.NEW_RELEASE}
+            component={ConnectedNewReleases}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CHARTS}
+            component={ConnectedCharts}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.COLLECTION}
+            component={ConnectedCollection}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CATEGORY}
+            component={ConnectedCategory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.MY_SELECT}
+            component={ConnectedMySelect}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.BOOK_DETAIL}
+            component={ConnectedBookDetail}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.SETTING}
+            component={ConnectedSetting}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ORDER_HISTORY}
+            component={ConnectedOrderHistory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.MY_SELECT_HISTORY}
+            component={ConnectedMySelectHistory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.SEARCH_RESULT}
+            component={ConnectedSearchResult}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.NOT_AVAILABLE_BOOK}
+            component={NotAvailableBook}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.GUIDE}
+            component={ConnectedGuide}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CLOSING_RESERVED_BOOKS}
+            component={ConnectedClosingReservedBooks}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.INTRO}
+            exact={true}
+            component={props.isRidiApp ? InAppIntro : ConnectedIntro}
+            {...props}
+          />
+          <Route
+            component={ConnectedErrorPage}
+            {...props}
+          />
+          <PrivateRoute
+            path={RoutePaths.MANAGE_SUBSCRIPTION}
+            component={ConnectedManageSubscription}
+            {...props}
+          />
+        </Switch>
+        {!props.isRidiApp && <ConnectedFooter />}
+      </ConnectedScrollManager>
+    </ConnectedRouter>
   ) : <ConnectedErrorPage />;
 };
 
