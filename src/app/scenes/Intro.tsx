@@ -1,4 +1,4 @@
-import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
 import { sortedIndex, throttle } from 'lodash-es';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -6,12 +6,12 @@ import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Icon } from '@ridi/rsg';
-import * as classNames from 'classnames';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
 import { Actions as EnvironmentActions } from 'app/services/environment';
+import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 interface IntroStateProps {
