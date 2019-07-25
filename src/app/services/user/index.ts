@@ -210,6 +210,7 @@ userReducer.on(Actions.loadSubscriptionRequest, (state = INITIAL_STATE) => ({
 
 userReducer.on(Actions.loadSubscriptionSuccess, (state = INITIAL_STATE, payload) => ({
   ...state,
+  subscriptionFetchStatus: FetchStatusFlag.IDLE,
   subscription: {
     ...state.subscription,
     ...payload.response,

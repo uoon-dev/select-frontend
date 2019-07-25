@@ -189,6 +189,7 @@ export class Settings extends React.PureComponent<SettingProps> {
 
   public render() {
     const {
+      isLoggedIn,
       subscriptionFetchStatus,
     } = this.props;
 
@@ -196,7 +197,7 @@ export class Settings extends React.PureComponent<SettingProps> {
       <main className={classNames('SceneWrapper', 'PageSetting')}>
         <HelmetWithTitle titleName={PageTitleText.SETTING} />
         <ConnectedPageHeader pageTitle={PageTitleText.SETTING} />
-        {subscriptionFetchStatus === FetchStatusFlag.IDLE ? <ConnectedSubscriptionInfo /> : <SettingPlaceholder />}
+        {subscriptionFetchStatus === FetchStatusFlag.IDLE && isLoggedIn ? <ConnectedSubscriptionInfo /> : <SettingPlaceholder />}
         {this.renderMenus()}
       </main>
     );

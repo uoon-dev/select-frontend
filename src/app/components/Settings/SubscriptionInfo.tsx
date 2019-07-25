@@ -46,7 +46,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     const { ticketStartDate, ticketEndDate } = subscriptionState!;
 
     return (
-      <li className="CurrentSubscriptionInfo">
+      <li className="CurrentSubscriptionInfo" key="current-subscription-info">
         <strong className="CurrentSubscriptionInfo_Title">셀렉트 구독</strong>
         <span className="CurrentSubscriptionInfo_Term">
           {`${buildDateAndTimeFormat(ticketStartDate)} ~ ${buildDateAndTimeFormat(ticketEndDate)}`}
@@ -70,7 +70,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     }
 
     return (
-      <li className="LatestBillDateInfo">
+      <li className="LatestBillDateInfo" key="latest-bill-date-info">
         <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
         <span className="LatestBillDateInfo_Term">
         {`${buildOnlyDateFormat(latestPurchaseDate)}`}
@@ -96,7 +96,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     const { isOptout } = subscriptionState!;
 
     return isOptout && (
-      <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled">
+      <li className="NextSubscriptionInfo NextSubscriptionInfo-canceled" key="subscription-cancel-reserved-info">
         <Icon
           name={isOptout ? 'exclamation_3' : 'payment_3'}
           className="NextSubscriptionInfo_Icon"
