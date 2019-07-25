@@ -26,6 +26,7 @@ interface Props {
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
+  isFetching: boolean;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
@@ -139,35 +140,37 @@ export class GNB extends React.Component<Props> {
     );
   }
 
-  public renderGNBRight() {
+  private renderGNBAccountButtons() {
     const {
       isIntro,
       isLoggedIn,
       isInAppIntro,
-      isSubscribing,
+      isFetching,
     } = this.props;
 
-    if (isInAppIntro) {
+    if (isFetching || isInAppIntro) {
       return null;
     }
-
-    if (isIntro && !isSubscribing) {
-      return (
-        <div className="GNBRightButtonWrapper">
-          {!isLoggedIn ? this.renderLoginButton() : this.renderLogoutButton()}
-        </div>
-      );
-    }
-
     return (
-      <>
-        <MediaQuery maxWidth={840}>
-          {(matches) => <ConnectedSearch isMobile={matches} />}
-        </MediaQuery>
-        <div className="GNBRightButtonWrapper">
-          {(!isLoggedIn && !isSubscribing) ? this.renderLoginButton() : this.renderSettingButton()}
-        </div>
-      </>
+      <div className="GNBRightButtonWrapper">
+        {!isLoggedIn ?
+          this.renderLoginButton() :
+          isIntro ?
+            this.renderLogoutButton() :
+            this.renderSettingButton()
+        }
+      </div>
+    );
+  }
+
+  private renderGNBSearchButton() {
+    const {
+      isIntro,
+    } = this.props;
+    return isIntro ? null : (
+      <MediaQuery maxWidth={840}>
+        {(matches) => <ConnectedSearch isMobile={matches} />}
+      </MediaQuery>
     );
   }
 
@@ -188,7 +191,8 @@ export class GNB extends React.Component<Props> {
             {this.renderServiceLink()}
           </div>
           <div className="GNBRight">
-            {this.renderGNBRight()}
+            {this.renderGNBSearchButton()}
+            {this.renderGNBAccountButtons()}
           </div>
         </div>
       </header>
@@ -201,6 +205,7 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   backgroundColorRGBString: getBackgroundColorRGBString(rootState),
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
+  isFetching: rootState.user.isFetching,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   isIosInApp: getIsIosInApp(rootState),
