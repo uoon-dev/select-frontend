@@ -1,7 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
-import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, RedirectionRequiredResponse } from 'app/services/book/requests';
+import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2 } from 'app/services/book/requests';
 import { RGB } from 'app/services/commonUI';
 import { BookId, DateDTO } from 'app/types';
 
@@ -221,7 +221,6 @@ bookReducer.on(Actions.loadBookDetailFailure, (state, action) => {
     [bookId]: {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCH_ERROR,
-      isDetailFetched: false,
     },
   };
 });
