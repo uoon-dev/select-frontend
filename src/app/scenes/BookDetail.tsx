@@ -12,7 +12,6 @@ import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaC
 import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
-import history from 'app/config/history';
 import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import {
@@ -21,7 +20,6 @@ import {
   BookOwnershipStatus,
   BookTitle,
 } from 'app/services/book';
-import { BookDetailResponse } from 'app/services/book/requests';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
@@ -31,8 +29,6 @@ import { bookDetailToPath } from 'app/utils/toPath';
 
 interface BookDetailStateProps {
   bookId: BookId;
-  status?: number;
-  location?: string;
   fetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
   title?: BookTitle;
@@ -75,10 +71,6 @@ export class BookDetail extends React.Component<Props> {
     requestAnimationFrame(forceCheck);
   }
   public componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.status === 301) {
-      const correctedBookId = nextProps.location.replace('/api/books/', '');
-      history.replace(bookDetailToPath({ bookId: correctedBookId }));
-    }
     if (this.props.bookId !== nextProps.bookId) {
       this.fetchBookDetailPageData(nextProps);
     } else {
@@ -148,8 +140,6 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   return {
     bookId,
     fetchStatus,
-    status: !!bookDetail ? bookDetail.status : undefined,
-    location: !!bookDetail ? bookDetail.location : undefined,
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,

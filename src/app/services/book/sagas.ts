@@ -8,6 +8,7 @@ import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStat
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
+import { bookDetailToPath } from 'app/utils/toPath';
 import { all, call, fork, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
@@ -71,10 +72,10 @@ export function* loadBookDetail({ payload }: ReturnType<typeof Actions.loadBookD
     }
     const response: BookDetailResponse = yield call(requestBookDetail, bookId);
     if (response.status === 301) {
-      yield put(Actions.loadBookDetailFailure({
-        bookId,
-        response,
-      }));
+      yield put(Actions.loadBookDetailFailure({ bookId }));
+
+      const correctedBookId = response.location.replace('/api/books/', '');
+      history.replace(bookDetailToPath({ bookId: correctedBookId }));
       return;
     }
     if (response.seriesBooks && response.seriesBooks.length > 0) {

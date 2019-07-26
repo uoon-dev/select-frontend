@@ -23,7 +23,6 @@ export const Actions = {
   }>('loadBookDetailSuccess'),
   loadBookDetailFailure: createAction<{
     bookId: BookId,
-    response?: RedirectionRequiredResponse,
   }>('loadBookDetailFailure'),
   loadBookOwnershipRequest: createAction<{
     bookId: BookId,
@@ -216,18 +215,14 @@ bookReducer.on(Actions.loadBookDetailSuccess, (state, action) => {
 });
 
 bookReducer.on(Actions.loadBookDetailFailure, (state, action) => {
-  const { bookId, response } = action;
+  const { bookId } = action;
   return {
     ...state,
-    [bookId]: Object.assign({
+    [bookId]: {
       ...state[bookId],
       detailFetchStatus: FetchStatusFlag.FETCH_ERROR,
       isDetailFetched: false,
-    }, {
-      bookDetail: {
-        ...response,
-      },
-    }),
+    },
   };
 });
 
