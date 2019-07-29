@@ -2,7 +2,6 @@ import * as React from 'react';
 import { RouteProps } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import { ConnectedSplashScreen } from 'app/components';
 import history from 'app/config/history';
 import { RoutePaths } from 'app/constants';
 
@@ -20,7 +19,7 @@ export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
   } = props;
 
   if (isFetching) {
-    return <ConnectedSplashScreen {...props} />;
+    return <div className="SplashScreen SplashScreen-whiteScreen" />;
   }
 
   if (!isSubscribing) {
