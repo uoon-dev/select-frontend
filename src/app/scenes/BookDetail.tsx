@@ -37,6 +37,7 @@ interface BookDetailStateProps {
   env: EnvironmentState;
   solidBackgroundColorRGBString: string;
   ownershipStatus?: BookOwnershipStatus;
+  ownershipFetchStatus?: FetchStatusFlag;
 }
 
 type RouteProps = RouteComponentProps<{ bookId: string; }>;
@@ -50,10 +51,16 @@ export class BookDetail extends React.Component<Props> {
     if (props.fetchStatus !== FetchStatusFlag.FETCHING && !props.bookEndDateTime) {
       props.dispatchLoadBookRequest(props.bookId);
     }
-    if (!props.ownershipStatus && props.isLoggedIn) {
+  }
+
+  private fetchBookDetailAdditionalData = (props: Props) => {
+    if (props.fetchStatus !== FetchStatusFlag.IDLE || !props.bookEndDateTime) {
+      return;
+    }
+    if (props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus && props.isLoggedIn) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
-    if (props.bookToBookRecommendationFetchStatus === FetchStatusFlag.IDLE && !props.recommendedBooks) {
+    if (props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING && !props.recommendedBooks) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
     }
   }
@@ -65,6 +72,8 @@ export class BookDetail extends React.Component<Props> {
   public componentWillReceiveProps(nextProps: Props) {
     if (this.props.bookId !== nextProps.bookId) {
       this.fetchBookDetailPageData(nextProps);
+    } else {
+      this.fetchBookDetailAdditionalData(nextProps);
     }
   }
 
@@ -132,6 +141,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     fetchStatus,
     isLoggedIn: state.user.isLoggedIn,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,
+    ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
