@@ -10,7 +10,6 @@ import { Icon } from '@ridi/rsg';
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
-import { Actions as EnvironmentActions } from 'app/services/environment';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
@@ -137,7 +136,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
         currentSection: 1,
         windowInfo: this.getWindowSize(),
       });
-      this.props.dispatchCompleteIntroImageLoad();
     }, 100);
 
     window.addEventListener('resize', this.throttledResizeFunction);
@@ -370,8 +368,6 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(CommonUIActions.updateGNBTransparent({ transparentType })),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
       dispatch(CommonUIActions.updateFooterTheme({ theme })),
-    dispatchCompleteIntroImageLoad: () =>
-      dispatch(EnvironmentActions.completeIntroImageLoad()),
   };
 };
 export const ConnectedIntro = withRouter(
