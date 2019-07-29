@@ -161,13 +161,13 @@ export const Routes: React.SFC<Props> = (props) => {
             component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
-          <Route
-            component={ConnectedErrorPage}
-            {...props}
-          />
           <PrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
+            {...props}
+          />
+          <Route
+            component={ConnectedErrorPage}
             {...props}
           />
         </Switch>
