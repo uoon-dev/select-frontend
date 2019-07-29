@@ -25,7 +25,6 @@ import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
-import { bookDetailToPath } from 'app/utils/toPath';
 
 interface BookDetailStateProps {
   bookId: BookId;
