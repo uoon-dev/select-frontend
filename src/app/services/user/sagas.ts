@@ -125,7 +125,7 @@ export function* watchLoadMySelectHistoryFailure() {
     const { payload: { page, error } }: ReturnType<typeof Actions.loadMySelectHistoryFailure> = yield take(Actions.loadMySelectHistoryFailure.getType());
     if (page === 1) {
       const { data } = error.response!;
-      if (!data || data.status !== 'maintenance') {
+      if (!data || data.status !== ErrorStatus.MAINTENANCE) {
         toast.failureMessage('없는 페이지입니다. 다시 시도해주세요.');
       }
       return;

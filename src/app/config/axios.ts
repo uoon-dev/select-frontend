@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
 import env from 'app/config/env';
+import { ErrorStatus } from 'app/constants';
 import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';
 import createRefreshTokenInstance from 'app/utils/refreshToken';
 
@@ -18,7 +19,7 @@ const refreshTokenInstance = createRefreshTokenInstance({
 });
 
 function isMaintenance({ response }: AxiosError) {
-  return response && response.data && response.data.status === 'maintenance';
+  return response && response.data && response.data.status === ErrorStatus.MAINTENANCE;
 }
 
 axiosRetry(instance, {
@@ -38,7 +39,7 @@ instance.interceptors.response.use(
         return refreshTokenInstance
           .post('/ridi/token/')
           .then(() => instance.request(config));
-      } else if (Math.floor(status / 100) === 5 && data.status === 'maintenance') {
+      } else if (Math.floor(status / 100) === 5 && data.status === ErrorStatus.MAINTENANCE) {
         // TODO: 서비스 이용이 불가능한 엔드포인트만 에러페이지로 렌더링되도록 변경
         store.dispatch(ServiceStatusActions.setState({
           status,
