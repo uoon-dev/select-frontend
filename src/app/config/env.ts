@@ -5,6 +5,7 @@ const getEnv = (key: string, env?: string) => {
 };
 
 export default {
+  SORRY_URL: 'https://sorry.ridibooks.com',
   SELECT_URL: getEnv('SELECT_URL', process.env.SELECT_URL) || 'https://select.ridibooks.com',
   SELECT_API: getEnv('SELECT_API', process.env.SELECT_API) || 'https://select-api.ridibooks.com',
   STORE_URL: getEnv('STORE_URL', process.env.STORE_URL) || 'https://ridibooks.com',

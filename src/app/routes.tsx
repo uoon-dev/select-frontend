@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'react-router-redux';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedSplashScreen } from 'app/components/SplashScreen';
-import { ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
+import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
@@ -21,7 +21,6 @@ import {
   ConnectedGuide,
   ConnectedHome,
   ConnectedIntro,
-  ConnectedMaintenancePage,
   ConnectedManageSubscription,
   ConnectedMySelect,
   ConnectedMySelectHistory,
@@ -49,7 +48,6 @@ export interface Props {
   isFetching: boolean;
   isSubscribing: boolean;
   errorResponseState?: ErrorResponseStatus;
-  errorResponse?: ErrorResponseData;
 }
 
 export const inAppGnbRoutes = [
@@ -74,13 +72,9 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState, errorResponse } = props;
+  const { errorResponseState } = props;
 
-  if (errorResponseState) {
-    return errorResponse && errorResponse.status === 'maintenance' ? <ConnectedMaintenancePage /> : <ConnectedErrorPage />;
-  }
-
-  return (
+  return !errorResponseState ? (
     <>
       <ConnectedSplashScreen {...props} />
       {!props.isFetching ? (
@@ -193,7 +187,7 @@ export const Routes: React.SFC<Props> = (props) => {
         </ConnectedRouter>
       ) : null}
     </>
-  );
+  ) : <ConnectedErrorPage />;
 };
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
@@ -202,7 +196,6 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,
   errorResponseState: rootState.serviceStatus.errorResponseState,
-  errorResponse: rootState.serviceStatus.errorResponseData,
 });
 
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);

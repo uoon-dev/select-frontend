@@ -6,15 +6,18 @@ import { Button } from '@ridi/rsg';
 import { HelmetWithTitle } from 'app/components';
 import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 import history from 'app/config/history';
-import { PageTitleText } from 'app/constants';
-import { Actions as ServiceStatusActions, errorResponseStatus } from 'app/services/serviceStatus';
+import { ErrorStatus, PageTitleText } from 'app/constants';
+import { Actions as ServiceStatusActions, ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 
 interface ErrorPageStateProps {
-  responseState?: errorResponseStatus;
+  responseState?: ErrorResponseStatus;
+  responseData?: ErrorResponseData;
 }
 
-export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>> {
+type Props = ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>;
+
+export class ErrorPage extends React.Component<Props> {
   private renderErrorIcon() {
     return (
       <div className="Error_Image">
@@ -94,38 +97,74 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
     );
   }
 
+  public componentWillUpdate(nextProps: Props) {
+    if (
+      !nextProps.responseData ||
+      nextProps.responseData.status !== ErrorStatus.MAINTENANCE ||
+      (nextProps.responseData.period && nextProps.responseData.unavailableService)
+    ) {
+      return;
+    }
+    nextProps.requestMaintenanceData();
+  }
+
   public render() {
     const {
       responseState = 404,
+      responseData,
     } = this.props;
 
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.ERROR} />
-        <section className="PageError">
-          {responseState !== 404 && <ConnectedCompactPageHeader />}
-          {this.renderErrorIcon()}
-          {responseState === 404 ?
-            this.renderErrorContext((
-              <>
-                <strong>요청하신 페이지가 없습니다.</strong><br />
-                입력하신 주소를 확인해 주세요.
-              </>
-            ), [
-              this.renderBackButton(),
-              this.renderHomeButton(),
-            ]) : this.renderErrorContext((
-              <>
-                <strong>지금은 접속이 어렵습니다.</strong><br />
-                현재 오류 복구에 최선을 다하고 있으니,<br />
-                잠시 후 다시 접속해주세요.
-              </>
-            ), [
-              this.renderReloadButton(),
-              this.renderHomeButton(),
-            ])
-          }
-        </section>
+        {responseData && responseData.period && responseData.unavailableService ? (
+          <section className="PageMaintenance">
+            <ConnectedCompactPageHeader />
+            <h2 className="MaintenanceTitle">점검 안내</h2>
+            <div className="MaintenanceDescription MaintenanceDescription_Box">
+              <h3 className="MaintenanceSubTitle">점검기간</h3>
+              <p className="MaintenanceDescription_Text">{responseData.period}</p>
+              <h3 className="MaintenanceSubTitle">점검 중 이용이 제한되는 서비스</h3>
+              <ul className="MaintenanceDescription_ServiceList">
+                {responseData.unavailableService.map((service) => (
+                  <li className="MaintenanceDescription_ServiceItem">{service}</li>
+                ))}
+              </ul>
+            </div>
+            <p className="MaintenanceDescription">
+              보다 나은 서비스를 제공해 드리기 위한 시스템 점검으로,
+              이용에 불편함을 드리게 된 점 양해 부탁드립니다.<br />
+              언제나 편리하고 즐겁게 리디셀렉트를 이용하실 수 있도록
+              최선을 다하겠습니다.<br />
+              감사합니다.<br />
+            </p>
+          </section>
+        ) : (
+          <section className="PageError">
+            {responseState !== 404 && <ConnectedCompactPageHeader />}
+            {this.renderErrorIcon()}
+            {responseState === 404 ?
+              this.renderErrorContext((
+                <>
+                  <strong>요청하신 페이지가 없습니다.</strong><br />
+                  입력하신 주소를 확인해 주세요.
+                </>
+              ), [
+                this.renderBackButton(),
+                this.renderHomeButton(),
+              ]) : this.renderErrorContext((
+                <>
+                  <strong>지금은 접속이 어렵습니다.</strong><br />
+                  현재 오류 복구에 최선을 다하고 있으니,<br />
+                  잠시 후 다시 접속해주세요.
+                </>
+              ), [
+                this.renderReloadButton(),
+                this.renderHomeButton(),
+              ])
+            }
+          </section>
+        )}
       </main>
     );
   }
@@ -134,13 +173,14 @@ export class ErrorPage extends React.Component<ErrorPageStateProps & ReturnType<
 const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => {
   return {
     responseState: state.serviceStatus.errorResponseState,
+    responseData: state.serviceStatus.errorResponseData,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    resetErrorState: () =>
-      dispatch(ServiceStatusActions.resetState()),
+    resetErrorState: () => dispatch(ServiceStatusActions.resetState()),
+    requestMaintenanceData: () => dispatch(ServiceStatusActions.loadMaintenanceData()),
   };
 };
 
