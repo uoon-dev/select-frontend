@@ -89,6 +89,7 @@ export class Reviews extends React.Component<ReviewsProps> {
 
     return (
         <div className="Reviews">
+          <span className="a11y">리뷰</span>
           <ConnectedReviewsHeader bookId={bookId} checkAuth={checkAuth}/>
           <ConnectedReviewListHeader bookId={bookId} />
           <ConnectedReviewList bookId={bookId} checkAuth={checkAuth} />

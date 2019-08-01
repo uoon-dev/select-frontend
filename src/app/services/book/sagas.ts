@@ -1,14 +1,15 @@
 import { mapValues } from 'lodash-es';
-import { BookToBookRecommendationResponse, RecommendedBook, requestBookToBookRecommendation } from './requests';
+import { RecommendedBook, requestBookToBookRecommendation } from './requests';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
-import { Actions, Book } from 'app/services/book';
+import { Actions } from 'app/services/book';
 import { BookOwnershipStatus, BookState, LegacyStaticBookState, LocalStorageStaticBookState, StaticBookState } from 'app/services/book';
 import { BookDetailResponse, BookDetailResponseV1, BookDetailResponseV2, requestBookDetail, requestBookOwnership } from 'app/services/book/requests';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
-import { all, call, fork, put, select, take, takeLatest } from 'redux-saga/effects';
+import { bookDetailToPath } from 'app/utils/toPath';
+import { all, call, fork, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {
@@ -63,40 +64,46 @@ function* watchActionsToCache() {
   }
 }
 
-export function* watchLoadBookDetail() {
-  while (true) {
-    const { payload: { bookId } }: ReturnType<typeof Actions.loadBookDetailRequest> = yield take(Actions.loadBookDetailRequest.getType());
-    try {
-      if (isNaN(bookId)) {
-        throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
-      }
-      const response: BookDetailResponse = yield call(requestBookDetail, bookId);
-      if (response.seriesBooks && response.seriesBooks.length > 0) {
-        yield put(Actions.updateBooks({
-          books: response.seriesBooks,
-        }));
-      }
-      yield put(Actions.loadBookDetailSuccess({
-        bookId: response.id,
-        bookDetail: response,
-      }));
-      if (String(bookId) !== String(response.id)) {
-        history.replace(`/book/${response.id}`);
-      }
-    } catch (e) {
-      if (e.response.status === 403 && e.response.data.code === 'BOOK_NOT_AVAILABLE') {
-        history.replace(RoutePaths.NOT_AVAILABLE_BOOK);
-      } else if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
-        toast.failureMessage('도서가 존재하지 않습니다.');
-        history.replace('/home');
-      } else {
-        toast.failureMessage();
-      }
-      yield put(Actions.loadBookDetailFailure({
-        bookId,
+export function* loadBookDetail({ payload }: ReturnType<typeof Actions.loadBookDetailRequest>) {
+  const { bookId } = payload;
+  try {
+    if (isNaN(bookId)) {
+      throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
+    }
+    const response: BookDetailResponse = yield call(requestBookDetail, bookId);
+    if (response.status === 301) {
+      yield put(Actions.loadBookDetailFailure({ bookId }));
+
+      const correctedBookId = response.location.replace('/api/books/', '');
+      history.replace(bookDetailToPath({ bookId: correctedBookId }));
+      return;
+    }
+    if (response.seriesBooks && response.seriesBooks.length > 0) {
+      yield put(Actions.updateBooks({
+        books: response.seriesBooks,
       }));
     }
+    yield put(Actions.loadBookDetailSuccess({
+      bookId,
+      bookDetail: response,
+    }));
+  } catch (e) {
+    if (e.response.status === 403 && e.response.data.code === 'BOOK_NOT_AVAILABLE') {
+      history.replace(RoutePaths.NOT_AVAILABLE_BOOK);
+    } else if (e === FetchErrorFlag.UNEXPECTED_BOOK_ID || e.response.status === 404) {
+      toast.failureMessage('도서가 존재하지 않습니다.');
+      history.replace('/home');
+    } else {
+      toast.failureMessage();
+    }
+    yield put(Actions.loadBookDetailFailure({
+      bookId,
+    }));
   }
+}
+
+export function* watchLoadBookDetail() {
+  yield takeEvery(Actions.loadBookDetailRequest.getType(), loadBookDetail);
 }
 
 export function* loadBookToBookRecommendation({ payload }: ReturnType<typeof Actions.loadBookToBookRecommendationRequest>) {
