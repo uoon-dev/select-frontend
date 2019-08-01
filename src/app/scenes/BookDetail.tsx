@@ -54,10 +54,10 @@ export class BookDetail extends React.Component<Props> {
   }
 
   private fetchBookDetailAdditionalData = (props: Props) => {
-    if (props.fetchStatus !== FetchStatusFlag.IDLE || !props.bookEndDateTime) {
+    if (props.fetchStatus !== FetchStatusFlag.IDLE || !props.bookEndDateTime || !props.isLoggedIn) {
       return;
     }
-    if (props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus && props.isLoggedIn) {
+    if (props.ownershipFetchStatus !== FetchStatusFlag.FETCHING && !props.ownershipStatus) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
     if (props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING && !props.recommendedBooks) {
