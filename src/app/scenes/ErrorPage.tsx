@@ -31,6 +31,7 @@ export class ErrorPage extends React.Component<Props> {
     const {
       responseState = 404,
       responseData,
+      resetErrorState,
     } = this.props;
 
     return (
@@ -38,7 +39,7 @@ export class ErrorPage extends React.Component<Props> {
         <HelmetWithTitle titleName={PageTitleText.ERROR} />
         {responseData && responseData.period && responseData.unavailableService ?
           <MaintenanceContext responseData={responseData} /> :
-          <ErrorContext responseState={responseState} />
+          <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
         }
       </main>
     );
