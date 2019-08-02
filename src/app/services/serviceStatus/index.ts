@@ -4,8 +4,8 @@ import { createAction, createReducer } from 'redux-act';
 export type ErrorResponseStatus = number;
 export interface ErrorResponseData {
   status: string;
-  period: string;
-  unavailableService: string[];
+  period?: string;
+  unavailableService?: string[];
 }
 
 export const Actions = {
