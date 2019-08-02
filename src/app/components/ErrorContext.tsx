@@ -7,7 +7,7 @@ import history from 'app/config/history';
 import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 interface ErrorContextProps {
-  responseState: ErrorResponseStatus;
+  responseState?: ErrorResponseStatus;
   resetErrorState: () => {};
 }
 

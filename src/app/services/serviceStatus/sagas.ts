@@ -11,7 +11,9 @@ export function* loadMaintenanceData() {
       data: response,
     }));
   } catch (e) {
-    // error 처리?
+    yield put(Actions.setState({
+      status: 404,
+    }));
   }
 }
 

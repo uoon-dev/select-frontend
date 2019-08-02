@@ -29,7 +29,7 @@ export class ErrorPage extends React.Component<Props> {
 
   public render() {
     const {
-      responseState = 404,
+      responseState,
       responseData,
       resetErrorState,
     } = this.props;
