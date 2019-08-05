@@ -10,6 +10,10 @@ export enum FetchErrorFlag {
   OUT_OF_PAGINATION_SCOPE,
 }
 
+export enum ErrorStatus {
+  MAINTENANCE = 'maintenance',
+}
+
 export enum PageTitleText {
   PREFIX = '리디셀렉트',
   HOME = '',

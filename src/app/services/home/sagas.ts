@@ -1,5 +1,5 @@
-import { Book } from 'app/services/book';
 import { Actions as BookActions } from 'app/services/book';
+import { Book } from 'app/services/book';
 import { Actions as CollectionActions } from 'app/services/collection';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { Actions } from 'app/services/home';
@@ -8,6 +8,7 @@ import { RidiSelectState } from 'app/store';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, select, take } from 'redux-saga/effects';
 import { getIsIosInApp } from '../environment/selectors';
+import { ErrorStatus } from './../../constants/index';
 
 export function* watchLoadHome() {
   while (true) {
@@ -39,7 +40,7 @@ export function* watchLoadHome() {
     } catch (e) {
       const { data } = e.response;
       yield put(Actions.loadHomeFailure());
-      if (data && data.status === 'maintenance') {
+      if (data && data.status === ErrorStatus.MAINTENANCE) {
         return;
       }
       showMessageForRequestError(e);

@@ -34,6 +34,7 @@ import { SearchResultState } from 'app/services/searchResult';
 import { searchResultReducer } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
+import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 
 import env from 'app/config/env';
@@ -62,6 +63,7 @@ function* rootSaga(dispatch: Dispatch) {
     downloadSaga(),
     customHistorySaga(),
     closingReservedBooksRootSaga(),
+    serviceStatusSaga(),
   ]);
 }
 

@@ -3,9 +3,9 @@ import { createAction, createReducer } from 'redux-act';
 
 export type ErrorResponseStatus = number;
 export interface ErrorResponseData {
-  period: string;
   status: string;
-  unavailableService: string[];
+  period?: string;
+  unavailableService?: string[];
 }
 
 export const Actions = {
@@ -14,6 +14,7 @@ export const Actions = {
     data?: ErrorResponseData,
   }>('setState'),
   resetState: createAction('resetState'),
+  loadMaintenanceData: createAction('loadMaintenanceData'),
 };
 
 export interface ServiceStatusState {
