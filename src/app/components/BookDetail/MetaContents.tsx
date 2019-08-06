@@ -99,7 +99,8 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = (props) => {
               (file.format && file.format === 'bom') && 'PageBookDetail_FileSize-noFileType',
             )}
           >
-            {`${(file.format && file.format !== 'bom') && ' · '}${formatFileSize(file.size)}`}
+            {file.format && file.format !== 'bom' && ' · '}
+            {formatFileSize(file.size)}
           </span>
         )}
         {file && file.format && file.format !== 'bom' &&
