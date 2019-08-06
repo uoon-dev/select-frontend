@@ -120,7 +120,6 @@ export function* loadBookToBookRecommendation({ payload }: ReturnType<typeof Act
       }));
     }
   } catch (e) {
-    toast.failureMessage('추천 도서를 받아오는데 실패했습니다. 다시 시도해주세요.');
     yield put(Actions.loadBookToBookRecommendationFailure({
       bookId,
     }));
