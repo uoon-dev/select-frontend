@@ -16,9 +16,14 @@ interface ErrorPageStateProps {
 type Props = ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class ErrorPage extends React.Component<Props> {
+  public componentDidMount() {
+    if (window.inApp && window.inApp.initialRendered) {
+      window.inApp.initialRendered();
+    }
+  }
+
   public componentDidUpdate() {
     const { responseData, requestMaintenanceData } = this.props;
-
     if (
       !responseData ||
       responseData.status !== ErrorStatus.MAINTENANCE ||
