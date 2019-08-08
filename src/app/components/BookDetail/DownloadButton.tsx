@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { BookOwnershipStatus } from 'app/services/book';
 import { EnvironmentState } from 'app/services/environment';
-import { selectIsInApp } from 'app/services/environment/selectors';
+import { getIsAndroidInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
+import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
   bookId: number;
@@ -23,6 +24,7 @@ interface BookDetailDownloadButtonStateProps {
   hasSubscribedBefore: boolean;
   env: EnvironmentState;
   isInApp: boolean;
+  isAndroidInApp: boolean;
   ownershipFetchStatus?: FetchStatusFlag;
   ownershipStatus?: BookOwnershipStatus;
   mySelect: MySelectState;
@@ -38,6 +40,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     hasSubscribedBefore,
     env,
     isInApp,
+    isAndroidInApp,
     ownershipStatus,
     ownershipFetchStatus,
     mySelect,
@@ -99,6 +102,18 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         마이 셀렉트에 추가
       </Button>
     );
+  } else if (isAndroidInApp && !isLoggedIn) {
+    return (
+      <Button
+        color="blue"
+        size="large"
+        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
+        component={Link}
+        to={RoutePaths.INAPP_LOGIN_REQUIRED}
+      >
+        구독하고 무료로 읽어보기
+      </Button>
+    );
   } else {
     // TODO: refactor to external utility function
     const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
@@ -139,6 +154,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     env: state.environment,
     isInApp: selectIsInApp(state),
+    isAndroidInApp: getIsAndroidInApp(state),
     mySelect: state.mySelect,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,

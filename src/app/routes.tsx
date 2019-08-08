@@ -68,7 +68,13 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState } = props;
+  const { errorResponseState, IsAndroidInApp } = props;
+
+  if (IsAndroidInApp) {
+    window.isLoginRequired = () => {
+      return window.location.pathname.includes(RoutePaths.INAPP_LOGIN_REQUIRED);
+    };
+  }
 
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
@@ -85,6 +91,7 @@ export const Routes: React.SFC<Props> = (props) => {
         />
         <Switch>
           <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Redirect exact={true} from={RoutePaths.INAPP_LOGIN_REQUIRED} to={RoutePaths.HOME} />
           <Route
             path={RoutePaths.HOME}
             component={ConnectedHome}
