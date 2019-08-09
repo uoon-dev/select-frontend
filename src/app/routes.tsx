@@ -32,8 +32,8 @@ import {
 
 import { RoutePaths } from 'app/constants';
 import {
+  ConnectedPrivateRoute,
   ConnectedScrollManager,
-  PrivateRoute,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
@@ -168,7 +168,7 @@ export const Routes: React.SFC<Props> = (props) => {
             component={props.isRidiApp ? InAppIntro : ConnectedIntro}
             {...props}
           />
-          <PrivateRoute
+          <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
             {...props}
