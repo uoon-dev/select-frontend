@@ -112,6 +112,7 @@ export class GNB extends React.Component<Props> {
       BASE_URL_STORE,
       isAndroidInApp,
     } = this.props;
+
     if (isAndroidInApp) {
       return (
         <Link
@@ -122,6 +123,7 @@ export class GNB extends React.Component<Props> {
         </Link>
       );
     }
+
     return (
       <a
         href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
@@ -136,9 +138,14 @@ export class GNB extends React.Component<Props> {
 
   private renderLogoutButton() {
     const {
+      isInAppIntro,
       BASE_URL_STORE,
       BASE_URL_RIDISELECT,
     } = this.props;
+
+    if (isInAppIntro) {
+      return null;
+    }
 
     return (
       <a
@@ -154,11 +161,10 @@ export class GNB extends React.Component<Props> {
     const {
       isIntro,
       isLoggedIn,
-      isInAppIntro,
       isFetching,
     } = this.props;
 
-    if (isFetching || isInAppIntro) {
+    if (isFetching) {
       return null;
     }
     return (
