@@ -1,3 +1,4 @@
+import { RoutePaths } from 'app/constants';
 import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
 
@@ -16,7 +17,12 @@ export const getIsAndroidInApp = createSelector(
   (isAndroid: boolean, isInApp: boolean): boolean => isAndroid && isInApp,
 );
 
-export const getIsInAppRoot = createSelector(
+export const getIsInAppIntro = createSelector(
   [selectIsInApp, selectPathname],
-  (isInApp: boolean, pathname: string): boolean => isInApp && (pathname === '/'),
+  (isInApp: boolean, pathname: string): boolean => isInApp && (pathname === RoutePaths.INTRO),
+);
+
+export const getIsIntro = createSelector(
+  [selectPathname],
+  (pathname: string): boolean => (pathname === RoutePaths.INTRO),
 );

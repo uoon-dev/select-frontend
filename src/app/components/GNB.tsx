@@ -6,14 +6,15 @@ import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
 import { GNBColorLevel } from 'app/services/commonUI';
 
+import { RoutePaths } from 'app/constants';
 import {
   getBackgroundColorRGBString,
   getGNBType,
-  getSolidBackgroundColorRGBString,
 } from 'app/services/commonUI/selectors';
 import {
   getIsAndroidInApp,
-  getIsInAppRoot,
+  getIsInAppIntro,
+  getIsIntro,
   getIsIosInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
@@ -22,15 +23,16 @@ import MediaQuery from 'react-responsive';
 
 interface Props {
   gnbType: GNBColorLevel;
-  solidBackgroundColorRGBString: string;
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
+  isFetching: boolean;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
-  isInAppRoot: boolean;
+  isInAppIntro: boolean;
   isSubscribing: boolean;
+  isIntro: boolean;
 }
 
 export class GNB extends React.Component<Props> {
@@ -58,14 +60,14 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
-    const { isInAppRoot } = this.props;
+    const { isInAppIntro } = this.props;
     return (
-      <Link className="GNBLogoWrapper" to={isInAppRoot ? '/' : '/home'}>
+      <Link className="GNBLogoWrapper" to={isInAppIntro ? RoutePaths.INTRO : RoutePaths.HOME}>
         <Icon
           name="logo_ridiselect_1"
           className={classNames(
             'GNBLogo',
-            isInAppRoot ? 'GNBLogo-InAppIntro' : null,
+            isInAppIntro ? 'GNBLogo-InAppIntro' : null,
           )}
         />
         <h1 className="a11y">리디셀렉트</h1>
@@ -105,70 +107,86 @@ export class GNB extends React.Component<Props> {
     );
   }
 
-  public renderGNBRight() {
+  private renderLoginButton() {
     const {
-      isLoggedIn,
-      isInAppRoot,
-      isSubscribing,
       BASE_URL_STORE,
-      BASE_URL_RIDISELECT,
-      solidBackgroundColorRGBString,
+      isAndroidInApp,
     } = this.props;
 
-    if (isInAppRoot) {
-      return null;
-    }
-
-    if (isSubscribing) {
+    if (isAndroidInApp) {
       return (
-        <>
-          <MediaQuery maxWidth={840}>
-            {(matches) => <ConnectedSearch isMobile={matches} />}
-          </MediaQuery>
-          <div className="GNBRightButtonWrapper">
-            {this.renderSettingButton()}
-          </div>
-        </>
-      );
-    }
-
-    if (isLoggedIn) {
-      return (
-        <div className="GNBRightButtonWrapper">
-          <a
-            href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
-            className="GNB_LinkButton"
-          >
-            <h2 className="reset-heading">로그아웃</h2>
-          </a>
-        </div>
+        <Link
+          className="GNB_LinkBUtton"
+          to={RoutePaths.INAPP_LOGIN_REQUIRED}
+        >
+          로그인
+        </Link>
       );
     }
 
     return (
+      <a
+        href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+          window.location.href
+        }`}
+        className="GNB_LinkButton"
+      >
+        로그인
+      </a>
+    );
+  }
+
+  private renderLogoutButton() {
+    const {
+      isInAppIntro,
+      BASE_URL_STORE,
+      BASE_URL_RIDISELECT,
+    } = this.props;
+
+    if (isInAppIntro) {
+      return null;
+    }
+
+    return (
+      <a
+        href={`${BASE_URL_STORE}/account/logout?return_url=${BASE_URL_RIDISELECT}`}
+        className="GNB_LinkButton"
+      >
+        <h2 className="reset-heading">로그아웃</h2>
+      </a>
+    );
+  }
+
+  private renderGNBAccountButtons() {
+    const {
+      isIntro,
+      isLoggedIn,
+      isFetching,
+    } = this.props;
+
+    if (isFetching) {
+      return null;
+    }
+    return (
       <div className="GNBRightButtonWrapper">
-        <a
-          href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${
-            window.location.href
-          }`}
-          className="GNB_LinkButton"
-        >
-          <h2 className="reset-heading">회원가입</h2>
-        </a>
-        <MediaQuery maxWidth={840}>
-          {(matches) => (
-            <a
-              href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-                window.location.href
-              }`}
-              className="GNB_LinkButton GNB_LinkButton-fill"
-              style={matches ? { color: solidBackgroundColorRGBString } : {}}
-            >
-              로그인
-            </a>
-          )}
-        </MediaQuery>
+        {!isLoggedIn ?
+          this.renderLoginButton() :
+          isIntro ?
+            this.renderLogoutButton() :
+            this.renderSettingButton()
+        }
       </div>
+    );
+  }
+
+  private renderGNBSearchButton() {
+    const {
+      isIntro,
+    } = this.props;
+    return isIntro ? null : (
+      <MediaQuery maxWidth={840}>
+        {(matches) => <ConnectedSearch isMobile={matches} />}
+      </MediaQuery>
     );
   }
 
@@ -188,7 +206,10 @@ export class GNB extends React.Component<Props> {
             {this.renderGNBLogo()}
             {this.renderServiceLink()}
           </div>
-          <div className="GNBRight">{this.renderGNBRight()}</div>
+          <div className="GNBRight">
+            {this.renderGNBSearchButton()}
+            {this.renderGNBAccountButtons()}
+          </div>
         </div>
       </header>
     );
@@ -197,15 +218,16 @@ export class GNB extends React.Component<Props> {
 
 const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: getGNBType(rootState),
-  solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(rootState),
   backgroundColorRGBString: getBackgroundColorRGBString(rootState),
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
+  isFetching: rootState.user.isFetching,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
-  isInAppRoot: getIsInAppRoot(rootState),
+  isInAppIntro: getIsInAppIntro(rootState),
+  isIntro: getIsIntro(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

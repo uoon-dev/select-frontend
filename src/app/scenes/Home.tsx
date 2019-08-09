@@ -5,15 +5,18 @@ import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
+import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
 import { Actions } from 'app/services/home';
-import { ConnectedBigBannerCarousel } from 'app/services/home/components/BigBanner';
-import { ConnectedHomeSectionList } from 'app/services/home/components/HomeSectionList';
 import { RidiSelectState } from 'app/store';
 
 interface HomeStateProps {
+  isLoggedIn: boolean;
+  isSubscribing: boolean;
   fetchStatus: FetchStatusFlag;
   fetchedAt: number | null;
   collectionIdList: number[];
@@ -62,6 +65,8 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   }
 
   public render() {
+    const { isSubscribing } = this.props;
+
     return (
       <main
         className={classNames(
@@ -75,6 +80,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
+        {(!isSubscribing) && <AlertForNonSubscriber />}
       </main>
     );
   }
@@ -82,6 +88,8 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
 
 const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
   return {
+    isLoggedIn: state.user.isLoggedIn,
+    isSubscribing: state.user.isSubscribing,
     fetchStatus: state.home.fetchStatus,
     fetchedAt: state.home.fetchedAt,
     collectionIdList: state.home.collectionIdList,

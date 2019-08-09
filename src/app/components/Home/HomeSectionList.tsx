@@ -2,10 +2,10 @@ import { throttle } from 'lodash-es';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { ConnectedHomeSection } from 'app/components/Home/HomeSection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { CollectionsState } from 'app/services/collection';
 import { CollectionType } from 'app/services/home';
-import { ConnectedHomeSection } from 'app/services/home/components/HomeSection';
 import { groupCollections } from 'app/services/home/uitls';
 import { RidiSelectState } from 'app/store';
 

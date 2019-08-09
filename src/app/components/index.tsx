@@ -7,7 +7,6 @@ export * from './Pagination';
 export * from './PCPageHeader';
 export * from './GridBookList';
 export * from './DTOBookThumbnail';
-export * from './SplashScreen';
 export * from './InlineHorizontalBookList';
 export * from './NewlineToBr';
 export * from './HelmetWithTitle';

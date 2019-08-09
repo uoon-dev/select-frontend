@@ -116,7 +116,6 @@
 @media (--pc-screen) {
   .InstantSearchWrapper {
     top: 49px;
-    right: 52px;
     left: auto;
     width: 300px;
     border-radius: 3px;

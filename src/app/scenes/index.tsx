@@ -11,7 +11,6 @@ export * from './OrderHistory';
 export * from './SearchResult';
 export * from './Collection';
 export * from './Settings';
-export * from './AvailableBooks';
 export * from './Guide';
 export * from './Intro';
 export * from './InAppIntro';

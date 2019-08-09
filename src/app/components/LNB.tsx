@@ -1,3 +1,4 @@
+import { RoutePaths } from 'app/constants';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
@@ -29,19 +30,19 @@ const menus: Menu[] = [
   {
     name: '홈',
     classname: 'Home',
-    pathname: '/home',
+    pathname: RoutePaths.HOME,
     pathRegExp: /\/home/,
   },
   {
     name: '최신 업데이트',
     classname: 'RecentUpdates',
-    pathname: '/new-releases',
+    pathname: RoutePaths.NEW_RELEASE,
     pathRegExp: /\/new-releases(\/.+)?/,
   },
   {
     name: '카테고리',
     classname: 'Categories',
-    pathname: '/categories',
+    pathname: RoutePaths.CATEGORY,
     pathRegExp: /\/categories(\/.+)?/,
     defaultSearch: {
       searchKey: 'id',
@@ -51,7 +52,7 @@ const menus: Menu[] = [
   {
     name: '마이 셀렉트',
     classname: 'MySelect',
-    pathname: '/my-select',
+    pathname: RoutePaths.MY_SELECT,
     pathRegExp: /\/my-select/,
   },
 ];

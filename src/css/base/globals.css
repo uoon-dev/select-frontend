@@ -477,3 +477,26 @@ main.SceneWrapper {
 .GNBSearchWrapper {
   pointer-events: all;
 }
+
+.GoToSubscribeButton {
+  display: inline-block;
+  align-items: initial;
+  justify-content: initial;
+  max-width: 400px;
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  pointer-events: all;
+  vertical-align: middle;
+}
+
+.GoToSubscribeButton_Icon {
+  width: 17px;
+  height: 17px;
+  margin: -1px 0 0 5px;
+  vertical-align: middle;
+  fill: white;
+}

@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { RouteProps } from 'react-router';
+import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
-import history from 'app/config/history';
+import { RoutePaths } from 'app/constants';
 
 export interface PrivateRouteProps extends RouteProps {
+  isRidiApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
 }
 
-export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
+export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = (props) => {
   const {
     isFetching,
     isSubscribing,
@@ -17,12 +18,17 @@ export const PrivateRoute: React.SFC<PrivateRouteProps> = (props) => {
   } = props;
 
   if (isFetching) {
-    return null;
+    return <div className="SplashScreen SplashScreen-whiteScreen" />;
   }
 
   if (!isSubscribing) {
-    history.replace('/' + window.location.search);
+    props.history.replace({
+      pathname: RoutePaths.HOME,
+      search: props.location.search,
+    });
   }
 
   return <Route {...restProps} />;
 };
+
+export const ConnectedPrivateRoute = withRouter(PrivateRoute);
