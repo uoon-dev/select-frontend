@@ -223,7 +223,6 @@ userReducer.on(Actions.loadSubscriptionFailure, (state = INITIAL_STATE, payload)
   return {
     ...state,
     subscriptionFetchStatus: isFetched ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
-    subscription: isFetched ? null : undefined,
   };
 });
 
