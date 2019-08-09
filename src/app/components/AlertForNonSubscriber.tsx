@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { Icon } from '@ridi/rsg';
 import history from 'app/config/history';
 import { GoToSubscribeButton } from './GoToSubscribeButton';
 
