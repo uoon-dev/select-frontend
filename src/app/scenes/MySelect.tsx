@@ -295,9 +295,7 @@ class MySelect extends React.Component<Props, State> {
                   }
                 </MediaQuery>
               </>
-            ) : ((!isLoggedIn || !isSubscribing || !isReSubscribed) ? (
-              <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-            ) : (
+            ) : (isLoggedIn && isSubscribing && isReSubscribed) ? (
               /* 도서 이용 내역 확인하기 버튼 위치 */
               <>
                 <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
@@ -319,8 +317,10 @@ class MySelect extends React.Component<Props, State> {
                   </Button>
                 </Link>
               </>
+            ) : (
+              <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
             )
-          )}
+          }
         </div>
       </main>
     );
