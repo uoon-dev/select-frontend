@@ -142,6 +142,36 @@ export class Intro extends React.Component<Props, IntroPageState> {
     window.addEventListener('scroll', this.throttledScrollFunction);
   }
 
+  private renderSubscribeButton(HTMLId?: string) {
+    const {
+      isLoggedIn,
+      BASE_URL_STORE,
+      hasSubscribedBefore,
+      FREE_PROMOTION_MONTHS,
+    } = this.props;
+
+    return (
+      <a
+        id={HTMLId}
+        className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
+        href={
+          isLoggedIn
+            ? `${BASE_URL_STORE}/select/payments`
+            : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
+        }
+        ref={(button: HTMLElement | null) =>
+          this.sectionMainButton.push(button)
+        }
+      >
+        {!hasSubscribedBefore ?
+          FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기' :
+          '리디셀렉트 구독하기'
+        }
+        <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
+      </a>
+    );
+  }
+
   public componentWillUnmount() {
     const {
       dispatchUpdateGNBTransparentType,
@@ -195,23 +225,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               <br />
               언제든 원클릭으로 해지
             </p>
-            <a
-              id="SectionMain_Button"
-              className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-              href={
-                isLoggedIn
-                  ? `${BASE_URL_STORE}/select/payments`
-                  : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-              }
-              ref={(button: HTMLElement | null) =>
-                this.sectionMainButton.push(button)
-              }
-            >
-              {!hasSubscribedBefore
-                ? FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기'
-                : '리디셀렉트 구독하기'}
-              <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-            </a>
+            {this.renderSubscribeButton('SectionMain_Button')}
           </div>
         </section>
         <section
@@ -320,20 +334,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
                       <br />
                       언제든 원클릭으로 해지 가능!
                     </p>
-                    <a
-                      className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-                      href={
-                        isLoggedIn
-                          ? `${BASE_URL_STORE}/select/payments`
-                          : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-                      }
-                      ref={(button: HTMLElement | null) =>
-                        this.sectionMainButton.push(button)
-                      }
-                    >
-                      {FREE_PROMOTION_MONTHS}개월 무료로 읽어보기
-                      <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-                    </a>
+                    {this.renderSubscribeButton()}
                   </div>
                   <div className="SectionPromotion_ImageWrapper">
                     <img
