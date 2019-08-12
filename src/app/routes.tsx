@@ -30,6 +30,7 @@ import {
   ConnectedSetting,
   InAppIntro,
   NotAvailableBook,
+  WrongLocation,
 } from 'app/scenes';
 
 import { RoutePaths } from 'app/constants';
@@ -75,6 +76,7 @@ export const Routes: React.SFC<Props> = (props) => {
   const { errorResponseState } = props;
 
   return !errorResponseState ? (
+<<<<<<< HEAD
     <>
       <ConnectedSplashScreen {...props} />
       {!props.isFetching ? (
@@ -187,6 +189,112 @@ export const Routes: React.SFC<Props> = (props) => {
         </ConnectedRouter>
       ) : null}
     </>
+=======
+    <ConnectedRouter history={history}>
+      <ConnectedScrollManager>
+        <Route
+          render={({ location }) => (
+            (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
+          )}
+        />
+        <Route
+          render={({ location }) => (
+            (LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
+          )}
+        />
+        <Switch>
+          <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Redirect exact={true} from={RoutePaths.INAPP_LOGIN_REQUIRED} to={RoutePaths.HOME} />
+          <Route
+            path={RoutePaths.HOME}
+            component={ConnectedHome}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.NEW_RELEASE}
+            component={ConnectedNewReleases}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CHARTS}
+            component={ConnectedCharts}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.COLLECTION}
+            component={ConnectedCollection}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CATEGORY}
+            component={ConnectedCategory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.MY_SELECT}
+            component={ConnectedMySelect}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.BOOK_DETAIL}
+            component={ConnectedBookDetail}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.SETTING}
+            component={ConnectedSetting}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ORDER_HISTORY}
+            component={ConnectedOrderHistory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.MY_SELECT_HISTORY}
+            component={ConnectedMySelectHistory}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.SEARCH_RESULT}
+            component={ConnectedSearchResult}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.NOT_AVAILABLE_BOOK}
+            component={NotAvailableBook}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.GUIDE}
+            component={ConnectedGuide}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.CLOSING_RESERVED_BOOKS}
+            component={ConnectedClosingReservedBooks}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.INTRO}
+            exact={true}
+            component={props.isRidiApp ? InAppIntro : ConnectedIntro}
+            {...props}
+          />
+          <ConnectedPrivateRoute
+            path={RoutePaths.MANAGE_SUBSCRIPTION}
+            component={ConnectedManageSubscription}
+            {...props}
+          />
+          <Route
+            component={WrongLocation}
+            {...props}
+          />
+        </Switch>
+        {!props.isRidiApp && <ConnectedFooter />}
+      </ConnectedScrollManager>
+    </ConnectedRouter>
+>>>>>>> 370bffb... 잘못된 주소로 접근했을 경우 토스트로 안내 후 홈으로 리다이렉트.
   ) : <ConnectedErrorPage />;
 };
 
