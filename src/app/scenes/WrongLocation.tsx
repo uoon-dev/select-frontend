@@ -9,7 +9,7 @@ import { CollectionType } from 'app/services/home';
 
 export const WrongLocation: React.FunctionComponent = () => {
   React.useEffect(() => {
-    toast.failureMessage('잘못된 주소입니다.');
+    toast.failureMessage('입력하신 주소는 없는 페이지입니다.');
     history.replace(RoutePaths.HOME);
   });
 
