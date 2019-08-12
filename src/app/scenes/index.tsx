@@ -16,3 +16,4 @@ export * from './Intro';
 export * from './InAppIntro';
 export * from './NotAvailableBook';
 export * from './ClosingReservedBooks';
+export * from './WrongLocation';

@@ -28,6 +28,7 @@ import {
   ConnectedSetting,
   InAppIntro,
   NotAvailableBook,
+  WrongLocation,
 } from 'app/scenes';
 
 import { RoutePaths } from 'app/constants';
@@ -174,7 +175,7 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            component={ConnectedErrorPage}
+            component={WrongLocation}
             {...props}
           />
         </Switch>
