@@ -3,9 +3,6 @@ import * as React from 'react';
 
 import history from 'app/config/history';
 import { RoutePaths } from 'app/constants';
-import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
-import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { CollectionType } from 'app/services/home';
 
 export const WrongLocation: React.FunctionComponent = () => {
   React.useEffect(() => {
@@ -14,19 +11,6 @@ export const WrongLocation: React.FunctionComponent = () => {
   });
 
   return (
-    <main className="ScenWrapper">
-      <BigBannerPlaceholder />
-      <div className="PageHome_Content Skeleton_Wrapper">
-        <div className="PageHome_Panel">
-          <HomeSectionPlaceholder
-            type={CollectionType.SPOTLIGHT}
-          />
-        </div>
-        <div className="PageHome_Panel">
-          <HomeSectionPlaceholder />
-          <HomeSectionPlaceholder />
-        </div>
-      </div>
-    </main>
+    <main className="SceneWrapper" />
   );
 };
