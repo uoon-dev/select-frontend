@@ -37,6 +37,7 @@ import {
   ConnectedScrollManager,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
+import { InAppLoginRequired } from './scenes/InAppLoginRequired';
 import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
@@ -92,7 +93,6 @@ export const Routes: React.SFC<Props> = (props) => {
         />
         <Switch>
           <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
-          <Redirect exact={true} from={RoutePaths.INAPP_LOGIN_REQUIRED} to={RoutePaths.HOME} />
           <Route
             path={RoutePaths.HOME}
             component={ConnectedHome}
@@ -176,6 +176,10 @@ export const Routes: React.SFC<Props> = (props) => {
           />
           <Route
             component={WrongLocation}
+            {...props}
+          />
+          <Route
+            component={InAppLoginRequired}
             {...props}
           />
         </Switch>
