@@ -199,11 +199,14 @@ export class Intro extends React.Component<Props, IntroPageState> {
           titleType={TitleType.PREFIXED}
         />
         {isLoaded ? null : (
-        <img
-          className="Load_Trigger_Image"
-          src={require('images/intro/hero_bg.jpg')}
-          onLoad={() => this.afterLoadingComplete()}
-        />
+          <>
+            <img
+              className="Load_Trigger_Image"
+              src={require('images/intro/hero_bg.jpg')}
+              onLoad={() => this.afterLoadingComplete()}
+            />
+            <div className="SceneLoadingCover" />
+          </>
         )}
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
