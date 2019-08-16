@@ -26,7 +26,6 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
-  InAppIntro,
   NotAvailableBook,
   WrongLocation,
 } from 'app/scenes';
@@ -166,7 +165,7 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.INTRO}
             exact={true}
-            component={props.isRidiApp ? InAppIntro : ConnectedIntro}
+            component={ConnectedIntro}
             {...props}
           />
           <ConnectedPrivateRoute
