@@ -178,7 +178,7 @@ export function* watchCancelPurchase() {
       yield call(requestCancelPurchase, purchaseId);
       yield put(Actions.cancelPurchaseSuccess({ purchaseId }));
       alert('결제가 취소되었습니다.');
-      history.replace(RoutePaths.SETTING);
+      window.location.href = RoutePaths.SETTING;
     } catch (e) {
       toast.failureMessage(e.data.message);
       yield put(Actions.cancelPurchaseFailure({ purchaseId }));
