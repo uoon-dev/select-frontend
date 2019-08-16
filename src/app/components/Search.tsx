@@ -484,7 +484,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     this.subscribeKeyboardEvent();
   }
 
-  public componentWillReceiveProps(nextProps: SearchProps): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: SearchProps): void {
     const queryString: QueryString = qs.parse(nextProps.searchQuery, { ignoreQueryPrefix: true });
     const keywordText: string = (queryString && queryString.q && isString(queryString.q)) ? queryString.q : '';
     if (keywordText.length <= 0) { return; }
