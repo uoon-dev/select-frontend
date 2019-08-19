@@ -111,12 +111,12 @@ export class GNB extends React.Component<Props> {
 
     if (isAndroidInApp) {
       return (
-        <Link
+        <a
           className="GNB_LinkButton"
-          to={RoutePaths.INAPP_LOGIN_REQUIRED}
+          href={RoutePaths.INAPP_LOGIN_REQUIRED}
         >
           로그인
-        </Link>
+        </a>
       );
     }
 
