@@ -74,7 +74,9 @@ export const Routes: React.SFC<Props> = (props) => {
   if (IsAndroidInApp) {
     window.isLoginRequired = () => {
       const isInappLoginRequired = window.location.pathname.includes(RoutePaths.INAPP_LOGIN_REQUIRED);
-      history.goBack();
+      if (isInappLoginRequired) {
+        history.goBack();
+      }
       return isInappLoginRequired;
     };
   }
@@ -176,11 +178,12 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            component={WrongLocation}
+            path={RoutePaths.INAPP_LOGIN_REQUIRED}
+            component={InAppLoginRequired}
             {...props}
           />
           <Route
-            component={InAppLoginRequired}
+            component={WrongLocation}
             {...props}
           />
         </Switch>
