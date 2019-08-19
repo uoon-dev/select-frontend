@@ -13,9 +13,9 @@ import {
 } from 'app/services/commonUI/selectors';
 import {
   getIsAndroidInApp,
-  getIsInAppIntro,
   getIsIntro,
   getIsIosInApp,
+  selectIsInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { connect } from 'react-redux';
@@ -27,18 +27,18 @@ interface Props {
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
   isFetching: boolean;
+  isInApp: boolean;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
-  isInAppIntro: boolean;
   isSubscribing: boolean;
   isIntro: boolean;
 }
 
 export class GNB extends React.Component<Props> {
   private renderServiceLink() {
-    const { isIosInApp, isAndroidInApp, BASE_URL_STORE } = this.props;
-    if (isIosInApp || isAndroidInApp) {
+    const { isInApp, BASE_URL_STORE } = this.props;
+    if (isInApp) {
       return;
     }
     return (
@@ -60,15 +60,11 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
-    const { isInAppIntro } = this.props;
     return (
-      <Link className="GNBLogoWrapper" to={isInAppIntro ? RoutePaths.INTRO : RoutePaths.HOME}>
+      <Link className="GNBLogoWrapper" to={RoutePaths.HOME}>
         <Icon
           name="logo_ridiselect_1"
-          className={classNames(
-            'GNBLogo',
-            isInAppIntro ? 'GNBLogo-InAppIntro' : null,
-          )}
+          className="GNBLogo"
         />
         <h1 className="a11y">리디셀렉트</h1>
       </Link>
@@ -116,7 +112,7 @@ export class GNB extends React.Component<Props> {
     if (isAndroidInApp) {
       return (
         <Link
-          className="GNB_LinkBUtton"
+          className="GNB_LinkButton"
           to={RoutePaths.INAPP_LOGIN_REQUIRED}
         >
           로그인
@@ -138,12 +134,12 @@ export class GNB extends React.Component<Props> {
 
   private renderLogoutButton() {
     const {
-      isInAppIntro,
+      isInApp,
       BASE_URL_STORE,
       BASE_URL_RIDISELECT,
     } = this.props;
 
-    if (isInAppIntro) {
+    if (isInApp) {
       return null;
     }
 
@@ -224,9 +220,9 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isFetching: rootState.user.isFetching,
   isLoggedIn: rootState.user.isLoggedIn,
   isSubscribing: rootState.user.isSubscribing,
+  isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
-  isInAppIntro: getIsInAppIntro(rootState),
   isIntro: getIsIntro(rootState),
 });
 

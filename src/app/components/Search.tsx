@@ -147,7 +147,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   private pushHistoryKeyword(keyword: string): void {
-    if (!this.state.history.enabled) {
+    if (!this.state.history.enabled || keyword.length <= 0) {
       return;
     }
     const filteredKeywordList: string[] = this.state.history.keywordList
@@ -413,7 +413,6 @@ export class Search extends React.Component<SearchProps, SearchState> {
       .subscribe((value: string): void => {
         if (value.length === 0) {
           this.setState({
-
             isActive: true,
             isClearButtonVisible: false,
             currentHelperType: SearchHelperFlag.HISTORY,
@@ -485,9 +484,10 @@ export class Search extends React.Component<SearchProps, SearchState> {
     this.subscribeKeyboardEvent();
   }
 
-  public componentWillReceiveProps(nextProps: SearchProps): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: SearchProps): void {
     const queryString: QueryString = qs.parse(nextProps.searchQuery, { ignoreQueryPrefix: true });
     const keywordText: string = (queryString && queryString.q && isString(queryString.q)) ? queryString.q : '';
+    if (keywordText.length <= 0) { return; }
     this.setState({
       keyword: keywordText,
     }, () => this.pushHistoryKeyword(keywordText));

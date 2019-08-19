@@ -4,12 +4,10 @@
   left: 0;
   width: 100%;
   padding: 0 10px 8px;
-  background: #13202f;
+  background: rgba(19, 32, 47, .9);
   box-sizing: border-box;
   text-align: center;
-  opacity: .9;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
-  border-top: 1px solid var(--slategray_20);
   z-index: 999;
 
 }

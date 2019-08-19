@@ -171,7 +171,6 @@
   display: table-cell;
   padding-right: 5px;
   text-align: right;
-  vertical-align: middle;
 }
 
 .GNBRightButtonWrapper {
@@ -293,6 +292,12 @@
 
   @nest .GNBWrapper-dark & {
     border: solid 1px #fff5;
+  }
+
+  @media (--mobile-screen) {
+    @nest .androidApp & {
+      margin-top: 9px;
+    }
   }
 
   @media (--pc-screen) {

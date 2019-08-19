@@ -50,16 +50,17 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
   const { STORE_URL: BASE_URL_STORE } = env;
 
   const checkCanDownload = () => !!ownershipStatus && ownershipStatus.isDownloadAvailable;
+
   const checkShouldDisplaySpinnerOnDownload = () => (isLoggedIn && !ownershipStatus) ||
     ownershipFetchStatus === FetchStatusFlag.FETCHING ||
     mySelect.additionFetchStatus === FetchStatusFlag.FETCHING;
+
   const checkCurrentBookExistsInMySelect = () =>
     !!ownershipStatus && ownershipStatus.isCurrentlyUsedRidiSelectBook;
 
   const shouldDisplaySpinnerOnDownload = checkShouldDisplaySpinnerOnDownload();
 
   const handleDownloadButtonClick = () => {
-
     if (checkShouldDisplaySpinnerOnDownload()) {
       return;
     }
@@ -72,10 +73,20 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         return;
       }
       downloadBooksInRidiselect([bookId]);
-    } else {
-      dispatchAddMySelect(bookId);
+      return;
     }
+
+    dispatchAddMySelect(bookId);
   };
+
+  const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
+    filter: (prefix, value) => {
+      if (prefix.includes('utm_')) { return; }
+      return value;
+    },
+    addQueryPrefix: true,
+  });
+  const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${location.origin + location.pathname + encodeURIComponent(queryString)}`;
 
   if (checkCanDownload()) {
     return (
@@ -87,6 +98,23 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         onClick={handleDownloadButtonClick}
       >
         {isInApp ? '읽기' : '다운로드'}
+      </Button>
+    );
+  } else if (!isLoggedIn) {
+    const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
+    const linkTargetProps = isAndroidInApp ?
+      {to: RoutePaths.INAPP_LOGIN_REQUIRED} :
+      {href: paymentsWithAuthorizeUrl};
+    return (
+      <Button
+        color="blue"
+        size="large"
+        spinner={shouldDisplaySpinnerOnDownload}
+        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
+        component={isAndroidInApp ? Link : 'a'}
+        {...linkTargetProps}
+      >
+        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>
     );
   } else if (isSubscribing) {
@@ -102,45 +130,20 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         마이 셀렉트에 추가
       </Button>
     );
-  } else if (isAndroidInApp && !isLoggedIn) {
-    return (
-      <Button
-        color="blue"
-        size="large"
-        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        component={Link}
-        to={RoutePaths.INAPP_LOGIN_REQUIRED}
-      >
-        구독하고 무료로 읽어보기
-      </Button>
-    );
-  } else {
-    // TODO: refactor to external utility function
-    const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
-      filter: (prefix, value) => {
-        if (prefix.includes('utm_')) {
-          return;
-        }
-        return value;
-      },
-      addQueryPrefix: true,
-    });
-
-    const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${location.origin + location.pathname + encodeURIComponent(queryString)}`;
-    const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
-    return (
-      <Button
-        color="blue"
-        size="large"
-        spinner={shouldDisplaySpinnerOnDownload}
-        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        component="a"
-        href={isLoggedIn ? paymentsUrl : paymentsWithAuthorizeUrl}
-      >
-        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
-      </Button>
-    );
   }
+
+  return (
+    <Button
+      color="blue"
+      size="large"
+      spinner={shouldDisplaySpinnerOnDownload}
+      className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
+      component="a"
+      href={paymentsUrl}
+    >
+      {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
+    </Button>
+  );
 };
 
 const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadButtonProps): BookDetailDownloadButtonStateProps => {

@@ -13,7 +13,6 @@ export * from './Collection';
 export * from './Settings';
 export * from './Guide';
 export * from './Intro';
-export * from './InAppIntro';
 export * from './NotAvailableBook';
 export * from './ClosingReservedBooks';
 export * from './WrongLocation';

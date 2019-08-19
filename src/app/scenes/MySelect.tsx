@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 
@@ -15,12 +15,16 @@ import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 
+import history from 'app/config/history';
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
 import * as classNames from 'classnames';
 
 interface StateProps {
+  isAndroidInApp: boolean;
+  BASE_URL_STORE: string;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   mySelectBooks: PaginatedMySelectBooks;
@@ -117,13 +121,28 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private fetchMySelectData(props: Props) {
-    const { page, dispatchLoadMySelectRequest } = props;
+    const { isLoggedIn, page, dispatchLoadMySelectRequest } = props;
+
+    if (!isLoggedIn) {
+      this.moveToLogin();
+      return;
+    }
 
     if (!this.isFetched(page)) {
       dispatchLoadMySelectRequest(page);
     }
   }
+  private moveToLogin() {
+    const { BASE_URL_STORE, isAndroidInApp } = this.props;
 
+    if (isAndroidInApp) {
+      history.replace(RoutePaths.INAPP_LOGIN_REQUIRED);
+      return;
+    }
+    location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+      window.location.href
+    }`;
+  }
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
       this.fetchMySelectData(this.props);
@@ -329,6 +348,8 @@ class MySelect extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
+    isAndroidInApp: getIsAndroidInApp(state),
+    BASE_URL_STORE: state.environment.STORE_URL,
     isLoggedIn: state.user.isLoggedIn,
     isSubscribing: state.user.isSubscribing,
     mySelectBooks: state.mySelect.mySelectBooks,
