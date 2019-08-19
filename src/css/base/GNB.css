@@ -171,6 +171,7 @@
   display: table-cell;
   padding-right: 5px;
   text-align: right;
+  vertical-align: top;
 }
 
 .GNBRightButtonWrapper {
@@ -241,6 +242,7 @@
           }
         }
         & .GNBServiceList {
+          height: var(--gnb_pc_height);
           & .GNBService {
             height: var(--gnb_pc_height);
             line-height: calc(var(--gnb_pc_height) - 2px);
@@ -264,6 +266,9 @@
           & .GNBSettingButton {
             height: var(--gnb_pc_height);
             padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
+          }
+          & .GNB_LinkButton {
+            height: var(--gnb_pc_height);
           }
         }
       }
