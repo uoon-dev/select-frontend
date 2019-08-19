@@ -102,17 +102,14 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     );
   } else if (!isLoggedIn) {
     const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
-    const linkTargetProps = isAndroidInApp ?
-      {to: RoutePaths.INAPP_LOGIN_REQUIRED} :
-      {href: paymentsWithAuthorizeUrl};
     return (
       <Button
         color="blue"
         size="large"
         spinner={shouldDisplaySpinnerOnDownload}
         className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        component={isAndroidInApp ? Link : 'a'}
-        {...linkTargetProps}
+        component="a"
+        href={isAndroidInApp ? RoutePaths.INAPP_LOGIN_REQUIRED : paymentsWithAuthorizeUrl}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>

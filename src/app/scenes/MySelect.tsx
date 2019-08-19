@@ -136,7 +136,7 @@ class MySelect extends React.Component<Props, State> {
     const { BASE_URL_STORE, isAndroidInApp } = this.props;
 
     if (isAndroidInApp) {
-      history.replace(RoutePaths.INAPP_LOGIN_REQUIRED);
+      window.location.href = RoutePaths.INAPP_LOGIN_REQUIRED;
       return;
     }
     location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
