@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 
 interface SubscriptionInfoStateProps {
   uId: string;
+  BASE_URL_STORE: string;
   hasSubscribedBefore: boolean;
   subscriptionState?: SubscriptionState | null;
   latestPurchaseTicket: Ticket;
@@ -107,7 +108,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderSubscribeButton() {
-    const { hasSubscribedBefore } = this.props;
+    const { hasSubscribedBefore, BASE_URL_STORE } = this.props;
 
     return (
       <Button
@@ -115,7 +116,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
         component={Link}
         color="blue"
         size="large"
-        to={RoutePaths.INTRO}
+        to={`${BASE_URL_STORE}/select/payments`}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '1개월 무료로 읽어보기'}
       </Button>
@@ -143,6 +144,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
 const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => {
   return {
     uId: state.user.uId,
+    BASE_URL_STORE: state.environment.STORE_URL,
     subscriptionState: state.user.subscription,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     latestPurchaseTicket: !!state.user.purchaseHistory.itemListByPage[1] && state.user.purchaseHistory.itemListByPage[1].itemList[0],
