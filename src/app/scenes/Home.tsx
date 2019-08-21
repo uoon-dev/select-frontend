@@ -11,10 +11,13 @@ import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { BookState } from 'app/services/book';
 import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 
 interface HomeStateProps {
+  isIosInApp: boolean;
+  isFetching: boolean;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   fetchStatus: FetchStatusFlag;
@@ -65,7 +68,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   }
 
   public render() {
-    const { isSubscribing } = this.props;
+    const { isIosInApp, isFetching, isSubscribing } = this.props;
 
     return (
       <main
@@ -80,7 +83,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
-        {(!isSubscribing) && <AlertForNonSubscriber />}
+        {(!isIosInApp && !isFetching && !isSubscribing) && <AlertForNonSubscriber />}
       </main>
     );
   }
@@ -88,6 +91,8 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
 
 const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
   return {
+    isIosInApp: getIsIosInApp(state),
+    isFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
     isSubscribing: state.user.isSubscribing,
     fetchStatus: state.home.fetchStatus,
