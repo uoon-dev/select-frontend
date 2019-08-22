@@ -111,13 +111,15 @@ export class BookDetail extends React.Component<Props> {
               )}
             </ConnectedBookDetailHeader>
             <BookDetailPanelWrapper renderCondition={isMobile}>
-              {isMobile && (
+              {isMobile ? (
                 <>
                   <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
+                  <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
                   <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
                 </>
+              ) : (
+                <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
               )}
-              <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
             </BookDetailPanelWrapper>
             {!isMobile && <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />}
             <ConnectedBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
