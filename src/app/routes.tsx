@@ -26,6 +26,7 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
+  InAppLoginRequired,
   NotAvailableBook,
   WrongLocation,
 } from 'app/scenes';
@@ -36,12 +37,10 @@ import {
   ConnectedScrollManager,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
-import { InAppLoginRequired } from './scenes/InAppLoginRequired';
-import { getIsAndroidInApp, selectIsInApp } from './services/environment/selectors';
+import { selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
   isRidiApp: boolean;
-  IsAndroidInApp: boolean;
   isFetching: boolean;
   isSubscribing: boolean;
   errorResponseState?: ErrorResponseStatus;
@@ -69,17 +68,7 @@ export const PrimaryRoutes = [
 ];
 
 export const Routes: React.SFC<Props> = (props) => {
-  const { errorResponseState, IsAndroidInApp } = props;
-
-  if (IsAndroidInApp) {
-    window.isLoginRequired = () => {
-      const isInappLoginRequired = window.location.pathname.includes(RoutePaths.INAPP_LOGIN_REQUIRED);
-      if (isInappLoginRequired) {
-        window.history.back();
-      }
-      return isInappLoginRequired;
-    };
-  }
+  const { errorResponseState } = props;
 
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
@@ -195,7 +184,6 @@ export const Routes: React.SFC<Props> = (props) => {
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isRidiApp: selectIsInApp(rootState),
-  IsAndroidInApp: getIsAndroidInApp(rootState),
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,
   errorResponseState: rootState.serviceStatus.errorResponseState,

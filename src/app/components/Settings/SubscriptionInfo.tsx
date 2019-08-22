@@ -113,10 +113,10 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     return (
       <Button
         className="SubscribeToUseButton"
-        component={Link}
+        component="a"
         color="blue"
         size="large"
-        to={`${BASE_URL_STORE}/select/payments`}
+        href={`${BASE_URL_STORE}/select/payments`}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '1개월 무료로 읽어보기'}
       </Button>
