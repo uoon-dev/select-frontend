@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
-import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 
@@ -125,7 +125,7 @@ class MySelect extends React.Component<Props, State> {
     const { isUserFetching, isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
 
     if (!isUserFetching && !isLoggedIn) {
-      window.location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`;
+      window.location.replace(`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
       return;
     }
 
