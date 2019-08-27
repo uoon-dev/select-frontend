@@ -106,20 +106,12 @@ export class GNB extends React.Component<Props> {
   private renderLoginButton() {
     const {
       BASE_URL_STORE,
-      isIosInApp,
-      isAndroidInApp,
+      isInApp,
     } = this.props;
 
-    if (isIosInApp) { return null; }
+    if (isInApp) { return null; }
 
-    return isAndroidInApp ? (
-      <a
-        className="GNB_LinkButton"
-        href={RoutePaths.INAPP_LOGIN_REQUIRED}
-      >
-        로그인
-      </a>
-    ) : (
+    return (
       <a
         href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
           window.location.href

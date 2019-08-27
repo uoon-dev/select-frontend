@@ -52,5 +52,4 @@ export enum RoutePaths {
   INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
-  INAPP_LOGIN_REQUIRED = '/account/login',
 }
