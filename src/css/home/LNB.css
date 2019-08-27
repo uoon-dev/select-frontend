@@ -35,8 +35,16 @@
   display: table-cell;
   &.LnbMenu_Home { width: 15%; }
   &.LnbMenu_RecentUpdates { width: 32%; }
-  &.LnbMenu_Charts { width: 25%; }
+  &.LnbMenu_Categories { width: 25%; }
   &.LnbMenu_MySelect { width: 28%; }
+
+  @media (--mobile-screen) {
+    @nest .LnbMenu_Wrapper-count3 & {
+      &.LnbMenu_Home { width: 23%; }
+      &.LnbMenu_RecentUpdates { width: 40%; }
+      &.LnbMenu_Categories { width: 37%; }
+    }
+  }
 }
 
 .LnbMenu_Link {
@@ -119,7 +127,7 @@
     padding: 0 7px;
     &.LnbMenu_Home,
     &.LnbMenu_RecentUpdates,
-    &.LnbMenu_Charts,
+    &.LnbMenu_Categories,
     &.LnbMenu_MySelect {
       width: auto;
     }
