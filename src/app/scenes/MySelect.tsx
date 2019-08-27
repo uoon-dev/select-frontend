@@ -25,6 +25,7 @@ import * as classNames from 'classnames';
 interface StateProps {
   isAndroidInApp: boolean;
   BASE_URL_STORE: string;
+  isUserFetching: boolean;
   isLoggedIn: boolean;
   isSubscribing: boolean;
   mySelectBooks: PaginatedMySelectBooks;
@@ -111,9 +112,9 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private isFetched(page: number) {
-    const { isLoggedIn, isSubscribing, mySelectBooks } = this.props;
+    const { isSubscribing, mySelectBooks } = this.props;
 
-    if (!isLoggedIn || !isSubscribing) {
+    if (!isSubscribing) {
       return true;
     }
 
@@ -121,12 +122,10 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private fetchMySelectData(props: Props) {
-    const { isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
+    const { isUserFetching, isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
 
-    if (!isLoggedIn) {
-      window.location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-        window.location.href
-      }`;
+    if (!isUserFetching && !isLoggedIn) {
+      window.location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`;
       return;
     }
 
@@ -241,7 +240,7 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isLoggedIn, isSubscribing, mySelectBooks, page, isReSubscribed } = this.props;
+    const { isUserFetching, isLoggedIn, isSubscribing, mySelectBooks, page, isReSubscribed } = this.props;
 
     const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
     const itemCountPerPage: number = mySelectBooks.size;
@@ -306,7 +305,7 @@ class MySelect extends React.Component<Props, State> {
                   }
                 </MediaQuery>
               </>
-            ) : (isLoggedIn && isSubscribing && isReSubscribed) ? (
+            ) : (!isUserFetching && isLoggedIn && isSubscribing && isReSubscribed) ? (
               /* 도서 이용 내역 확인하기 버튼 위치 */
               <>
                 <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
@@ -342,6 +341,7 @@ const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
     isAndroidInApp: getIsAndroidInApp(state),
     BASE_URL_STORE: state.environment.STORE_URL,
+    isUserFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
     isSubscribing: state.user.isSubscribing,
     mySelectBooks: state.mySelect.mySelectBooks,
