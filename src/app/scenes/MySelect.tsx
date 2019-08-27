@@ -15,7 +15,6 @@ import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 
-import history from 'app/config/history';
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
@@ -112,9 +111,9 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private isFetched(page: number) {
-    const { isSubscribing, mySelectBooks } = this.props;
+    const { isLoggedIn, isSubscribing, mySelectBooks } = this.props;
 
-    if (!isSubscribing) {
+    if (isLoggedIn && !isSubscribing) {
       return true;
     }
 
