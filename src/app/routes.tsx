@@ -26,7 +26,6 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
-  InAppLoginRequired,
   NotAvailableBook,
   WrongLocation,
 } from 'app/scenes';
@@ -164,11 +163,6 @@ export const Routes: React.SFC<Props> = (props) => {
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.INAPP_LOGIN_REQUIRED}
-            component={InAppLoginRequired}
             {...props}
           />
           <Route

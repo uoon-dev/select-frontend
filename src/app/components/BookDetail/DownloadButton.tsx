@@ -40,7 +40,6 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     hasSubscribedBefore,
     env,
     isInApp,
-    isAndroidInApp,
     ownershipStatus,
     ownershipFetchStatus,
     mySelect,
@@ -109,7 +108,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         spinner={shouldDisplaySpinnerOnDownload}
         className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
         component="a"
-        href={isAndroidInApp ? RoutePaths.INAPP_LOGIN_REQUIRED : paymentsWithAuthorizeUrl}
+        href={paymentsWithAuthorizeUrl}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>

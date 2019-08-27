@@ -121,10 +121,12 @@ class MySelect extends React.Component<Props, State> {
   }
 
   private fetchMySelectData(props: Props) {
-    const { isLoggedIn, page, dispatchLoadMySelectRequest } = props;
+    const { isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
 
     if (!isLoggedIn) {
-      this.moveToLogin();
+      window.location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
+        window.location.href
+      }`;
       return;
     }
 
@@ -132,17 +134,7 @@ class MySelect extends React.Component<Props, State> {
       dispatchLoadMySelectRequest(page);
     }
   }
-  private moveToLogin() {
-    const { BASE_URL_STORE, isAndroidInApp } = this.props;
 
-    if (isAndroidInApp) {
-      window.location.href = RoutePaths.INAPP_LOGIN_REQUIRED;
-      return;
-    }
-    location.href = `${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-      window.location.href
-    }`;
-  }
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
       this.fetchMySelectData(this.props);
