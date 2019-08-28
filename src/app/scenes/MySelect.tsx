@@ -15,12 +15,18 @@ import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
 import * as classNames from 'classnames';
 
 interface StateProps {
+  isAndroidInApp: boolean;
+  BASE_URL_STORE: string;
+  isUserFetching: boolean;
+  isLoggedIn: boolean;
+  isSubscribing: boolean;
   mySelectBooks: PaginatedMySelectBooks;
   deletionFetchStatus: FetchStatusFlag;
   isReSubscribed?: boolean;
@@ -104,17 +110,32 @@ class MySelect extends React.Component<Props, State> {
     return Object.keys(bookInputs).length > 0 && books.every((book) => bookInputs[book.mySelectBookId]);
   }
 
-  private isFetched = (page: number) => {
-    const { mySelectBooks } = this.props;
+  private isFetched(page: number) {
+    const { isLoggedIn, isSubscribing, mySelectBooks } = this.props;
+
+    if (isLoggedIn && !isSubscribing) {
+      return true;
+    }
+
     return (mySelectBooks && mySelectBooks.itemListByPage[page] && mySelectBooks.itemListByPage[page].isFetched);
+  }
+
+  private fetchMySelectData(props: Props) {
+    const { isUserFetching, isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
+
+    if (!isUserFetching && !isLoggedIn) {
+      window.location.replace(`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+      return;
+    }
+
+    if (!this.isFetched(page)) {
+      dispatchLoadMySelectRequest(page);
+    }
   }
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-
-      const { dispatchLoadMySelectRequest, page } = this.props;
-      dispatchLoadMySelectRequest(page);
-
+      this.fetchMySelectData(this.props);
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
     });
@@ -122,11 +143,7 @@ class MySelect extends React.Component<Props, State> {
 
   public shouldComponentUpdate(nextProps: Props) {
     if (nextProps.page !== this.props.page) {
-      const { dispatchLoadMySelectRequest, page } = nextProps;
-
-      if (!this.isFetched(page)) {
-        dispatchLoadMySelectRequest(page);
-      }
+      this.fetchMySelectData(nextProps);
     }
 
     return true;
@@ -222,7 +239,7 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public render() {
-    const { mySelectBooks, page, isReSubscribed } = this.props;
+    const { isUserFetching, isLoggedIn, isSubscribing, mySelectBooks, page, isReSubscribed } = this.props;
 
     const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
     const itemCountPerPage: number = mySelectBooks.size;
@@ -237,37 +254,9 @@ class MySelect extends React.Component<Props, State> {
       >
         <HelmetWithTitle titleName={PageTitleText.MY_SELECT} />
         <div className="PageMySelect">
-          {!this.isFetched(page) || isNaN(page) ? (
+          {!this.isFetched(page) ? (
             <LandscapeBookListSkeleton hasCheckbox={true} />
-          ) : (
-            <>
-              { mySelectBooks.itemCount === 0 ? (
-                !isReSubscribed ? (
-                  <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-                ) : (
-                  /* 도서 이용 내역 확인하기 버튼 위치 */
-                  <>
-                    <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
-                    <Link to={`/my-select-history`} className="MySelectBookList_Link">
-                      <Button
-                        color="blue"
-                        outline={true}
-                        className="PageSearchResult_RidibooksResult"
-                        size="large"
-                        style={{
-                          marginTop: '10px',
-                        }}
-                      >
-                        도서 이용 내역 확인하기
-                        <Icon
-                          name="arrow_5_right"
-                          className="PageSearchResult_RidibooksResultIcon"
-                        />
-                      </Button>
-                    </Link>
-                  </>
-                )
-              ) : (
+          ) : mySelectBooks.itemCount && mySelectBooks.itemCount > 0 ? (
                 <>
                   <PCPageHeader pageTitle="마이 셀렉트" />
                   <div className="PageMySelect">
@@ -315,9 +304,32 @@ class MySelect extends React.Component<Props, State> {
                   }
                 </MediaQuery>
               </>
-              )}
-            </>
-          )}
+            ) : (!isUserFetching && isLoggedIn && isSubscribing && isReSubscribed) ? (
+              /* 도서 이용 내역 확인하기 버튼 위치 */
+              <>
+                <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
+                <Link to={`/my-select-history`} className="MySelectBookList_Link">
+                  <Button
+                    color="blue"
+                    outline={true}
+                    className="PageSearchResult_RidibooksResult"
+                    size="large"
+                    style={{
+                      marginTop: '10px',
+                    }}
+                  >
+                    도서 이용 내역 확인하기
+                    <Icon
+                      name="arrow_5_right"
+                      className="PageSearchResult_RidibooksResultIcon"
+                    />
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
+            )
+          }
         </div>
       </main>
     );
@@ -326,6 +338,11 @@ class MySelect extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RidiSelectState): StateProps => {
   return {
+    isAndroidInApp: getIsAndroidInApp(state),
+    BASE_URL_STORE: state.environment.STORE_URL,
+    isUserFetching: state.user.isFetching,
+    isLoggedIn: state.user.isLoggedIn,
+    isSubscribing: state.user.isSubscribing,
     mySelectBooks: state.mySelect.mySelectBooks,
     deletionFetchStatus: state.mySelect.deletionFetchStatus,
     isReSubscribed: state.mySelect.isReSubscribed,

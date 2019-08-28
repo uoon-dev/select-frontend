@@ -1,4 +1,6 @@
+import { RoutePaths } from 'app/constants';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
 import { assignIn, flow, omit } from 'lodash-es';
@@ -8,6 +10,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface MenuStateProps {
+  isAndroidInApp: boolean;
+  isLoggedIn: boolean;
   solidBackgroundColorRGBString: string;
   currentPathname: string;
   currentSearch: string;
@@ -29,19 +33,19 @@ const menus: Menu[] = [
   {
     name: '홈',
     classname: 'Home',
-    pathname: '/home',
+    pathname: RoutePaths.HOME,
     pathRegExp: /\/home/,
   },
   {
     name: '최신 업데이트',
     classname: 'RecentUpdates',
-    pathname: '/new-releases',
+    pathname: RoutePaths.NEW_RELEASE,
     pathRegExp: /\/new-releases(\/.+)?/,
   },
   {
     name: '카테고리',
     classname: 'Categories',
-    pathname: '/categories',
+    pathname: RoutePaths.CATEGORY,
     pathRegExp: /\/categories(\/.+)?/,
     defaultSearch: {
       searchKey: 'id',
@@ -51,7 +55,7 @@ const menus: Menu[] = [
   {
     name: '마이 셀렉트',
     classname: 'MySelect',
-    pathname: '/my-select',
+    pathname: RoutePaths.MY_SELECT,
     pathRegExp: /\/my-select/,
   },
 ];
@@ -70,16 +74,27 @@ function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
   )(currentPathname === menu.pathname ? currentSearch : '');
 }
 
+function getFilteredLNBMenu(isAndroidInApp: boolean, isLoggedIn: boolean) {
+  if (!isAndroidInApp || isLoggedIn) {
+    return menus;
+  }
+  return menus.filter((menu) => menu.classname !== 'MySelect');
+}
+
 export const LNB: React.SFC<MenuStateProps> = (props) => {
-  const { currentPathname, solidBackgroundColorRGBString } = props;
+  const { isLoggedIn, isAndroidInApp, currentPathname, solidBackgroundColorRGBString } = props;
+  const filteredMenu = getFilteredLNBMenu(isAndroidInApp, isLoggedIn);
   return (
     <nav
-      className="LnbMenu_Wrapper"
+      className={classNames(
+        'LnbMenu_Wrapper',
+        `LnbMenu_Wrapper-count${filteredMenu.length}`,
+      )}
       style={{ backgroundColor: solidBackgroundColorRGBString }}
     >
       <h2 className="a11y">메인 메뉴</h2>
       <ul className="LnbMenu_List">
-        {menus.map((menu) => (
+        {filteredMenu.map((menu) => (
           <li className={`LnbMenu LnbMenu_${menu.classname}`} key={menu.pathname}>
             <Link
               className={classNames(['LnbMenu_Link', !!currentPathname.match(menu.pathRegExp) && 'LnbMenu_Link-active'])}
@@ -99,6 +114,8 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
 
 const mapStateToProps = (state: RidiSelectState): MenuStateProps => {
   return {
+    isLoggedIn: state.user.isLoggedIn,
+    isAndroidInApp: getIsAndroidInApp(state),
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
     currentPathname: state.router.location!.pathname,
     currentSearch: state.router.location!.search,

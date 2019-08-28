@@ -1,4 +1,4 @@
-import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
 import { sortedIndex, throttle } from 'lodash-es';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -6,12 +6,11 @@ import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Icon } from '@ridi/rsg';
-import * as classNames from 'classnames';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
-import { Actions as EnvironmentActions } from 'app/services/environment';
+import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
 
 interface IntroStateProps {
@@ -137,11 +136,40 @@ export class Intro extends React.Component<Props, IntroPageState> {
         currentSection: 1,
         windowInfo: this.getWindowSize(),
       });
-      this.props.dispatchCompleteIntroImageLoad();
     }, 100);
 
     window.addEventListener('resize', this.throttledResizeFunction);
     window.addEventListener('scroll', this.throttledScrollFunction);
+  }
+
+  private renderSubscribeButton(HTMLId?: string) {
+    const {
+      isLoggedIn,
+      BASE_URL_STORE,
+      hasSubscribedBefore,
+      FREE_PROMOTION_MONTHS,
+    } = this.props;
+
+    return (
+      <a
+        id={HTMLId}
+        className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
+        href={
+          isLoggedIn
+            ? `${BASE_URL_STORE}/select/payments`
+            : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
+        }
+        ref={(button: HTMLElement | null) =>
+          this.sectionMainButton.push(button)
+        }
+      >
+        {!hasSubscribedBefore ?
+          FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기' :
+          '리디셀렉트 구독하기'
+        }
+        <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
+      </a>
+    );
   }
 
   public componentWillUnmount() {
@@ -171,11 +199,14 @@ export class Intro extends React.Component<Props, IntroPageState> {
           titleType={TitleType.PREFIXED}
         />
         {isLoaded ? null : (
-        <img
-          className="Load_Trigger_Image"
-          src={require('images/intro/hero_bg.jpg')}
-          onLoad={() => this.afterLoadingComplete()}
-        />
+          <>
+            <img
+              className="Load_Trigger_Image"
+              src={require('images/intro/hero_bg.jpg')}
+              onLoad={() => this.afterLoadingComplete()}
+            />
+            <div className="SceneLoadingCover" />
+          </>
         )}
         <h1 className="a11y">리디셀렉트 인트로</h1>
         <section
@@ -197,23 +228,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               <br />
               언제든 원클릭으로 해지
             </p>
-            <a
-              id="SectionMain_Button"
-              className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-              href={
-                isLoggedIn
-                  ? `${BASE_URL_STORE}/select/payments`
-                  : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-              }
-              ref={(button: HTMLElement | null) =>
-                this.sectionMainButton.push(button)
-              }
-            >
-              {!hasSubscribedBefore
-                ? FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기'
-                : '리디셀렉트 구독하기'}
-              <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-            </a>
+            {this.renderSubscribeButton('SectionMain_Button')}
           </div>
         </section>
         <section
@@ -322,20 +337,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
                       <br />
                       언제든 원클릭으로 해지 가능!
                     </p>
-                    <a
-                      className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-                      href={
-                        isLoggedIn
-                          ? `${BASE_URL_STORE}/select/payments`
-                          : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-                      }
-                      ref={(button: HTMLElement | null) =>
-                        this.sectionMainButton.push(button)
-                      }
-                    >
-                      {FREE_PROMOTION_MONTHS}개월 무료로 읽어보기
-                      <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-                    </a>
+                    {this.renderSubscribeButton()}
                   </div>
                   <div className="SectionPromotion_ImageWrapper">
                     <img
@@ -370,8 +372,6 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(CommonUIActions.updateGNBTransparent({ transparentType })),
     dispatchUpdateFooterTheme: (theme: FooterTheme) =>
       dispatch(CommonUIActions.updateFooterTheme({ theme })),
-    dispatchCompleteIntroImageLoad: () =>
-      dispatch(EnvironmentActions.completeIntroImageLoad()),
   };
 };
 export const ConnectedIntro = withRouter(

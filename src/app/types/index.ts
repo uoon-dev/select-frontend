@@ -28,6 +28,7 @@ export interface Paginated<Item> {
 
 declare global {
   interface Window {
+    isLoginRequired: () => boolean;
     inApp: {
       mySelectBookInserted: (bookIds: string) => void
       mySelectBookDeleted: (bookids: string) => void

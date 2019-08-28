@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { BookOwnershipStatus } from 'app/services/book';
 import { EnvironmentState } from 'app/services/environment';
-import { selectIsInApp } from 'app/services/environment/selectors';
+import { getIsAndroidInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
+import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
   bookId: number;
@@ -23,6 +24,7 @@ interface BookDetailDownloadButtonStateProps {
   hasSubscribedBefore: boolean;
   env: EnvironmentState;
   isInApp: boolean;
+  isAndroidInApp: boolean;
   ownershipFetchStatus?: FetchStatusFlag;
   ownershipStatus?: BookOwnershipStatus;
   mySelect: MySelectState;
@@ -47,16 +49,17 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
   const { STORE_URL: BASE_URL_STORE } = env;
 
   const checkCanDownload = () => !!ownershipStatus && ownershipStatus.isDownloadAvailable;
+
   const checkShouldDisplaySpinnerOnDownload = () => (isLoggedIn && !ownershipStatus) ||
     ownershipFetchStatus === FetchStatusFlag.FETCHING ||
     mySelect.additionFetchStatus === FetchStatusFlag.FETCHING;
+
   const checkCurrentBookExistsInMySelect = () =>
     !!ownershipStatus && ownershipStatus.isCurrentlyUsedRidiSelectBook;
 
   const shouldDisplaySpinnerOnDownload = checkShouldDisplaySpinnerOnDownload();
 
   const handleDownloadButtonClick = () => {
-
     if (checkShouldDisplaySpinnerOnDownload()) {
       return;
     }
@@ -69,10 +72,20 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         return;
       }
       downloadBooksInRidiselect([bookId]);
-    } else {
-      dispatchAddMySelect(bookId);
+      return;
     }
+
+    dispatchAddMySelect(bookId);
   };
+
+  const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
+    filter: (prefix, value) => {
+      if (prefix.includes('utm_')) { return; }
+      return value;
+    },
+    addQueryPrefix: true,
+  });
+  const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${location.origin + location.pathname + encodeURIComponent(queryString)}`;
 
   if (checkCanDownload()) {
     return (
@@ -84,6 +97,20 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         onClick={handleDownloadButtonClick}
       >
         {isInApp ? '읽기' : '다운로드'}
+      </Button>
+    );
+  } else if (!isLoggedIn) {
+    const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
+    return (
+      <Button
+        color="blue"
+        size="large"
+        spinner={shouldDisplaySpinnerOnDownload}
+        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
+        component="a"
+        href={paymentsWithAuthorizeUrl}
+      >
+        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>
     );
   } else if (isSubscribing) {
@@ -99,33 +126,20 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         마이 셀렉트에 추가
       </Button>
     );
-  } else {
-    // TODO: refactor to external utility function
-    const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
-      filter: (prefix, value) => {
-        if (prefix.includes('utm_')) {
-          return;
-        }
-        return value;
-      },
-      addQueryPrefix: true,
-    });
-
-    const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${location.origin + location.pathname + encodeURIComponent(queryString)}`;
-    const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
-    return (
-      <Button
-        color="blue"
-        size="large"
-        spinner={shouldDisplaySpinnerOnDownload}
-        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        component="a"
-        href={isLoggedIn ? paymentsUrl : paymentsWithAuthorizeUrl}
-      >
-        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
-      </Button>
-    );
   }
+
+  return (
+    <Button
+      color="blue"
+      size="large"
+      spinner={shouldDisplaySpinnerOnDownload}
+      className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
+      component="a"
+      href={paymentsUrl}
+    >
+      {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
+    </Button>
+  );
 };
 
 const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadButtonProps): BookDetailDownloadButtonStateProps => {
@@ -139,6 +153,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     env: state.environment,
     isInApp: selectIsInApp(state),
+    isAndroidInApp: getIsAndroidInApp(state),
     mySelect: state.mySelect,
     ownershipFetchStatus: stateExists ? bookState.ownershipFetchStatus : undefined,
     ownershipStatus: stateExists ? bookState.ownershipStatus : undefined,

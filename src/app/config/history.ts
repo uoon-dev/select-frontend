@@ -1,3 +1,3 @@
-import createBrowserHistory from 'history/createBrowserHistory';
+import * as History from 'history';
 
-export default createBrowserHistory();
+export default History.createBrowserHistory();

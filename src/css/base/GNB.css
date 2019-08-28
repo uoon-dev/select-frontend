@@ -171,7 +171,7 @@
   display: table-cell;
   padding-right: 5px;
   text-align: right;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .GNBRightButtonWrapper {
@@ -242,6 +242,7 @@
           }
         }
         & .GNBServiceList {
+          height: var(--gnb_pc_height);
           & .GNBService {
             height: var(--gnb_pc_height);
             line-height: calc(var(--gnb_pc_height) - 2px);
@@ -266,6 +267,9 @@
             height: var(--gnb_pc_height);
             padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
           }
+          & .GNB_LinkButton {
+            height: var(--gnb_pc_height);
+          }
         }
       }
     }
@@ -275,6 +279,7 @@
 .GNB_LinkButton {
   display: inline-block;
   height: 28px;
+  margin-top: 7px;
   padding: 0 11px;
   border: solid 1px rgb(89, 102, 122);
   border-radius: 3px;
@@ -294,16 +299,17 @@
     border: solid 1px #fff5;
   }
 
+  @media (--mobile-screen) {
+    @nest .androidApp & {
+      margin-top: 9px;
+    }
+  }
+
   @media (--pc-screen) {
+    height: 58px;
+    line-height: 58px;
+    margin-top: 0;
     border: 0!important;
     font-size: 18px;
-  }
-}
-
-.GNB_LinkButton-fill {
-  @media (--mobile-screen) {
-    border-color: white;
-    background-color: white;
-    color: var(--bluegray_90);
   }
 }

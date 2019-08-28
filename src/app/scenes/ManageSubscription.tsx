@@ -19,7 +19,6 @@ interface ManageSubscriptionStateProps {
   userState: UserState;
   environment: EnvironmentState;
   subscriptionState?: SubscriptionState;
-  subscriptionFetchStatus: FetchStatusFlag;
   isIosInApp: boolean;
 }
 
@@ -261,7 +260,6 @@ const mapStateToProps = (state: RidiSelectState): ManageSubscriptionStateProps =
     userState: state.user,
     environment: state.environment,
     subscriptionState: state.user.subscription,
-    subscriptionFetchStatus: state.user.subscriptionFetchStatus,
     isIosInApp: getIsIosInApp(state),
   };
 };

@@ -1,0 +1,47 @@
+.AlertForNonSubscriber {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 10px 8px;
+  background: rgba(19, 32, 47, .9);
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
+  z-index: 999;
+
+}
+.AlertForNonSubscriber_MainText {
+  margin: 0;
+  padding-top: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4em;
+  color: #fff;
+}
+.AlertForNonSubscriber_SubText {
+  margin: 0;
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--slategray_20);
+}
+
+.AlertForNonSubscriber_SubscribeButton {
+  height: 40px;
+  margin-top: 20px;
+}
+
+.AlertForNonSubscriber_CloseButton {
+  @apply --reset-button;
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+.AlertForNonSubscriber_CloseButton_Icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--slategray_50);
+}
