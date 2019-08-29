@@ -55,7 +55,7 @@
       display: block;
       width: 100%;
       height: 3px;
-      background: #7580ff;
+      background: var(--slategray_40);
       bottom: -1px;
       left: 0;
     }
