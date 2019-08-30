@@ -26,6 +26,7 @@ interface Props {
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
+  LIBRARY_API: string;
   isFetching: boolean;
   isInApp: boolean;
   isIosInApp: boolean;
@@ -75,7 +76,7 @@ export class GNB extends React.Component<Props> {
     const { isIosInApp } = this.props;
 
     return (
-      <Link className="GNBSettingButton" to="/settings">
+      <Link className="GNBSettingButton" to="/settings" key="gnb-setting-link-button">
         <h2 className="a11y">셀렉트 관리</h2>
         {isIosInApp ? (
           // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
@@ -100,6 +101,25 @@ export class GNB extends React.Component<Props> {
           <Icon className="SettingIcon" name="account_1" />
         )}
       </Link>
+    );
+  }
+
+  private renderLibraryButton() {
+    const {
+      LIBRARY_API,
+      isInApp,
+    } = this.props;
+
+    if (isInApp) { return null; }
+
+    return (
+      <a
+        href={LIBRARY_API}
+        className="GNB_LinkButton GNB_WebLibrary_Button"
+        key="gnb-web-library-link-button"
+      >
+      내 서재
+      </a>
     );
   }
 
@@ -160,7 +180,10 @@ export class GNB extends React.Component<Props> {
           this.renderLoginButton() :
           isIntro ?
             this.renderLogoutButton() :
-            this.renderSettingButton()
+            [
+              this.renderSettingButton(),
+              this.renderLibraryButton(),
+            ]
         }
       </div>
     );
@@ -206,6 +229,7 @@ export class GNB extends React.Component<Props> {
 const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: getGNBType(rootState),
   backgroundColorRGBString: getBackgroundColorRGBString(rootState),
+  LIBRARY_API: rootState.environment.LIBRARY_URL,
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isFetching: rootState.user.isFetching,
