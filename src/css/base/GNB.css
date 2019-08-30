@@ -296,6 +296,9 @@
           }
           & .GNB_LinkButton {
             height: var(--gnb_pc_height);
+            &.GNB_WebLibrary_Button {
+              margin-left: 0;
+            }
           }
         }
       }
