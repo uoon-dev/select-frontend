@@ -24,4 +24,8 @@ export const Actions = {
   trackMySelectAdded: createAction<{
     trackingParams: TrakcingCustomEventParams,
   }>('trackMySelectAdded'),
+  trackingArgsUpdate: createAction<{
+    updateKey: 'userId' | 'deviceType',
+    updateValue: string,
+  }>('trackingArgsUpdate'),
 };
