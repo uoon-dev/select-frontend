@@ -1,6 +1,6 @@
 import { keyBy } from 'lodash-es';
 import * as qs from 'qs';
-import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -8,6 +8,7 @@ import { Book } from 'app/services/book';
 import { requestBooks } from 'app/services/book/requests';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions as MySelectActions } from 'app/services/mySelect';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { Actions } from 'app/services/user';
 import {
   AccountsMeResponse,
@@ -29,6 +30,17 @@ import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
+
+export function* initializeUser({ payload }: ReturnType<typeof Actions.initializeUser>) {
+  yield put(TrackingActions.trackingArgsUpdate({
+    updateKey: 'userId',
+    updateValue: payload.userDTO.uId,
+  }));
+}
+
+export function* watchInitializeUser() {
+  yield takeLatest(Actions.initializeUser.getType(), initializeUser);
+}
 
 export function* watchLoadAccountsMeRequest() {
   while (true) {
@@ -234,6 +246,7 @@ export function* watchCancelUnsubscription() {
 
 export function* userRootSaga() {
   yield all([
+    watchInitializeUser(),
     watchLoadAccountsMeRequest(),
     watchLoadSubscription(),
     watchLoadPurchases(),

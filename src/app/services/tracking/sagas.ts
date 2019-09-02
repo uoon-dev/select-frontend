@@ -3,7 +3,7 @@ import { Actions } from 'app/services/tracking';
 import { hasCompletedPayletterSubscription, hasCompletedRidiPaySubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'react-router-redux';
-import { all, put, select, take } from 'redux-saga/effects';
+import { all, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import env from 'app/config/env';
 
@@ -100,11 +100,26 @@ export function* watchTrackMySelectAdded() {
   }
 }
 
+export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.trackingArgsUpdate>) {
+  if (!tracker) {
+    initializeTracker(yield select((s) => s));
+  }
+
+  tracker.set({
+    [payload.updateKey]: payload.updateValue,
+  });
+}
+
+export function* watchTrackingArgsUpdate() {
+  yield takeLatest(Actions.trackingArgsUpdate.getType(), trackingArgsUpdate);
+}
+
 export function* trackingSaga() {
   yield all([
     watchLocationChange(),
     watchTrackClick(),
     watchTrackImpressions(),
     watchTrackMySelectAdded(),
+    watchTrackingArgsUpdate(),
   ]);
 }
