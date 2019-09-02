@@ -26,7 +26,7 @@ interface Props {
   backgroundColorRGBString: string;
   BASE_URL_STORE: string;
   BASE_URL_RIDISELECT: string;
-  LIBRARY_API: string;
+  LIBRARY_URL: string;
   isFetching: boolean;
   isInApp: boolean;
   isIosInApp: boolean;
@@ -106,7 +106,7 @@ export class GNB extends React.Component<Props> {
 
   private renderLibraryButton() {
     const {
-      LIBRARY_API,
+      LIBRARY_URL,
       isInApp,
     } = this.props;
 
@@ -114,7 +114,7 @@ export class GNB extends React.Component<Props> {
 
     return (
       <a
-        href={LIBRARY_API}
+        href={LIBRARY_URL}
         className="GNB_LinkButton GNB_WebLibrary_Button"
         key="gnb-web-library-link-button"
       >
@@ -229,7 +229,7 @@ export class GNB extends React.Component<Props> {
 const mapStateToProps = (rootState: RidiSelectState) => ({
   gnbType: getGNBType(rootState),
   backgroundColorRGBString: getBackgroundColorRGBString(rootState),
-  LIBRARY_API: rootState.environment.LIBRARY_URL,
+  LIBRARY_URL: rootState.environment.LIBRARY_URL,
   BASE_URL_STORE: rootState.environment.STORE_URL,
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isFetching: rootState.user.isFetching,
