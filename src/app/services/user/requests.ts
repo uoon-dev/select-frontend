@@ -82,7 +82,7 @@ export const requestSubscription = (): Promise<AxiosResponse<SubscriptionRespons
 export const requestPurchases = (page: number): Promise<AxiosResponse<PurchasesResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/purchases`,
-    data: { page },
+    params: { page },
     method: 'GET',
   }).then((response: AxiosResponse<PurchasesResponse>) =>
     camelize<AxiosResponse<PurchasesResponse>>(response.data, { recursive: true }));
