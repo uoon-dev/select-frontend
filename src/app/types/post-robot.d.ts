@@ -47,7 +47,7 @@ declare module 'post-robot' {
 
   interface Cancellable { cancel: () => void; }
 
-  const PostRobot: {
+  const postRobot: {
     send(
       window: WindowResolverType,
       name: string,
@@ -69,5 +69,5 @@ declare module 'post-robot' {
       handler?: HandlerType,
     ): Cancellable;
   };
-  export default PostRobot;
+  export default postRobot;
 }
