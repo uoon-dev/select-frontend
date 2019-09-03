@@ -51,7 +51,6 @@
 
 .GNBLeft { /* GNB 왼쪽 영역 */
   display: table-cell;
-  padding-left: 5px;
 }
 
 
@@ -296,30 +295,26 @@
             height: var(--gnb_pc_height);
             padding: calc((var(--gnb_pc_height) - 17.5px) / 2) 10px;
           }
-          & .GNB_LinkButton {
-            height: var(--gnb_pc_height);
-            &.GNB_WebLibrary_Button {
-              margin-left: 0;
-            }
-          }
         }
       }
     }
   }
   .GNB_LinkButton {
-    height: 58px;
-    line-height: 58px;
-    margin-top: 0;
-    border: 0!important;
-    font-size: 18px;
+    &:not(.GNB_WebLibrary_Button) {
+      height: var(--gnb_pc_height);
+      line-height: 58px;
+      margin-top: 0;
+      font-size: 18px;
+      border: 0!important;
+    }
+    &.GNB_WebLibrary_Button {
+      margin-top: 16px;
+      padding: 0 14px;
+    }
   }
 }
 
 @media (--minimal-mobile-screen) {
-  .GNBLeft {
-    padding-left: 0;
-  }
-
   .GNBSettingButton {
     padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 8px 0;
   }
