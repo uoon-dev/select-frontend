@@ -238,8 +238,11 @@
   }
 
   &.GNB_WebLibrary_Button {
-    padding: 0 8px;
+    padding: 0;
+    width: 55px;
     margin-left: 10px;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   @nest .androidApp & {
@@ -304,7 +307,7 @@
     }
     &.GNB_WebLibrary_Button {
       margin-top: 16px;
-      padding: 0 14px;
+      width: 67px;
     }
   }
 }
