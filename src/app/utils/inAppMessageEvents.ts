@@ -1,12 +1,12 @@
-import postRobot from 'post-robot';
+import * as PostRobot from 'post-robot';
 
 export const setSendPostRobotEvent = () => {
   const inAppInitEventListener = (e: MessageEvent) => {
     const { platform, version } = e.data;
     if (platform && version) {
-      window.postMessage({ postRobot }, '*');
+      window.postRobot = PostRobot;
+      window.postMessage({ webReady: true }, '*');
     }
-    window.removeEventListener('message', inAppInitEventListener);
   };
 
   window.addEventListener('message', inAppInitEventListener);
