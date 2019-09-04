@@ -21,19 +21,27 @@ declare module 'post-robot' {
     origin: string;
     data: any;
   }
+
+  function send(
+    window: WindowResolverType,
+    name: string,
+    data?: object,
+    options?: any,
+  ): ZalgoPromise<ResponseMessageEvent>;
   interface Sendable {
     send: (name: string, data?: object) => ZalgoPromise<ResponseMessageEvent>;
   }
+  function client(options?: RequestOptionsType): Sendable;
 
   // Server
   // Loosely based on: https://github.com/krakenjs/post-robot/blob/master/src/public/server.js
   type ErrorHandlerType = (err: any) => void;
-  interface HandlerInput {
+
+  type HandlerType = (arg: {
     source: Window;
     origin: string;
     data: object;
-  }
-  type HandlerType = (props: HandlerInput) => void | any | ZalgoPromise<any>;
+  }) => void | any | ZalgoPromise<any>;
 
   interface ServerOptionsType {
     handler?: HandlerType;
@@ -46,28 +54,13 @@ declare module 'post-robot' {
   }
 
   interface Cancellable { cancel: () => void; }
-
-  const postRobot: {
-    send(
-      window: WindowResolverType,
-      name: string,
-      data?: object,
-      options?: any,
-    ): ZalgoPromise<ResponseMessageEvent>;
-
-    client(options?: RequestOptionsType): Sendable;
-
-    listener(
-      options?: ServerOptionsType,
-    ): { on: (name: string, handler: HandlerType) => Cancellable };
-
-    listen(options: ServerOptionsType): Cancellable;
-
-    on(
-      name: string,
-      options: ServerOptionsType | HandlerType,
-      handler?: HandlerType,
-    ): Cancellable;
-  };
-  export default postRobot;
+  function listener(
+    options?: ServerOptionsType,
+  ): { on: (name: string, handler: HandlerType) => Cancellable };
+  function listen(options: ServerOptionsType): Cancellable;
+  function on(
+    name: string,
+    options: ServerOptionsType | HandlerType,
+    handler?: HandlerType,
+  ): Cancellable;
 }
