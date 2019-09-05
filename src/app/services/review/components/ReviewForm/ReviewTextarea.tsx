@@ -6,10 +6,11 @@ export interface ReviewTextareaProps {
   autoFocus: boolean;
   onChange: (event: React.ChangeEvent<any>) => void;
   onClick: (event: React.ChangeEvent<any>) => void;
+  isDisabled: boolean;
 }
 
 export const ReviewTextarea: React.SFC<ReviewTextareaProps> = (props) => {
-  const { content, onChange, autoFocus, onClick } = props;
+  const { content, onChange, autoFocus, onClick, isDisabled } = props;
 
   return (
     <TextareaAutosize
@@ -21,6 +22,7 @@ export const ReviewTextarea: React.SFC<ReviewTextareaProps> = (props) => {
       onChange={onChange}
       onClick={onClick}
       value={content}
+      disabled={isDisabled}
     />
   );
 };

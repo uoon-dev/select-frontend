@@ -20,6 +20,7 @@ interface ReviewFormProps {
   onSubmit: (reviewContent: string, hasSpoiler: boolean) => void;
   onCancel?: () => void;
   checkAuth: () => boolean;
+  isDisabled: boolean;
 }
 
 interface ReviewFormState {
@@ -69,7 +70,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
 
   public render() {
     const { isNoticeOpen, reviewContent, hasSpoiler } = this.state;
-    const { fetchStatus, autoFocus, initialReviewContent, onSubmit, onCancel = () => null } = this.props;
+    const { fetchStatus, autoFocus, initialReviewContent, onSubmit, onCancel = () => null, isDisabled } = this.props;
 
     return (
       <div className="ReviewForm">
@@ -78,6 +79,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
           content={reviewContent}
           onClick={this.checkAuth}
           onChange={this.onChangeReviewContent}
+          isDisabled={isDisabled}
         />
         <MediaQuery maxWidth={840}>
           <div className="ReviewForm_SubInputs">

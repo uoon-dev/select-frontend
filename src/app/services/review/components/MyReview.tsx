@@ -25,6 +25,7 @@ export interface MyReviewProps {
   startEditing: (bookId: number) => void;
   endEditing: (bookId: number) => void;
   checkAuth: () => boolean;
+  isDisabled: boolean;
 }
 
 interface MyReviewState {
@@ -71,7 +72,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
 
   public render() {
     const { isCommentSectionOpen } = this.state;
-    const { bookId, deleteReview, fetchStatus, myReviewFetchStatus, isBeingEdited, checkAuth } = this.props;
+    const { bookId, deleteReview, fetchStatus, myReviewFetchStatus, isBeingEdited, checkAuth, isDisabled } = this.props;
     if (!this.props.review || (!isBeingEdited && !this.props.review.content)) {
       return (
         <ReviewForm
@@ -79,6 +80,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
           fetchStatus={myReviewFetchStatus.content}
           onSubmit={this.submitReview}
           checkAuth={checkAuth}
+          isDisabled={isDisabled}
         />
       );
     }
@@ -145,6 +147,7 @@ export class MyReview extends React.Component<MyReviewProps, MyReviewState> {
             onSubmit={this.submitReview}
             onCancel={() => this.props.endEditing(bookId)}
             checkAuth={checkAuth}
+            isDisabled={isDisabled}
           />
         )}
       </>
