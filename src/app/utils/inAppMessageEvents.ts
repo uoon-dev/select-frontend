@@ -5,7 +5,7 @@ export const setSendPostRobotEvent = () => {
     const { platform, version } = e.data;
     if (platform && version) {
       window.postRobot = PostRobot;
-      window.postMessage({ webReady: true }, '*');
+      window.postMessage({ postRobot: true }, '*');
     }
   };
 
