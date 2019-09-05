@@ -3,6 +3,7 @@ import { connect, Dispatch } from 'react-redux';
 import { RidiSelectState } from 'app/store';
 import { MyReview, MyReviewProps } from './../components/MyReview';
 
+import { selectIsInApp } from 'app/services/environment/selectors';
 import {
   deleteReviewLikeRequest,
   deleteReviewRequest,
@@ -22,7 +23,7 @@ import { Omit } from 'app/types';
 
 export type MyReviewStateProps = Pick<
   MyReviewProps,
-  'review' | 'fetchStatus' | 'myReviewFetchStatus' | 'selectedRating' | 'isBeingEdited'
+  'review' | 'fetchStatus' | 'myReviewFetchStatus' | 'selectedRating' | 'isBeingEdited' | 'isDisabled'
 >;
 
 function mapStateToProps(
@@ -35,6 +36,7 @@ function mapStateToProps(
     myReviewFetchStatus: getMyReviewFetchStatus(state, ownProps),
     selectedRating: getMyRating(state, ownProps),
     isBeingEdited: getMyReviewIsBeingEdited(state, ownProps),
+    isDisabled: !state.user.isLoggedIn && selectIsInApp(state),
   };
 }
 
