@@ -133,6 +133,17 @@ export class OrderHistory extends React.PureComponent<Props> {
     }
   }
 
+  public shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.page !== this.props.page) {
+      const { dispatchLoadOrderHistory, page } = nextProps;
+
+      if (!this.isFetched(page)) {
+        dispatchLoadOrderHistory(page);
+      }
+    }
+    return true;
+  }
+
   public componentWillUnmount() {
     this.props.dispatchClearPurchases();
   }
@@ -141,7 +152,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const { page, orderHistory } = this.props;
 
     const itemCount: number = orderHistory.itemCount ? orderHistory.itemCount : 0;
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage: number = 10;
     return (
       <main
         className={classNames(

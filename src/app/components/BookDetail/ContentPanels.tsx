@@ -6,9 +6,11 @@ import { BookDetailPanel, BookDetailPanelWrapper } from 'app/components/BookDeta
 import { Book } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { EnvironmentState } from 'app/services/environment';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
+import toast from 'app/utils/toast';
 import { ExpandableBookList } from '../ExpandableBookList';
 
 interface BookDetailContentPanelsProps {
@@ -18,6 +20,7 @@ interface BookDetailContentPanelsProps {
 
 interface BookDetailContentPanelsStateProps {
   env: EnvironmentState;
+  isInApp: boolean;
   isLoggedIn: boolean;
   bookDetail?: BookDetailResponse;
   seriesBookList?: Book[];
@@ -30,6 +33,7 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
   const {
     env,
     isLoggedIn,
+    isInApp,
     isMobile,
     bookId,
     bookDetail,
@@ -97,7 +101,9 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
               if (isLoggedIn) {
                 return true;
               }
-              if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+              if (isInApp) {
+                toast.info('로그인 후 이용할 수 있습니다.');
+              } else if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
                 window.location.replace(`${ env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
               }
               return false;
@@ -117,6 +123,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailContentPane
 
   return {
     isLoggedIn: state.user.isLoggedIn,
+    isInApp: selectIsInApp(state),
     bookDetail,
     env: state.environment,
     seriesBookList: !!bookDetail ? bookDetail.seriesBooks : undefined,

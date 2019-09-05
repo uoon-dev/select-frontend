@@ -2,22 +2,32 @@
   "short_name": "리디셀렉트",
   "name": "리디셀렉트",
   "start_url": "/home",
-  "background_color": "#17202e",
-  "theme_color": "#17202e",
+  "background_color": "#17A8BE",
+  "theme_color": "#17A8BE",
   "display": "browser",
   "icons": [
     {
-      "src": "select-android-chrome-192x192.png",
+      "src": "android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "android-chrome-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "android-chrome-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "select-android-chrome-96x96.png",
+      "src": "android-chrome-96x96.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "select-android-chrome-48x48.png",
+      "src": "android-chrome-48x48.png",
       "type": "image/png",
       "sizes": "48x48"
     }

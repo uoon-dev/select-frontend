@@ -206,6 +206,12 @@
   fill: #fff;
 }
 
+@media (--minimal-mobile-screen) {
+  .GNBSearchButton {
+    padding: 13px 8px;
+  }
+}
+
 @media (--mobile-screen) {
   .GNBSearchWrapper.GNBSearchWrapper-typeBlock {
     position: absolute;

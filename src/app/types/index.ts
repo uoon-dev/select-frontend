@@ -1,4 +1,5 @@
 import { FetchStatusFlag } from 'app/constants';
+import * as PostRobot from 'post-robot';
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type Subtract<T, K> = Omit<T, keyof K>;
@@ -28,6 +29,7 @@ export interface Paginated<Item> {
 
 declare global {
   interface Window {
+    postRobot: typeof PostRobot;
     isLoginRequired: () => boolean;
     inApp: {
       mySelectBookInserted: (bookIds: string) => void
