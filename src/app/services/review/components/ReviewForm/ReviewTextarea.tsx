@@ -22,7 +22,7 @@ export const ReviewTextarea: React.SFC<ReviewTextareaProps> = (props) => {
       onChange={onChange}
       onClick={onClick}
       value={content}
-      disabled={isDisabled}
+      readOnly={isDisabled}
     />
   );
 };
