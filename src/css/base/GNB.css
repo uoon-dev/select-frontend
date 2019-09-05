@@ -242,7 +242,6 @@
     width: 55px;
     margin-left: 10px;
     text-align: center;
-    box-sizing: border-box;
   }
 
   @nest .androidApp & {
