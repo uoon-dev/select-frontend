@@ -23,7 +23,7 @@
   margin: 0;
   padding: 10px 8px;
   list-style: none;  
-  &::after {
+  &:not(:last-child)::after {
     position: absolute;
     bottom: 0;
     right: 20px;
@@ -138,7 +138,7 @@
     width: var(--min-content-width);
     margin: 0 auto;
     padding: 10px 0;
-    &::after {
+    &:not(:last-child)::after {
       position: absolute;
       bottom: 0;
       right: -14px;

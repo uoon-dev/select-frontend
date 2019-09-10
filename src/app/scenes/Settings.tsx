@@ -96,7 +96,7 @@ export class Settings extends React.PureComponent<SettingProps> {
       SELECT_URL: BASE_URL_RIDISELECT,
     } = environment;
 
-    return (
+    return !isIosInApp ? (
       <SettingMenu title={'개인'} icon={'user'} key="Menus About User">
         <SettingMenuItem
           href="https://ridihelp.zendesk.com/hc/ko/requests/new"
@@ -123,7 +123,7 @@ export class Settings extends React.PureComponent<SettingProps> {
           로그아웃
         </SettingMenuItem>
       </SettingMenu>
-    );
+    ) : null;
   }
 
   private renderMenus() {
