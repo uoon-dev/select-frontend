@@ -1030,10 +1030,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@ridi/event-tracker@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.5.8.tgz#0bfd083f3a995dd113da18f32b0e7f687ae254b0"
-  integrity sha512-2BH/2NuoaGTZJN+9PZBAfwO/ZpFZM6MiLorpNvd6HOt6JVMqDUePPu7GvR2neAs/CC1F9H7bJA5bomHRyTM9pQ==
+"@ridi/event-tracker@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.7.1.tgz#6dd388928700d538796d031493a7e6b008d1b0c5"
+  integrity sha512-TvJ4yDzEwTGFios5Z+vVoaFlxhFNSGjcfQ5LFB0YE/c+w8tdQlNYT0RMS0MPykEZWB5nVrqm8EwV3dj7EKaJ5g==
   dependencies:
     "@types/google.analytics" "0.0.39"
     js-cookie "^2.2.0"
