@@ -12,7 +12,7 @@ module.exports = {
   testRegex: '(/__tests__/.*|(\\.|/|__)(test|spec))\\.(jsx?|tsx?)$',
   moduleFileExtensions: ['js', 'ts', 'tsx'],
   transformIgnorePatterns: [
-    'node_modules/(?!lodash-es/)',
+    'node_modules/(?!lodash-es|@ridi\/rsg/)',
   ],
   collectCoverageFrom: [
     '**/*.{ts,tsx}',

@@ -20,6 +20,7 @@
     height: var(--pc-spotlight-section-height);
     width: 100%;
   }
+
   & .InlineHorizontalBookList {
     padding-bottom: 30px;
   }
