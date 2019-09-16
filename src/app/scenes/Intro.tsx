@@ -5,18 +5,21 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Icon } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
+import { moveToLogin } from 'app/utils/utils';
 
 interface IntroStateProps {
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
   uId: string;
+  isInApp: boolean;
   BASE_URL_STORE: string;
   BASE_URL_STATIC: string;
   BASE_URL_RIDISELECT: string;
@@ -144,6 +147,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   private renderSubscribeButton(HTMLId?: string) {
     const {
+      isInApp,
       isLoggedIn,
       BASE_URL_STORE,
       hasSubscribedBefore,
@@ -151,14 +155,17 @@ export class Intro extends React.Component<Props, IntroPageState> {
     } = this.props;
 
     return (
-      <a
-        id={HTMLId}
-        className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-        href={
-          isLoggedIn
-            ? `${BASE_URL_STORE}/select/payments`
-            : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
-        }
+      <Button
+        color="blue"
+        size="large"
+        className="Section_Button SectionMain_Button"
+        onClick={() => {
+          if (isLoggedIn) {
+            window.location.replace(`${BASE_URL_STORE}/select/payments`);
+            return;
+          }
+          moveToLogin(isInApp, `${BASE_URL_STORE}/select/payments`);
+        }}
         ref={(button: HTMLElement | null) =>
           this.sectionMainButton.push(button)
         }
@@ -168,7 +175,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
           '리디셀렉트 구독하기'
         }
         <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-      </a>
+      </Button>
     );
   }
 
@@ -359,6 +366,7 @@ const mapStateToProps = (rootState: RidiSelectState): Omit<IntroStateProps, 'onL
   return {
     uId: rootState.user.uId,
     isLoggedIn: rootState.user.isLoggedIn,
+    isInApp: selectIsInApp(rootState),
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     BASE_URL_STATIC: rootState.environment.SELECT_URL,
     BASE_URL_STORE: rootState.environment.STORE_URL,

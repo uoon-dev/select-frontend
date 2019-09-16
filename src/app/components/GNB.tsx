@@ -18,6 +18,7 @@ import {
   selectIsInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
+import { moveToLogin } from 'app/utils/utils';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
@@ -125,21 +126,17 @@ export class GNB extends React.Component<Props> {
 
   private renderLoginButton() {
     const {
-      BASE_URL_STORE,
       isInApp,
     } = this.props;
 
-    if (isInApp) { return null; }
-
     return (
-      <a
-        href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-          window.location.href
-        }`}
+      <button
+        type="button"
+        onClick={() => moveToLogin(isInApp)}
         className="GNB_LinkButton"
       >
         로그인
-      </a>
+      </button>
     );
   }
 
