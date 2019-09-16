@@ -25,6 +25,5 @@ environmentReducer.on(Actions.setAppEnvironment, (state, { platform, version }) 
   draftState.platform.isIos = isIos;
   draftState.platform.isAndroid = isAndroid;
   draftState.platform.isRidibooks = isIos || isAndroid;
-  draftState.platform.isPostMessageAvailable = true;
   draftState.platform.appVersion = version;
 }));
