@@ -69,11 +69,12 @@ export class BookDetail extends React.Component<Props> {
     this.fetchBookDetailPageData(this.props);
     requestAnimationFrame(forceCheck);
   }
-  public UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.bookId !== nextProps.bookId) {
-      this.fetchBookDetailPageData(nextProps);
+
+  public componentDidUpdate(prevProps: Props) {
+    if (this.props.bookId !== prevProps.bookId) {
+      this.fetchBookDetailPageData(this.props);
     } else {
-      this.fetchBookDetailAdditionalData(nextProps);
+      this.fetchBookDetailAdditionalData(this.props);
     }
   }
 
