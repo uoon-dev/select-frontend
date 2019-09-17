@@ -24,5 +24,6 @@ export default {
     isIE: /msie|trident\//i.test(window.navigator.userAgent),
     isFirefox: /firefox\//i.test(window.navigator.userAgent),
     isRidibooks: /ridibooks\/[0-9]+\.?[0-9]*/i.test(window.navigator.userAgent),
+    appVersion: '',
   },
 };

@@ -1,5 +1,4 @@
 import { Button, Icon, Popup } from '@ridi/rsg';
-import * as classNames from 'classnames';
 import * as React from 'react';
 
 export interface UnsubscribeWarningPopupProps {
