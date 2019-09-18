@@ -47,7 +47,7 @@ type Props = IntroStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Intro extends React.Component<Props, IntroPageState> {
   private sections: Array<HTMLElement | null> = [];
-  private sectionMainButton: Array<HTMLElement | null> = [];
+  private sectionMainButton: HTMLElement | null = null;
   private sectionsOffsetTops: number[] = [];
 
   private throttledResizeFunction: EventListener = throttle(
@@ -82,8 +82,8 @@ export class Intro extends React.Component<Props, IntroPageState> {
       ...windowSize,
       distanceToStartPointFromEdge: (windowSize.height / 5) * 3,
       sectionMainButtonEndPoint:
-        this.sectionMainButton[0]!.offsetTop +
-        this.sectionMainButton[0]!.offsetHeight,
+        this.sectionMainButton!.offsetTop +
+        this.sectionMainButton!.offsetHeight,
     };
   }
 
@@ -145,7 +145,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
     window.addEventListener('scroll', this.throttledScrollFunction);
   }
 
-  private renderSubscribeButton(HTMLId?: string) {
+  private renderSubscribeButton(isFixedButtonTrigger?: boolean) {
     const {
       isInApp,
       isLoggedIn,
@@ -155,10 +155,20 @@ export class Intro extends React.Component<Props, IntroPageState> {
     } = this.props;
 
     return (
-      <Button
-        color="blue"
-        size="large"
-        className="Section_Button SectionMain_Button"
+      <button
+        type="button"
+        className={classNames(
+          'RUIButton',
+          'RUIButton-color-blue',
+          'RUIButton-size-large',
+          'Section_Button',
+          'SectionMain_Button',
+        )}
+        ref={(button: HTMLElement | null) => {
+          if (!isFixedButtonTrigger) { return; }
+          this.sectionMainButton = button;
+          }
+        }
         onClick={() => {
           if (isLoggedIn) {
             window.location.replace(`${BASE_URL_STORE}/select/payments`);
@@ -166,16 +176,13 @@ export class Intro extends React.Component<Props, IntroPageState> {
           }
           moveToLogin(isInApp, `${BASE_URL_STORE}/select/payments`);
         }}
-        ref={(button: HTMLElement | null) =>
-          this.sectionMainButton.push(button)
-        }
       >
         {!hasSubscribedBefore ?
           FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기' :
           '리디셀렉트 구독하기'
         }
         <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-      </Button>
+      </button>
     );
   }
 
@@ -193,10 +200,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   public render() {
     const {
-      BASE_URL_STORE,
       FREE_PROMOTION_MONTHS,
-      isLoggedIn,
-      hasSubscribedBefore,
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
     return (
@@ -235,7 +239,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               <br />
               언제든 원클릭으로 해지
             </p>
-            {this.renderSubscribeButton('SectionMain_Button')}
+            {this.renderSubscribeButton(true)}
           </div>
         </section>
         <section
