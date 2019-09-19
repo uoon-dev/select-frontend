@@ -1,6 +1,6 @@
 import { setFixedScrollToTop } from 'app/utils/utils';
 import * as React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 interface ScrollManagerProps {
   location: Location;

@@ -1,6 +1,6 @@
 import { FetchErrorFlag } from 'app/constants';
+import { replace } from 'connected-react-router';
 import * as qs from 'qs';
-import { replace } from 'react-router-redux';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
