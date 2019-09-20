@@ -129,6 +129,11 @@ export class GNB extends React.Component<Props> {
       isInApp,
     } = this.props;
 
+    if (isInApp) {
+      // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우거나 버튼을 숨김처리.
+      return null;
+    }
+
     return (
       <button
         type="button"
