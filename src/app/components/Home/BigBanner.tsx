@@ -69,7 +69,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
     });
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.updateClientWidth();
   }
 

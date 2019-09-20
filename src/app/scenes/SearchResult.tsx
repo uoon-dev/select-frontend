@@ -78,7 +78,7 @@ export class SearchResult extends React.Component<Props, State> {
     );
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.props.dispatchUpdateGNBSearchActiveType(GNBSearchActiveType.block);
     const queryString: QueryString = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
     this.unlistenToHistory = this.props.history.listen((location) => {
