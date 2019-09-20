@@ -106,7 +106,7 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
                  // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우는 처리.
                 toast.info('로그인 후 이용할 수 있습니다.');
               } else if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-                moveToLogin(isInApp);
+                moveToLogin();
               }
               return false;
             }}

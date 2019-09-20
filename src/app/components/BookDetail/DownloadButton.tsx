@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { BookOwnershipStatus } from 'app/services/book';
 import { EnvironmentState } from 'app/services/environment';
 import { getIsAndroidInApp, selectIsInApp } from 'app/services/environment/selectors';
@@ -13,7 +13,6 @@ import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { moveToLogin } from 'app/utils/utils';
-import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
   bookId: number;
@@ -107,7 +106,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         size="large"
         spinner={shouldDisplaySpinnerOnDownload}
         className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        onClick={() => moveToLogin(isInApp, paymentsUrl)}
+        onClick={() => moveToLogin(paymentsUrl)}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>

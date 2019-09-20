@@ -137,7 +137,7 @@ export class GNB extends React.Component<Props> {
     return (
       <button
         type="button"
-        onClick={() => moveToLogin(isInApp)}
+        onClick={() => moveToLogin()}
         className="GNB_LinkButton"
       >
         로그인
