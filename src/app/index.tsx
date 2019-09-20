@@ -22,7 +22,7 @@ initializeScrollEnd();
 
 setSendPostRobotEvent();
 
-class App extends React.Component<{}, {}> {
+class App extends React.Component {
   public componentDidMount() {
     fetchUserInfo().then((user) => {
       store.dispatch(Actions.initializeUser({ userDTO: user }));

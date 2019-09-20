@@ -19,7 +19,7 @@ export class ScrollManager extends React.Component<ScrollManagerProps> {
     });
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.scrollToTopSetter();
   }
 
