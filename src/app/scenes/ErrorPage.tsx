@@ -17,14 +17,16 @@ type Props = ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class ErrorPage extends React.Component<Props> {
   public componentDidUpdate() {
+    const { responseData, requestMaintenanceData } = this.props;
+
     if (
-      !this.props.responseData ||
-      this.props.responseData.status !== ErrorStatus.MAINTENANCE ||
-      (this.props.responseData.period && this.props.responseData.unavailableService)
+      !responseData ||
+      responseData.status !== ErrorStatus.MAINTENANCE ||
+      (responseData.period && responseData.unavailableService)
     ) {
       return;
     }
-    this.props.requestMaintenanceData();
+    requestMaintenanceData();
   }
 
   public render() {
