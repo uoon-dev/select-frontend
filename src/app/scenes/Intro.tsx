@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Button, Icon } from '@ridi/rsg';
+import { Icon } from '@ridi/rsg';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
@@ -19,7 +19,6 @@ interface IntroStateProps {
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
   uId: string;
-  isInApp: boolean;
   BASE_URL_STORE: string;
   BASE_URL_STATIC: string;
   BASE_URL_RIDISELECT: string;
@@ -147,7 +146,6 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   private renderSubscribeButton(isFixedButtonTrigger?: boolean) {
     const {
-      isInApp,
       isLoggedIn,
       BASE_URL_STORE,
       hasSubscribedBefore,
@@ -174,7 +172,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
             window.location.replace(`${BASE_URL_STORE}/select/payments`);
             return;
           }
-          moveToLogin(isInApp, `${BASE_URL_STORE}/select/payments`);
+          moveToLogin(`${BASE_URL_STORE}/select/payments`);
         }}
       >
         {!hasSubscribedBefore ?
@@ -370,7 +368,6 @@ const mapStateToProps = (rootState: RidiSelectState): Omit<IntroStateProps, 'onL
   return {
     uId: rootState.user.uId,
     isLoggedIn: rootState.user.isLoggedIn,
-    isInApp: selectIsInApp(rootState),
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     BASE_URL_STATIC: rootState.environment.SELECT_URL,
     BASE_URL_STORE: rootState.environment.STORE_URL,

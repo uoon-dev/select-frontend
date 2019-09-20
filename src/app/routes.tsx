@@ -34,6 +34,7 @@ import { RoutePaths } from 'app/constants';
 import {
   ConnectedPrivateRoute,
   ConnectedScrollManager,
+  RouteBlockLevel,
 } from 'app/hocs';
 import { RidiSelectState } from 'app/store';
 import { selectIsInApp } from './services/environment/selectors';
@@ -41,6 +42,7 @@ import { selectIsInApp } from './services/environment/selectors';
 export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
+  isLoggedIn: boolean;
   isSubscribing: boolean;
   errorResponseState?: ErrorResponseStatus;
 }
@@ -119,19 +121,22 @@ export const Routes: React.SFC<Props> = (props) => {
             component={ConnectedBookDetail}
             {...props}
           />
-          <Route
+          <ConnectedPrivateRoute
             path={RoutePaths.SETTING}
             component={ConnectedSetting}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
-          <Route
+          <ConnectedPrivateRoute
             path={RoutePaths.ORDER_HISTORY}
             component={ConnectedOrderHistory}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
-          <Route
+          <ConnectedPrivateRoute
             path={RoutePaths.MY_SELECT_HISTORY}
             component={ConnectedMySelectHistory}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
           <Route
@@ -163,6 +168,7 @@ export const Routes: React.SFC<Props> = (props) => {
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
+            routeBlockLevel={RouteBlockLevel.SUBSCRIBED}
             {...props}
           />
           <Route
@@ -177,6 +183,7 @@ export const Routes: React.SFC<Props> = (props) => {
 };
 
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
+  isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
   isFetching: rootState.user.isFetching,
   isSubscribing: rootState.user.isSubscribing,

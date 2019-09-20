@@ -1,4 +1,5 @@
 import { flatMap } from 'lodash-es';
+import { selectIsInApp } from './../services/environment/selectors';
 
 import {
   authorKeys,
@@ -53,12 +54,14 @@ export function getDTOAuthorsCount(authors: BookAuthors): number {
   return flatMap(authors, (value) => value).length;
 }
 
-export function moveToLogin(isInApp: boolean, additionalReturnUrl?: string) {
-  if (isInApp) {
+export function moveToLogin(additionalReturnUrl?: string) {
+  const { platform, STORE_URL } = store.getState().environment;
+
+  if (platform.isRidibooks) {
     sendPostRobotInappLogin();
     return;
   }
-  const { STORE_URL } = store.getState().environment;
+
   const returnUrl = additionalReturnUrl ? additionalReturnUrl : window.location.href;
 
   window.location.replace(`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ returnUrl }`);
