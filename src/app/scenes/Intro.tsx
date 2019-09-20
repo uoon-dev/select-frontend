@@ -5,18 +5,21 @@ import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Icon } from '@ridi/rsg';
+import { Button, Icon } from '@ridi/rsg';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';
 import { Actions as CommonUIActions, FooterTheme, GNBTransparentType } from 'app/services/commonUI';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
+import { moveToLogin } from 'app/utils/utils';
 
 interface IntroStateProps {
   hasSubscribedBefore: boolean;
   isLoggedIn: boolean;
   uId: string;
+  isInApp: boolean;
   BASE_URL_STORE: string;
   BASE_URL_STATIC: string;
   BASE_URL_RIDISELECT: string;
@@ -44,7 +47,7 @@ type Props = IntroStateProps & OwnProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Intro extends React.Component<Props, IntroPageState> {
   private sections: Array<HTMLElement | null> = [];
-  private sectionMainButton: Array<HTMLElement | null> = [];
+  private sectionMainButton: HTMLElement | null = null;
   private sectionsOffsetTops: number[] = [];
 
   private throttledResizeFunction: EventListener = throttle(
@@ -79,8 +82,8 @@ export class Intro extends React.Component<Props, IntroPageState> {
       ...windowSize,
       distanceToStartPointFromEdge: (windowSize.height / 5) * 3,
       sectionMainButtonEndPoint:
-        this.sectionMainButton[0]!.offsetTop +
-        this.sectionMainButton[0]!.offsetHeight,
+        this.sectionMainButton!.offsetTop +
+        this.sectionMainButton!.offsetHeight,
     };
   }
 
@@ -142,8 +145,9 @@ export class Intro extends React.Component<Props, IntroPageState> {
     window.addEventListener('scroll', this.throttledScrollFunction);
   }
 
-  private renderSubscribeButton(HTMLId?: string) {
+  private renderSubscribeButton(isFixedButtonTrigger?: boolean) {
     const {
+      isInApp,
       isLoggedIn,
       BASE_URL_STORE,
       hasSubscribedBefore,
@@ -151,24 +155,34 @@ export class Intro extends React.Component<Props, IntroPageState> {
     } = this.props;
 
     return (
-      <a
-        id={HTMLId}
-        className="Section_Button RUIButton RUIButton-color-blue RUIButton-size-large SectionMain_Button"
-        href={
-          isLoggedIn
-            ? `${BASE_URL_STORE}/select/payments`
-            : `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${BASE_URL_STORE}/select/payments`
+      <button
+        type="button"
+        className={classNames(
+          'RUIButton',
+          'RUIButton-color-blue',
+          'RUIButton-size-large',
+          'Section_Button',
+          'SectionMain_Button',
+        )}
+        ref={(button: HTMLElement | null) => {
+          if (!isFixedButtonTrigger) { return; }
+          this.sectionMainButton = button;
+          }
         }
-        ref={(button: HTMLElement | null) =>
-          this.sectionMainButton.push(button)
-        }
+        onClick={() => {
+          if (isLoggedIn) {
+            window.location.replace(`${BASE_URL_STORE}/select/payments`);
+            return;
+          }
+          moveToLogin(isInApp, `${BASE_URL_STORE}/select/payments`);
+        }}
       >
         {!hasSubscribedBefore ?
           FREE_PROMOTION_MONTHS + '개월 무료로 읽어보기' :
           '리디셀렉트 구독하기'
         }
         <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-      </a>
+      </button>
     );
   }
 
@@ -186,10 +200,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
 
   public render() {
     const {
-      BASE_URL_STORE,
       FREE_PROMOTION_MONTHS,
-      isLoggedIn,
-      hasSubscribedBefore,
     } = this.props;
     const { isLoaded, currentSection, buttonFixed } = this.state;
     return (
@@ -228,7 +239,7 @@ export class Intro extends React.Component<Props, IntroPageState> {
               <br />
               언제든 원클릭으로 해지
             </p>
-            {this.renderSubscribeButton('SectionMain_Button')}
+            {this.renderSubscribeButton(true)}
           </div>
         </section>
         <section
@@ -359,6 +370,7 @@ const mapStateToProps = (rootState: RidiSelectState): Omit<IntroStateProps, 'onL
   return {
     uId: rootState.user.uId,
     isLoggedIn: rootState.user.isLoggedIn,
+    isInApp: selectIsInApp(rootState),
     hasSubscribedBefore: rootState.user.hasSubscribedBefore,
     BASE_URL_STATIC: rootState.environment.SELECT_URL,
     BASE_URL_STORE: rootState.environment.STORE_URL,

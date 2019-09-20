@@ -12,6 +12,7 @@ import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
+import { moveToLogin } from 'app/utils/utils';
 import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
@@ -100,15 +101,13 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
       </Button>
     );
   } else if (!isLoggedIn) {
-    const paymentsWithAuthorizeUrl = `${BASE_URL_STORE}/account/oauth-authorize?fallback=signup&return_url=${paymentsUrl}`;
     return (
       <Button
         color="blue"
         size="large"
         spinner={shouldDisplaySpinnerOnDownload}
         className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        component="a"
-        href={paymentsWithAuthorizeUrl}
+        onClick={() => moveToLogin(isInApp, paymentsUrl)}
       >
         {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
       </Button>

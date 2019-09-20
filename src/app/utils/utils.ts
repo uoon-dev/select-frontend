@@ -7,6 +7,8 @@ import {
   BookAuthor,
   BookAuthors,
 } from 'app/services/book';
+import { store } from 'app/store';
+import { sendPostRobotInappLogin } from 'app/utils/inAppMessageEvents';
 
 export const setFixedScrollToTop = (isFixed: boolean) => {
   if (isFixed) {
@@ -49,4 +51,15 @@ export const stringifyAuthors = (authors: BookAuthors, authorLimitCount?: number
 
 export function getDTOAuthorsCount(authors: BookAuthors): number {
   return flatMap(authors, (value) => value).length;
+}
+
+export function moveToLogin(isInApp: boolean, additionalReturnUrl?: string) {
+  if (isInApp) {
+    sendPostRobotInappLogin();
+    return;
+  }
+  const { STORE_URL } = store.getState().environment;
+  const returnUrl = additionalReturnUrl ? additionalReturnUrl : window.location.href;
+
+  window.location.replace(`${ STORE_URL }/account/oauth-authorize?fallback=login&return_url=${ returnUrl }`);
 }
