@@ -18,15 +18,17 @@ const refreshTokenInstance = createRefreshTokenInstance({
   baseURL: env.ACCOUNT_API,
 });
 
-function isMaintenance({ response }: AxiosError) {
-  return response && response.data && response.data.status === ErrorStatus.MAINTENANCE;
+function isNotMaintenance({ response }: AxiosError) {
+  return response
+    ? response.status !== 503 || response.data && response.data.status !== ErrorStatus.MAINTENANCE
+    : false;
 }
 
 axiosRetry(instance, {
   retries: 3,
   retryDelay: (retryNumber = 0) => 1000 * (3 ** retryNumber) + Math.floor(1000 * Math.random()),
   retryCondition(error: AxiosError) {
-    return isNetworkOrIdempotentRequestError(error) && !isMaintenance(error);
+    return isNetworkOrIdempotentRequestError(error) && isNotMaintenance(error);
   },
 });
 
