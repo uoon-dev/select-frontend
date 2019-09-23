@@ -19,7 +19,12 @@ export const MaintenanceContext: React.FunctionComponent<MaintenanceContextProps
         <h3 className="MaintenanceSubTitle">점검 중 이용이 제한되는 서비스</h3>
         <ul className="MaintenanceDescription_ServiceList">
           {responseData.unavailableService.map((service) => (
-            <li className="MaintenanceDescription_ServiceItem">{service}</li>
+            <li
+              className="MaintenanceDescription_ServiceItem"
+              key={service}
+            >
+              {service}
+            </li>
           ))}
         </ul>
       </div>
