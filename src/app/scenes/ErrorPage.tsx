@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { HelmetWithTitle } from 'app/components';
 import { ErrorContext } from 'app/components/ErrorContext';
 import { MaintenanceContext } from 'app/components/MaintenanceContext';
-import { ErrorStatus, PageTitleText } from 'app/constants';
+import { ErrorStatus, FetchStatusFlag, PageTitleText } from 'app/constants';
 import { Actions as ServiceStatusActions, ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 
 interface ErrorPageStateProps {
+  fetchStatus: FetchStatusFlag;
   responseState?: ErrorResponseStatus;
   responseData?: ErrorResponseData;
 }
@@ -16,9 +17,8 @@ interface ErrorPageStateProps {
 type Props = ErrorPageStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class ErrorPage extends React.Component<Props> {
-  public componentDidUpdate() {
+  private getMaintenanceData() {
     const { responseData, requestMaintenanceData } = this.props;
-
     if (
       !responseData ||
       responseData.status !== ErrorStatus.MAINTENANCE ||
@@ -29,20 +29,39 @@ export class ErrorPage extends React.Component<Props> {
     requestMaintenanceData();
   }
 
-  public render() {
+  private renderErrorContent() {
     const {
+      fetchStatus,
       responseState,
       responseData,
       resetErrorState,
     } = this.props;
 
+    if (fetchStatus === FetchStatusFlag.FETCHING) {
+      return null;
+    }
+    return responseData && responseData.period && responseData.unavailableService ? (
+        <MaintenanceContext responseData={responseData} />
+     ) : (
+      <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
+    );
+  }
+  public componentDidMount() {
+    if (window.inApp && window.inApp.initialRendered) {
+      window.inApp.initialRendered();
+    }
+    this.getMaintenanceData();
+  }
+
+  public componentWillUpdate() {
+    this.getMaintenanceData();
+  }
+
+  public render() {
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.ERROR} />
-        {responseData && responseData.period && responseData.unavailableService ?
-          <MaintenanceContext responseData={responseData} /> :
-          <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
-        }
+        {this.renderErrorContent()}
       </main>
     );
   }
@@ -50,6 +69,7 @@ export class ErrorPage extends React.Component<Props> {
 
 const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => {
   return {
+    fetchStatus: state.serviceStatus.fetchStatus,
     responseState: state.serviceStatus.errorResponseState,
     responseData: state.serviceStatus.errorResponseData,
   };
