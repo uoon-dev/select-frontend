@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { HelmetWithTitle } from 'app/components';
 import { ErrorContext } from 'app/components/ErrorContext';
 import { MaintenanceContext } from 'app/components/MaintenanceContext';
-import { ErrorStatus, PageTitleText } from 'app/constants';
+import { ErrorStatus, FetchStatusFlag, PageTitleText } from 'app/constants';
 import { Actions as ServiceStatusActions, ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 
 interface ErrorPageStateProps {
+  fetchStatus: FetchStatusFlag;
   responseState?: ErrorResponseStatus;
   responseData?: ErrorResponseData;
 }
@@ -27,6 +28,24 @@ export class ErrorPage extends React.Component<Props> {
     }
     requestMaintenanceData();
   }
+
+  private renderErrorContent() {
+    const {
+      fetchStatus,
+      responseState,
+      responseData,
+      resetErrorState,
+    } = this.props;
+
+    if (fetchStatus === FetchStatusFlag.FETCHING) {
+      return null;
+    }
+    return responseData && responseData.period && responseData.unavailableService ? (
+        <MaintenanceContext responseData={responseData} />
+     ) : (
+      <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
+    );
+  }
   public componentDidMount() {
     if (window.inApp && window.inApp.initialRendered) {
       window.inApp.initialRendered();
@@ -39,19 +58,10 @@ export class ErrorPage extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      responseState,
-      responseData,
-      resetErrorState,
-    } = this.props;
-
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.ERROR} />
-        {responseData && responseData.period && responseData.unavailableService ?
-          <MaintenanceContext responseData={responseData} /> :
-          <ErrorContext responseState={responseState} resetErrorState={resetErrorState} />
-        }
+        {this.renderErrorContent()}
       </main>
     );
   }
@@ -59,6 +69,7 @@ export class ErrorPage extends React.Component<Props> {
 
 const mapStateToProps = (state: RidiSelectState): ErrorPageStateProps => {
   return {
+    fetchStatus: state.serviceStatus.fetchStatus,
     responseState: state.serviceStatus.errorResponseState,
     responseData: state.serviceStatus.errorResponseData,
   };
