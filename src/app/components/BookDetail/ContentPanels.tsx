@@ -11,6 +11,7 @@ import { ConnectedReviews } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
+import { moveToLogin } from 'app/utils/utils';
 import { ExpandableBookList } from '../ExpandableBookList';
 
 interface BookDetailContentPanelsProps {
@@ -101,10 +102,11 @@ const BookDetailContentPanels: React.FunctionComponent<Props> = (props) => {
               if (isLoggedIn) {
                 return true;
               }
-              if (isInApp) {
+              if (isInApp && !env.platform.appVersion) {
+                 // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우는 처리.
                 toast.info('로그인 후 이용할 수 있습니다.');
               } else if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
-                window.location.replace(`${ env.STORE_URL }/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
+                moveToLogin();
               }
               return false;
             }}

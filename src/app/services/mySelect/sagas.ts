@@ -112,6 +112,10 @@ export function* watchAddMySelect() {
     const state: RidiSelectState = yield select((s) => s);
     const { bookId } = payload!;
     try {
+      // bookId가 없을 경우, Catch문으로 바로 Throw.
+      if (!bookId) {
+        throw new Error();
+      }
       const response: UserRidiSelectBookResponse = yield call(requestAddMySelect, bookId);
       yield put(Actions.addMySelectSuccess({ userRidiSelectResponse: response }));
       yield put(BookActions.loadBookOwnershipRequest({ bookId }));

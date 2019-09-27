@@ -3,11 +3,8 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Icon } from '@ridi/rsg';
 import { HelmetWithTitle } from 'app/components';
 import {
-  CardIconComponent,
-  CoinBoldComponent,
   SettingMenu,
   SettingMenuItem,
 } from 'app/components/Settings/SettingMenu';
@@ -39,24 +36,41 @@ type SettingProps = SettingStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class Settings extends React.PureComponent<SettingProps> {
 
-  private renderPurchaseMenus() {
+  // 도서/리뷰 메뉴
+  private renderSubscriptionMenus() {
+    const { isIosInApp } = this.props;
+    const { STORE_URL } = this.props.environment;
+    return (
+      <SettingMenu title={'도서 / 리뷰'} icon={'book'} key="Menus About Books">
+        <SettingMenuItem linkComponent={Link} to="/my-select-history" key="ReadHistory">
+          도서 이용 내역
+        </SettingMenuItem>
+        <SettingMenuItem
+          key="ManageReview"
+          href={`${STORE_URL}/review/`}
+          target="_self"
+          renderCondition={!isIosInApp}
+        >
+          내 리뷰 관리
+        </SettingMenuItem>
+      </SettingMenu>
+    );
+  }
+
+  // 구독/결제 메뉴
+  private renderBooksMenus() {
     const { subscriptionState, isIosInApp } = this.props;
     return (
-      <SettingMenu key="Menus About Purchase">
+      <SettingMenu title={'구독 / 결제'} icon={'card'} key="Menus About Subscription">
         <SettingMenuItem
           linkComponent={Link}
           to="/manage-subscription"
-          key="ManageSubscription"
+          key="ManageSubscriptions"
           renderCondition={!!subscriptionState}
         >
-          <Icon
-            name="invoice_1"
-            className="SettingMenu_Icon SettingMenu_Invoice_Icon"
-          />
           구독 관리
         </SettingMenuItem>
         <SettingMenuItem linkComponent={Link} to="/order-history" key="PaymentHistory">
-          <CoinBoldComponent className="SettingMenu_Icon SettingMenu_Payment_Icon" />
           결제 내역
         </SettingMenuItem>
         <SettingMenuItem
@@ -68,70 +82,28 @@ export class Settings extends React.PureComponent<SettingProps> {
           }
           key="ManageCard"
         >
-          <CardIconComponent className="SettingMenu_Icon SettingMenu_Card_Icon" />
           셀렉트 카드 관리
         </SettingMenuItem>
       </SettingMenu>
     );
   }
 
-  private renderUsingHistoryMenus() {
-    const {
-      environment,
-      isIosInApp,
-    } = this.props;
-    const {
-      STORE_URL: BASE_URL_STORE,
-    } = environment;
-
-    return (
-      <SettingMenu key="Menus About UsingHistory">
-        <SettingMenuItem linkComponent={Link} to="/my-select-history" key="ReadHistory">
-          <Icon
-            name="history_1"
-            className="SettingMenu_Icon SettingMenu_History_Icon"
-          />
-          도서 이용 내역
-        </SettingMenuItem>
-        <SettingMenuItem
-          href={`${BASE_URL_STORE}/review/`}
-          target="_self"
-          renderCondition={!isIosInApp}
-        >
-          <Icon
-            name="pencil_2"
-            className="SettingMenu_Icon SettingMenu_Review_Icon"
-            key="ManageReview"
-          />
-          내 리뷰 관리
-        </SettingMenuItem>
-      </SettingMenu>
-    );
-  }
-
-  private renderSettingServiceMenus() {
-    const {
-      environment,
-      isInApp,
-      isIosInApp,
-    } = this.props;
+  // 개인 메뉴
+  private renderUserMenus() {
+    const { isIosInApp, environment, isInApp } = this.props;
     const {
       STORE_URL: BASE_URL_STORE,
       SELECT_URL: BASE_URL_RIDISELECT,
     } = environment;
 
-    return (
-      <SettingMenu key="Menus About SettingService">
+    return !isIosInApp ? (
+      <SettingMenu title={'개인'} icon={'user'} key="Menus About User">
         <SettingMenuItem
           href="https://ridihelp.zendesk.com/hc/ko/requests/new"
           target="_blank"
           renderCondition={!isIosInApp}
           key="FAQ"
         >
-          <Icon
-            name="speechbubble_5"
-            className="SettingMenu_Icon SettingMenu_FAQ_Icon"
-          />
           1:1 문의하기
         </SettingMenuItem>
         <SettingMenuItem
@@ -140,10 +112,6 @@ export class Settings extends React.PureComponent<SettingProps> {
           renderCondition={!isIosInApp}
           key="ModifyInfo"
         >
-          <Icon
-            name="identity_1"
-            className="SettingMenu_Icon SettingMenu_ModifyInfo_Icon"
-          />
           정보 변경
         </SettingMenuItem>
         <SettingMenuItem
@@ -152,21 +120,17 @@ export class Settings extends React.PureComponent<SettingProps> {
           renderCondition={!isInApp}
           key="Logout"
         >
-          <Icon
-            name="exit_1"
-            className="SettingMenu_Icon SettingMenu_Logout_Icon"
-          />
           로그아웃
         </SettingMenuItem>
       </SettingMenu>
-    );
+    ) : null;
   }
 
   private renderMenus() {
     return [
-      this.renderPurchaseMenus(),
-      this.renderUsingHistoryMenus(),
-      this.renderSettingServiceMenus(),
+      this.renderBooksMenus(),
+      this.renderSubscriptionMenus(),
+      this.renderUserMenus(),
     ];
   }
   public componentDidMount() {

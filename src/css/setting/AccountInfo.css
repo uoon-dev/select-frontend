@@ -4,7 +4,7 @@
 
 .SubscriptionInfoWrapper {
   padding: 14px 20px 30px;
-  background: var(--slategray_5);
+  background: var(--lightsteelblue_5);
 }
 .SubscriptionInfoList {
   max-width: var(--max-pc-content-width);

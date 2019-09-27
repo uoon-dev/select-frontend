@@ -183,10 +183,9 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                 }
               </ul>
               <div className="ToggleSubscriptionButton_Wrapper">
-                {subscriptionState.isOptout
-                  ?
+                {subscriptionState.isOptout ?
                   (subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ?
-                  ( !isIosInApp &&
+                  (!isIosInApp &&
                     <Button
                       className="ToggleSubscriptionButton"
                       onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
@@ -204,18 +203,17 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                     >
                       구독 해지 예약 취소
                     </Button>
-                  ))
-                  : (
-                    <Button
-                      className="ToggleSubscriptionButton"
-                      onClick={() => this.toggleUnsubscribeWarningPopup(true)}
-                      outline={true}
-                      spinner={this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING}
-                    >
-                      구독 해지 예약
-                    </Button>
                   )
-                }
+                ) : (
+                  <Button
+                    className="ToggleSubscriptionButton"
+                    onClick={() => this.toggleUnsubscribeWarningPopup(true)}
+                    outline={true}
+                    spinner={this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING}
+                  >
+                    구독 해지 예약
+                  </Button>
+                )}
               </div>
               {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(subscriptionState.ticketEndDate)}까지 이용할 수 있습니다.</p>}
               {subscriptionState.isOptout

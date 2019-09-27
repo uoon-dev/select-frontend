@@ -1,7 +1,7 @@
+import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
-import { routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
 import { Dispatch } from 'redux';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { loggers } from 'redux-act';
@@ -20,7 +20,7 @@ import { userRootSaga } from 'app/services/user/sagas';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
-import { closingReservedBooksState } from 'app/services/closingReservedBooks/index';
+import { ClosingReservedBooksState } from 'app/services/closingReservedBooks/index';
 import { closingReservedBooksRootSaga } from 'app/services/closingReservedBooks/sagas';
 import { collectionReducer, CollectionsState } from 'app/services/collection';
 import { collectionsRootSaga } from 'app/services/collection/sagas';
@@ -82,7 +82,7 @@ export interface RidiSelectState {
   serviceStatus: ServiceStatusState;
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
-  closingReservedBooks: closingReservedBooksState;
+  closingReservedBooks: ClosingReservedBooksState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -95,7 +95,7 @@ export const hasCompletedRidiPaySubscription = () => !!qs.parse(location.search,
 export const hasCompletedPayletterSubscription = () => !!qs.parse(location.search, { ignoreQueryPrefix: true }).new_payletter_subscription;
 
 const reducers = combineReducers({
-  router: routerReducer,
+  router: connectRouter(browserHistory),
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,

@@ -1,4 +1,4 @@
-var testAndCoverageIgnorePatterns = [
+const testAndCoverageIgnorePatterns = [
   '/node_modules/',
   '/__mocks__/',
   '__stories',
@@ -6,38 +6,24 @@ var testAndCoverageIgnorePatterns = [
 ];
 
 module.exports = {
+  setupFiles: [
+    '<rootDir>/jest.setup.js',
+  ],
   testRegex: '(/__tests__/.*|(\\.|/|__)(test|spec))\\.(jsx?|tsx?)$',
-  testPathIgnorePatterns: testAndCoverageIgnorePatterns,
-  moduleFileExtensions: [
-    'js',
-    'jsx',
-    'ts',
-    'tsx',
-  ],
-  moduleDirectories: [
-    'node_modules',
-    '<rootDir>/node_modules',
-    'src/app',
-    '.',
-    '<rootDir>/../',
-  ],
-  transform: {
-    '^.+\\.(j|t)sx?$': 'ts-jest',
-  },
+  moduleFileExtensions: ['js', 'ts', 'tsx'],
   transformIgnorePatterns: [
-    'node_modules/(?!lodash-es/)',
+    'node_modules/(?!lodash-es|@ridi\/rsg/)',
   ],
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
+    '!**/types/**/*',
+    '!**/__test__/*.*',
   ],
-  coveragePathIgnorePatterns: testAndCoverageIgnorePatterns,
-  setupFiles: [
-    'jest-localstorage-mock',
-  ],
-  globals: {
-    'ts-jest': {
-      skipBabel: true,
-      tsConfigFile: 'tsconfig.jest.json',
-    },
+  moduleNameMapper: {
+    '\\.(css|less)$': 'identity-obj-proxy',
+    "app(.*)$1": "<rootDir>/src/app/$1",
   },
+  coveragePathIgnorePatterns: ['/node_modules/'],
+  testPathIgnorePatterns: testAndCoverageIgnorePatterns,
+  moduleDirectories: ['node_modules', 'src'],
 };

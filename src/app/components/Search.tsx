@@ -65,6 +65,7 @@ interface QueryString {
 }
 
 interface SearchState {
+  searchQuery: string;
   fetchStatus: FetchStatusFlag;
   keyword: string;
   isActive: boolean;
@@ -84,6 +85,20 @@ enum KeyboardCode {
 }
 
 export class Search extends React.Component<SearchProps, SearchState> {
+
+  public static getDerivedStateFromProps(nextProps: SearchProps, prevState: SearchState) {
+    if (nextProps.searchQuery !== prevState.searchQuery) {
+      const queryString: QueryString = qs.parse(nextProps.searchQuery, { ignoreQueryPrefix: true });
+      const keywordText: string = (queryString && queryString.q && isString(queryString.q)) ? queryString.q : '';
+      if (keywordText.length <= 0) { return null; }
+      return {
+        searchQuery: nextProps.searchQuery,
+        keyword: keywordText,
+      };
+    }
+
+    return null;
+  }
   // set member variables type
   private onSearchChange$ = new Subject();
   private onSearchKeydown$ = new Subject();
@@ -100,6 +115,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     const { enabled = true, keywordList = [] } = localStorageManager.load().history;
 
     return {
+      searchQuery: '',
       fetchStatus: FetchStatusFlag.IDLE,
       keyword: '',
       isActive: false,
@@ -482,15 +498,6 @@ export class Search extends React.Component<SearchProps, SearchState> {
   // component life cycle handler
   public componentDidMount(): void {
     this.subscribeKeyboardEvent();
-  }
-
-  public UNSAFE_componentWillReceiveProps(nextProps: SearchProps): void {
-    const queryString: QueryString = qs.parse(nextProps.searchQuery, { ignoreQueryPrefix: true });
-    const keywordText: string = (queryString && queryString.q && isString(queryString.q)) ? queryString.q : '';
-    if (keywordText.length <= 0) { return; }
-    this.setState({
-      keyword: keywordText,
-    }, () => this.pushHistoryKeyword(keywordText));
   }
 
   public componentWillUnmount(): void {

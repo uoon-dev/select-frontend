@@ -4,16 +4,25 @@ import { Route } from 'react-router-dom';
 
 import { RoutePaths } from 'app/constants';
 
+export enum RouteBlockLevel {
+  LOGGED_IN,
+  SUBSCRIBED,
+}
+
 export interface PrivateRouteProps extends RouteProps {
   isRidiApp: boolean;
   isFetching: boolean;
+  isLoggedIn: boolean;
   isSubscribing: boolean;
+  routeBlockLevel?: RouteBlockLevel;
 }
 
 export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = (props) => {
   const {
     isFetching,
+    isLoggedIn,
     isSubscribing,
+    routeBlockLevel = RouteBlockLevel.SUBSCRIBED,
     ...restProps
   } = props;
 
@@ -21,11 +30,15 @@ export const PrivateRoute: React.SFC<PrivateRouteProps & RouteComponentProps> = 
     return <div className="SplashScreen SplashScreen-whiteScreen" />;
   }
 
-  if (!isSubscribing) {
+  if (
+    routeBlockLevel === RouteBlockLevel.LOGGED_IN && !isLoggedIn ||
+    routeBlockLevel === RouteBlockLevel.SUBSCRIBED && !isSubscribing
+  ) {
     props.history.replace({
       pathname: RoutePaths.HOME,
       search: props.location.search,
     });
+    return null;
   }
 
   return <Route {...restProps} />;

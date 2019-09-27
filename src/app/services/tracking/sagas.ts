@@ -2,7 +2,7 @@ import { DeviceType, Tracker } from '@ridi/event-tracker';
 import { Actions } from 'app/services/tracking';
 import { hasCompletedPayletterSubscription, hasCompletedRidiPaySubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
-import { LOCATION_CHANGE, replace } from 'react-router-redux';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import env from 'app/config/env';

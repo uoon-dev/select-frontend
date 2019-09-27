@@ -18,6 +18,7 @@ import {
   selectIsInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
+import { moveToLogin } from 'app/utils/utils';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
@@ -125,21 +126,22 @@ export class GNB extends React.Component<Props> {
 
   private renderLoginButton() {
     const {
-      BASE_URL_STORE,
       isInApp,
     } = this.props;
 
-    if (isInApp) { return null; }
+    if (isInApp) {
+      // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우거나 버튼을 숨김처리.
+      return null;
+    }
 
     return (
-      <a
-        href={`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${
-          window.location.href
-        }`}
+      <button
+        type="button"
+        onClick={() => moveToLogin()}
         className="GNB_LinkButton"
       >
         로그인
-      </a>
+      </button>
     );
   }
 
