@@ -101,6 +101,7 @@ export class Settings extends React.PureComponent<SettingProps> {
         <SettingMenuItem
           href="https://ridihelp.zendesk.com/hc/ko/requests/new"
           target="_blank"
+          rel="noopener"
           renderCondition={!isIosInApp}
           key="FAQ"
         >
