@@ -38,6 +38,7 @@ export const Footer: React.SFC<Props> = (props) => {
             className="Footer_Headline_Link"
             href={downloadUrl}
             target="_blank"
+            rel="noopener"
           >
             뷰어 다운로드
           </a>
@@ -50,6 +51,7 @@ export const Footer: React.SFC<Props> = (props) => {
             className="Footer_Headline_Link"
             href="https://help.ridibooks.com/hc/ko/categories/360000139267"
             target="_blank"
+            rel="noopener"
           >
             리디셀렉트 FAQ
           </a>
@@ -78,8 +80,9 @@ export const Footer: React.SFC<Props> = (props) => {
         <li className="Footer_Terms_Item">
           <a
             className="Footer_Term_Link"
-            href="https://ridibooks.com/legal/terms"
+            href="https://policy.ridi.com/legal/terms"
             target="_blank"
+            rel="noopener"
           >
             이용약관
           </a>
@@ -87,8 +90,9 @@ export const Footer: React.SFC<Props> = (props) => {
         <li className="Footer_Terms_Item">
           <a
             className="Footer_Term_Link Personal_Info_Term_Link"
-            href="https://ridibooks.com/legal/privacy"
+            href="https://policy.ridi.com/legal/privacy"
             target="_blank"
+            rel="noopener"
           >
             개인 정보 처리 방침
           </a>
@@ -96,8 +100,9 @@ export const Footer: React.SFC<Props> = (props) => {
         <li className="Footer_Terms_Item">
           <a
             className="Footer_Term_Link"
-            href="https://ridibooks.com/legal/youth"
+            href="https://policy.ridi.com/legal/youth"
             target="_blank"
+            rel="noopener"
           >
             청소년 보호 정책
           </a>
