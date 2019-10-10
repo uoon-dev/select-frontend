@@ -14,6 +14,7 @@ import { Actions as CollectionActions, CollectionId, CollectionsState } from 'ap
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
+import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 interface HomeStateProps {
   isIosInApp: boolean;
@@ -43,9 +44,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         dispatchLoadHomeRequest,
         dispatchLoadCollectionRequest,
       } = this.props;
-      if (window.inApp && window.inApp.initialRendered) {
-        window.inApp.initialRendered();
-      }
+      sendPostRobotInitialRendered();
       if (
         !fetchedAt ||
         Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3
