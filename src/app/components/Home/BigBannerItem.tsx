@@ -22,7 +22,7 @@ export const BigBannerItem: React.SFC<BigBannerItemProps> = (props) => {
     return <Link {...linkProps}/>;
   }
   if (isInApp) {
-    const buttonProps = { ... compProps, onClick: () => {
+    const buttonProps = { ...compProps, onClick: () => {
       sendPostRobotOpenBrowser(linkUrl);
       onClick();
     }};
