@@ -1,5 +1,6 @@
 import { connect, Dispatch } from 'react-redux';
 
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import {
   deleteReviewLikeRequest,
   postReviewLikeRequest,
@@ -12,7 +13,7 @@ import { Omit } from 'app/types';
 
 export type ReviewItemStateProps = Pick<
   ReviewItemProps,
-  'fetchStatus'
+  'fetchStatus' | 'isInApp' | 'isIosInApp'
 >;
 
 function mapStateToProps(
@@ -20,6 +21,8 @@ function mapStateToProps(
   ownProps: Omit<ReviewItemProps, keyof ReviewItemStateProps | keyof ReviewItemDispatchProps>,
 ): ReviewItemStateProps {
   return {
+    isInApp: selectIsInApp(state),
+    isIosInApp: getIsIosInApp(state),
     fetchStatus: getReviewFetchStatus(state, ownProps),
   };
 }
