@@ -1,7 +1,9 @@
 import { Icon } from '@ridi/rsg';
+import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import * as React from 'react';
 
 export interface NoticeProps {
+  isInApp: boolean;
   type?: string;
   icon?: string;
   mainText: string;
@@ -11,7 +13,7 @@ export interface NoticeProps {
 }
 
 export const Notice: React.SFC<NoticeProps> = (props) => {
-  const { mainText, subText, detailLink } = props;
+  const { isInApp, mainText, subText, detailLink } = props;
 
   return (
     <div className="Notice">
@@ -31,11 +33,19 @@ export const Notice: React.SFC<NoticeProps> = (props) => {
             />
           </span>
         }
-        {detailLink &&
+        {detailLink && (isInApp ? (
+          <button
+            className="Notice_DetailLink"
+            type="button"
+            onClick={() => sendPostRobotOpenBrowser(detailLink)}
+          >
+            자세히 보기 <Icon className="Notice_DetailLink_Icon" name="arrow_2_right" />
+          </button>
+        ) : (
           <a className="Notice_DetailLink" href={detailLink}>
             자세히 보기 <Icon className="Notice_DetailLink_Icon" name="arrow_2_right" />
           </a>
-        }
+        ))}
       </div>
     </div>
   );

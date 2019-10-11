@@ -79,3 +79,21 @@ export function sendPostRobotMySelectBookInserted(bookId: number) {
     window.android.mySelectBookInserted(`${bookId}`);
   }
 }
+
+export function sendPostRobotOpenBrowser(url: string) {
+  if (window.postRobot) {
+    window.postRobot
+      .send(window, 'inApp', { name: 'openBrowser', args: [url] })
+      .catch((err) => {
+        window.location.href = url;
+      });
+    return;
+  }
+
+  if (window.inApp && window.inApp.openBrowser) {
+    window.inApp.openBrowser(url);
+    return;
+  }
+
+  window.location.href = url;
+}
