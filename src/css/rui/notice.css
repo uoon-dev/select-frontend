@@ -63,6 +63,8 @@
 }
 
 .Notice_DetailLink {
+  @apply --reset-button;
+
   font-size: 13px;
   line-height: 20px;
   color: var(--slategray_70);

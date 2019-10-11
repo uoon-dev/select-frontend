@@ -29,6 +29,7 @@
 
 .Review_Alert_Button {
   @apply --reset-button;
+
   text-decoration: none;
   display: inline-block;
   background: none;
