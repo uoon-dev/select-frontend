@@ -1,6 +1,7 @@
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
+import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Review } from 'app/services/review';
 import { ReviewClosed, ReviewSpoilerAlert, StarRating } from 'app/services/review/components';
 import { ReviewButtons } from 'app/services/review/components/ReviewList/ReviewButtons';
@@ -13,6 +14,8 @@ export interface ReviewItemProps {
   bookId: number;
   review: Review;
   fetchStatus: ReviewFetchStatus;
+  isInApp: boolean;
+  isIosInApp: boolean;
   submitReport: (bookId: number, reviewId: number) => void;
   postLike: (bookId: number, reviewId: number) => void;
   deleteLike: (bookId: number, reviewId: number) => void;
@@ -83,7 +86,11 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
       isLikedByMe,
       commentIdsByPage,
     } = this.props.review;
-    const { checkAuth } = this.props;
+    const {
+      checkAuth,
+      isInApp,
+      isIosInApp,
+    } = this.props;
     const { isCommentSectionOpen, isContentOpen } = this.state;
 
     return (
@@ -100,7 +107,11 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
               <ReviewSpoilerAlert onButtonClick={this.openContent} />
             ) : null}
             {isInvisible ? (
-              <ReviewClosed type={invisibilityType!} />
+              <ReviewClosed
+                type={invisibilityType!}
+                isInApp={isInApp}
+                isIosInApp={isIosInApp}
+              />
             ) : null}
             <div className="ReviewItem_MetadataGroup">
               <div>
@@ -160,7 +171,11 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
                   <ReviewSpoilerAlert onButtonClick={this.openContent} />
                 ) : null}
                 {isInvisible ? (
-                  <ReviewClosed type={invisibilityType!} />
+                  <ReviewClosed
+                    type={invisibilityType!}
+                    isInApp={isInApp}
+                    isIosInApp={isIosInApp}
+                  />
                 ) : null}
                 <ReviewButtons
                   likeButtonFetchStatus={this.props.fetchStatus.like}

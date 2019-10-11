@@ -7,6 +7,7 @@ import { MaintenanceContext } from 'app/components/MaintenanceContext';
 import { ErrorStatus, FetchStatusFlag, PageTitleText } from 'app/constants';
 import { Actions as ServiceStatusActions, ErrorResponseData, ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
+import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 interface ErrorPageStateProps {
   fetchStatus: FetchStatusFlag;
@@ -47,9 +48,7 @@ export class ErrorPage extends React.Component<Props> {
     );
   }
   public componentDidMount() {
-    if (window.inApp && window.inApp.initialRendered) {
-      window.inApp.initialRendered();
-    }
+    sendPostRobotInitialRendered();
     this.getMaintenanceData();
   }
 

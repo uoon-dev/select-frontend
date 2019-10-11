@@ -18,6 +18,7 @@ import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
 import { getNotAvailableConvertDate } from 'app/utils/expiredDate';
+import { sendPostRobotMySelectBookDeleted, sendPostRobotMySelectBookInserted } from 'app/utils/inAppMessageEvents';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
@@ -81,12 +82,7 @@ export function* watchDeleteMySelect() {
       if (response.status !== 200) {
         throw new Error();
       }
-      if (window.inApp && window.inApp.mySelectBookDeleted) {
-        window.inApp.mySelectBookDeleted(JSON.stringify(deleteBookIds));
-      } else if (window.android && window.android.mySelectBookDeleted) {
-        // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
-        window.android.mySelectBookDeleted(JSON.stringify(deleteBookIds));
-      }
+      sendPostRobotMySelectBookDeleted(deleteBookIds);
       if (isEveryBookChecked && page > 1) {
         yield all([
           put(Actions.deleteMySelectSuccess({ deleteBookIdPairs })),
@@ -134,13 +130,7 @@ export function* watchAddMySelect() {
           },
         });
       }
-      if (window.inApp && window.inApp.mySelectBookInserted) {
-        // bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분 string으로 캐스팅.
-        window.inApp.mySelectBookInserted(`${bookId}`);
-      } else if (window.android && window.android.mySelectBookInserted) {
-        // TODO: 추후 안드로이드 앱에서 버전 제한 시점 이후 window.android 사용처 제거.
-        window.android.mySelectBookInserted(`${bookId}`);
-      }
+      sendPostRobotMySelectBookInserted(bookId);
     } catch (e) {
       yield put(Actions.addMySelectFailure());
       toast.failureMessage('오류가 발생했습니다. 잠시 후에 다시 시도해주세요.');
