@@ -1,4 +1,5 @@
 import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { BigBanner } from 'app/services/home';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
@@ -18,6 +19,7 @@ const PC_MIN_HEIGHT = 288;
 interface BigBannerStateProps {
   fetchedAt: number | null;
   bigBannerList: BigBanner[];
+  isInApp: boolean;
 }
 
 type Props = BigBannerStateProps & ReturnType<typeof mapDispatchToProps>;
@@ -162,6 +164,7 @@ const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   return {
     fetchedAt: state.home.fetchedAt,
     bigBannerList: state.home.bigBannerList,
+    isInApp: selectIsInApp(state),
   };
 };
 
