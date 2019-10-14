@@ -43,11 +43,10 @@ export function sendPostRobotInitialRendered() {
 
 export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
   // 마이셀렉트에서 도서 삭제
-  const deleteBookIds = bookIds.map((id) => `${id}`);
-
+  const deleteBookIds = JSON.stringify(bookIds);
   if (window.postRobot) {
     window.postRobot
-      .send(window, 'inApp', { name: 'mySelectBookDeleted', args: deleteBookIds })
+      .send(window, 'inApp', { name: 'mySelectBookDeleted', args: [deleteBookIds] })
       .catch((err) => {
         toast.failureMessage('문제가 발생했습니다. 다시 시도해주세요.');
       });
