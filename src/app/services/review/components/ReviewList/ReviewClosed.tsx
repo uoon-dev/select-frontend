@@ -27,16 +27,6 @@ export const ReviewClosed: React.SFC<ReviewClosedProps> = (props) => {
             '리뷰에 신고가 지속적으로 접수되어 비공개 처리되었습니다.'
           )}
           <br/>
-<<<<<<< HEAD
-          <a
-            className="Review_Alert_Button"
-            type="button"
-            href="https://ridibooks.com/support/notice/458"
-            target="_blank"
-          >
-            리뷰 운영 정책 보기
-          </a>
-=======
           {!isIosInApp && (isInApp ? (
             <button
               className="Review_Alert_Button"
@@ -55,7 +45,6 @@ export const ReviewClosed: React.SFC<ReviewClosedProps> = (props) => {
               리뷰 운영 정책 보기
             </a>
           ))}
->>>>>>> 7f6fb95... 리뷰 아이템에 리뷰 숨김 된 경우 링크 처리.
         </p>
       </article>
     </div>
