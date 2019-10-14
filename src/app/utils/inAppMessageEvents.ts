@@ -43,7 +43,7 @@ export function sendPostRobotInitialRendered() {
 
 export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
   // 마이셀렉트에서 도서 삭제
-  const deleteBookIds = JSON.stringify(bookIds);
+  const deleteBookIds = bookIds.map((id) => `${id}`);
 
   if (window.postRobot) {
     window.postRobot
