@@ -61,12 +61,12 @@ export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
 }
 
 export function sendPostRobotMySelectBookInserted(bookId: number) {
-  const insertBookId = [`${bookId}`];
+  const insertBookId = `${bookId}`;
 
   // 마이셀렉트에 도서 추가
   if (window.postRobot) {
     window.postRobot
-      .send(window, 'inApp', { name: 'mySelectBookInserted', args: insertBookId })
+      .send(window, 'inApp', { name: 'mySelectBookInserted', args: [insertBookId] })
       .catch((err) => {
         toast.failureMessage('문제가 발생했습니다. 다시 시도해주세요.');
       });
@@ -75,9 +75,9 @@ export function sendPostRobotMySelectBookInserted(bookId: number) {
 
   if (window.inApp && window.inApp.mySelectBookInserted) {
     // bookId 를 string 으로 넘겨야 하는 것으로 약속 되어있는데 reducer 내부에서 모두 number로 처리하고 있어서 인앱 관련된 부분 string으로 캐스팅.
-    window.inApp.mySelectBookInserted(`${bookId}`);
+    window.inApp.mySelectBookInserted(insertBookId);
   } else if (window.android && window.android.mySelectBookInserted) {
-    window.android.mySelectBookInserted(`${bookId}`);
+    window.android.mySelectBookInserted(insertBookId);
   }
 }
 
