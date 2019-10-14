@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { NoticeResponse } from 'app/services/book/requests';
-import { getIsIosInApp } from 'app/services/environment/selectors';
+import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { isInNotAvailableConvertList } from 'app/utils/expiredDate';
 import { buildKoreanDayDateFormat } from 'app/utils/formatDate';
@@ -17,6 +17,7 @@ interface BookDetailNoticeListProps {
 }
 
 interface BookDetailNoticeListStateProps {
+  isInApp: boolean;
   isIosInApp: boolean;
   bookEndDateTime: string;
   noticeList?: NoticeResponse[];
@@ -27,6 +28,7 @@ type Props = BookDetailNoticeListProps & BookDetailNoticeListStateProps;
 const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
   const {
     isMobile = false,
+    isInApp,
     isIosInApp,
     noticeList,
     bookEndDateTime,
@@ -59,6 +61,7 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
       <BookDetailPanelWrapper className="PageBookDetail_Panel-notice" renderCondition={!isMobile}>
         {isInNotAvailableConvertList(bookEndDateTime) && (
           <Notice
+            isInApp={isInApp}
             mainText={`이 책은 출판사 또는 저작권자와의 계약 만료로 <strong>${buildKoreanDayDateFormat(bookEndDateTime)}</strong>까지 마이 셀렉트에 추가할 수 있습니다.`}
             detailLink={!isIosInApp ? 'https://help.ridibooks.com/hc/ko/articles/360022565173' : undefined}
           />
@@ -74,6 +77,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailNoticeListP
   const bookState = state.booksById[bookId];
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
   return {
+    isInApp: selectIsInApp(state),
     isIosInApp: getIsIosInApp(state),
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     noticeList: !!bookDetail && !!bookDetail.notices && Array.isArray(bookDetail.notices) ?
