@@ -81,9 +81,11 @@ export function sendPostRobotMySelectBookInserted(bookId: number) {
 }
 
 export function sendPostRobotOpenBrowser(url: string) {
+  const urlForInApp = url.replace('https\:', '');
+
   if (window.postRobot) {
     window.postRobot
-      .send(window, 'inApp', { name: 'openBrowser', args: [url] })
+      .send(window, 'inApp', { name: 'openBrowser', args: [urlForInApp] })
       .catch((err) => {
         window.location.href = url;
       });
@@ -91,9 +93,9 @@ export function sendPostRobotOpenBrowser(url: string) {
   }
 
   if (window.inApp && window.inApp.openBrowser) {
-    window.inApp.openBrowser(url);
+    window.inApp.openBrowser(urlForInApp);
     return;
   }
 
-  window.location.href = url;
+  toast.failureMessage('페이지 이동에 실패했습니다.');
 }
