@@ -62,10 +62,12 @@ export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
 }
 
 export function sendPostRobotMySelectBookInserted(bookId: number) {
+  const insertBookId = [`${bookId}`];
+
   // 마이셀렉트에 도서 추가
   if (window.postRobot) {
     window.postRobot
-      .send(window, 'inApp', { name: 'mySelectBookInserted', args: [`${bookId}`] })
+      .send(window, 'inApp', { name: 'mySelectBookInserted', args: insertBookId })
       .catch((err) => {
         toast.failureMessage('문제가 발생했습니다. 다시 시도해주세요.');
       });
