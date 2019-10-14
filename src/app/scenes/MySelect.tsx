@@ -117,18 +117,36 @@ class MySelect extends React.Component<Props, State> {
       return true;
     }
 
-    return (mySelectBooks && mySelectBooks.itemListByPage[page] && mySelectBooks.itemListByPage[page].isFetched);
+    return (
+      mySelectBooks.itemListByPage[page] &&
+      mySelectBooks.itemListByPage[page].fetchStatus !== FetchStatusFlag.FETCHING
+    );
   }
 
   private fetchMySelectData(props: Props) {
-    const { isUserFetching, isLoggedIn, page, dispatchLoadMySelectRequest, BASE_URL_STORE } = props;
+    const {
+      page,
+      isLoggedIn,
+      mySelectBooks,
+      isSubscribing,
+      BASE_URL_STORE,
+      isUserFetching,
+      dispatchLoadMySelectRequest,
+    } = props;
 
     if (!isUserFetching && !isLoggedIn) {
       window.location.replace(`${BASE_URL_STORE}/account/oauth-authorize?fallback=login&return_url=${window.location.href}`);
       return;
     }
 
-    if (!this.isFetched(page)) {
+    if (!isUserFetching && !isSubscribing) {
+      return;
+    }
+
+    if (
+      !mySelectBooks.itemListByPage[page] ||
+      mySelectBooks.itemListByPage[page].fetchStatus !== FetchStatusFlag.FETCHING
+    ) {
       dispatchLoadMySelectRequest(page);
     }
   }
