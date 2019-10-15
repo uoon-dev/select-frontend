@@ -54,9 +54,9 @@ export function sendPostRobotMySelectBookDeleted(bookIds: number[]) {
   }
 
   if (window.inApp && window.inApp.mySelectBookDeleted) {
-    window.inApp.mySelectBookDeleted(JSON.stringify(deleteBookIds));
+    window.inApp.mySelectBookDeleted(deleteBookIds);
   } else if (window.android && window.android.mySelectBookDeleted) {
-    window.android.mySelectBookDeleted(JSON.stringify(deleteBookIds));
+    window.android.mySelectBookDeleted(deleteBookIds);
   }
 }
 
