@@ -89,11 +89,12 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
               <Button
                 component="a"
                 href="https://ridibooks.com/support/app/download"
-                target="_blank"
                 size="large"
                 thickBorderWidth={true}
                 outline={true}
                 className="Guide_FullButton"
+                target="_blank"
+                rel="noopener"
               >
                 뷰어 다운로드
               </Button>
@@ -118,11 +119,12 @@ export const Guide: React.SFC<GuideProps> = ({ BASE_URL_STATIC, BASE_URL_STORE, 
           <Button
             component="a"
             href="https://help.ridibooks.com/hc/ko/categories/360000139267"
-            target="_blank"
             size="large"
             thickBorderWidth={true}
             outline={true}
             className="Guide_FullButton"
+            target="_blank"
+            rel="noopener"
           >
             FAQ 보기
             <Icon
