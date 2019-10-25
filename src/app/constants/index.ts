@@ -66,7 +66,7 @@ export enum RoutePaths {
   VOUCHER = '/voucher',
   /* 셀렉트 2.0 아티클 */
   ARTICLE_HOME = '/article/home',
-  ARTICLE_FOLLOWING = '/article/follow',
+  ARTICLE_FOLLOWING = '/article/following',
   ARTICLE_CHANNELS = '/article/channels',
   ARTICLE_CHANNEL_DETAIL = '/article/channel/:channelId',
   ARTICLE_FAVORITE = '/article/favorite',

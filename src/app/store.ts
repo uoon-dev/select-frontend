@@ -24,9 +24,10 @@ import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
 
 import { articleReducer, ArticlesState } from 'app/services/article';
 import { articleRootSaga } from 'app/services/article/sagas';
-import { articleChannelListReducer, ArticleChannelListState,
-  articleChannelReducer, ArticleChannelState } from './services/articleChannel';
-import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
+
+import { ArticleFollowingState, articleFollowReducer } from 'app/services/articleFollowing';
+import { articleFollowingRootSaga } from 'app/services/articleFollowing/sagas';
+
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
 import { ClosingReservedBooksState } from 'app/services/closingReservedBooks/index';
@@ -46,6 +47,8 @@ import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceSt
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 import { voucherRootSaga } from 'app/services/voucher/sagas';
+import { articleChannelListReducer, ArticleChannelListState, articleChannelReducer, ArticleChannelState } from './services/articleChannel';
+import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
 
 import env from 'app/config/env';
 import { customHistoryReducer, customHistorySaga, CustomHistoryState } from 'app/services/customHistory';
@@ -78,6 +81,7 @@ function* rootSaga(dispatch: Dispatch) {
     articleRootSaga(),
     articleHomeRootSaga(),
     channelRootSaga(),
+    articleFollowingRootSaga(),
   ]);
 }
 
@@ -102,6 +106,7 @@ export interface RidiSelectState {
   articleHome: ArticleHomeState;
   articleChannels: ArticleChannelListState;
   articleChannelById: ArticleChannelState;
+  articleFollowing: ArticleFollowingState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -135,6 +140,7 @@ const reducers = combineReducers({
   articleHome: articleHomeReducer,
   articleChannels: articleChannelListReducer,
   articleChannelById: articleChannelReducer,
+  articleFollowing: articleFollowReducer,
 });
 
 const middleware = [

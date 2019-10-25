@@ -13,7 +13,7 @@ import {
   ArticleChannelDetail,
   ArticleChannels,
   ArticleFavorite,
-  ArticleFollow,
+  ArticleFollowing,
   ArticleHome,
   ConnectedBookDetail,
   ConnectedCategory,
@@ -179,7 +179,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
           <Route
             path={RoutePaths.ARTICLE_FOLLOWING}
-            component={ArticleFollow}
+            component={ArticleFollowing}
             {...props}
           />
           <Route
