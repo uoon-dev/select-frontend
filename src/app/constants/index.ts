@@ -36,6 +36,7 @@ export enum PageTitleText {
   SETTING = '셀렉트 관리',
   NOT_AVAILABLE_BOOK = '',
   CLOSING_RESERVED_BOOKS = '종료 예정 도서',
+  VOUCHER= '리디셀렉트 이용권 등록',
   // 셀렉트 2.0 - 아티클
   ARTICLE_HOME = '아티클 홈',
   ARTICLE_FOLLOWING = '팔로잉',
@@ -62,6 +63,7 @@ export enum RoutePaths {
   INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
   CLOSING_RESERVED_BOOKS = '/closing-reserved-book',
+  VOUCHER = '/voucher',
   /* 셀렉트 2.0 아티클 */
   ARTICLE_HOME = '/article/home',
   ARTICLE_FOLLOWING = '/article/follow',
