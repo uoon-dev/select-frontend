@@ -218,7 +218,7 @@ export const Routes: React.SFC<Props> = (props) => {
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
-            routeBlockLevel={RouteBlockLevel.SUBSCRIBED}
+            routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
             {...props}
           />
           <Route
