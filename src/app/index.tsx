@@ -11,7 +11,7 @@ import { fetchUserInfo } from 'app/services/user/helper';
 
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
-import { setSendPostRobotEvent } from 'app/utils/inAppMessageEvents';
+import { sendPostRobotSetBlacklistOfOutlink, setSendPostRobotEvent } from 'app/utils/inAppMessageEvents';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 
 // Show browser input focused outline when tab key is pressed
@@ -30,6 +30,13 @@ class App extends React.Component {
       store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
     });
     loadFonts();
+    sendPostRobotSetBlacklistOfOutlink([
+      '//ridibooks.com',
+      '//library.ridibooks.com',
+      '//outstanding.kr/premium-membership/',
+      '//outstanding.kr/register/',
+      '//outstanding.kr/login/',
+    ]);
   }
 
   public render() {
