@@ -100,3 +100,13 @@ export function sendPostRobotOpenBrowser(url: string) {
 
   toast.failureMessage('페이지 이동에 실패했습니다.');
 }
+
+export function sendPostRobotSetBlacklistOfOutlink(urls: string[]) {
+  const urlForInApp = urls.map((url) => url.replace('https\:', ''));
+
+  if (window.postRobot) {
+    window.postRobot
+      .send(window, 'inApp', { name: 'setBlacklistOfOutlink', args: [urlForInApp] });
+    return;
+  }
+}
