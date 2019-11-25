@@ -134,24 +134,27 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
                   </Button>
                 </li>
               </ul>
-            ) : (
-              <div className="ArticleContent_GetTicketToReadButtonWrapper">
-                <Button
-                  size="large"
-                  color="blue"
-                  className="ArticleContent_GetTicketToReadButton"
-                  onClick={() => {
-                    if (isLoggedIn) {
-                      window.location.replace(`${BASE_URL_STORE}/select/payments`);
-                      return;
-                    }
-                    moveToLogin(`${BASE_URL_STORE}/select/payments`);
-                  }}
-                >
-                  리디셀렉트 구독하고 바로 보기
-                </Button>
-              </div>
-            )}
+            ) : articleState.article.isPublic
+              ? null
+              : (
+                <div className="ArticleContent_GetTicketToReadButtonWrapper">
+                  <Button
+                    size="large"
+                    color="blue"
+                    className="ArticleContent_GetTicketToReadButton"
+                    onClick={() => {
+                      if (isLoggedIn) {
+                        window.location.replace(`${BASE_URL_STORE}/select/payments`);
+                        return;
+                      }
+                      moveToLogin(`${BASE_URL_STORE}/select/payments`);
+                    }}
+                  >
+                    리디셀렉트 구독하고 바로 보기
+                  </Button>
+                </div>
+              )
+            }
           </>
         ) : <ArticleEmpty
           iconName="document"
