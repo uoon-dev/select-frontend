@@ -37,7 +37,6 @@ interface Props {
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
   isSimpleGNB: boolean;
-  isGnbTab: boolean;
   appStatus: AppStatus;
 }
 

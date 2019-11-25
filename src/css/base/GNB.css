@@ -233,7 +233,7 @@
 .GNB_LinkButton {
   display: inline-block;
   height: 28px;
-  margin-top: 8px;
+  margin: 8px 0 0 10px;
   padding: 0 11px;
   border: solid 1px var(--slategray_20);
   border-radius: 3px;
@@ -252,7 +252,6 @@
   &.GNB_WebLibrary_Button {
     padding: 0;
     width: 55px;
-    margin-left: 10px;
     text-align: center;
   }
 
@@ -388,15 +387,8 @@
     }
   }
   .GNB_LinkButton {
-    &:not(.GNB_WebLibrary_Button) {
-      height: var(--gnb_pc_height);
-      line-height: 60px;
-      margin-top: 0;
-      font-size: 18px;
-      border: 0!important;
-    }
+    margin-top: 18px;
     &.GNB_WebLibrary_Button {
-      margin-top: 18px;
       width: 67px;
     }
   }
