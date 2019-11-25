@@ -4,13 +4,22 @@ import { Actions as EnvironmentActions } from 'app/services/environment';
 import { store } from 'app/store';
 import toast from 'app/utils/toast';
 
-export const setSendPostRobotEvent = () => {
+export const setInitializeInAppEvent = () => {
   const inAppInitEventListener = (e: MessageEvent) => {
     const { platform, version } = e.data;
     if (platform && version) {
       window.postRobot = PostRobot;
       window.postMessage({ postRobot: true }, '*');
       store.dispatch(EnvironmentActions.setAppEnvironment({ platform, version }));
+
+      // iOS inApp 에서 외부링크 블랙리스트처리 할 목록 전달
+      window.postRobot.send(window, 'inApp', { name: 'setBlacklistOfOutlink', args: [[
+        '//ridibooks.com',
+        '//library.ridibooks.com',
+        '//outstanding.kr/premium-membership/',
+        '//outstanding.kr/register/',
+        '//outstanding.kr/login/',
+      ]] });
     }
   };
 
@@ -99,14 +108,4 @@ export function sendPostRobotOpenBrowser(url: string) {
   }
 
   toast.failureMessage('페이지 이동에 실패했습니다.');
-}
-
-export function sendPostRobotSetBlacklistOfOutlink(urls: string[]) {
-  const urlForInApp = urls.map((url) => url.replace('https\:', ''));
-
-  if (window.postRobot) {
-    window.postRobot
-      .send(window, 'inApp', { name: 'setBlacklistOfOutlink', args: [urlForInApp] });
-    return;
-  }
 }
