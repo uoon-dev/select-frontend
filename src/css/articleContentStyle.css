@@ -24,7 +24,8 @@
   & q,
   & code,
   & ul,
-  & li {
+  & li,
+  & pre {
     margin: 0;
     padding: 0;
     font-family: NotoSansCJKkr, sans-serif;
@@ -57,6 +58,7 @@
 
   & code {
     display: inline-block;
+    overflow-x: scroll;
     background: var(--slategray_5);
     border: 1px solid var(--slategray_20);
     border-radius: 2px;
@@ -137,6 +139,16 @@
     }
   }
 
+  & figure {
+    padding: 20px 0;
+  }
+
+  & iframe {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
   & img {
     display: block;
     max-width: 100%;
@@ -179,9 +191,11 @@
     & > q,
     & > code,
     & > ul,
-    & > li {
+    & > li,
+    & > pre {
       padding-left: 20px;
       padding-right: 20px;
+      box-sizing: border-box;
     }
   }
 }
