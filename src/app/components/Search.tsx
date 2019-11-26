@@ -661,7 +661,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
             autoCorrect="off"
             autoComplete="off"
             autoCapitalize="off"
-            placeholder={appStatus === AppStatus.Books ? '제목, 저자, 출판사 검색' : '아티클 검색'}
+            placeholder={appStatus === AppStatus.Books ? '도서 검색' : '아티클 검색'}
             value={keyword}
             ref={(ref) => { this.searchInput = ref; }}
             {...inputEvents}
