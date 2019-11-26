@@ -11,6 +11,7 @@ export const ArticleChannels: React.FunctionComponent = () => {
         'SceneWrapper',
         'SceneWrapper_WithGNB',
         'SceneWrapper_WithLNB',
+        'PageArticleChannels',
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_CHANNEL} />
