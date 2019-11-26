@@ -1,6 +1,7 @@
 import { HelmetWithTitle } from 'app/components';
 import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { ArticleChannelListPlaceholder } from 'app/placeholder/ArticleChannelListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { getChannelList } from 'app/services/articleChannel/selectors';
 import { RidiSelectState } from 'app/store';
@@ -29,17 +30,20 @@ export const ArticleChannels: React.FunctionComponent = () => {
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_CHANNEL} />
       <div className="a11y"><h1>리디셀렉트 아티클 전체 채널</h1></div>
       <section>
-        <div className="ArticlePageChannelList_Wrap">
-          <ul className="ArticlePageChannelList">
-            {channelList.map((channelMeta, idx) => {
-                return channelMeta ? (
-                  <li key={idx} className="ArticlePageChannel">
-                    <ArticleChannelsMeta {...channelMeta} />
-                  </li>
-                ) : null;
-            })}
-          </ul>
-        </div>
+        { channelListFetchStatus === FetchStatusFlag.FETCHING ?
+          <ArticleChannelListPlaceholder /> : (
+            <div className="ArticlePageChannelList_Wrap">
+              <ul className="ArticlePageChannelList">
+                {channelList.map((channelMeta, idx) => {
+                    return channelMeta ? (
+                      <li key={idx} className="ArticlePageChannel">
+                        <ArticleChannelsMeta {...channelMeta} />
+                      </li>
+                    ) : null;
+                })}
+              </ul>
+            </div>
+        )}
       </section>
     </main>
   );
