@@ -45,6 +45,7 @@
 @import 'placeholder/SubscriptionListPlaceholder.css';
 @import 'placeholder/MySelectHistoryPlaceholder.css';
 @import 'placeholder/BookDetailPlaceholder.css';
+@import 'placeholder/ArticleChannelListPlaceholder.css';
 @import 'in_app_intro.css';
 
 @import 'test_badge.css';
