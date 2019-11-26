@@ -114,7 +114,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     </span>
                   ) : null}
                   {renderRegDate && article.regDate ? (
-                    <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.regDate)} 전</span>
+                    <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
                   ) : null}
                   </Link>
                 </div>

@@ -50,6 +50,7 @@ export interface Article {
   id: number;
   title: string;
   regDate: DateDTO;
+  publishDate: DateDTO;
   lastModified: DateDTO;
   channelId: number;
   channelName: string;
