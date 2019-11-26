@@ -22,6 +22,14 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [isEndTransition, setIsEndTransition] = React.useState(false);
   const [isWrongImage, setIsWrongImage] = React.useState(false);
+  const coverPlaceholder = React.useRef<HTMLSpanElement>(null);
+
+  if (coverPlaceholder && coverPlaceholder.current) {
+    coverPlaceholder.current.addEventListener(
+      'transitionend',
+      () => setIsEndTransition(true),
+    );
+  }
 
   React.useEffect(() => {
     if (!src) {
@@ -51,14 +59,16 @@ export const ArticleImage: React.FunctionComponent<ArticleImageProps> = (props) 
           />
         </span>
       )}
-      {isLoaded && isEndTransition ? null : (
+      {!src || ((isLoaded || !isWrongImage) && isEndTransition) ? null : (
         <span
           className={classNames(
             'Skeleton',
             'CoverImage_Placeholder',
+            'ArticleCoverImage_Placeholder',
             isLoaded ? 'CoverImage_Placeholder-fadeout' : null,
           )}
           onTransitionEnd={() => setIsEndTransition(true)}
+          ref={coverPlaceholder}
         />
       )}
     </>

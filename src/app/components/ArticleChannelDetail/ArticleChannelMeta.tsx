@@ -19,7 +19,15 @@ interface ArticleChannelMetaProps {
 }
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = (props) => {
-  const { id, name, displayName, thumbnailUrl, description, subDescription, followersCount = 0, isFollowing } = props;
+  const {
+    id,
+    name,
+    displayName,
+    thumbnailUrl,
+    description,
+    subDescription,
+    followersCount = 0,
+  } = props;
   const [followCount, setFollowCount] = React.useState(followersCount);
 
   const setChannelFollowCount = (method: Method) => {
