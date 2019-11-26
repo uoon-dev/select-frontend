@@ -170,7 +170,7 @@
       line-height: 28px;
       color: var(--slategray_60);
     }
-    & .annotation {
+    &.annotation {
       border: none;
       padding: 0;
       line-height: 1.75;
