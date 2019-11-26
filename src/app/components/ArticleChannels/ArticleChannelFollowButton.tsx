@@ -14,9 +14,10 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   channelName: string;
   afterAction?: (mothod: Method) => void;
 }> = (props) => {
-  const { isChannelFollowing } = useSelector((state: RidiSelectState) => {
+  const { isChannelFollowing, hasAvailableTicket } = useSelector((state: RidiSelectState) => {
     const channelById = state.articleChannelById[props.channelName];
     return {
+      hasAvailableTicket: state.user.hasAvailableTicket,
       isChannelFollowing:
         channelById &&
         channelById.channelMeta &&
@@ -29,7 +30,7 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   const dispatch = useDispatch();
   const handleButtonClick = (method: Method) => {
     dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
-    if (props.afterAction) {
+    if (hasAvailableTicket && props.afterAction) {
       props.afterAction(method);
     }
   };

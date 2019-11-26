@@ -1,15 +1,11 @@
-import { Method } from 'axios';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { Button, Icon } from '@ridi/rsg';
 
 import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
-import * as classNames from 'classnames';
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 
 export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, channelName: string, contentKey: string }> = (props) => {
