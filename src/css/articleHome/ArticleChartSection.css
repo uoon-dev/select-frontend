@@ -11,7 +11,11 @@
   vertical-align: top;
   margin: 0;
   padding: 0;
-  margin-right: 20px;
+  padding-right: 20px;
+  @media (--pc-screen) {
+    margin-right: 20px;
+    padding-right: 0px;
+  }
 }
 
 .ArticleChartList_Article {
