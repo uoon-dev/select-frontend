@@ -3,25 +3,21 @@ import * as React from 'react';
 import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
 
-import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
-
-interface ArticleThumbnailProps {
-  thumbnailShape?: ThumbnailShape;
+interface ArticleChannelThumbnailProps {
   thumbnailClassName?: string;
   imageClassName?: string;
   linkUrl: string;
   imageUrl: string;
-  articleTitle: string;
+  channelName: string;
 }
 
-export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = (props) => {
+export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = (props) => {
   const {
+    thumbnailClassName,
+    imageClassName,
     linkUrl,
     imageUrl,
-    articleTitle,
-    imageClassName,
-    thumbnailShape = ThumbnailShape.RECTANGLE,
-    thumbnailClassName,
+    channelName,
   } = props;
 
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -45,13 +41,12 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
   return (
     <div
       className={classNames(
-        'ArticleThumbnail_Wrapper',
-        `ArticleThumbnail_Wrapper-${thumbnailShape}`,
+        'ArticleChannelThumbnail_Wrapper',
         thumbnailClassName,
       )}
     >
       <Link
-        className="ArticleThumbnail_Link"
+        className="ArticleChannelThumbnail_Link"
         to={linkUrl}
       >
         <Lazyload
@@ -65,20 +60,20 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           {!isWrongImage ? (
             <img
               className={classNames(
-                'ArticleThumbnail_CoverImage',
+                'ArticleChannelThumbnail_CoverImage',
                 imageClassName,
               )}
               src={imageUrl}
-              alt={articleTitle}
+              alt={channelName}
               onLoad={() => setIsLoaded(true)}
               onError={() => setIsWrongImage(true)}
             />
           ) : (
-            <span className="ArticleThumbnail_DefaultCoverImage">
+            <span className="ArticleChannelThumbnail_DefaultCoverImage">
               <img
-                className="ArticleThumbnail_DefaultCoverImage_Logo"
+                className="ArticleChannelThumbnail_DefaultCoverImage_Logo"
                 src={require('images/article_default_thumbnail_logo.png')}
-                alt="리디셀렉트 아티클 빈 썸네일"
+                alt="리디셀렉트 채널 빈 썸네일"
               />
             </span>
           )}
