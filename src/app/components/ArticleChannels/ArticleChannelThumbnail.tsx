@@ -7,7 +7,7 @@ interface ArticleChannelThumbnailProps {
   thumbnailClassName?: string;
   imageClassName?: string;
   linkUrl: string;
-  imageUrl: string;
+  imageUrl?: string;
   channelName: string;
 }
 
@@ -82,7 +82,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
               className={classNames(
                 'Skeleton',
                 'CoverImage_Placeholder',
-                'ArticleCoverImage_Placeholder',
+                'ArticleChannelCoverImage_Placeholder',
                 isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
               )}
               onTransitionEnd={() => setIsEndTransition(true)}

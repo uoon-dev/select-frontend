@@ -10,7 +10,7 @@ interface ArticleThumbnailProps {
   thumbnailClassName?: string;
   imageClassName?: string;
   linkUrl: string;
-  imageUrl: string;
+  imageUrl?: string;
   articleTitle: string;
 }
 

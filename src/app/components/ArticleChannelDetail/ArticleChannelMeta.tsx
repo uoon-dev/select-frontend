@@ -1,11 +1,7 @@
 import { Method } from 'axios';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-
-import { Icon } from '@ridi/rsg';
 
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
-import { Actions } from 'app/services/articleChannel';
 
 interface ArticleChannelMetaProps {
   id: number;
