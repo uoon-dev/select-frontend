@@ -82,7 +82,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailNoticeListP
     bookEndDateTime: !!bookDetail ? bookDetail.endDatetime : '',
     noticeList: !!bookDetail && !!bookDetail.notices && Array.isArray(bookDetail.notices) ?
       bookDetail.notices.filter((notice) =>
-        notice.isVisible && isWithinInterval(new Date(), {start: new Date(notice.beginDatetime), end: new Date(notice.endDatetime)}),
+        notice.isVisible && isWithinInterval(new Date(), { start: new Date(notice.beginDatetime), end: new Date(notice.endDatetime)}),
       ) : undefined,
   };
 };

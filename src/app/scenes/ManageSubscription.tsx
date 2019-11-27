@@ -7,6 +7,7 @@ import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'a
 import history from 'app/config/history';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { EnvironmentState } from 'app/services/environment';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState, UserState } from 'app/services/user';
@@ -18,7 +19,7 @@ import * as dateFns from 'date-fns';
 interface ManageSubscriptionStateProps {
   userState: UserState;
   environment: EnvironmentState;
-  subscriptionState?: SubscriptionState;
+  subscriptionState?: SubscriptionState | null;
   isIosInApp: boolean;
 }
 
@@ -74,7 +75,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
       // 해지 예약 상태일 때, 결제 수단 변경 시 카드가 있다면
       if (type === 'unsubscription') {
-        locationUrl = `${STORE_URL}/select/payments/ridi-pay?return_url=${currentLocation}`;
+        locationUrl = `${STORE_URL}/select/payments/ridi-pay?is_payment_method_change=true&return_url=${currentLocation}`;
       }
 
       // 리디캐시 자동충전 중인 상태의 카드일때 컨펌메시지
@@ -102,10 +103,15 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     if (!this.props.subscriptionState) {
       this.props.dispatchLoadSubscriptionRequest();
     }
+    this.props.dispatchUpdateGNBTabExpose(false);
+  }
+
+  public componentWillUnmount() {
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
-    const { subscriptionState, environment, isIosInApp } = this.props;
+    const { subscriptionState, environment, isIosInApp, userState } = this.props;
     const { STORE_URL } = environment;
     const { isUnsubscribeWarningPopupActive } = this.state;
     return (
@@ -122,13 +128,9 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
             <>
               <ul className="SubscriptionInfo_List">
                 <li className="SubscriptionInfo">
-                  <p className="SubscriptionInfo_Title">구독 시작 일시</p>
-                  <p className="SubscriptionInfo_Data">{buildDateAndTimeFormat(subscriptionState.subscriptionDate)}</p>
-                </li>
-                <li className="SubscriptionInfo">
                   <p className="SubscriptionInfo_Title">이용 기간</p>
                   <p className="SubscriptionInfo_Data">
-                    {buildDateAndTimeFormat(subscriptionState.ticketStartDate)} ~ {buildDateAndTimeFormat(subscriptionState.ticketEndDate)}
+                    {`${buildDateAndTimeFormat(userState.availableUntil)} 까지`}
                   </p>
                 </li>
                 {subscriptionState.isOptout
@@ -215,7 +217,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   </Button>
                 )}
               </div>
-              {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(subscriptionState.ticketEndDate)}까지 이용할 수 있습니다.</p>}
+              {!subscriptionState.isOptout && <p className="UnsubscriptionInfoText">지금 해지 예약하셔도 {buildOnlyDateFormat(userState.availableUntil)}까지 이용할 수 있습니다.</p>}
               {subscriptionState.isOptout
                 && !subscriptionState.isOptoutCancellable
                 && subscriptionState.optoutReasonKor
@@ -267,6 +269,7 @@ const mapDispatchToProps = (dispatch: any) => {
     dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
     dispatchUnsubscribeRequest: () => dispatch(Actions.unsubscribeRequest()),
     dispatchCancelUnsubscriptionRequest: () => dispatch(Actions.cancelUnsubscriptionRequest()),
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   };
 };
 

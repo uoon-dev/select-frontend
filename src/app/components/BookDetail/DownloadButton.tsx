@@ -20,7 +20,7 @@ interface BookDetailDownloadButtonProps {
 
 interface BookDetailDownloadButtonStateProps {
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   hasSubscribedBefore: boolean;
   env: EnvironmentState;
   isInApp: boolean;
@@ -36,7 +36,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
   const {
     bookId,
     isLoggedIn,
-    isSubscribing,
+    hasAvailableTicket,
     hasSubscribedBefore,
     env,
     isInApp,
@@ -108,10 +108,10 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
         onClick={() => moveToLogin(paymentsUrl)}
       >
-        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
+        {hasSubscribedBefore ? '리디셀렉트 구독하고 바로 보기' : '리디셀렉트 구독하고 무료로 보기'}
       </Button>
     );
-  } else if (isSubscribing) {
+  } else if (hasAvailableTicket) {
     return (
       <Button
         color="blue"
@@ -135,7 +135,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
       component="a"
       href={paymentsUrl}
     >
-      {hasSubscribedBefore ? '리디셀렉트 구독하기' : '구독하고 무료로 읽어보기'}
+      {hasSubscribedBefore ? '리디셀렉트 구독하고 바로 보기' : '리디셀렉트 구독하고 무료로 보기'}
     </Button>
   );
 };
@@ -146,7 +146,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: BookDetailDownloadBut
   const bookState = state.booksById[bookId];
 
   return {
-    isSubscribing: state.user.isSubscribing,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     env: state.environment,

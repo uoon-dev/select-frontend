@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
@@ -5,18 +6,17 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { Button, Empty } from '@ridi/rsg';
-import * as classNames from 'classnames';
 
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
+import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, PurchaseHistory } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { buildDateAndTimeFormat } from 'app/utils/formatDate';
-import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 
 interface OrderStateProps {
@@ -27,15 +27,21 @@ interface OrderStateProps {
 type Props = OrderStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
-  private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
+  private handleCancelPurchaseButtonClick = (payment: Ticket) => () => {
     const { orderHistory, dispatchCancelPurchase } = this.props;
+    const { id, ticketIdsToBeCanceledWith } = payment;
 
     if (orderHistory.isCancelFetching) {
       toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
-    if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {
-      dispatchCancelPurchase(purchaseId);
+
+    const confirmMessage =  ticketIdsToBeCanceledWith.length > 0
+      ? '결제를 취소하시겠습니까?\n미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.'
+      : '결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.';
+
+    if (confirm(confirmMessage)) {
+      dispatchCancelPurchase(id);
     }
   }
   private getPaymentMethodTypeName = (payment: Ticket) => {
@@ -47,18 +53,28 @@ export class OrderHistory extends React.PureComponent<Props> {
     return (
       <>
         <p className="Ordered_Date">{buildDateAndTimeFormat(payment.purchaseDate)}</p>
-        <p className="Ordered_Name">{payment.title}</p>
+        <p className="Ordered_Name">
+          {payment.title}
+          {payment.voucherCode && !payment.isFreePromotion ? (
+            <>
+              <span className="Ordered_VoucherInfo">{payment.voucherCode.match(/.{1,4}/g)!.join('-')} ({buildOnlyDateFormat(payment.voucherExpireDate)}까지)</span>
+              <span className="Ordered_Term">이용 기간: {buildOnlyDateFormat(payment.startDate)}~{buildOnlyDateFormat(payment.endDate)}</span>
+            </>
+          ) : null}
+        </p>
         <p className="Ordered_Type">{this.getPaymentMethodTypeName(payment)}</p>
       </>
     );
   }
 
   private renderAmountInfo = (payment: Ticket, shouldDisplayCancel: boolean) => {
-    const { formattedPrice, price, isCancellable, id } = payment;
+    const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id } = payment;
     return (
       <>
         <p className="Ordered_Amount">
-          {price === 0 ? '무료' : formattedPrice}
+          {isFreePromotion
+            ? '무료'
+            : voucherCode ? '' : formattedPrice}
         </p>
         {shouldDisplayCancel && (
           <div className="CancelOrderButton_Wrapper">
@@ -67,7 +83,7 @@ export class OrderHistory extends React.PureComponent<Props> {
                 className="CancelOrderButton"
                 color="gray"
                 outline={true}
-                onClick={this.handleCancelPurchaseButtonClick(id)}
+                onClick={this.handleCancelPurchaseButtonClick(payment)}
                 size="medium"
               >
                 결제 취소
@@ -89,7 +105,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const { itemList } = orderHistory.itemListByPage[page];
     if (!itemList || itemList.length === 0) {
       return (
-        <Empty description="결제 내역이 존재하지 않습니다." iconName="book_1" />
+        <Empty description="결제/이용권 내역이 없습니다." iconName="book_1" />
       );
     }
     const cancelableItemExists = itemList.some((item) => item.isCancellable);
@@ -127,10 +143,15 @@ export class OrderHistory extends React.PureComponent<Props> {
   }
 
   public componentDidMount() {
-    const { dispatchLoadOrderHistory, page } = this.props;
+    const {
+      dispatchLoadOrderHistory,
+      dispatchUpdateGNBTabExpose,
+      page,
+    } = this.props;
     if (!this.isFetched(page)) {
       dispatchLoadOrderHistory(page);
     }
+    dispatchUpdateGNBTabExpose(false);
   }
 
   public shouldComponentUpdate(nextProps: Props) {
@@ -146,6 +167,7 @@ export class OrderHistory extends React.PureComponent<Props> {
 
   public componentWillUnmount() {
     this.props.dispatchClearPurchases();
+    this.props.dispatchUpdateGNBTabExpose(true);
   }
 
   public render() {
@@ -172,19 +194,17 @@ export class OrderHistory extends React.PureComponent<Props> {
           {itemCount > 0 &&
             <>
               <MediaQuery maxWidth={840}>
-                {
-                  (isMobile) => <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/order-history?page=${p}`,
-                      }),
-                    }}
-                  />
-                }
+                {(isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/order-history?page=${p}`,
+                    }),
+                  }}
+                />}
               </MediaQuery>
               <ul className="NoticeList">
                 <li className="NoticeItem">결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는 경우에만 가능합니다.</li>
@@ -211,6 +231,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
     dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
     dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
+    dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),
   };
 };
 

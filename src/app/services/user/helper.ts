@@ -1,12 +1,13 @@
 import request from 'app/config/axios';
 import env from 'app/config/env';
 import { requestAccountsMe } from 'app/services/user/requests';
+import { DateDTO } from 'app/types';
 import axios, { AxiosError } from 'axios';
 
-interface RidiSelectSubscriptionDTO {
-  isSubscribing: boolean;
-  hasSubscribedBefore: boolean;
-  fetchError: AxiosError|null;
+interface RidiSelectTicketDTO {
+  hasAvailableTicket: boolean;
+  availableUntil?: DateDTO;
+  fetchTicketError: AxiosError|null;
 }
 
 interface RidiSelectAccountDTO {
@@ -19,8 +20,8 @@ export interface UserDTO {
   isLoggedIn: boolean;
   uId: string;
   email: string;
-  isSubscribing: boolean;
-  hasSubscribedBefore: boolean;
+  availableUntil?: DateDTO;
+  hasAvailableTicket: boolean;
 }
 
 const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
@@ -29,20 +30,17 @@ const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
   email: '',
 };
 
-const fetchSubscriptionInfo = async (): Promise<RidiSelectSubscriptionDTO> => {
+const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => {
   return request({
-    url: `${env.STORE_API}/api/select/users/me/subscription`,
+    url: `${env.STORE_API}/api/select/users/me/tickets/available`,
     withCredentials: true,
   }).then((response) => ({
-    isSubscribing: true,
-    hasSubscribedBefore: true,
-    fetchError: null,
+    hasAvailableTicket: true,
+    availableUntil: response.data.available_until,
+    fetchTicketError: null,
   })).catch((e) => ({
-    isSubscribing: false,
-    hasSubscribedBefore: (
-      (e.response && e.response.status === 402) ? e.response.data.is_previously_subscribed : false
-    ),
-    fetchError: e,
+    hasAvailableTicket: false,
+    fetchTicketError: e,
   }));
 };
 
@@ -59,15 +57,17 @@ const fetchAccountInfo = async (): Promise<RidiSelectAccountDTO> => {
 };
 
 export const fetchUserInfo = async (): Promise<UserDTO> => {
-  const fetchedSubscriptionInfo = await fetchSubscriptionInfo();
-  const { fetchError, ...subscriptionInfo } = fetchedSubscriptionInfo;
+  const fetchedTicketInfo = await fetchTicketInfo();
+  const { fetchTicketError, hasAvailableTicket, availableUntil } = fetchedTicketInfo;
 
   // 401 응답이 아닌 경우에만 계정 정보 fetch
-  return (fetchError === null || (fetchError.response && fetchError.response.status !== 401)) ? {
-    ...subscriptionInfo,
+  return (fetchTicketError === null || (fetchTicketError.response && fetchTicketError.response.status !== 401)) ? {
+    hasAvailableTicket,
+    availableUntil,
     ...await fetchAccountInfo(),
   } : {
-    ...subscriptionInfo,
+    hasAvailableTicket,
+    availableUntil,
     ...NOT_LOGGED_IN_ACCOUNT_INFO,
   };
 };

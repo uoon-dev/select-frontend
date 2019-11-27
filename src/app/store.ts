@@ -1,5 +1,4 @@
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
-import { History } from 'history';
 import { isEmpty } from 'lodash-es';
 import * as qs from 'qs';
 import { Dispatch } from 'redux';
@@ -11,12 +10,25 @@ import { all } from 'redux-saga/effects';
 import { closingReservedBooksReducer } from './services/closingReservedBooks/index';
 
 import browserHistory from 'app/config/history';
+import { appReducer, AppState } from 'app/services/app';
 import { bookReducer, BookState } from 'app/services/book';
 import { bookRootSaga } from 'app/services/book/sagas';
 import { commonUIReducer, CommonUIState } from 'app/services/commonUI';
 import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
+
+import { channelRootSaga } from 'app/services/articleChannel/sagas';
+import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
+
+import { favoriteArticleListReducer, FavoriteArticleListState } from 'app/services/articleFavorite';
+import { articleFavoriteRootSaga } from 'app/services/articleFavorite/sagas';
+
+import { articleReducer, ArticlesState } from 'app/services/article';
+import { articleRootSaga } from 'app/services/article/sagas';
+
+import { ArticleFollowingState, articleFollowReducer } from 'app/services/articleFollowing';
+import { articleFollowingRootSaga } from 'app/services/articleFollowing/sagas';
 
 import { categoryBooksReducer, CategoryBooksState, categoryListReducer, CategoryListState } from 'app/services/category';
 import { categoryRootSaga } from 'app/services/category/sagas';
@@ -30,12 +42,15 @@ import { mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
-import { SearchResultState } from 'app/services/searchResult';
 import { searchResultReducer } from 'app/services/searchResult';
+import { SearchResultState } from 'app/services/searchResult';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
+import { voucherRootSaga } from 'app/services/voucher/sagas';
+import { articleChannelListReducer, ArticleChannelListState, articleChannelReducer, ArticleChannelState } from './services/articleChannel';
+import { articleHomeReducer, ArticleHomeState } from './services/articleHome';
 
 import env from 'app/config/env';
 import { customHistoryReducer, customHistorySaga, CustomHistoryState } from 'app/services/customHistory';
@@ -64,11 +79,18 @@ function* rootSaga(dispatch: Dispatch) {
     customHistorySaga(),
     closingReservedBooksRootSaga(),
     serviceStatusSaga(),
+    voucherRootSaga(),
+    articleRootSaga(),
+    articleHomeRootSaga(),
+    channelRootSaga(),
+    articleFollowingRootSaga(),
+    articleFavoriteRootSaga(),
   ]);
 }
 
 export interface RidiSelectState {
   router: RouterState;
+  app: AppState;
   user: UserState;
   home: HomeState;
   booksById: BookState;
@@ -83,6 +105,12 @@ export interface RidiSelectState {
   environment: EnvironmentState;
   customHistory: CustomHistoryState;
   closingReservedBooks: ClosingReservedBooksState;
+  articlesById: ArticlesState;
+  articleHome: ArticleHomeState;
+  articleChannels: ArticleChannelListState;
+  articleChannelById: ArticleChannelState;
+  articleFollowing: ArticleFollowingState;
+  favoriteArticle: FavoriteArticleListState;
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -96,6 +124,7 @@ export const hasCompletedPayletterSubscription = () => !!qs.parse(location.searc
 
 const reducers = combineReducers({
   router: connectRouter(browserHistory),
+  app: appReducer,
   user: userReducer,
   home: homeReducer,
   booksById: bookReducer,
@@ -110,6 +139,13 @@ const reducers = combineReducers({
   environment: environmentReducer,
   customHistory: customHistoryReducer,
   closingReservedBooks: closingReservedBooksReducer,
+
+  articlesById: articleReducer,
+  articleHome: articleHomeReducer,
+  articleChannels: articleChannelListReducer,
+  articleChannelById: articleChannelReducer,
+  articleFollowing: articleFollowReducer,
+  favoriteArticle: favoriteArticleListReducer,
 });
 
 const middleware = [
