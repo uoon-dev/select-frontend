@@ -13,8 +13,8 @@ import {
 } from 'app/services/commonUI/selectors';
 import {
   getIsAndroidInApp,
-  getIsIntro,
   getIsIosInApp,
+  getIsSimpleGNB,
   selectIsInApp,
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
@@ -33,8 +33,8 @@ interface Props {
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
-  isIntro: boolean;
+  hasAvailableTicket: boolean;
+  isSimpleGNB: boolean;
 }
 
 export class GNB extends React.Component<Props> {
@@ -168,7 +168,7 @@ export class GNB extends React.Component<Props> {
 
   private renderGNBAccountButtons() {
     const {
-      isIntro,
+      isSimpleGNB,
       isLoggedIn,
       isFetching,
     } = this.props;
@@ -180,7 +180,7 @@ export class GNB extends React.Component<Props> {
       <div className="GNBRightButtonWrapper">
         {!isLoggedIn ?
           this.renderLoginButton() :
-          isIntro ?
+          isSimpleGNB ?
             this.renderLogoutButton() :
             [
               this.renderSettingButton(),
@@ -193,9 +193,9 @@ export class GNB extends React.Component<Props> {
 
   private renderGNBSearchButton() {
     const {
-      isIntro,
+      isSimpleGNB,
     } = this.props;
-    return isIntro ? null : (
+    return isSimpleGNB ? null : (
       <MediaQuery maxWidth={840}>
         {(matches) => <ConnectedSearch isMobile={matches} />}
       </MediaQuery>
@@ -236,11 +236,11 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   BASE_URL_RIDISELECT: rootState.environment.SELECT_URL,
   isFetching: rootState.user.isFetching,
   isLoggedIn: rootState.user.isLoggedIn,
-  isSubscribing: rootState.user.isSubscribing,
+  hasAvailableTicket: rootState.user.hasAvailableTicket,
   isInApp: selectIsInApp(rootState),
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
-  isIntro: getIsIntro(rootState),
+  isSimpleGNB: getIsSimpleGNB(rootState),
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

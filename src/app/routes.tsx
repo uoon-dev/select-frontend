@@ -18,7 +18,6 @@ import {
   ConnectedErrorPage,
   ConnectedGuide,
   ConnectedHome,
-  ConnectedIntro,
   ConnectedManageSubscription,
   ConnectedMySelect,
   ConnectedMySelectHistory,
@@ -26,7 +25,9 @@ import {
   ConnectedOrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
+  Intro,
   NotAvailableBook,
+  Voucher,
   WrongLocation,
 } from 'app/scenes';
 
@@ -43,7 +44,7 @@ export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   errorResponseState?: ErrorResponseStatus;
 }
 
@@ -162,13 +163,19 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.INTRO}
             exact={true}
-            component={ConnectedIntro}
+            component={Intro}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.VOUCHER}
+            exact={true}
+            component={Voucher}
             {...props}
           />
           <ConnectedPrivateRoute
             path={RoutePaths.MANAGE_SUBSCRIPTION}
             component={ConnectedManageSubscription}
-            routeBlockLevel={RouteBlockLevel.SUBSCRIBED}
+            routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
             {...props}
           />
           <Route
@@ -186,7 +193,7 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
   isFetching: rootState.user.isFetching,
-  isSubscribing: rootState.user.isSubscribing,
+  hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
 });
 
