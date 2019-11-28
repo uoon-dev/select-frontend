@@ -9,6 +9,7 @@ import { Button, Icon } from '@ridi/rsg';
 import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/ArticleChannelInfoHeader';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
+import { ArticleContentPlaceholder } from 'app/placeholder/ArticleContentPlaceholder';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
@@ -162,5 +163,5 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
         />}
       </div>
     </main>
-  ) : null;
+  ) : <ArticleContentPlaceholder />;
 };

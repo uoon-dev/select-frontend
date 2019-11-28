@@ -7,6 +7,8 @@ import { Link, LinkProps, useParams } from 'react-router-dom';
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
+import { ArticleChannelDetailPlaceholder } from 'app/placeholder/ArticleChannelDetailPlaceholder';
+import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
@@ -42,23 +44,27 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       dispatch(Actions.loadArticleChannelDetailRequest({channelName}));
     }
     if (!isFetchedChannelArticles()) {
-      dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
+      if (location.pathname === articleChannelToPath({channelName})) {
+        dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
+      }
     }
   }, [page]);
-  return articleChannelData && articleChannelData.channelMeta ? (
+
+  return (
     <main
       className={classNames(
         'SceneWrapper',
       )}
     >
-      <HelmetWithTitle titleName={isFetchedChannelMeta() ? articleChannelData.channelMeta!.displayName : ''} />
+      <HelmetWithTitle titleName={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} />
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       {
-        isFetchedChannelMeta() &&
-        <ArticleChannelMeta {...articleChannelData.channelMeta!} />
+        isFetchedChannelMeta() && articleChannelData ?
+        <ArticleChannelMeta {...articleChannelData.channelMeta!} /> :
+        <ArticleChannelDetailPlaceholder />
       }
       <div className="Channel_ArticleList">
-        {isFetchedChannelArticles() &&
+        {isFetchedChannelArticles() && articleChannelData ?
           <GridArticleList
             pageTitleForTracking="article-channel-detail"
             uiPartTitleForTracking="article-channel-detail-articles"
@@ -69,9 +75,10 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
                 .itemList
                 .map((articleKey) => articlesById[articleKey].article!)
             }
-          />
+          /> :
+          <GridArticleListPlaceholder />
         }
-        {articleChannelData.itemCount! > 0 &&
+        {articleChannelData && articleChannelData.itemCount! > 0 &&
           <MediaQuery maxWidth={840}>
             {(isMobile) => (
               <Pagination
@@ -90,5 +97,5 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
         }
       </div>
     </main>
-  ) : null;
+  );
 };
