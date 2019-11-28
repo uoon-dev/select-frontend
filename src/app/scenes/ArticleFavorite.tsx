@@ -1,6 +1,8 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
 
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
@@ -9,19 +11,25 @@ import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleFavorite';
 import { getFavoriteArticleList } from 'app/services/articleFavorite/selectors';
+import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import MediaQuery from 'react-responsive';
-import { Link, LinkProps } from 'react-router-dom';
 
 export const ArticleFavorite: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
 
   const page = useSelector(getPageQuery);
   const articleItems = useSelector(getFavoriteArticleList);
-  const { favoriteArticleFetchStatus, itemCount } = useSelector((state: RidiSelectState) => ({
+  const {
+    favoriteArticleFetchStatus,
+    itemCount,
+    hasAvailableTicket,
+    unseenFeedsFetchStatus,
+  } = useSelector((state: RidiSelectState) => ({
     favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[page] ? state.favoriteArticle.itemListByPage[page].fetchStatus : FetchStatusFlag.IDLE,
     itemCount: state.favoriteArticle && state.favoriteArticle.itemCount ? state.favoriteArticle.itemCount : 1,
+    hasAvailableTicket: state.user.hasAvailableTicket,
+    unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
   }));
 
   const dispatch = useDispatch();
@@ -29,7 +37,11 @@ export const ArticleFavorite: React.FunctionComponent = () => {
     if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
+    if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
+      dispatch(ArticleFollowingActions.loadUnseenFollowingFeedsRequest());
+    }
   }, [page]);
+
   return (
     <main
       className={classNames(
