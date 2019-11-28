@@ -1,7 +1,6 @@
+import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 import { Method } from 'axios';
 import * as React from 'react';
-
-import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 
 interface ArticleChannelMetaProps {
   id: number;
