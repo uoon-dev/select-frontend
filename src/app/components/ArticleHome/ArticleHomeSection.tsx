@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { FetchStatusFlag } from 'app/constants';
+import { ArticleSectionChartListPlaceholder } from 'app/placeholder/ArticleSectionChartListPlaceholder';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { ArticleResponse } from 'app/services/article/requests';
@@ -55,8 +56,17 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
   if (type === ArticleSectionType.CHART) {
     return (
       <section className="ArticleHomeSection">
-        <ArticleSectionHeader title={title} />
-        <ArticleSectionChartList articleList={sectionData.articles && sectionData.articles.map((id) => articles[id].article!)} />
+        {!sectionData.articles ? (
+          <>
+            <ArticleSectionHeaderPlaceholder />
+            <ArticleSectionChartListPlaceholder />
+          </>
+        ) : (
+          <>
+            <ArticleSectionHeader title={title} />
+            <ArticleSectionChartList articleList={sectionData.articles && sectionData.articles.map((id) => articles[id].article!)} />
+          </>
+        )}
       </section>
     );
   }
