@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 
+import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions } from 'app/services/article';
@@ -82,13 +83,13 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelMeta && channelMeta ? (
-                  <Link to={articleChannelToPath({channelName: channelMeta.name})}>
-                    <div className="GridArticleItem_ChannelThumbnail">
-                      <img src={channelMeta.thumbnailUrl} className="GridArticleItem_ChannelThumbnailImage" />
-                    </div>
-                  </Link>
+                  <ArticleChannelThumbnail
+                    imageUrl={channelMeta.thumbnailUrl}
+                    linkUrl={articleChannelToPath({channelName: channelMeta.name})}
+                    channelName={channelMeta.displayName}
+                  />
                 ) : null}
-                <div className="GridArticleItem_Meta_Link">
+                <div className="GridArticleItem_Meta_Wrapper">
                   <Link
                     to={articleUrl}
                     className="GridArticleItem_Link"

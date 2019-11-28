@@ -1,0 +1,37 @@
+.ArticleChannelThumbnail_Wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border: solid 1px rgba(0, 0, 0, .02);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ArticleChannelThumbnail_CoverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ArticleChannelCoverImage_Placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.ArticleChannelThumbnail_DefaultCoverImage {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #e6e8eb;
+}
+
+.ArticleChannelThumbnail_DefaultCoverImage_Logo {
+  display: block;
+  align-self: center;
+  width: 30%;
+  margin: 0 auto;
+}
