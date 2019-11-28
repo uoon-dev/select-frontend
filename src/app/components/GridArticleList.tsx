@@ -23,6 +23,7 @@ interface Props {
   filterForTracking?: string;
   articles: ArticleResponse[];
   renderAuthor?: boolean;
+  renderChannelThumbnail?: boolean;
   renderChannelMeta?: boolean;
   renderRegDate?: boolean;
   renderFavoriteButton?: boolean;
@@ -37,6 +38,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     filterForTracking,
     articles,
     renderAuthor = true,
+    renderChannelThumbnail = false,
     renderChannelMeta = false,
     renderRegDate = false,
     renderFavoriteButton = false,
@@ -82,7 +84,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 articleTitle={article.title}
               />
               <div className="GridArticleItem_Meta">
-                {renderChannelMeta && channelMeta ? (
+                {renderChannelThumbnail && channelMeta ? (
                   <ArticleChannelThumbnail
                     imageUrl={channelMeta.thumbnailUrl}
                     linkUrl={articleChannelToPath({channelName: channelMeta.name})}

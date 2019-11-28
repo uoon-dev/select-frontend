@@ -75,6 +75,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             {articleItems &&
               <GridArticleList
                 articles={articleItems}
+                renderChannelThumbnail={true}
                 renderChannelMeta={true}
                 renderAuthor={false}
                 renderRegDate={true}
