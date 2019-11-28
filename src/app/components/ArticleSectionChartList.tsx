@@ -41,8 +41,8 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
               const index = groupIdx * CHART_GROUPING_COUNT + idxInGroup;
               const articleUrl = `/article/${getArticleKeyFromData(article)}`;
               const channelMeta = articleChannelById &&
-                articleChannelById[article.channelId] &&
-                articleChannelById[article.channelId].channelMeta;
+                articleChannelById[article.channelName] &&
+                articleChannelById[article.channelName].channelMeta;
               return (
                 <li
                   key={idxInGroup}

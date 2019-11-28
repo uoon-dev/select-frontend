@@ -83,6 +83,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
         <GridArticleList
           pageTitleForTracking="article-home"
           uiPartTitleForTracking="article-home-section"
+          renderChannelMeta={true}
           articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
         />
         </>

@@ -48,6 +48,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
             <>
               <GridArticleList
                 articles={articleItems}
+                renderChannelThumbnail={true}
                 renderChannelMeta={true}
                 renderAuthor={false}
                 renderRegDate={true}
