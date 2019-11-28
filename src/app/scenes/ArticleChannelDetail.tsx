@@ -44,7 +44,9 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       dispatch(Actions.loadArticleChannelDetailRequest({channelName}));
     }
     if (!isFetchedChannelArticles()) {
-      dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
+      if (location.pathname === articleChannelToPath({channelName})) {
+        dispatch(Actions.loadArticleChannelArticlesRequest({channelName, page}));
+      }
     }
   }, [page]);
 
