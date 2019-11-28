@@ -13,15 +13,15 @@
   box-sizing: border-box;
   width: 48px;
   height: 40px;
-  padding-top: 3px;  
+  padding-top: 3px;
   border-radius: 20px;
 }
 
-.GridArticleItem_Meta_Link {
+.GridArticleItem_Meta_Wrapper {
   width: 100%;
 }
 
-.GridArticleItem_Title_Skeleton {  
+.GridArticleItem_Title_Skeleton {
   width: 100%;
   height: 20px;
   margin-top: 3px;
@@ -37,12 +37,12 @@
     @media (--big-mobile-layout) {
       width: 120px;
     }
-  }  
+  }
   & .GridArticleItem_ChannelName_Skeleton {
     margin-top: 9px;
     width: 61px;
     height: 17px;
-  }  
+  }
 }
 
 
