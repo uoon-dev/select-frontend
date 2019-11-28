@@ -7,6 +7,7 @@ import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
+import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
 
 export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, channelName: string, contentKey: string }> = (props) => {
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
@@ -38,14 +39,12 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
 
   return channelState && channelState.channelMeta ? (
     <div className="ChannelInfoHeader_Wrapper">
-      <Link
-        className="ChannelInfoHeader_ChannelLink"
-        to={articleChannelToPath({channelName: channelState.channelMeta.name})}
-      >
-        <div className="ChannelInfoHeader_Thumbnail">
-          <img src={channelState.channelMeta.thumbnailUrl} className="ChannelInfoHeader_ThumbnailImage" />
-        </div>
-      </Link>
+      <ArticleChannelThumbnail
+        imageUrl={channelState.channelMeta.thumbnailUrl}
+        thumbnailClassName="ChannelInfoHeader_ChannelLink"
+        linkUrl={articleChannelToPath({channelName: channelState.channelMeta.name})}
+        channelName={channelState.channelMeta.name}
+      />
       <div className="ChannelInfoHeader_Meta">
         <Link
           className="ChannelInfoHeader_ChannelLink"
