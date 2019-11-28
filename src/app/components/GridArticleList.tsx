@@ -89,7 +89,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     channelName={channelMeta.displayName}
                   />
                 ) : null}
-                <div className="GridArticleItem_Meta_Wrapper">
+                <div className="GridArticleItem_Meta_InnerWrapper">
                   <Link
                     to={articleUrl}
                     className="GridArticleItem_Link"

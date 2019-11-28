@@ -27,13 +27,13 @@
   width: 100%;
   padding-top: 10px;
   box-sizing: border-box;
-}
-
-.GridArticleItem_Meta_Wrapper {
-  vertical-align: top;
   & .ArticleChannelThumbnail_Wrapper {
     flex: none;
   }
+}
+
+.GridArticleItem_Meta_InnerWrapper {
+  vertical-align: top;
 }
 
 .GridArticleItem_Link {
