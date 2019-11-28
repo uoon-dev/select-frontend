@@ -13,7 +13,7 @@ export const getChannelItems = createSelector(
     if (channelItems) {
       return channelItems.map((channelName) => channelById[channelName].channelMeta!);
     }
-    return [];
+    return null;
   },
 );
 

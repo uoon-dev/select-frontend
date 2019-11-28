@@ -46,12 +46,15 @@
 @import 'placeholder/MySelectHistoryPlaceholder.css';
 @import 'placeholder/BookDetailPlaceholder.css';
 @import 'placeholder/ArticleChannelListPlaceholder.css';
+@import 'placeholder/SlideChannelListPlaceholder.css';
+@import 'placeholder/GridArticleListPlaceholder.css';
 @import 'in_app_intro.css';
 
 @import 'test_badge.css';
 
 @import 'base/ArticleEmpty.css';
 @import 'base/GridArticleList.css';
+@import 'article/index.css';
 @import 'article/ArticleThumbnail.css';
 @import 'articleHome/ArticleHomeSection.css';
 @import 'articleHome/ArticleChartSection.css';

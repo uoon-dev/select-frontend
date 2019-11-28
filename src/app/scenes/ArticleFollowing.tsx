@@ -7,6 +7,8 @@ import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SlideChannelList } from 'app/components/SlideChannelList';
 import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
+import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
+import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { Actions } from 'app/services/articleFollowing';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -58,11 +60,13 @@ export const ArticleFollowing: React.FunctionComponent = () => {
         'SceneWrapper',
         'SceneWrapper_WithGNB',
         'SceneWrapper_WithLNB',
+        'PageArticleFollowing',
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FOLLOWING} />
       <div className="a11y"><h1>리디셀렉트 아티클 팔로잉</h1></div>
-      {channelItems && channelItems.length > 0 ? (
+      {channelItems ? (
+        channelItems.length > 0 ? (
         <>
           <SlideChannelList
             channels={channelItems}
@@ -106,8 +110,17 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             </Link>
           )}
         />
-      )}
+      )) : (
+        <>
+          <SlideChannelListPlaceholder />
+          <div className="FollowingArticleList">
+            <GridArticleListPlaceholder
+              gridSize={'large'}
+            />
+          </div>
+        </>
+      )
+    }
     </main>
-
   );
 };
