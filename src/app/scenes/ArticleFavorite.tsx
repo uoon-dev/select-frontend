@@ -6,6 +6,7 @@ import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
+import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleFavorite';
 import { getFavoriteArticleList } from 'app/services/articleFavorite/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -29,50 +30,56 @@ export const ArticleFavorite: React.FunctionComponent = () => {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
   }, [page]);
-
   return (
     <main
       className={classNames(
         'SceneWrapper',
         'SceneWrapper_WithGNB',
         'SceneWrapper_WithLNB',
+        'PageArticleFavorite',
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FAVORITE} />
       <div className="a11y"><h1>리디셀렉트 좋아한 아티클</h1></div>
 
       <div className="FollowingArticleList">
-        {articleItems && articleItems.length > 0 ? (
-          <>
-            <GridArticleList
-              articles={articleItems}
-              renderChannelMeta={true}
-              renderAuthor={false}
-              renderRegDate={true}
-              renderFavoriteButton={true}
-              isFullWidthAvailable={true}
-              gridListSizeClassNames="GridArticleList-large"
+        {articleItems ? (
+          articleItems.length > 0 ? (
+            <>
+              <GridArticleList
+                articles={articleItems}
+                renderChannelMeta={true}
+                renderAuthor={false}
+                renderRegDate={true}
+                renderFavoriteButton={true}
+                isFullWidthAvailable={true}
+                gridListSizeClassNames="GridArticleList-large"
+              />
+              <MediaQuery maxWidth={840}>
+                {(isMobile) => (
+                  <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `${RoutePaths.ARTICLE_FAVORITE}?page=${p}`,
+                      }),
+                    }}
+                  />
+                )}
+              </MediaQuery>
+            </>
+          ) : (
+            <ArticleEmpty
+              iconName="document"
+              description="좋아한 아티클이 없습니다."
             />
-            <MediaQuery maxWidth={840}>
-              {(isMobile) => (
-                <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `${RoutePaths.ARTICLE_FAVORITE}?page=${p}`,
-                    }),
-                  }}
-                />
-              )}
-            </MediaQuery>
-          </>
+          )
         ) : (
-          <ArticleEmpty
-            iconName="document"
-            description="좋아한 아티클이 없습니다."
+          <GridArticleListPlaceholder
+            gridSize={'large'}
           />
         )}
       </div>

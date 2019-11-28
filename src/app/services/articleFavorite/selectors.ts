@@ -12,7 +12,7 @@ export const getFavoriteArticleList = createSelector(
       articleItems && articleItems.itemListByPage && articleItems.itemListByPage[page] && articleItems.itemListByPage[page].itemList
         ? articleItems.itemListByPage[page].itemList
         : [];
-    if (itemList) {
+    if (itemList.length > 0) {
       return itemList.map((articleKey) => articleById[articleKey] && articleById[articleKey].article!);
     }
     return null;

@@ -44,7 +44,6 @@ export const articleFollowReducer = createReducer<typeof INITIAL_STATE>({}, INIT
 
 articleFollowReducer.on(Actions.loadFollowingChannelListRequest, (state) => ({
   ...state,
-  followingChannelList: [],
   fetchStatus: FetchStatusFlag.FETCHING,
 }));
 

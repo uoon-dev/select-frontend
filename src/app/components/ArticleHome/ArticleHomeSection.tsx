@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { FetchStatusFlag } from 'app/constants';
+import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
+import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions, ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
 import { RidiSelectState } from 'app/store';
@@ -58,15 +60,23 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
       </section>
     );
   }
-  return !sectionData.articles ? null : (
+  return (
     <section className="ArticleHomeSection">
-      <ArticleSectionHeader title={title} />
-      {/* 아티클 리스트 */}
-      <GridArticleList
-        pageTitleForTracking="article-home"
-        uiPartTitleForTracking="article-home-section"
-        articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
-      />
+      {!sectionData.articles ? (
+        <>
+          <ArticleSectionHeaderPlaceholder />
+          <GridArticleListPlaceholder />
+        </>
+      ) : (
+        <>
+        <ArticleSectionHeader title={title} />
+        <GridArticleList
+          pageTitleForTracking="article-home"
+          uiPartTitleForTracking="article-home-section"
+          articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
+        />
+        </>
+      )}
     </section>
   );
 };
