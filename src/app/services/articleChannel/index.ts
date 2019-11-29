@@ -67,6 +67,7 @@ export interface ArticleChannelStateItem extends Paginated<ArticleKey> {
   id: number;
   channelMeta?: ArticleChannel;
   metaFetchStatus: FetchStatusFlag;
+  followFetchStatus?: FetchStatusFlag;
   isMetaFetched: boolean;
 }
 
