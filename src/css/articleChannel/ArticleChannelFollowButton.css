@@ -21,8 +21,14 @@
   background: #fff;
 
   @media (hover: hover) {
-    &:hover,
-    &:active {
+    &:hover{
+      background: #fff;
+      border-color: var(--dodgerblue_60);
+      transition: background .2s, color .2s;
+    }
+  }
+  @media (hover: none) {
+    &:active{
       background: #fff;
       border-color: var(--dodgerblue_60);
       transition: background .2s, color .2s;
