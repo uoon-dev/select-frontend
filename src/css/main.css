@@ -65,6 +65,7 @@
 @import 'articleFollowing/index.css';
 @import 'articleChannel/ArticleChannelInfoHeader.css';
 @import 'articleChannel/ArticleChannel.css';
+@import 'articleChannel/ArticleChannelMeta.css';
 @import 'articleChannel/ArticleChannelThumbnail.css';
 @import 'articleChannel/ArticleChannelList.css';
 @import 'articleChannel/ArticleChannelFollowButton.css';

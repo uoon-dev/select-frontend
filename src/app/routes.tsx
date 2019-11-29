@@ -11,7 +11,7 @@ import { ErrorResponseStatus } from 'app/services/serviceStatus';
 import history from 'app/config/history';
 import {
   ArticleChannelDetail,
-  ArticleChannels,
+  ArticleChannelList,
   ArticleFavorite,
   ArticleFollowing,
   ArticleHome,
@@ -193,7 +193,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
           <Route
             path={RoutePaths.ARTICLE_CHANNELS}
-            component={ArticleChannels}
+            component={ArticleChannelList}
             {...props}
           />
           <Route

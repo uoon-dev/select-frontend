@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
-import { ArticleChannelsMeta } from 'app/components/ArticleChannels/ArticleChannelsMeta';
+import { ArticleChannelMeta } from 'app/components/ArticleChannels/ArticleChannelMeta';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ArticleChannelListPlaceholder } from 'app/placeholder/ArticleChannelListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
@@ -11,7 +11,7 @@ import { getChannelList } from 'app/services/articleChannel/selectors';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { RidiSelectState } from 'app/store';
 
-export const ArticleChannels: React.FunctionComponent = () => {
+export const ArticleChannelList: React.FunctionComponent = () => {
   const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector((state: RidiSelectState) => ({
     channelList: getChannelList(state),
     hasAvailableTicket: state.user.hasAvailableTicket,
@@ -46,12 +46,12 @@ export const ArticleChannels: React.FunctionComponent = () => {
       <section>
         { channelListFetchStatus === FetchStatusFlag.FETCHING ?
           <ArticleChannelListPlaceholder /> : (
-            <div className="ArticlePageChannelList_Wrap">
-              <ul className="ArticlePageChannelList">
+            <div className="ArticleChannelList_Wrapper">
+              <ul className="ArticleChannelList">
                 {channelList.map((channelMeta, idx) => {
                     return channelMeta ? (
-                      <li key={idx} className="ArticlePageChannel">
-                        <ArticleChannelsMeta {...channelMeta} />
+                      <li key={idx} className="ArticleChannelList_Item">
+                        <ArticleChannelMeta {...channelMeta} />
                       </li>
                     ) : null;
                 })}
