@@ -41,6 +41,21 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     }
   }, []);
 
+  if (!isEnabled) {
+    return (
+      <div
+        className={classNames(
+          'ArticleChannelThumbnail_Wrapper',
+          thumbnailClassName,
+        )}
+      >
+        <div className="ArticleChannelThumbnail_Block">
+          <BlockIconComponent width={24} height={24} className="ArticleChannelThumbnail_BlockImage" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={classNames(
@@ -48,58 +63,52 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
         thumbnailClassName,
       )}
     >
-      {isEnabled ? (
-        <Link
-          className="ArticleChannelThumbnail_Link"
-          to={linkUrl}
+      <Link
+        className="ArticleChannelThumbnail_Link"
+        to={linkUrl}
+      >
+        <Lazyload
+          offset={100}
+          once={true}
+          throttle={true}
+          resize={true}
+          overflow={false}
+          placeholder={<div className="Skeleton" />}
         >
-          <Lazyload
-            offset={100}
-            once={true}
-            throttle={true}
-            resize={true}
-            overflow={false}
-            placeholder={<div className="Skeleton" />}
-          >
-            {!isWrongImage ? (
+          {!isWrongImage ? (
+            <img
+              className={classNames(
+                'ArticleChannelThumbnail_CoverImage',
+                imageClassName,
+              )}
+              src={imageUrl}
+              alt={channelName}
+              onLoad={() => setIsLoaded(true)}
+              onError={() => setIsWrongImage(true)}
+            />
+          ) : (
+            <span className="ArticleChannelThumbnail_DefaultCoverImage">
               <img
-                className={classNames(
-                  'ArticleChannelThumbnail_CoverImage',
-                  imageClassName,
-                )}
-                src={imageUrl}
-                alt={channelName}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setIsWrongImage(true)}
+                className="ArticleChannelThumbnail_DefaultCoverImage_Logo"
+                src={require('images/article_default_thumbnail_logo.png')}
+                alt="리디셀렉트 채널 빈 썸네일"
               />
-            ) : (
-              <span className="ArticleChannelThumbnail_DefaultCoverImage">
-                <img
-                  className="ArticleChannelThumbnail_DefaultCoverImage_Logo"
-                  src={require('images/article_default_thumbnail_logo.png')}
-                  alt="리디셀렉트 채널 빈 썸네일"
-                />
-              </span>
-            )}
-            {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
-              <span
-                className={classNames(
-                  'Skeleton',
-                  'CoverImage_Placeholder',
-                  'ArticleChannelCoverImage_Placeholder',
-                  isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
-                )}
-                onTransitionEnd={() => setIsEndTransition(true)}
-                ref={coverPlaceholder}
-              />
-            )}
-          </Lazyload>
-        </Link>
-      ) : (
-        <div className="ArticleChannelThumbnail_Block">
-          <BlockIconComponent width={24} height={24} className="ArticleChannelThumbnail_BlockImage" />
-        </div>
-      )}
+            </span>
+          )}
+          {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
+            <span
+              className={classNames(
+                'Skeleton',
+                'CoverImage_Placeholder',
+                'ArticleChannelCoverImage_Placeholder',
+                isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
+              )}
+              onTransitionEnd={() => setIsEndTransition(true)}
+              ref={coverPlaceholder}
+            />
+          )}
+        </Lazyload>
+      </Link>
     </div>
   );
 };

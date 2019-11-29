@@ -51,6 +51,23 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     }
   }, []);
 
+  if (!isEnabled) {
+    return (
+      <div
+        className={classNames(
+          'ArticleThumbnail_Wrapper',
+          `ArticleThumbnail_Wrapper-${thumbnailShape}`,
+          thumbnailClassName,
+        )}
+      >
+        <div className="ArticleThumbnail_Block">
+          <BlockIconComponent className="ArticleThumbnail_BlockImage" />
+          <p className="ArticleThumbnail_BlockText">이용할 수 없는 아티클입니다.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={classNames(
@@ -59,60 +76,52 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         thumbnailClassName,
       )}
     >
-    { isEnabled ? (
-        <Link
-          className="ArticleThumbnail_Link"
-          to={linkUrl}
+      <Link
+        className="ArticleThumbnail_Link"
+        to={linkUrl}
+      >
+        <Lazyload
+          offset={100}
+          once={true}
+          throttle={true}
+          resize={true}
+          overflow={false}
+          placeholder={<div className="Skeleton" />}
         >
-          <Lazyload
-            offset={100}
-            once={true}
-            throttle={true}
-            resize={true}
-            overflow={false}
-            placeholder={<div className="Skeleton" />}
-          >
-            {!isWrongImage ? (
-                <img
-                  className={classNames(
-                    'ArticleThumbnail_CoverImage',
-                    imageClassName,
-                  )}
-                  src={imageUrl}
-                  alt={articleTitle}
-                  onLoad={() => setIsLoaded(true)}
-                  onError={() => setIsWrongImage(true)}
-                />
-            ) : (
-              <span className="ArticleThumbnail_DefaultCoverImage">
-                <img
-                  className="ArticleThumbnail_DefaultCoverImage_Logo"
-                  src={require('images/article_default_thumbnail_logo.png')}
-                  alt="리디셀렉트 아티클 빈 썸네일"
-                />
-              </span>
-            )
-            }
-            {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
-              <span
+          {!isWrongImage ? (
+              <img
                 className={classNames(
-                  'Skeleton',
-                  'CoverImage_Placeholder',
-                  'ArticleCoverImage_Placeholder',
-                  isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
+                  'ArticleThumbnail_CoverImage',
+                  imageClassName,
                 )}
-                onTransitionEnd={() => setIsEndTransition(true)}
-                ref={coverPlaceholder}
+                src={imageUrl}
+                alt={articleTitle}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setIsWrongImage(true)}
               />
-            )}
-          </Lazyload>
-        </Link>
-    ) : (
-      <div className="ArticleThumbnail_Block">
-        <BlockIconComponent className="ArticleThumbnail_BlockImage" />
-        <p className="ArticleThumbnail_BlockText">이용할 수 없는 아티클입니다.</p>
-      </div>
-    )}
+          ) : (
+            <span className="ArticleThumbnail_DefaultCoverImage">
+              <img
+                className="ArticleThumbnail_DefaultCoverImage_Logo"
+                src={require('images/article_default_thumbnail_logo.png')}
+                alt="리디셀렉트 아티클 빈 썸네일"
+              />
+            </span>
+          )}
+          {!imageUrl || ((isLoaded || isWrongImage) && isEndTransition) ? null : (
+            <span
+              className={classNames(
+                'Skeleton',
+                'CoverImage_Placeholder',
+                'ArticleCoverImage_Placeholder',
+                isLoaded || isWrongImage ? 'CoverImage_Placeholder-fadeout' : null,
+              )}
+              onTransitionEnd={() => setIsEndTransition(true)}
+              ref={coverPlaceholder}
+            />
+          )}
+        </Lazyload>
+      </Link>
     </div>
   );
 };
