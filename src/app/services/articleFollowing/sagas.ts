@@ -1,9 +1,17 @@
 import { Actions as ArticleActions } from 'app/services/article';
 import { Actions as ArticleChannelActions } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFollowing';
-import { FollowingArticleListResponse, FollowingChannelListResponse,
-  requestFollowingArticleList, requestFollowingChannelList } from 'app/services/articleFollowing/requests';
-import { all, call, put, takeLeading } from 'redux-saga/effects';
+import {
+  FollowingArticleListResponse,
+  FollowingChannelListResponse,
+  requestFollowingArticleList,
+  requestFollowingChannelList,
+  requestUnseenFollowingFeeds,
+  requestUnseenFollowingFeedsToSeen,
+  SetAllFollowingFeedsToSeenResponse,
+  UnseenFollowingFeedsResponse,
+} from 'app/services/articleFollowing/requests';
+import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { ErrorStatus } from 'app/constants/index';
 import { ArticleRequestIncludableData } from 'app/types';
@@ -46,6 +54,24 @@ function* loadFollowingArticleList({ payload }: ReturnType<typeof Actions.loadFo
   }
 }
 
+function* loadUnseenFollowingFeedsRequest() {
+  try {
+    const response: UnseenFollowingFeedsResponse = yield call(requestUnseenFollowingFeeds);
+    yield put(Actions.loadUnseenFollowingFeedsSuccess({ unSeenFeedList: response }));
+  } catch (e) {
+    yield put(Actions.setUnseenFollowingFeedsToSeenFailure());
+  }
+}
+
+function* setUnseenFollowingFeedsToSeen() {
+  try {
+    const response: SetAllFollowingFeedsToSeenResponse = yield call(requestUnseenFollowingFeedsToSeen);
+    yield put(Actions.setUnseenFollowingFeedsToSeenSuccess(response));
+  } catch (e) {
+    yield put(Actions.setUnseenFollowingFeedsToSeenFailure());
+  }
+}
+
 export function* watchFollowingChannelListRequest() {
   yield takeLeading(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
 }
@@ -54,9 +80,19 @@ export function* watchFollowingArticleListRequest() {
   yield takeLeading(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
 }
 
+export function* watchLoadUnseenFollowingFeedsRequest() {
+  yield takeLatest(Actions.loadUnseenFollowingFeedsRequest.getType(), loadUnseenFollowingFeedsRequest);
+}
+
+export function* watchSetUnseenFollowingFeedsToSeen() {
+  yield takeLatest(Actions.setUnseenFollowingFeedsToSeenRequest.getType(), setUnseenFollowingFeedsToSeen);
+}
+
 export function* articleFollowingRootSaga() {
   yield all([
     watchFollowingChannelListRequest(),
     watchFollowingArticleListRequest(),
+    watchLoadUnseenFollowingFeedsRequest(),
+    watchSetUnseenFollowingFeedsToSeen(),
   ]);
 }

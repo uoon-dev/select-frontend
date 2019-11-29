@@ -1,6 +1,6 @@
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { FollowingArticleListResponse, FollowingChannelListResponse } from 'app/services/articleFollowing/requests';
+import { FollowingArticleListResponse, FollowingChannelListResponse, setAllFollowingFeedsToSeen, UnseenFollowingFeedsResponse } from 'app/services/articleFollowing/requests';
 import { ArticleKey, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import { createAction, createReducer } from 'redux-act';
@@ -18,6 +18,14 @@ export const Actions = {
     response: FollowingArticleListResponse,
   }>('loadFollowingArticleListSuccess'),
   loadFollowingArticleListFailure: createAction<{ page: number; }>('loadFollowingArticleListFailure'),
+  loadUnseenFollowingFeedsRequest: createAction('loadUnseenFollowingFeedsRequest'),
+  loadUnseenFollowingFeedsSuccess: createAction<{
+    unSeenFeedList: UnseenFollowingFeedsResponse;
+  }>('loadUnseenFollowingFeedsSuccess'),
+  loadUnseenFollowingFeedsFailure: createAction('loadUnseenFollowingFeedsFailure'),
+  setUnseenFollowingFeedsToSeenRequest: createAction('setUnseenFollowingFeedsToSeenRequest'),
+  setUnseenFollowingFeedsToSeenSuccess: createAction<setAllFollowingFeedsToSeen>('setUnseenFollowingFeedsToSeenSuccess'),
+  setUnseenFollowingFeedsToSeenFailure: createAction('setUnseenFollowingFeedsToSeenFailure'),
 };
 
 export interface FollowingChannel {
@@ -34,10 +42,13 @@ export interface ArticleFollowingState {
   followingArticleList?: FollowingArticleStateItem;
   itemCount?: number;
   fetchStatus: FetchStatusFlag;
+  unseenFeeds?: number[];
+  unseenFeedsFetchStatus: FetchStatusFlag;
 }
 
 export const INITIAL_STATE: ArticleFollowingState = {
   fetchStatus: FetchStatusFlag.IDLE,
+  unseenFeedsFetchStatus: FetchStatusFlag.IDLE,
 };
 
 export const articleFollowReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
@@ -102,4 +113,36 @@ articleFollowReducer.on(Actions.loadFollowingArticleListFailure, (state, { page 
       },
     },
   },
+}));
+
+articleFollowReducer.on(Actions.loadUnseenFollowingFeedsRequest, (state) => ({
+  ...state,
+  unseenFeedsFetchStatus: FetchStatusFlag.FETCHING,
+}));
+
+articleFollowReducer.on(Actions.loadUnseenFollowingFeedsSuccess, (state, { unSeenFeedList }) => ({
+  ...state,
+  unseenFeeds: unSeenFeedList,
+  unseenFeedsFetchStatus: FetchStatusFlag.IDLE,
+}));
+
+articleFollowReducer.on(Actions.loadUnseenFollowingFeedsFailure, (state) => ({
+  ...state,
+  unseenFeedsFetchStatus: FetchStatusFlag.FETCH_ERROR,
+}));
+
+articleFollowReducer.on(Actions.setUnseenFollowingFeedsToSeenRequest, (state) => ({
+  ...state,
+  unseenFeedsFetchStatus: FetchStatusFlag.FETCHING,
+}));
+
+articleFollowReducer.on(Actions.setUnseenFollowingFeedsToSeenSuccess, (state) => ({
+  ...state,
+  unseenFeeds: [],
+  unseenFeedsFetchStatus: FetchStatusFlag.IDLE,
+}));
+
+articleFollowReducer.on(Actions.setUnseenFollowingFeedsToSeenFailure, (state) => ({
+  ...state,
+  unseenFeedsFetchStatus: FetchStatusFlag.FETCH_ERROR,
 }));

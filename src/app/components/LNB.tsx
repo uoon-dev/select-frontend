@@ -7,7 +7,7 @@ import * as classNames from 'classnames';
 import { assignIn, flow, omit } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface MenuStateProps {
@@ -103,7 +103,10 @@ function getLNBMenuSearch(menu: Menu, props: MenuStateProps) {
   )(currentPathname === menu.pathname ? currentSearch : '');
 }
 
-function getFilteredLNBMenu(isAndroidInApp: boolean, isLoggedIn: boolean) {
+function getFilteredLNBMenu(appStatus: AppStatus, isAndroidInApp: boolean, isLoggedIn: boolean) {
+  if (appStatus === AppStatus.Articles) {
+    return articleMenus;
+  }
   if (!isAndroidInApp || isLoggedIn) {
     return menus;
   }
@@ -112,7 +115,9 @@ function getFilteredLNBMenu(isAndroidInApp: boolean, isLoggedIn: boolean) {
 
 export const LNB: React.SFC<MenuStateProps> = (props) => {
   const { isLoggedIn, isAndroidInApp, currentPathname, solidBackgroundColorRGBString, appStatus } = props;
-  const filteredMenu = appStatus === AppStatus.Books ? getFilteredLNBMenu(isAndroidInApp, isLoggedIn) : articleMenus;
+  const unseenFeeds = useSelector((state: RidiSelectState) => state.articleFollowing.unseenFeeds);
+  const filteredMenu = getFilteredLNBMenu(appStatus, isAndroidInApp, isLoggedIn);
+
   return (
     <nav
       className={classNames(
@@ -124,7 +129,14 @@ export const LNB: React.SFC<MenuStateProps> = (props) => {
       <h2 className="a11y">메인 메뉴</h2>
       <ul className="LnbMenu_List">
         {filteredMenu.map((menu) => (
-          <li className={`LnbMenu LnbMenu_${menu.classname}`} key={menu.pathname}>
+          <li
+            className={classNames(
+              'LnbMenu',
+              `LnbMenu_${menu.classname}`,
+              menu.pathname === RoutePaths.ARTICLE_FOLLOWING && unseenFeeds && unseenFeeds.length > 0 && 'LnbMenu-hasNew',
+            )}
+            key={menu.pathname}
+          >
             <Link
               className={classNames(['LnbMenu_Link', !!currentPathname.match(menu.pathRegExp) && 'LnbMenu_Link-active'])}
               to={{
