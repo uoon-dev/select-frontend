@@ -88,6 +88,7 @@ export const LNBRoutes = [
   RoutePaths.ARTICLE_FAVORITE,
 ];
 
+// 도서, 아티클에 포함되지 않고 공통으로 쓰이는 페이지들
 export const CommonRoutes = [
   RoutePaths.GUIDE,
   RoutePaths.SETTING,

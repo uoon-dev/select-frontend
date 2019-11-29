@@ -46,12 +46,11 @@ export class AppManager extends React.Component<Props> {
       dispatchUpdateAppStatus(queryString.type);
       return;
     }
-
-    if (isCommonPath && (appStatus === AppStatus.Books || appStatus === AppStatus.Articles)) {
+    if (appStatus !== AppStatus.Common && isCommonPath) {
       dispatchUpdateAppStatus(AppStatus.Common);
-    } else if (appStatus === AppStatus.Books && isArticlePath >= 0) {
+    } else if (appStatus !== AppStatus.Articles && isArticlePath >= 0) {
       dispatchUpdateAppStatus(AppStatus.Articles);
-    } else if (appStatus === AppStatus.Articles && isArticlePath < 0) {
+    } else if (appStatus !== AppStatus.Books && !isCommonPath &&  isArticlePath < 0) {
       dispatchUpdateAppStatus(AppStatus.Books);
     }
   }
