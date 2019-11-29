@@ -54,10 +54,13 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     if (articleFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
+  }, [page]);
+
+  React.useEffect(() => {
     if (hasAvailableTicket) {
       dispatch(Actions.setUnseenFollowingFeedsToSeenRequest());
     }
-  }, [page]);
+  }, [hasAvailableTicket]);
 
   return (
     <main

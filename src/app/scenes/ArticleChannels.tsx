@@ -24,10 +24,14 @@ export const ArticleChannels: React.FunctionComponent = () => {
     if (channelListFetchStatus === FetchStatusFlag.IDLE && channelList.length === 0) {
       dispatch(Actions.loadArticleChannelListRequest());
     }
+  }, []);
+
+  React.useEffect(() => {
     if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
       dispatch(ArticleFollowingActions.loadUnseenFollowingFeedsRequest());
     }
-  }, []);
+  }, [hasAvailableTicket]);
+
   return (
     <main
       className={classNames(

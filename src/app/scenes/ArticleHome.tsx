@@ -28,10 +28,13 @@ export const ArticleHome: React.FunctionComponent = () => {
     if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
       dispatch(Actions.loadArticleBannerRequest());
     }
+  }, []);
+
+  React.useEffect(() => {
     if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
       dispatch(ArticleFollowingActions.loadUnseenFollowingFeedsRequest());
     }
-  }, []);
+  }, [hasAvailableTicket]);
 
   return (
     <main

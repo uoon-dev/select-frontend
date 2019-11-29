@@ -42,6 +42,12 @@ export const ArticleFavorite: React.FunctionComponent = () => {
     }
   }, [page]);
 
+  React.useEffect(() => {
+    if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
+      dispatch(ArticleFollowingActions.loadUnseenFollowingFeedsRequest());
+    }
+  }, [hasAvailableTicket]);
+
   return (
     <main
       className={classNames(
