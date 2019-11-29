@@ -93,6 +93,7 @@ export const CommonRoutes = [
   RoutePaths.GUIDE,
   RoutePaths.SETTING,
   RoutePaths.VOUCHER,
+  RoutePaths.MY_SELECT_HISTORY,
   RoutePaths.ORDER_HISTORY,
   RoutePaths.MANAGE_SUBSCRIPTION,
 ];
