@@ -106,7 +106,8 @@
   @apply --reset-layout;
 
   display: block;
-  padding: 0 0 0 10px;
+  padding: 0 10px 10px 10px;
+  margin-right: -10px;
   background: transparent;
   border: 0;
   cursor: pointer;

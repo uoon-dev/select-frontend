@@ -20,6 +20,6 @@ export * from './Voucher';
 
 export * from './ArticleHome';
 export * from './ArticleFollowing';
-export * from './ArticleChannels';
+export * from './ArticleChannelList';
 export * from './ArticleFavorite';
 export * from './ArticleChannelDetail';

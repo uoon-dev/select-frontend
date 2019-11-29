@@ -151,7 +151,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
                       moveToLogin(`${BASE_URL_STORE}/select/payments`);
                     }}
                   >
-                    리디셀렉트 구독하고 바로 보기
+                    리디셀렉트 구독하고 무료로 보기
                   </Button>
                 </div>
               )
