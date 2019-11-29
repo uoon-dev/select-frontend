@@ -27,6 +27,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     itemCount,
     channelItems,
     articleItems,
+    hasAvailableTicket,
   } = useSelector((state: RidiSelectState) => {
     const pageFromQuery = getPageQuery(state);
     const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
@@ -42,6 +43,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       articleFetchStatus: followingArticleListFetchStatus,
       channelItems: getChannelItems(state),
       articleItems: getArticleItems(state),
+      hasAvailableTicket: state.user.hasAvailableTicket,
     };
   });
 
@@ -53,6 +55,12 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, [page]);
+
+  React.useEffect(() => {
+    if (hasAvailableTicket) {
+      dispatch(Actions.setUnseenFollowingFeedsToSeenRequest());
+    }
+  }, [hasAvailableTicket]);
 
   return (
     <main

@@ -1,18 +1,27 @@
 import * as classNames from 'classnames';
+import { differenceInHours } from 'date-fns';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import { ArticleHomeSection } from 'app/components/ArticleHome/ArticleHomeSection';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
-import { PageTitleText } from 'app/constants';
-import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { Actions } from 'app/services/articleHome';
+import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
 import { RidiSelectState } from 'app/store';
-import { differenceInHours } from 'date-fns';
-import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleHome: React.FunctionComponent = () => {
-  const { fetchedAt } = useSelector((state: RidiSelectState) => state.articleHome);
+  const {
+    fetchedAt,
+    hasAvailableTicket,
+    unseenFeedsFetchStatus,
+  } = useSelector((state: RidiSelectState) => ({
+    fetchedAt: state.articleHome.fetchedAt,
+    hasAvailableTicket: state.user.hasAvailableTicket,
+    unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
+  }));
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -20,6 +29,12 @@ export const ArticleHome: React.FunctionComponent = () => {
       dispatch(Actions.loadArticleBannerRequest());
     }
   }, []);
+
+  React.useEffect(() => {
+    if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
+      dispatch(ArticleFollowingActions.loadUnseenFollowingFeedsRequest());
+    }
+  }, [hasAvailableTicket]);
 
   return (
     <main
