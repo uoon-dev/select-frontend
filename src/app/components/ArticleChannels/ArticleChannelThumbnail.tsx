@@ -1,3 +1,4 @@
+import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import Lazyload from 'react-lazyload';
@@ -9,6 +10,7 @@ interface ArticleChannelThumbnailProps {
   linkUrl: string;
   imageUrl?: string;
   channelName: string;
+  isEnabled?: boolean;
 }
 
 export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = (props) => {
@@ -18,6 +20,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     linkUrl,
     imageUrl,
     channelName,
+    isEnabled = true,
   } = props;
 
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -37,6 +40,21 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       setIsWrongImage(true);
     }
   }, []);
+
+  if (!isEnabled) {
+    return (
+      <div
+        className={classNames(
+          'ArticleChannelThumbnail_Wrapper',
+          thumbnailClassName,
+        )}
+      >
+        <div className="ArticleChannelThumbnail_Block">
+          <BlockIconComponent width={24} height={24} className="ArticleChannelThumbnail_BlockImage" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

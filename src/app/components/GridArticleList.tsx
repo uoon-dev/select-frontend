@@ -82,6 +82,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 linkUrl={articleUrl}
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
+                isEnabled={article.isEnabled}
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelThumbnail && channelMeta ? (
@@ -89,37 +90,61 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     imageUrl={channelMeta.thumbnailUrl}
                     linkUrl={articleChannelToPath({channelName: channelMeta.name})}
                     channelName={channelMeta.displayName}
+                    isEnabled={channelMeta.isEnabled}
                   />
                 ) : null}
                 <div className="GridArticleItem_Meta_InnerWrapper">
-                  <Link
-                    to={articleUrl}
-                    className="GridArticleItem_Link"
-                  >
+                  {article.isEnabled ? (
+                    <>
+                      <Link
+                        to={articleUrl}
+                        className="GridArticleItem_Link"
+                      >
+                        <p className="GridArticleItem_Title">
+                          {article.title}
+                        </p>
+                      </Link>
+                      {renderChannelMeta && channelMeta ? (
+                        <Link to={articleChannelToPath({channelName: channelMeta.name})}>
+                          <p className="GridArticleItem_ChannelName">
+                            {channelMeta.displayName}
+                          </p>
+                        </Link>
+                      ) : null}
+                      <Link
+                        to={articleUrl}
+                        className="GridArticleItem_Link"
+                      >
+                      {renderAuthor && article.author ? (
+                        <span className="GridArticleItem_Author">
+                          {article.author.name}
+                        </span>
+                      ) : null}
+                      {renderRegDate && article.regDate ? (
+                        <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
+                      ) : null}
+                      </Link>
+                    </>
+                  ) : (
+                   <>
                     <p className="GridArticleItem_Title">
                       {article.title}
                     </p>
-                  </Link>
-                  {renderChannelMeta && channelMeta ? (
-                    <Link to={articleChannelToPath({channelName: channelMeta.name})}>
+                    {renderChannelMeta && channelMeta ? (
                       <p className="GridArticleItem_ChannelName">
                         {channelMeta.displayName}
                       </p>
-                    </Link>
-                  ) : null}
-                  <Link
-                    to={articleUrl}
-                    className="GridArticleItem_Link"
-                  >
-                  {renderAuthor && article.author ? (
-                    <span className="GridArticleItem_Author">
-                      {article.author.name}
-                    </span>
-                  ) : null}
-                  {renderRegDate && article.regDate ? (
-                    <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
-                  ) : null}
-                  </Link>
+                    ) : null}
+                    {renderAuthor && article.author ? (
+                      <span className="GridArticleItem_Author">
+                        {article.author.name}
+                      </span>
+                    ) : null}
+                    {renderRegDate && article.regDate ? (
+                      <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
+                    ) : null}
+                   </>
+                  )}
                 </div>
                 {renderFavoriteButton ? (
                   <div className="GridArticleItem_ButtonWrapper">
