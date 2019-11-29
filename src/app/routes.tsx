@@ -69,6 +69,11 @@ export const inAppGnbRoutes = [
   RoutePaths.MY_SELECT,
   RoutePaths.SEARCH_RESULT,
   RoutePaths.INTRO,
+  // Article
+  RoutePaths.ARTICLE_HOME,
+  RoutePaths.ARTICLE_FOLLOWING,
+  RoutePaths.ARTICLE_CHANNELS,
+  RoutePaths.ARTICLE_FAVORITE,
 ];
 
 export const LNBRoutes = [
