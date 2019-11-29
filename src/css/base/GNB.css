@@ -289,21 +289,23 @@
   display: inline-block;
   margin-right: 24px;
   line-height: 24px;
+}
+
+.GnbTab_Link {
+  display: block;
   padding: 10px 3px 10px 3px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--slategray_40);
+  letter-spacing: -.34px;
+  text-decoration: none;
+
   @nest .androidApp &,
   @nest .iosApp & {
     padding: 16px 3px 17px 3px;
   }
-}
 
-.GnbTab_Link {
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -.34px;
-  color: var(--slategray_40);
-
-  & .reset-heading {
+   & .reset-heading {
     transition: opacity .2s;
   }
 
