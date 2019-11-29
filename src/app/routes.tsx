@@ -88,6 +88,14 @@ export const LNBRoutes = [
   RoutePaths.ARTICLE_FAVORITE,
 ];
 
+export const CommonRoutes = [
+  RoutePaths.GUIDE,
+  RoutePaths.SETTING,
+  RoutePaths.VOUCHER,
+  RoutePaths.ORDER_HISTORY,
+  RoutePaths.MANAGE_SUBSCRIPTION,
+];
+
 export const PrimaryRoutes = [
   RoutePaths.CHARTS,
   pathToRegexp.parse(RoutePaths.COLLECTION)[0],

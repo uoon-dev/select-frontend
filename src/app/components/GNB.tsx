@@ -85,7 +85,7 @@ export class GNB extends React.Component<Props> {
 
   private renderGNBLogo() {
     const { appStatus } = this.props;
-    const GNBLogoLink = appStatus === AppStatus.Books ? RoutePaths.HOME : RoutePaths.ARTICLE_HOME;
+    const GNBLogoLink = appStatus === AppStatus.Articles ? RoutePaths.ARTICLE_HOME : RoutePaths.HOME;
 
     return (
       <Link
@@ -253,8 +253,9 @@ export class GNB extends React.Component<Props> {
   private renderGNBSearchButton(isMobile: boolean) {
     const {
       isSimpleGNB,
+      appStatus,
     } = this.props;
-    return isSimpleGNB ? null : (
+    return isSimpleGNB || appStatus === AppStatus.Common ? null : (
       <ConnectedSearch isMobile={isMobile} />
     );
   }
