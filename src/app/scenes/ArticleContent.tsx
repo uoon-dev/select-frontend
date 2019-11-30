@@ -50,6 +50,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
       articleState.content
     );
   };
+
   const copyUrl = () => {
     const domForCopyUrl = document.createElement('textarea');
     domForCopyUrl.className = 'a11y';
@@ -83,15 +84,17 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     <main className="SceneWrapper PageArticleContent">
       {isInApp ? <ConnectedPageHeader pageTitle={articleState.article.title} /> : null}
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
+      {articleState.article.channelId && articleState.article.channelName ? (
+        <ArticleChannelInfoHeader
+          channelId={articleState.article.channelId}
+          channelName={articleState.article.channelName}
+          contentKey={contentKey}
+        />
+      ) : null}
       <div className="ArticleContent_ContentWrapper">
-        {articleState.article.channelId && articleState.article.channelName ? (
-          <ArticleChannelInfoHeader
-            channelId={articleState.article.channelId}
-            channelName={articleState.article.channelName}
-            contentKey={contentKey}
-          />
-        ) : null}
-        {checkIsFetched() && articleState ? (
+        {articleState.contentFetchStatus === FetchStatusFlag.FETCHING ? (
+          <ArticleContentPlaceholder />
+        ) : checkIsFetched() && articleState ? (
           <>
             {articleState.content ? (
               <Article
@@ -167,5 +170,5 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
         />}
       </div>
     </main>
-  ) : <ArticleContentPlaceholder />;
+  ) : null;
 };
