@@ -82,11 +82,14 @@ export class ClosingReservedBooks extends React.Component<Props> {
 
   public renderTermText(term: closingReservedTermType) {
     const currentDateObj = new Date();
-    return `${
-      currentDateObj.getFullYear()
-    }년 ${
-      term === 'thisMonth' ? currentDateObj.getMonth() + 1 : currentDateObj.getMonth() + 2
-    }월`;
+    const currentMonth = currentDateObj.getMonth();
+    let displayYear = currentDateObj.getFullYear();
+    let displayMonth = term === 'thisMonth' ? currentMonth + 1 : currentMonth + 2;
+    if (displayMonth > 12) {
+      displayYear += 1;
+      displayMonth -= 12;
+    }
+    return `${displayYear}년 ${displayMonth}월`;
   }
 
   public render() {
