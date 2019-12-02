@@ -23,44 +23,51 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 38px;
+      width: 48px;
       height: var(--gnb_mobile_height);
-      @nest .androidApp & {
-        height: var(--gnb_android_app_height);
-      }
     }
     & .GNBSearchInputWrapper {
       display: block;
-      margin-left: 32px;
+      margin-left: 42px;
       &:not(.GNBSearchInputWrapper-empty) {
         padding-right: 38px;
       }
-      @nest .androidApp & {
-        height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-      }
-      @nest .iosApp & {
-        height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-      }
-    }
-    & .GNBSearchInput {
-      @nest .androidApp & {
-        height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-        line-height: calc(var(--gnb_android_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-      }
-      @nest .iosApp & {
-        height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-        line-height: calc(var(--gnb_ios_app_height) - (var(--mobile-search-vertical-inner-padding) * 2));
-      }
-
     }
     & .GNBSearchResetButton {
       display: block;
     }
     @nest .androidApp & {
       height: var(--gnb_android_app_height);
+      padding: 10.5px 12px;
+      box-shadow: 1px 1px 0 #fff;
+      & .GNBSearchButton {
+        display: inline-block;
+        height: var(--gnb_android_app_height);
+      }
+      & .GNBSearchInputWrapper {
+        height: 36px;
+        margin-left: 36px;
+      }
+      & .GNBSearchInput {
+        height: 100%;
+        line-height: 100%;
+      }
     }
     @nest .iosApp & {
       height: var(--gnb_ios_app_height);
+      padding: 8px 12px;
+      & .GNBSearchButton {
+        display: inline-block;
+        height: var(--gnb_android_app_height);
+      }
+      & .GNBSearchInputWrapper {
+        height: 36px;
+        margin-left: 36px;
+      }
+      & .GNBSearchInput {
+        height: 100%;
+        line-height: 100%;
+      }
     }
   }
 }
@@ -267,6 +274,7 @@
     height: var(--mobile-blocked-search-height);
     padding: 4px 20px;
     border-bottom: 1px solid var(--slategray_20);
+
     & .GNBSearchButton {
       display: none;
     }

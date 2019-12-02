@@ -173,6 +173,10 @@
   padding-right: 20px;
   text-align: right;
   vertical-align: top;
+
+  @nest .androidApp & {
+    padding-right: 10px;
+  }
 }
 
 .GNBRightButtonWrapper {
@@ -213,6 +217,7 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
+    padding: calc((var(--gnb_android_app_height) - 18px) / 2) 10px 0;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
@@ -304,7 +309,9 @@
     transition: opacity .2s;
   }
 
-  @nest .androidApp &,
+  @nest .androidApp & {
+    padding: 16px 3px 17px 3px;
+  }
   @nest .iosApp & {
     padding: 16px 3px 17px 3px;
   }

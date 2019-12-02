@@ -264,6 +264,7 @@ export class GNB extends React.Component<Props> {
     const {
       gnbType,
       isInApp,
+      isGnbTab,
       isSimpleGNB,
       backgroundColorRGBString,
     } = this.props;
@@ -278,7 +279,11 @@ export class GNB extends React.Component<Props> {
             <div className="GNBContentWrapper">
               <div className="GNBLeft">
                 {isInApp && !isSimpleGNB ? (
-                  this.renderGNBTab()
+                  isGnbTab ? (
+                    this.renderGNBTab()
+                  ) : (
+                    this.renderGNBLogo()
+                  )
                 ) : (
                   <>
                     {this.renderGNBLogo()}
