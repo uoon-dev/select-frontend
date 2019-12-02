@@ -16,7 +16,7 @@
     left: 0;
     width: 100%;
     height: var(--gnb_mobile_height);
-    padding: var(--mobile-search-vertical-inner-padding);
+    padding: var(--mobile-search-vertical-inner-padding) 6px;
     background: var(--bluegray_90);
     & .GNBSearchButton {
       display: inline-block;
@@ -146,7 +146,7 @@
   display: none;
   position: relative;
   height: 100%;
-  min-height: 32px;
+  min-height: 36px;
   padding: 0 40px 0 10px;
   border-radius: 3px;
   outline: none;
@@ -160,10 +160,10 @@
 .GNBSearchIcon {
   display: none;
   position: absolute;
-  top: 9px;
-  left: 7px;
-  width: 13px;
-  height: 13px;
+  top: 10px;
+  left: 10px;
+  width: 16px;
+  height: 16px;
   margin-right: 8px;
   fill: black;
   @nest .androidApp & {
@@ -176,12 +176,12 @@
 .GNBSearchInput {
   display: block;
   width: 100%;
-  height: 32px;
+  height: 36px;
   padding: 0;
   border: none;
   outline: none;
   background: transparent;
-  line-height: 32px;
+  line-height: 36px;
   vertical-align: top;
   font-size: 13px;
   font-weight: 500;
@@ -203,17 +203,60 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+  line-height: 36px;
+  vertical-align: top;
+  padding-top: 12px;
+  box-sizing: border-box;
 }
 .GNBSearchResetButtonIcon {
   width: 12px;
   height: 12px;
   fill: #000;
+  vertical-align: top;
 }
 
-@media (--minimal-mobile-screen) {
-  .GNBSearchButton {
-    padding: 13px 8px;
+@media (--pc-screen) {
+  .GNBSearchWrapper {
+    &.active,
+    &.GNBSearchWrapper-typeBlock {
+      position: relative;
+      width: auto;
+      height: var(--gnb_pc_height);
+      padding: 11px 10px 11px 28px;
+      background: transparent;
+      text-align: right;
+      z-index: 900;
+      & .GNBSearchInputWrapper {
+        display: inline-block;
+        margin: 0;
+        z-index: 999;
+      }
+      & .GNBSearchButton {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: default;
+        z-index: 998;
+        & .GNBSearchButtonIcon {
+          display: none;
+        }
+      }
+    }
   }
+  .GNBSearchButton {
+    height: var(--gnb_pc_height);
+    padding: calc(((var(--gnb_pc_height) - 18px) / 2)) 10px;
+  }
+  .GNBSearchInputWrapper {
+    width: 300px;
+    padding: 0 40px 0 34px;
+  }
+  .GNBSearchIcon {
+    display: block;
+  }
+  .GNBSearchInput { display: inline-block; }
 }
 
 @media (--mobile-screen) {
@@ -222,7 +265,7 @@
     top: var(--mobile-blocked-search-padding);
     left: 0;
     height: 44px;
-    padding: var(--mobile-search-vertical-inner-padding) 10px;
+    padding: var(--mobile-search-vertical-inner-padding) 20px;
     & .GNBSearchButton {
       display: none;
     }
@@ -283,46 +326,11 @@
   }
 }
 
-@media (--pc-screen) {
-  .GNBSearchWrapper {
-    &.active,
-    &.GNBSearchWrapper-typeBlock {
-      position: relative;
-      width: auto;
-      height: var(--gnb_pc_height);
-      padding: 16px 0 12px 38px;
-      background: transparent;
-      text-align: right;
-      z-index: 900;
-      & .GNBSearchInputWrapper {
-        display: inline-block;
-        margin: 0;
-        z-index: 999;
-      }
-      & .GNBSearchButton {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        cursor: default;
-        z-index: 998;
-        & .GNBSearchButtonIcon {
-          display: none;
-        }
-      }
-    }
-  }
+@media (--minimal-mobile-screen) {
   .GNBSearchButton {
-    height: var(--gnb_pc_height);
-    padding: calc(((var(--gnb_pc_height) - 18px) / 2)) 10px;
+    padding: 13px 8px;
   }
-  .GNBSearchInputWrapper {
-    width: 300px;
-    padding: 0 40px 0 29px;
+  .GNBSearchWrapper.GNBSearchWrapper-typeBlock {
+    padding: var(--mobile-search-vertical-inner-padding) 10px;
   }
-  .GNBSearchIcon {
-    display: block;
-  }
-  .GNBSearchInput { display: inline-block; }
 }
