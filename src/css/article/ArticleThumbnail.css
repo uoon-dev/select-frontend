@@ -22,10 +22,11 @@
 .ArticleThumbnail_CoverImage {
   position: absolute;
   width: 100%;
-  height: auto;
+  height: 100%;
   top: 0;
   left: 0;
   z-index: 10;
+  object-fit: cover;
 
   @nest .ArticleThumbnail_Wrapper-square & {
     height: 100%;
