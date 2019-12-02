@@ -12,6 +12,9 @@
   @nest .androidApp & {
     top: var(--gnb_android_app_height);
   }
+  @nest .iosApp & {
+    top: var(--gnb_ios_app_height);
+  }
 }
 .SearchHistoryList {
   margin: 0;

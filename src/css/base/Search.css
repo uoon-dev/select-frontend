@@ -173,12 +173,6 @@
   height: 16px;
   margin-right: 8px;
   fill: black;
-  @nest .androidApp & {
-    @media (--mobile-screen) {
-      top: 50%;
-      margin-top: -6px;
-    }
-  }
 }
 .GNBSearchInput {
   display: block;
@@ -281,7 +275,7 @@
     & .GNBSearchInputWrapper {
       position: relative;
       margin: 0;
-      padding: 0 40px 0 29px;
+      padding: 0 40px 0 36px;
       z-index: 901;
     }
     & .GNBSearchIcon {
@@ -302,10 +296,7 @@
       top: 41px;
     }
     @nest .iosApp & {
-      padding: var(--mobile-search-vertical-inner-padding) 10px var(--mobile-search-vertical-inner-padding) 38px;
-      & .GNBSearchButton {
-        display: inline-block;
-      }
+      top: 41px;
     }
   }
   .GNBSearchWrapper.active {

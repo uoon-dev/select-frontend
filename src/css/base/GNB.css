@@ -87,10 +87,11 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
-    padding-top: 17px;
+    padding-top: 22px;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
+    padding-top: 22px;
   }
 }
 
@@ -174,6 +175,9 @@
   vertical-align: top;
 
   @nest .androidApp & {
+    padding-right: 10px;
+  }
+  @nest .iosApp & {
     padding-right: 10px;
   }
 }
