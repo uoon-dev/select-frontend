@@ -87,6 +87,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
                 renderChannelMeta={true}
                 renderAuthor={false}
                 renderRegDate={true}
+                renderFavoriteButton={true}
                 isFullWidthAvailable={true}
                 gridListSizeClassNames="GridArticleList-large"
               />

@@ -13,8 +13,8 @@ import { requestBooks } from 'app/services/book/requests';
 import { keyBy } from 'lodash-es';
 
 import { PublicSearchResultReponse, requestSearchResult, SearchResultResponse } from 'app/services/searchResult/requests';
+import { ArticleRequestIncludableData } from 'app/types';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
-import toast from 'app/utils/toast';
 
 export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywordRequest>) {
   const { page, keyword, type } = payload;
@@ -40,7 +40,7 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
       });
       searchResultResponse.books = searchResultBooks;
     } else {
-      const articlesResponse = yield call(requestArticles, undefined , response.articles.map((article) => (article.id)));
+      const articlesResponse = yield call(requestArticles, {includes : [ArticleRequestIncludableData.AUTHORS]} , response.articles.map((article) => (article.id)));
       const articles: Article[] = articlesResponse.results;
       const articlesMap = keyBy(articles, 'id');
       yield put(ArticleActions.updateArticles({ articles }));

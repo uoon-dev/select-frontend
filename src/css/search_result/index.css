@@ -24,7 +24,7 @@
 
 .SearchResultArticleList_Thumbnail {
   height: auto !important;
-  min-height: 130px !important;
+  min-height: 100px !important;
   width: 100px !important;
 }
 

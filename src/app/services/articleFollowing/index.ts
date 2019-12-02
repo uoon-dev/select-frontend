@@ -3,6 +3,7 @@ import { ArticleChannel } from 'app/services/articleChannel';
 import { FollowingArticleListResponse, FollowingChannelListResponse, setAllFollowingFeedsToSeen, UnseenFollowingFeedsResponse } from 'app/services/articleFollowing/requests';
 import { ArticleKey, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
+import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
@@ -18,6 +19,7 @@ export const Actions = {
     response: FollowingArticleListResponse,
   }>('loadFollowingArticleListSuccess'),
   loadFollowingArticleListFailure: createAction<{ page: number; }>('loadFollowingArticleListFailure'),
+  loadUnFollowChannelRequest: createAction<{channelId: number, channelName: string, method: Method}>('loadUnFollowChannelRequest'),
   loadUnseenFollowingFeedsRequest: createAction('loadUnseenFollowingFeedsRequest'),
   loadUnseenFollowingFeedsSuccess: createAction<{
     unSeenFeedList: UnseenFollowingFeedsResponse;

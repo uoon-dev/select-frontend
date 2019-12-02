@@ -21,11 +21,13 @@ export const ArticleFavorite: React.FunctionComponent = () => {
   const page = useSelector(getPageQuery);
   const articleItems = useSelector(getFavoriteArticleList);
   const {
+    isFetched,
     favoriteArticleFetchStatus,
     itemCount,
     hasAvailableTicket,
     unseenFeedsFetchStatus,
   } = useSelector((state: RidiSelectState) => ({
+    isFetched: state.favoriteArticle.itemListByPage[page] ? state.favoriteArticle.itemListByPage[page].isFetched : false,
     favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[page] ? state.favoriteArticle.itemListByPage[page].fetchStatus : FetchStatusFlag.IDLE,
     itemCount: state.favoriteArticle && state.favoriteArticle.itemCount ? state.favoriteArticle.itemCount : 1,
     hasAvailableTicket: state.user.hasAvailableTicket,
@@ -34,7 +36,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE) {
+    if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE || !isFetched) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
     if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {
