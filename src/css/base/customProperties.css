@@ -99,7 +99,7 @@
 :root {
   --max-pc-content-width: 900px;
   --min-content-width: 320px;
-  --mobile-blocked-search-padding: 38px;
+  --mobile-blocked-search-height: 44px;
   --mobile-search-vertical-inner-padding: 4px;
   --defaultFontFamily: Noto Sans KR, NotoSansKR, Sans-serif;
 

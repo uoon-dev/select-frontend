@@ -10,7 +10,7 @@
     }
   }
   @media (--mobile-screen) {
-    padding-top: var(--mobile-blocked-search-padding);
+    padding-top: var(--mobile-blocked-search-height);
   }
   @nest .androidApp & {
     padding-top: 40px;
