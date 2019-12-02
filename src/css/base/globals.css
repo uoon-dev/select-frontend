@@ -296,6 +296,11 @@ main.SceneWrapper {
   @media (--pc-screen) {
     display: inline-block;
   }
+
+  @nest .WebActionBar-dark & {
+    color: #fff;
+  }
+
   @nest .iosApp & {
     position: absolute;
     width: 100%;
@@ -339,6 +344,10 @@ main.SceneWrapper {
   width: 16px;
   height: 16px;
   fill: var(--bluegray_80);
+
+  @nest .WebActionBar-dark & {
+    fill: #fff;
+  }
 
   @nest .iosApp & {
     width: 13px;
