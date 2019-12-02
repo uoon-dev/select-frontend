@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { ArticleChannelInfoHeaderPlaceholder } from 'app/placeholder/ArticleChannelInfoHeaderPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -9,8 +10,11 @@ import { articleChannelToPath } from 'app/utils/toPath';
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
 
-export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: number, channelName: string, contentKey: string }> = (props) => {
+export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: number, channelName?: string, contentKey: string }> = (props) => {
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector((state: RidiSelectState) => {
+    if (!props.channelName) {
+      return {};
+    }
     const articleById = state.articlesById[props.contentKey];
     const channelById = state.articleChannelById[props.channelName];
     return {
@@ -31,13 +35,24 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (typeof isChannelFollowing === 'boolean') {
+    if (!props.channelName || typeof isChannelFollowing === 'boolean') {
       return;
     }
     dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
   }, []);
 
-  return channelState && channelState.channelMeta ? (
+  if (
+    !props.channelId ||
+    !props.channelName ||
+    !articleState ||
+    !articleState.article ||
+    !channelState ||
+    !channelState.channelMeta
+  ) {
+    return <ArticleChannelInfoHeaderPlaceholder />;
+  }
+
+  return (
     <div className="ChannelInfoHeader_Wrapper">
       <ArticleChannelThumbnail
         imageUrl={channelState.channelMeta.thumbnailUrl}
@@ -54,7 +69,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
         </Link>
         <span className="ChannelInfoHeader_Desc">
           {authorName ? `${authorName} | ` : ''}
-          {buildOnlyDateFormat(articleState.article!.regDate)}
+          {buildOnlyDateFormat(articleState.article.regDate)}
         </span>
       </div>
       <ArticleChannelFollowButton
@@ -62,5 +77,5 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId: numb
         channelName={props.channelName}
       />
     </div>
-  ) : null;
+  );
 };
