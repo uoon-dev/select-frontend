@@ -277,7 +277,6 @@
 
 .GnbTab_List {
   list-style: none;
-  max-width: 900px;
   margin: 0 auto;
   padding: 0;
   padding-left: 18px;
@@ -342,7 +341,7 @@
   .GNBWrapper {
     & .GNBContentWrapper {
       position: relative;
-      max-width: var(--max-pc-content-width);
+      max-width: calc(var(--max-pc-content-width) - 20px);
       height: var(--gnb_pc_height);
       margin: 0 auto;
       border: none;
@@ -396,6 +395,7 @@
     }
   }
   .GnbTab_List {
+    max-width: calc(var(--max-pc-content-width) - 20px);
     padding-left: 40px;
   }
 }

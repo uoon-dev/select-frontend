@@ -97,7 +97,7 @@
   .LnbMenu_List {
     box-sizing: border-box;
     display: block;
-    max-width: var(--max-pc-content-width);
+    max-width: calc(var(--max-pc-content-width) - 20px);
     margin: 0 auto;
     padding: 0 0 0 40px;
   }
