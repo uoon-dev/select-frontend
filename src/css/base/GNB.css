@@ -2,9 +2,9 @@
 
 :root {
   --gnb_mobile_height: 44px;
-  --gnb_pc_height: 60px;
+  --gnb_pc_height: 58px;
   --gnb_android_app_height: 57px;
-  --gnb_ios_app_height: 52px;
+  --gnb_ios_app_height: 57px;
 }
 
 .GNBWrapper {
@@ -16,7 +16,6 @@
     position: fixed;
     top: 0;
     width: 100%;
-    border-bottom: 1px solid var(--bluegray_70);
   }
 }
 .GNBWrapper-transparent {
@@ -60,7 +59,7 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: 16px 6px 0 10px;
+  padding: 16px 6px 0 20px;
   transition: opacity .2s;
   vertical-align: top;
   & .GNBLogo {
@@ -88,10 +87,11 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
-    padding-top: 17px;
+    padding-top: 22px;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
+    padding-top: 22px;
   }
 }
 
@@ -170,9 +170,16 @@
 
 .GNBRight { /* GNB 오른쪽 영역 */
   display: table-cell;
-  padding-right: 10px;
+  padding-right: 20px;
   text-align: right;
   vertical-align: top;
+
+  @nest .androidApp & {
+    padding-right: 10px;
+  }
+  @nest .iosApp & {
+    padding-right: 10px;
+  }
 }
 
 .GNBRightButtonWrapper {
@@ -184,11 +191,11 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 10px 0;
+  padding: calc((var(--gnb_mobile_height) - 18px) / 2) 10px 0;
   transition: opacity .2s;
   vertical-align: top;
   & .SettingIcon {
-    width: 17.5px;
+    width: 18px;
     height: 18px;
     fill: var(--bluegray_70);
   }
@@ -213,10 +220,11 @@
   }
   @nest .androidApp & {
     height: var(--gnb_android_app_height);
+    padding: calc((var(--gnb_android_app_height) - 18px) / 2) 10px 0;
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
-    padding-top: 11px;
+    padding: calc((var(--gnb_ios_app_height) - 24px) / 2) 10px 0;
     @media (hover: hover) {
     &:hover {
         opacity: .2;
@@ -272,41 +280,43 @@
 .GnbTab_Wrapper {
   position: relative;
   background-color: white;
-  height: var(--gnb_mobile_height);
+  height: 42px;
 }
 
 .GnbTab_List {
   list-style: none;
-  max-width: 900px;
   margin: 0 auto;
   padding: 0;
-  padding-left: 8px;
+  padding-left: 18px;
   box-sizing: border-box;
 }
 
 .GnbTab_Item {
   position: relative;
   display: inline-block;
-  margin-right: 24px;
+  margin-right: 16px;
   line-height: 24px;
 }
 
 .GnbTab_Link {
   display: block;
-  padding: 10px 3px 10px 3px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--slategray_40);
-  letter-spacing: -.34px;
+  padding: 6px 4px 12px;
   text-decoration: none;
 
-  @nest .androidApp &,
-  @nest .iosApp & {
-    padding: 16px 3px 17px 3px;
+  &,
+  & .reset-heading {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--slategray_40);
+    letter-spacing: -.3px;
+    transition: opacity .2s;
   }
 
-   & .reset-heading {
-    transition: opacity .2s;
+  @nest .androidApp & {
+    padding: 16px 3px 17px 3px;
+  }
+  @nest .iosApp & {
+    padding: 16px 3px 17px 3px;
   }
 
   @media (hover: hover) {
@@ -321,7 +331,10 @@
   }
 
   &.GnbTab_Link-active {
-    color: var(--bluegray_80);
+    &,
+    & .reset-heading {
+      color: var(--bluegray_80);
+    }
     &::after {
       position: absolute;
       content: '';
@@ -332,25 +345,21 @@
       bottom: -1px;
     }
   }
-
-  & .reset-heading {
-    font-weight: 500;
-  }
 }
 
 @media (--pc-screen) {
   .GNBWrapper {
     & .GNBContentWrapper {
       position: relative;
-      max-width: var(--max-pc-content-width);
+      max-width: calc(var(--max-pc-content-width) - 20px);
       height: var(--gnb_pc_height);
       margin: 0 auto;
       border: none;
       & .GNBLeft {
-        padding-left: 8px;
+        padding-left: 40px;
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
-          padding: 24px 11.7px 0 0;
+          padding: 21px 11.7px 0 0;
           line-height: var(--gnb_pc_height);
           & .GNBLogo {
             width: 102px;
@@ -364,10 +373,10 @@
             line-height: calc(var(--gnb_pc_height) - 2px);
             &::before {
               height: 14px;
-              top: calc(((var(--gnb_pc_height) - 14px) / 2) + 2px);
+              top: calc(((var(--gnb_pc_height) - 14px) / 2));
             }
             & .GNBServiceLink {
-              padding: 25px 0 0 10px;
+              padding: calc(((var(--gnb_pc_height) - 14px) / 2)) 0 0 10px;
             }
             & .RidibooksLogo {
               width: 91px;
@@ -377,28 +386,27 @@
         }
       }
       & .GNBRight {
+        padding-right: 40px;
         & .GNBRightButtonWrapper {
           position: relative;
           z-index: 901;
           & .GNBSettingButton {
             height: var(--gnb_pc_height);
-            padding: calc(((var(--gnb_pc_height) - 17.5px) / 2) + 2px) 10px;
+            padding: calc(((var(--gnb_pc_height) - 18px) / 2)) 10px;
           }
         }
       }
     }
   }
   .GNB_LinkButton {
-    margin-top: 18px;
+    margin-top: 14px;
     &.GNB_WebLibrary_Button {
       width: 67px;
     }
   }
-  .GnbTab_Wrapper {
-    height: auto;
-  }
-  .GnbTab_Item {
-    padding: 7px 3px 9px 3px;
+  .GnbTab_List {
+    max-width: calc(var(--max-pc-content-width) - 20px);
+    padding-left: 40px;
   }
 }
 
@@ -406,8 +414,16 @@
   .GNBSettingButton {
     padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 8px 0;
   }
-
   .GNB_LinkButton.GNB_WebLibrary_Button {
     margin-left: 8px;
+  }
+  .GNBLogoWrapper {
+    padding-left: 10px;
+  }
+  .GNBRight {
+    padding-right: 10px;
+  }
+  .GnbTab_List {
+    padding-left: 8px;
   }
 }

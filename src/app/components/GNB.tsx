@@ -150,7 +150,7 @@ export class GNB extends React.Component<Props> {
           >
             <g
               transform="translate(2.000000, 2.000000)"
-              stroke="#339CF2"
+              stroke="#2E3847"
               strokeWidth="1.5"
               fill="none"
               fillRule="evenodd"
@@ -264,6 +264,7 @@ export class GNB extends React.Component<Props> {
     const {
       gnbType,
       isInApp,
+      isGnbTab,
       isSimpleGNB,
       backgroundColorRGBString,
     } = this.props;
@@ -278,7 +279,11 @@ export class GNB extends React.Component<Props> {
             <div className="GNBContentWrapper">
               <div className="GNBLeft">
                 {isInApp && !isSimpleGNB ? (
-                  this.renderGNBTab()
+                  isGnbTab ? (
+                    this.renderGNBTab()
+                  ) : (
+                    this.renderGNBLogo()
+                  )
                 ) : (
                   <>
                     {this.renderGNBLogo()}

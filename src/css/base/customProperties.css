@@ -12,7 +12,7 @@
 
 @custom-media --pc-screen (min-width: 841px);
 @custom-media --mobile-screen (max-width: 840px);
-@custom-media --minimal-mobile-screen (max-width: 340px);
+@custom-media --minimal-mobile-screen (max-width: 359px);
 
 
 @custom-media --pc-layout (min-width: 835px);
@@ -99,8 +99,8 @@
 :root {
   --max-pc-content-width: 900px;
   --min-content-width: 320px;
-  --mobile-blocked-search-padding: 38px;
-  --mobile-search-vertical-inner-padding: 6px;
+  --mobile-blocked-search-height: 44px;
+  --mobile-search-vertical-inner-padding: 4px;
   --defaultFontFamily: Noto Sans KR, NotoSansKR, Sans-serif;
 
   --reset-layout: {

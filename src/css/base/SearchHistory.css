@@ -12,6 +12,9 @@
   @nest .androidApp & {
     top: var(--gnb_android_app_height);
   }
+  @nest .iosApp & {
+    top: var(--gnb_ios_app_height);
+  }
 }
 .SearchHistoryList {
   margin: 0;
@@ -97,7 +100,7 @@
 @media (--pc-screen) {
   .SearchHistoryWrapper {
     top: 49px;
-    right: 0;
+    right: 10px;
     left: auto;
     width: 300px;
     border-radius: 3px;
