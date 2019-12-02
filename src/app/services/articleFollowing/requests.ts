@@ -29,9 +29,9 @@ export const requestFollowingChannelList = (requestQueries?: ArticleRequestQueri
   }).then((response) => camelize<AxiosResponse<FollowingChannelListResponse>>(response, { recursive: true }).data)
 );
 
-export const requestFollowingArticleList = (page: number): Promise<FollowingArticleListResponse> => (
+export const requestFollowingArticleList = (page: number, requestQueries?: ArticleRequestQueries): Promise<FollowingArticleListResponse> => (
   request({
-    url: `/article/me/feeds?size=12&page=${page}`,
+    url: `/article/me/feeds${buildArticleRequestQueriesToString(requestQueries)}&size=12&page=${page}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<FollowingArticleListResponse>>(response, { recursive: true }).data)
 );

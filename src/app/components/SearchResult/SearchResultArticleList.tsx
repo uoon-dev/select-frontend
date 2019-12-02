@@ -15,7 +15,6 @@ interface Props {
 export const SearchResultArticleList: React.FunctionComponent<Props> = (props) => {
   const { keyword, articles } = props;
   const channelState = useSelector((state: RidiSelectState) => state.articleChannelById);
-
   return (
     <ul className="SearchResultArticleList">
       {articles.map((article) => (
@@ -33,6 +32,14 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                 className="SearchResultArticleList_Title"
                 dangerouslySetInnerHTML={{ __html: article.highlight.title || article.title }}
               />
+              { article.highlight.authorNames ? (
+                <span
+                  className="SearchResultArticleList_Author"
+                  dangerouslySetInnerHTML={{ __html: article.highlight.authorNames }}
+                />) : (
+                  article.authors && <span className="SearchResultArticleList_Author">{article.authors.map((author) => author.name).join(',')}</span>
+                )
+              }
               <span
                 className="SearchResultArticleList_Channel"
                 dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || channelState[article.channelName].channelMeta!.displayName }}

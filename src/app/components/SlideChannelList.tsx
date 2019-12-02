@@ -1,8 +1,7 @@
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 import { BlockIconComponent } from 'app/components/ArticleThumbnail';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { Actions } from 'app/services/articleChannel';
-import { Actions as FollowingActions } from 'app/services/articleFollowing';
+import { Actions } from 'app/services/articleFollowing';
 import toast from 'app/utils/toast';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { Method } from 'axios';
@@ -22,8 +21,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
     const method: Method = 'DELETE';
     const toastButton = {
       callback: () => {
-        dispatch(Actions.articleChannelFollowingActionRequest({ channelId, channelName, method }));
-        dispatch(FollowingActions.loadFollowingChannelListRequest());
+        dispatch(Actions.loadUnFollowChannelRequest({channelId, channelName, method}));
       },
       label: '팔로잉 취소',
     };

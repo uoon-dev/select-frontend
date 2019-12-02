@@ -36,6 +36,7 @@ export interface SearchResultHighlight {
   translator?: string;
   publisher?: string;
   channelDisplayName?: string;
+  authorNames?: string;
 }
 
 export interface SearchResultItem {
