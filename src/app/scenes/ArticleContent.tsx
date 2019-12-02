@@ -6,11 +6,13 @@ import { RouteComponentProps } from 'react-router';
 import { Article } from '@ridi/ridi-prosemirror-editor';
 import { Button, Icon } from '@ridi/rsg';
 
+import { ConnectedPageHeader } from 'app/components';
 import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/ArticleChannelInfoHeader';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleContentPlaceholder } from 'app/placeholder/ArticleContentPlaceholder';
 import { Actions } from 'app/services/article';
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
@@ -32,11 +34,12 @@ const ShareSVG = (props: { className?: string; }) => (
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
-  const { articleState, hasAvailableTicket, isLoggedIn, BASE_URL_STORE } = useSelector((state: RidiSelectState) => ({
+  const { articleState, hasAvailableTicket, isLoggedIn, BASE_URL_STORE, isAndroidInApp } = useSelector((state: RidiSelectState) => ({
     BASE_URL_STORE: state.environment.STORE_URL,
     articleState: state.articlesById[contentKey],
     hasAvailableTicket: state.user.hasAvailableTicket,
     isLoggedIn: state.user.isLoggedIn,
+    isAndroidInApp: getIsAndroidInApp(state),
   }));
   const dispatch = useDispatch();
   const checkIsFetched = () => {
@@ -78,6 +81,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
 
   return articleState && articleState.article ? (
     <main className="SceneWrapper PageArticleContent">
+      {isAndroidInApp ? <ConnectedPageHeader pageTitle={articleState.article.title} /> : null}
       <h1 className="ArticleContent_Title">{articleState.article.title}</h1>
       <div className="ArticleContent_ContentWrapper">
         {articleState.article.channelId && articleState.article.channelName ? (

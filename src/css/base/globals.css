@@ -286,7 +286,7 @@ main.SceneWrapper {
 
 .WebActionBar_Text {
   overflow: hidden;
-  color: #fff;
+  color: var(--bluegray_80);;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -338,7 +338,7 @@ main.SceneWrapper {
 .UpButton_Icon {
   width: 16px;
   height: 16px;
-  fill: white;
+  fill: var(--bluegray_80);
 
   @nest .iosApp & {
     width: 13px;
