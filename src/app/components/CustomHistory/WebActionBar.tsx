@@ -31,7 +31,7 @@ export class WebActionBar extends React.Component<WebActionBarStateProps> {
       <div
         className={classNames(
           'WebActionBar',
-          gnbColorLevel === 'dark' && 'WebActionBar-dark',
+          !isIosApp && gnbColorLevel === 'dark' && 'WebActionBar-dark',
         )}
         style={isIosApp ? {} : { backgroundColor }}
       >

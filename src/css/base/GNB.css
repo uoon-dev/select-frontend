@@ -4,7 +4,7 @@
   --gnb_mobile_height: 44px;
   --gnb_pc_height: 58px;
   --gnb_android_app_height: 57px;
-  --gnb_ios_app_height: 52px;
+  --gnb_ios_app_height: 57px;
 }
 
 .GNBWrapper {
@@ -16,7 +16,6 @@
     position: fixed;
     top: 0;
     width: 100%;
-    border-bottom: 1px solid var(--bluegray_70);
   }
 }
 .GNBWrapper-transparent {
@@ -221,7 +220,7 @@
   }
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
-    padding-top: 11px;
+    padding: calc((var(--gnb_ios_app_height) - 24px) / 2) 10px 0;
     @media (hover: hover) {
     &:hover {
         opacity: .2;

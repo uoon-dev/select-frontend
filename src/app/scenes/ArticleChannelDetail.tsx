@@ -11,7 +11,7 @@ import { GridArticleList } from 'app/components/GridArticleList';
 import { ArticleChannelDetailPlaceholder } from 'app/placeholder/ArticleChannelDetailPlaceholder';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
-import { getIsAndroidInApp } from 'app/services/environment/selectors';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
@@ -20,10 +20,10 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelName = useParams<{ channelName: string }>().channelName;
   const page = useSelector(getPageQuery);
   const itemCountPerPage = 12;
-  const { articleChannelData, articlesById, isAndroidInApp } = useSelector((state: RidiSelectState) => ({
+  const { articleChannelData, articlesById, isInApp } = useSelector((state: RidiSelectState) => ({
     articleChannelData: state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined,
     articlesById: state.articlesById,
-    isAndroidInApp: getIsAndroidInApp(state),
+    isInApp: selectIsInApp(state),
   }));
   const dispatch = useDispatch();
 
@@ -56,7 +56,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   return (
     <main className="SceneWrapper">
       <HelmetWithTitle titleName={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} />
-      {isAndroidInApp ? <ConnectedPageHeader pageTitle={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} /> : null}
+      {isInApp ? <ConnectedPageHeader pageTitle={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} /> : null}
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
       {
         isFetchedChannelMeta() && articleChannelData ?

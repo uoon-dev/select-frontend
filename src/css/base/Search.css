@@ -55,10 +55,11 @@
     }
     @nest .iosApp & {
       height: var(--gnb_ios_app_height);
-      padding: 8px 12px;
+      padding: 10.5px 12px;
+      box-shadow: 1px 1px 0 #fff;
       & .GNBSearchButton {
         display: inline-block;
-        height: var(--gnb_android_app_height);
+        height: var(--gnb_ios_app_height);
       }
       & .GNBSearchInputWrapper {
         height: 36px;
@@ -132,7 +133,6 @@
   @nest .iosApp & {
     @media (--mobile-screen) {
       height: var(--gnb_ios_app_height);
-      padding-top: 11px;
     }
   }
 }
@@ -294,6 +294,9 @@
       @nest .androidApp & {
         padding-top: var(--gnb_android_app_height);
       }
+      @nest .iosApp & {
+        padding-top: var(--gnb_ios_app_height);
+      }
     }
     @nest .androidApp & {
       top: 41px;
@@ -329,6 +332,10 @@
       }
       @nest .androidApp & {
         margin-top: var(--gnb_android_app_height);
+        padding: 0;
+      }
+      @nest .iosApp & {
+        margin-top: var(--gnb_ios_app_height);
         padding: 0;
       }
     }

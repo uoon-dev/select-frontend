@@ -278,8 +278,8 @@ main.SceneWrapper {
 
   @nest .iosApp & {
     height: var(--gnb_ios_app_height);
-    background: var(--bluegray_80);
-    border-bottom: 1px solid var(--bluegray_70);
+    background: #fff;
+    border-bottom: 1px solid var(--slategray_20);
     vertical-align: middle;
   }
 }
@@ -306,6 +306,7 @@ main.SceneWrapper {
     width: 100%;
     top: 0;
     left: 0;
+    margin: 0;
     padding: 0 70px;
     box-sizing: border-box;
     z-index: 901;
@@ -313,7 +314,7 @@ main.SceneWrapper {
     text-align: center;
     font-size: 17px;
     font-weight: 600;
-    line-height: 24px;
+    line-height: var(--gnb_ios_app_height);
     font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
   }
 }
