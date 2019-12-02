@@ -60,7 +60,7 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: 16px 6px 0 10px;
+  padding: 16px 6px 0 20px;
   transition: opacity .2s;
   vertical-align: top;
   & .GNBLogo {
@@ -170,7 +170,7 @@
 
 .GNBRight { /* GNB 오른쪽 영역 */
   display: table-cell;
-  padding-right: 10px;
+  padding-right: 20px;
   text-align: right;
   vertical-align: top;
 }
@@ -280,7 +280,7 @@
   max-width: 900px;
   margin: 0 auto;
   padding: 0;
-  padding-left: 8px;
+  padding-left: 18px;
   box-sizing: border-box;
 }
 
@@ -406,8 +406,16 @@
   .GNBSettingButton {
     padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 8px 0;
   }
-
   .GNB_LinkButton.GNB_WebLibrary_Button {
     margin-left: 8px;
+  }
+  .GNBLogoWrapper {
+    padding-left: 10px;
+  }
+  .GNBRight {
+    padding-right: 10px;
+  }
+  .GnbTab_List {
+    padding-left: 8px;
   }
 }
