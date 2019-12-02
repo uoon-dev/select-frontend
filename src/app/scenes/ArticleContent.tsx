@@ -24,17 +24,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     hasAvailableTicket: state.user.hasAvailableTicket,
   }));
   const dispatch = useDispatch();
-  const checkIsFetched = () => {
-    return (
+
+  React.useEffect(() => {
+    if (
       articleState &&
       articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
       articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
       articleState.content
-    );
-  };
-
-  React.useEffect(() => {
-    if (checkIsFetched()) {
+    ) {
       return;
     }
     dispatch(Actions.loadArticleRequest({
