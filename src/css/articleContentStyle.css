@@ -257,7 +257,8 @@
     & > code,
     & > ul,
     & > ol,
-    & > pre {
+    & > pre,
+    & > figcaption {
       padding-left: 20px;
       padding-right: 20px;
       box-sizing: border-box;
