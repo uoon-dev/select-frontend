@@ -3,6 +3,8 @@ import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { RoutePaths } from 'app/constants';
+import { CommonRoutes } from 'app/routes';
 import { Actions as appActions , AppStatus } from 'app/services/app';
 import { RidiSelectState } from 'app/store';
 import { withRouter } from 'react-router-dom';
@@ -38,15 +40,17 @@ export class AppManager extends React.Component<Props> {
     const { location, appStatus, dispatchUpdateAppStatus } = this.props;
     const queryString: QueryString = qs.parse(this.props.location.search, { ignoreQueryPrefix: true });
     const isArticlePath = location.pathname.indexOf('/article');
+    const isCommonPath = CommonRoutes.includes(location.pathname as RoutePaths);
 
     if (queryString.type && location.pathname === '/search') {
       dispatchUpdateAppStatus(queryString.type);
       return;
     }
-
-    if (appStatus === AppStatus.Books && isArticlePath >= 0) {
+    if (appStatus !== AppStatus.Common && isCommonPath) {
+      dispatchUpdateAppStatus(AppStatus.Common);
+    } else if (appStatus !== AppStatus.Articles && isArticlePath >= 0) {
       dispatchUpdateAppStatus(AppStatus.Articles);
-    } else if (appStatus === AppStatus.Articles && isArticlePath < 0) {
+    } else if (appStatus !== AppStatus.Books && !isCommonPath &&  isArticlePath < 0) {
       dispatchUpdateAppStatus(AppStatus.Books);
     }
   }

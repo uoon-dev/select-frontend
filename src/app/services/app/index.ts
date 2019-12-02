@@ -9,6 +9,7 @@ export const Actions = {
 export enum AppStatus {
   Books = 'Books',
   Articles = 'Articles',
+  Common = 'Common',
 }
 
 export interface AppState {
