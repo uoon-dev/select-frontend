@@ -27,10 +27,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
 
   React.useEffect(() => {
     if (
-      articleState &&
-      articleState.contentFetchStatus !== FetchStatusFlag.FETCHING &&
-      articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
-      articleState.content
+      (
+        articleState &&
+        articleState.contentFetchStatus === FetchStatusFlag.FETCHING
+       ) || (
+        articleState &&
+        articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
+        articleState.content
+       )
     ) {
       return;
     }
