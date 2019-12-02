@@ -5,6 +5,7 @@ import { Actions, ArticleChannel } from 'app/services/articleChannel';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse,
   ArticleChannelListResponse, requestArticleChannelArticles,
   requestArticleChannelDetail, requestArticleChannelFollowing, requestArticleChannelList } from 'app/services/articleChannel/requests';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import toast from 'app/utils/toast';
@@ -84,6 +85,12 @@ export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Ac
     }
     const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, method);
     yield put(Actions.articleChannelFollowingActionSuccess({ channelName, response }));
+    const eventName = method === 'POST' ? 'Follow Channel' : 'Unfollow Channel';
+    const trackingParams = {
+      eventName,
+      id: Number(response.channelId),
+    };
+    yield put(TrackingActions.trackingChannelFollowActions({ trackingParams }));
   } catch (e) {
     const { data } = e.response;
     yield put(Actions.articleChannelFollowingActionFailure({ channelName }));

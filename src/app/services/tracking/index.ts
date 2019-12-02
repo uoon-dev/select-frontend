@@ -12,6 +12,11 @@ export interface TrakcingCustomEventParams {
   eventName: string;
 }
 
+export interface TrackingArticleEventParams {
+  id: number;
+  eventName: string;
+}
+
 export const Actions = {
   trackClick: createAction<{
     trackingParams: DefaultTrackingParams,
@@ -28,4 +33,8 @@ export const Actions = {
     updateKey: 'userId' | 'deviceType',
     updateValue: string,
   }>('trackingArgsUpdate'),
+
+  trackingChannelFollowActions: createAction<{
+    trackingParams: TrackingArticleEventParams,
+  }>('trackingChannelFollowActions'),
 };
