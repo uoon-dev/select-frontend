@@ -2,7 +2,7 @@
 
 :root {
   --gnb_mobile_height: 44px;
-  --gnb_pc_height: 60px;
+  --gnb_pc_height: 58px;
   --gnb_android_app_height: 57px;
   --gnb_ios_app_height: 52px;
 }
@@ -272,7 +272,7 @@
 .GnbTab_Wrapper {
   position: relative;
   background-color: white;
-  height: var(--gnb_mobile_height);
+  height: 42px;
 }
 
 .GnbTab_List {
@@ -287,26 +287,27 @@
 .GnbTab_Item {
   position: relative;
   display: inline-block;
-  margin-right: 24px;
+  margin-right: 16px;
   line-height: 24px;
 }
 
 .GnbTab_Link {
   display: block;
-  padding: 10px 3px 10px 3px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--slategray_40);
-  letter-spacing: -.34px;
+  padding: 6px 4px 12px;
   text-decoration: none;
+
+  &,
+  & .reset-heading {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--slategray_40);
+    letter-spacing: -.3px;
+    transition: opacity .2s;
+  }
 
   @nest .androidApp &,
   @nest .iosApp & {
     padding: 16px 3px 17px 3px;
-  }
-
-   & .reset-heading {
-    transition: opacity .2s;
   }
 
   @media (hover: hover) {
@@ -321,7 +322,10 @@
   }
 
   &.GnbTab_Link-active {
-    color: var(--bluegray_80);
+    &,
+    & .reset-heading {
+      color: var(--bluegray_80);
+    }
     &::after {
       position: absolute;
       content: '';
@@ -331,10 +335,6 @@
       left: 0;
       bottom: -1px;
     }
-  }
-
-  & .reset-heading {
-    font-weight: 500;
   }
 }
 
@@ -347,7 +347,7 @@
       margin: 0 auto;
       border: none;
       & .GNBLeft {
-        padding-left: 8px;
+        padding-left: 40px;
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
           padding: 24px 11.7px 0 0;
@@ -377,6 +377,7 @@
         }
       }
       & .GNBRight {
+        padding-right: 40px;
         & .GNBRightButtonWrapper {
           position: relative;
           z-index: 901;
@@ -394,11 +395,8 @@
       width: 67px;
     }
   }
-  .GnbTab_Wrapper {
-    height: auto;
-  }
-  .GnbTab_Item {
-    padding: 7px 3px 9px 3px;
+  .GnbTab_List {
+    padding-left: 40px;
   }
 }
 

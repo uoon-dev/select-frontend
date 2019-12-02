@@ -99,7 +99,7 @@
     display: block;
     max-width: var(--max-pc-content-width);
     margin: 0 auto;
-    padding: 0 7px;
+    padding: 0 0 0 40px;
   }
   .LnbMenu {
     display: inline-block;
