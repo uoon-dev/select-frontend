@@ -178,13 +178,14 @@ main.SceneWrapper {
 .PageHeader {
   @apply --reset-layout;
 
-  box-sizing: border-box;
   display: flex;
+  height: 47px;
+  line-height: 47px;
+  box-sizing: border-box;
   position: relative;
   align-items: center;
-  min-height: 40px;
   margin: 0 auto;
-  padding: 6px 15px;
+  padding: 0 15px;
   background-color: #fff;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
   & .PageTitle {
@@ -193,6 +194,8 @@ main.SceneWrapper {
 
   @media (--pc-screen) {
     width: 800px;
+    height: auto;
+    line-height: auto;
     min-height: 24px;
     margin: 50px auto 17px;
     padding: 0;

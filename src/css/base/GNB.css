@@ -184,11 +184,11 @@
   box-sizing: border-box;
   display: inline-block;
   height: var(--gnb_mobile_height);
-  padding: calc((var(--gnb_mobile_height) - 17.5px) / 2) 10px 0;
+  padding: calc((var(--gnb_mobile_height) - 18px) / 2) 10px 0;
   transition: opacity .2s;
   vertical-align: top;
   & .SettingIcon {
-    width: 17.5px;
+    width: 18px;
     height: 18px;
     fill: var(--bluegray_70);
   }
@@ -349,7 +349,7 @@
         padding-left: 40px;
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
-          padding: 24px 11.7px 0 0;
+          padding: 21px 11.7px 0 0;
           line-height: var(--gnb_pc_height);
           & .GNBLogo {
             width: 102px;
@@ -363,10 +363,10 @@
             line-height: calc(var(--gnb_pc_height) - 2px);
             &::before {
               height: 14px;
-              top: calc(((var(--gnb_pc_height) - 14px) / 2) + 2px);
+              top: calc(((var(--gnb_pc_height) - 14px) / 2));
             }
             & .GNBServiceLink {
-              padding: 25px 0 0 10px;
+              padding: calc(((var(--gnb_pc_height) - 14px) / 2)) 0 0 10px;
             }
             & .RidibooksLogo {
               width: 91px;
@@ -382,14 +382,14 @@
           z-index: 901;
           & .GNBSettingButton {
             height: var(--gnb_pc_height);
-            padding: calc(((var(--gnb_pc_height) - 17.5px) / 2) + 2px) 10px;
+            padding: calc(((var(--gnb_pc_height) - 18px) / 2)) 10px;
           }
         }
       }
     }
   }
   .GNB_LinkButton {
-    margin-top: 18px;
+    margin-top: 14px;
     &.GNB_WebLibrary_Button {
       width: 67px;
     }
