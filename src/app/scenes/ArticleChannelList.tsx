@@ -1,15 +1,16 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 import { HelmetWithTitle } from 'app/components';
 import { ArticleChannelMeta } from 'app/components/ArticleChannels/ArticleChannelMeta';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ArticleChannelListPlaceholder } from 'app/placeholder/ArticleChannelListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { getChannelList } from 'app/services/articleChannel/selectors';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
+import * as classNames from 'classnames';
+import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {
   const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector((state: RidiSelectState) => ({
@@ -19,6 +20,7 @@ export const ArticleChannelList: React.FunctionComponent = () => {
   }));
   const channelListFetchStatus = useSelector((state: RidiSelectState) => state.articleChannels.fetchStatus);
   const dispatch = useDispatch();
+  const section = getSectionStringForTracking('select-article', 'all-channels', 'channel-list');
 
   React.useEffect(() => {
     if (channelListFetchStatus === FetchStatusFlag.IDLE && channelList.length === 0) {
@@ -51,7 +53,13 @@ export const ArticleChannelList: React.FunctionComponent = () => {
                 {channelList.map((channelMeta, idx) => {
                     return channelMeta ? (
                       <li key={idx} className="ArticleChannelList_Item">
-                        <ArticleChannelMeta {...channelMeta} />
+                        <ConnectedTrackImpression
+                          section={section}
+                          index={idx}
+                          id={channelMeta.id}
+                        >
+                          <ArticleChannelMeta {...channelMeta} />
+                        </ConnectedTrackImpression>
                       </li>
                     ) : null;
                 })}

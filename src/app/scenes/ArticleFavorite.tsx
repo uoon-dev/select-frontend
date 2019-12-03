@@ -67,6 +67,9 @@ export const ArticleFavorite: React.FunctionComponent = () => {
           articleItems.length > 0 ? (
             <>
               <GridArticleList
+                serviceTitleForTracking="select-article"
+                pageTitleForTracking="favorite"
+                uiPartTitleForTracking="article-list"
                 articles={articleItems}
                 renderChannelThumbnail={true}
                 renderChannelMeta={true}

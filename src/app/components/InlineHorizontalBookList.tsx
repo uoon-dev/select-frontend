@@ -12,6 +12,7 @@ import { stringifyAuthors } from 'app/utils/utils';
 import { ThumbnailSize } from './BookThumbnail';
 
 interface Props {
+  serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
   filterForTracking?: string;
@@ -24,6 +25,7 @@ interface Props {
 
 export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
   const {
+    serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
     filterForTracking,
@@ -35,7 +37,8 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
     bookThumbnailSize = 120,
   } = props;
 
-  const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
+  const section = !!serviceTitleForTracking && !!pageTitleForTracking ?
+    getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
   return (
     <ul
       className={classNames([

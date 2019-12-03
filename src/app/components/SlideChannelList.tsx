@@ -1,7 +1,9 @@
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 import { BlockIconComponent } from 'app/components/ArticleThumbnail';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFollowing';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import toast from 'app/utils/toast';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { Method } from 'axios';
@@ -16,7 +18,7 @@ interface SlideChannelListProps {
 export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = (props) => {
   const { channels } = props;
   const dispatch = useDispatch();
-
+  const section = getSectionStringForTracking('select-article', 'following', 'channel-list');
   const handleBlockChannelClick = (channelId: number, channelName: string) => {
     const method: Method = 'DELETE';
     const toastButton = {
@@ -39,33 +41,39 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
         {
           channels.map((channel, idx) => (
             <li key={idx} className="FollowingChannel_Item">
-              <div className="FollowingChannel_Item_InnerWrapper">
-                { channel.isEnabled ?
-                  <>
-                    <ArticleChannelThumbnail
-                      imageUrl={channel.thumbnailUrl}
-                      channelName={channel.displayName}
-                      linkUrl={articleChannelToPath({channelName: channel.name})}
-                    />
-                    <Link
-                      to={articleChannelToPath({channelName: channel.name})}
-                      className="FollowingChannel_Item_Link"
-                    >
-                      {channel.displayName}
-                    </Link>
-                  </> :
-                  <>
-                    <button
-                      type="button"
-                      className="ArticleFollowing_BlockButton"
-                      onClick={() => handleBlockChannelClick(channel.id, channel.name)}
-                    >
-                      <BlockIconComponent width={24} height={24} className={'ArticleFollowing_BlockIcon'} />
-                    </button>
-                    <div className="FollowingChannel_Block_Title">{channel.displayName}</div>
-                  </>
-                }
-              </div>
+              <ConnectedTrackImpression
+                section={section}
+                index={idx}
+                id={channel.id}
+              >
+                <div className="FollowingChannel_Item_InnerWrapper">
+                  { channel.isEnabled ?
+                    <>
+                      <ArticleChannelThumbnail
+                        imageUrl={channel.thumbnailUrl}
+                        channelName={channel.displayName}
+                        linkUrl={articleChannelToPath({channelName: channel.name})}
+                      />
+                      <Link
+                        to={articleChannelToPath({channelName: channel.name})}
+                        className="FollowingChannel_Item_Link"
+                      >
+                        {channel.displayName}
+                      </Link>
+                    </> :
+                    <>
+                      <button
+                        type="button"
+                        className="ArticleFollowing_BlockButton"
+                        onClick={() => handleBlockChannelClick(channel.id, channel.name)}
+                      >
+                        <BlockIconComponent width={24} height={24} className={'ArticleFollowing_BlockIcon'} />
+                      </button>
+                      <div className="FollowingChannel_Block_Title">{channel.displayName}</div>
+                    </>
+                  }
+                </div>
+              </ConnectedTrackImpression>
             </li>
           ))
         }

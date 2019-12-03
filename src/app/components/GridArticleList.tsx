@@ -18,6 +18,7 @@ import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
 
 interface Props {
+  serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
   filterForTracking?: string;
@@ -33,6 +34,7 @@ interface Props {
 export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   const dispatch = useDispatch();
   const {
+    serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
     filterForTracking,
@@ -46,11 +48,10 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     gridListSizeClassNames,
   } = props;
 
-  const section = !!pageTitleForTracking
-    ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking)
+  const section = !!serviceTitleForTracking && !!pageTitleForTracking
+    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking, filterForTracking)
     : undefined;
   const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
-
   const favoriteArticleAction = (articleId: number, isFavorite: boolean | undefined) => {
     let method: Method = 'POST';
     if (isFavorite) {

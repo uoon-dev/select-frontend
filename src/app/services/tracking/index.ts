@@ -15,6 +15,7 @@ export interface TrakcingCustomEventParams {
 export interface TrackingArticleEventParams {
   id: number;
   eventName: string;
+  misc?: string;
 }
 
 export const Actions = {
@@ -34,7 +35,8 @@ export const Actions = {
     updateValue: string,
   }>('trackingArgsUpdate'),
 
-  trackingChannelFollowActions: createAction<{
+  trackingArticleActions: createAction<{
     trackingParams: TrackingArticleEventParams,
-  }>('trackingChannelFollowActions'),
+  }>('trackingArticleActions'),
+
 };

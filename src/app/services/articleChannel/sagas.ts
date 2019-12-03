@@ -90,7 +90,7 @@ export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Ac
       eventName,
       id: Number(response.channelId),
     };
-    yield put(TrackingActions.trackingChannelFollowActions({ trackingParams }));
+    yield put(TrackingActions.trackingArticleActions({ trackingParams }));
   } catch (e) {
     const { data } = e.response;
     yield put(Actions.articleChannelFollowingActionFailure({ channelName }));

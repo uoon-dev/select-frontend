@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
   section?: string;
+  children?: any;
 };
 
 export type TrackImpressionProps = TrackImpressionOwnProps & ReturnType<typeof mapDispatchToProps>;

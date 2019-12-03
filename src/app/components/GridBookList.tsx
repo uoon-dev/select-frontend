@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 interface Props {
   books: Book[];
+  serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   filterForTracking?: string;
   isChart?: boolean;
@@ -84,9 +85,9 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
   }
 
   public getSection = () => {
-    const { pageTitleForTracking, filterForTracking } = this.props;
-    return !!pageTitleForTracking ?
-      getSectionStringForTracking(pageTitleForTracking, 'books', filterForTracking) :
+    const { serviceTitleForTracking, pageTitleForTracking, filterForTracking } = this.props;
+    return !!serviceTitleForTracking && !!pageTitleForTracking ?
+      getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, 'books', filterForTracking) :
       undefined;
   }
 

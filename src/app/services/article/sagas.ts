@@ -10,6 +10,7 @@ import {
   requestSingleArticle,
 } from 'app/services/article/requests';
 import { Actions as ChannelActions } from 'app/services/articleChannel';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
@@ -77,6 +78,13 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
       contentIndex: response.contentId,
       isFavorite: response.isFavorite,
     }));
+    const eventName = method === 'POST' ? 'Like Article' : 'Unlike Article';
+    const trackingParams = {
+      eventName,
+      id: Number(articleId),
+    };
+    yield put(TrackingActions.trackingArticleActions({ trackingParams }));
+
   } catch (e) {
     if (e
       && e.response

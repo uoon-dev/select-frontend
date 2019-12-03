@@ -82,6 +82,9 @@ export const ArticleFollowing: React.FunctionComponent = () => {
           <div className="FollowingArticleList">
             {articleItems &&
               <GridArticleList
+                serviceTitleForTracking="select-article"
+                pageTitleForTracking="following"
+                uiPartTitleForTracking="article-list"
                 articles={articleItems}
                 renderChannelThumbnail={true}
                 renderChannelMeta={true}

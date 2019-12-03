@@ -65,8 +65,9 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
       <div className="Channel_ArticleList">
         {isFetchedChannelArticles() && articleChannelData ?
           <GridArticleList
-            pageTitleForTracking="article-channel-detail"
-            uiPartTitleForTracking="article-channel-detail-articles"
+            serviceTitleForTracking="select-article"
+            pageTitleForTracking="channel-detail"
+            uiPartTitleForTracking="article-list"
             renderAuthor={false}
             articles={
               articleChannelData
