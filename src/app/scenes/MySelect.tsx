@@ -5,17 +5,17 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
-
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
-
-import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
@@ -206,10 +206,12 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public renderBooks(books: MySelectBook[]) {
+    const section = getSectionStringForTracking('select-book', 'my-select', 'book-list');
+
     return (
       <div>
         <ul className="MySelectBookList">
-          {books.map((book) => (
+          {books.map((book, idx) => (
             <li className="MySelectBookList_Item" key={book.mySelectBookId}>
               <CheckBox
                 className="MySelectBookList_CheckBox"
@@ -224,31 +226,37 @@ class MySelect extends React.Component<Props, State> {
                   })
                 }
               />
-              <div className="MySelectBookList_Book">
-                <DTOBookThumbnail
-                  book={book}
-                  width={100}
-                  linkUrl={`/book/${book.id}`}
-                  linkType="Link"
-                  imageClassName="MySelectBookList_Thumbnail"
-                  linkWrapperClassName="MySelectBookList_Link"
-                />
-                <div className="MySelectBookList_Right">
-                  <Link to={`/book/${book.id}`} className="MySelectBookList_Link">
-                    <div className="MySelectBookList_Meta">
-                      <h2 className="MySelectBookList_Title">{book.title.main}</h2>
-                      <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
-                    </div>
-                  </Link>
-                  <Button
-                    color="blue"
-                    className="MySelectBookList_IndividualDownload"
-                    onClick={this.handleDownloadBookButtonClick(book)}
-                  >
-                    다운로드
-                  </Button>
+              <ConnectedTrackImpression
+                section={section}
+                index={idx}
+                id={book.id}
+              >
+                <div className="MySelectBookList_Book">
+                  <DTOBookThumbnail
+                    book={book}
+                    width={100}
+                    linkUrl={`/book/${book.id}`}
+                    linkType="Link"
+                    imageClassName="MySelectBookList_Thumbnail"
+                    linkWrapperClassName="MySelectBookList_Link"
+                  />
+                  <div className="MySelectBookList_Right">
+                    <Link to={`/book/${book.id}`} className="MySelectBookList_Link">
+                      <div className="MySelectBookList_Meta">
+                        <h2 className="MySelectBookList_Title">{book.title.main}</h2>
+                        <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
+                      </div>
+                    </Link>
+                    <Button
+                      color="blue"
+                      className="MySelectBookList_IndividualDownload"
+                      onClick={this.handleDownloadBookButtonClick(book)}
+                    >
+                      다운로드
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </ConnectedTrackImpression>
             </li>
           ))}
         </ul>
@@ -261,7 +269,6 @@ class MySelect extends React.Component<Props, State> {
 
     const itemCount: number = mySelectBooks.itemCount ? mySelectBooks.itemCount : 0;
     const itemCountPerPage: number = mySelectBooks.size;
-
     return (
       <main
         className={classNames(

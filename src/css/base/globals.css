@@ -481,6 +481,7 @@ main.SceneWrapper {
   @apply --reset-layout;
 
   display: inherit;
+  width: 100%;
 }
 
 /* Controll body scroll in android app and allow only scrollable elements for pointer events */

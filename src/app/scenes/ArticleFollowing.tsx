@@ -85,6 +85,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
                 serviceTitleForTracking="select-article"
                 pageTitleForTracking="following"
                 uiPartTitleForTracking="article-list"
+                miscTracking={JSON.stringify({ sect_page: page })}
                 articles={articleItems}
                 renderChannelThumbnail={true}
                 renderChannelMeta={true}

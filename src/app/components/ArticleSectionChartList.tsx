@@ -16,7 +16,6 @@ interface ArticleSectionChartListProps {
   serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
-  filterForTracking?: string;
   articleList?: ArticleResponse[];
 }
 
@@ -26,11 +25,10 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
     serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
-    filterForTracking,
   } = props;
   const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
   const section = !!serviceTitleForTracking && !!pageTitleForTracking
-    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking, filterForTracking)
+    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking)
     : undefined;
 
   const groupChartActicles = (articles: ArticleResponse[], groupingUnitCount: number) => {

@@ -68,6 +68,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
             serviceTitleForTracking="select-article"
             pageTitleForTracking="channel-detail"
             uiPartTitleForTracking="article-list"
+            miscTracking={JSON.stringify({ sect_page: page })}
             renderAuthor={false}
             articles={
               articleChannelData

@@ -70,6 +70,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
                 serviceTitleForTracking="select-article"
                 pageTitleForTracking="favorite"
                 uiPartTitleForTracking="article-list"
+                miscTracking={JSON.stringify({ sect_page: page })}
                 articles={articleItems}
                 renderChannelThumbnail={true}
                 renderChannelMeta={true}

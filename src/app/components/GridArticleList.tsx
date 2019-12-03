@@ -21,7 +21,7 @@ interface Props {
   serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
-  filterForTracking?: string;
+  miscTracking?: string;
   articles: ArticleResponse[];
   renderAuthor?: boolean;
   renderChannelThumbnail?: boolean;
@@ -37,7 +37,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
-    filterForTracking,
+    miscTracking,
     articles,
     renderAuthor = true,
     renderChannelThumbnail = false,
@@ -49,7 +49,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
   } = props;
 
   const section = !!serviceTitleForTracking && !!pageTitleForTracking
-    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking, filterForTracking)
+    ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking)
     : undefined;
   const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
   const favoriteArticleAction = (articleId: number, isFavorite: boolean | undefined) => {
@@ -78,6 +78,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
               section={section}
               index={idx}
               id={article.id}
+              misc={miscTracking}
             >
               <ArticleThumbnail
                 linkUrl={articleUrl}
