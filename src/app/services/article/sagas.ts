@@ -1,7 +1,7 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import history from 'app/config/history';
-import { ErrorStatus, FetchErrorFlag, RoutePaths } from 'app/constants/index';
+import { ErrorStatus, RoutePaths } from 'app/constants/index';
 import { Actions } from 'app/services/article';
 import {
   ArticleResponse,

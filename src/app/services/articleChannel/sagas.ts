@@ -1,4 +1,5 @@
-import { ErrorStatus } from 'app/constants/index';
+import history from 'app/config/history';
+import { ErrorStatus, RoutePaths } from 'app/constants/index';
 import { Actions as ArticleActions } from 'app/services/article';
 import { Actions, ArticleChannel } from 'app/services/articleChannel';
 import { ArticleChannelArticlesResponse, ArticleChannelFollowingResponse,
@@ -34,12 +35,21 @@ function* loadArticleChannelDetail({ payload }: ReturnType<typeof Actions.loadAr
       { includes: [ArticleRequestIncludableData.FOLLOWERS_COUNT, ArticleRequestIncludableData.IS_FOLLOWING]});
     yield put(Actions.loadArticleChannelDetailSuccess({ articleChannelDetail: response, channelName }));
   } catch (e) {
-    const { data } = e.response;
-    yield put(Actions.loadArticleChannelDetailFailure({channelName}));
+    const { data, status } = e.response;
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
-    showMessageForRequestError(e);
+    if (status === 403) {
+      // TODO: Not Available Channel
+      toast.failureMessage('열람할 수 없는 채널입니다.');
+      history.replace(RoutePaths.ARTICLE_HOME);
+    } else if (status === 404) {
+      toast.failureMessage('존재하지 않는 채널입니다.');
+      history.replace(RoutePaths.ARTICLE_HOME);
+    } else {
+      showMessageForRequestError(e);
+    }
+    yield put(Actions.loadArticleChannelDetailFailure({ channelName }));
   }
 }
 
