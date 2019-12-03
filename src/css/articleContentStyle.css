@@ -37,14 +37,7 @@
     line-height: 1.75;
     letter-spacing: -.3px;
     color: var(--slategray_90);
-  }
 
-  &,
-  & p,
-  & span,
-  & div {
-    font-size: 16px;
-    font-weight: 400;
     & a,
     & a:hover,
     & a:focus,
@@ -54,23 +47,23 @@
     }
   }
 
-  & a {
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--dodgerblue_40);
+  & > a {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--dodgerblue_40);
+    }
   }
 
-  & code {
-    display: inline-block;
-    overflow-x: scroll;
-    background: var(--slategray_5);
-    border: 1px solid var(--slategray_20);
-    border-radius: 2px;
-    padding: 20px;
-    box-sizing: border-box;
-    max-width: 100%;
-    font-size: 14px;
-    line-height: 22px;
+  &,
+  & p,
+  & span,
+  & div {
+    font-size: 16px;
+    font-weight: 400;
   }
 
   & h1,
@@ -92,6 +85,19 @@
   }
   & h3 {
     font-size: 20px;
+  }
+
+  & code {
+    display: inline-block;
+    overflow-x: scroll;
+    background: var(--slategray_5);
+    border: 1px solid var(--slategray_20);
+    border-radius: 2px;
+    padding: 20px;
+    box-sizing: border-box;
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 22px;
   }
 
   & ul,
