@@ -17,7 +17,8 @@ interface Props {
   books: Book[];
   serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
-  filterForTracking?: string;
+  uiPartTitleForTracking?: string;
+  miscTracking?: string;
   isChart?: boolean;
   page?: number;
   itemCountPerPage?: number;
@@ -85,9 +86,9 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
   }
 
   public getSection = () => {
-    const { serviceTitleForTracking, pageTitleForTracking, filterForTracking } = this.props;
+    const { serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking } = this.props;
     return !!serviceTitleForTracking && !!pageTitleForTracking ?
-      getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, 'books', filterForTracking) :
+      getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking) :
       undefined;
   }
 
@@ -100,6 +101,7 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
     const {
       books,
       isChart = false,
+      miscTracking,
     } = this.props;
 
     return (
@@ -115,6 +117,7 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
               section={this.getSection()}
               index={index}
               id={book.id}
+              misc={miscTracking}
             >
               <MediaQuery maxWidth={359}>
                 {this.renderItem(90, book, this.getRank(index), index)}

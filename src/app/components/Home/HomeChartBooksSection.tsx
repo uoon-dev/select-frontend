@@ -27,7 +27,7 @@ type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
 export class HomeChartBooksSection extends React.Component<Props> {
   public renderCharts(contentsCount: number) {
     const { books, trackClick } = this.props;
-    const section = getSectionStringForTracking('home', 'popular');
+    const section = getSectionStringForTracking('select-book', 'home', 'popular');
     return (
       <div className="HomeSection_Chart">
         {books

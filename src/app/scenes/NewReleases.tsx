@@ -97,7 +97,10 @@ export class NewReleases extends React.Component<Props> {
         ) : (
           <>
             <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
               pageTitleForTracking="recent"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({ sect_page: page })}
               books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
             {itemCount > 0 && <MediaQuery maxWidth={840}>

@@ -32,6 +32,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
             <>
               <ConnectedInlineHorizontalBookList
                 books={(isExpanded || isMobile) ? books : books.slice(0, 6)}
+                serviceTitleForTracking="select-book"
                 uiPartTitleForTracking={uiPartTitleForTracking}
                 disableInlineOnPC={isExpanded}
                 renderAuthor={false}

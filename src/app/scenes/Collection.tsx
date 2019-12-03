@@ -100,7 +100,10 @@ export class Collection extends React.Component<Props> {
         ) : (
           <>
             <ConnectedGridBookList
-              pageTitleForTracking={collection.id.toString()}
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="collection"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({ sect_collection_id: collection.id, sect_page: page })}
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
             {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>

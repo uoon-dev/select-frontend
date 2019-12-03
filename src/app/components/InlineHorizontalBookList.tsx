@@ -15,7 +15,7 @@ interface Props {
   serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
-  filterForTracking?: string;
+  miscTracking?: string;
   books: Book[];
   disableInlineOnPC?: boolean;
   lazyloadThumbnail?: boolean;
@@ -28,7 +28,7 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
     serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
-    filterForTracking,
+    miscTracking,
     books,
     disableInlineOnPC,
     lazyloadThumbnail,
@@ -38,7 +38,7 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
   } = props;
 
   const section = !!serviceTitleForTracking && !!pageTitleForTracking ?
-    getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
+    getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking) : undefined;
   return (
     <ul
       className={classNames([
@@ -52,6 +52,7 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
             section={section}
             index={idx}
             id={book.id}
+            misc={miscTracking}
           >
             <>
               <DTOBookThumbnail
