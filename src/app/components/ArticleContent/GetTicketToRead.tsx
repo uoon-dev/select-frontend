@@ -5,6 +5,7 @@ import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
+import * as classNames from 'classnames';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
   const { isLoggedIn, BASE_URL_STORE, articleState } = useSelector((state: RidiSelectState) => ({
@@ -13,12 +14,17 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     isLoggedIn: state.user.isLoggedIn,
   }));
 
-  if (!articleState || !articleState.article || articleState.article.isPublic) {
+  if (!articleState || !articleState.article) {
     return null;
   }
 
   return (
-    <div className="ArticleContent_GetTicketToReadButtonWrapper">
+    <div
+      className={classNames(
+        'ArticleContent_GetTicketToReadButtonWrapper',
+        articleState.article.isPublic && 'ArticleContent_GetTicketToReadButtonWrapper-publicContent',
+      )}
+    >
       <Button
         size="large"
         color="blue"
