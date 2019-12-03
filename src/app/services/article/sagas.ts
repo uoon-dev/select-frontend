@@ -34,7 +34,8 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
       articleResponse: restData,
     }));
   } catch (error) {
-    if (error.response.status === 403) { // TODO: Not Available Article
+    if (error.response.status === 403) {
+      // TODO: Not Available Article
       toast.failureMessage('열람할 수 없는 아티클 입니다.');
       history.replace(RoutePaths.ARTICLE_HOME);
     } else if (error.response.status === 404) {
