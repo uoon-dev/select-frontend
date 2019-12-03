@@ -45,6 +45,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
           color="gray"
           size="medium"
           outline={true}
+          type="button"
           className={classNames(
             'ArticleContent_Button',
             'ArticleContent_LikeButton',
@@ -67,6 +68,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
           color="gray"
           size="medium"
           outline={true}
+          type="button"
           className="ArticleContent_Button ArticleContent_ShareButton"
           onClick={copyUrl}
         >

@@ -67,10 +67,14 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>
-        <span className="ChannelInfoHeader_Desc">
-          {authorName ? `${authorName} | ` : ''}
-          {buildOnlyDateFormat(articleState.article.regDate)}
-        </span>
+        <p className="ChannelInfoHeader_Desc">
+          {authorName ? (
+            <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
+          ) : null}
+          <span className="ChannelInfoHeader_Desc_PublishDate">
+            {buildOnlyDateFormat(articleState.article.publishDate)}
+          </span>
+        </p>
       </div>
       <ArticleChannelFollowButton
         channelId={props.channelId}

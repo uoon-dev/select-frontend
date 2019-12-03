@@ -25,7 +25,7 @@ interface Props {
   renderAuthor?: boolean;
   renderChannelThumbnail?: boolean;
   renderChannelMeta?: boolean;
-  renderRegDate?: boolean;
+  renderPublishDate?: boolean;
   renderFavoriteButton?: boolean;
   isFullWidthAvailable?: boolean;
   gridListSizeClassNames?: string;
@@ -40,7 +40,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     renderAuthor = true,
     renderChannelThumbnail = false,
     renderChannelMeta = false,
-    renderRegDate = false,
+    renderPublishDate = false,
     renderFavoriteButton = false,
     isFullWidthAvailable = false,
     gridListSizeClassNames,
@@ -120,7 +120,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                           {article.author.name}
                         </span>
                       ) : null}
-                      {renderRegDate && article.regDate ? (
+                      {renderPublishDate && article.publishDate ? (
                         <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
                       ) : null}
                       </Link>
@@ -140,7 +140,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                         {article.author.name}
                       </span>
                     ) : null}
-                    {renderRegDate && article.regDate ? (
+                    {renderPublishDate && article.publishDate ? (
                       <span className="GridArticleItem_RegDate"> · {buildDateDistanceFormat(article.publishDate)} 전</span>
                     ) : null}
                    </>

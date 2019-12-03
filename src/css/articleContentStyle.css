@@ -258,7 +258,7 @@
     & > ul,
     & > ol,
     & > pre,
-    & > figcaption {
+    & figcaption {
       padding-left: 20px;
       padding-right: 20px;
       box-sizing: border-box;
