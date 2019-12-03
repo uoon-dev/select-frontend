@@ -1,13 +1,19 @@
-import { ErrorStatus } from 'app/constants/index';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+
+import history from 'app/config/history';
+import { ErrorStatus, FetchErrorFlag, RoutePaths } from 'app/constants/index';
 import { Actions } from 'app/services/article';
-import { ArticleResponse, FavoriteArticleActionResponse,
-requestFavoriteArticleAction, requestSingleArticle } from 'app/services/article/requests';
+import {
+  ArticleResponse,
+  FavoriteArticleActionResponse,
+  requestFavoriteArticleAction,
+  requestSingleArticle,
+} from 'app/services/article/requests';
 import { Actions as ChannelActions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { refineArticleJSON } from 'app/utils/utils';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
   const { channelName, contentIndex, requestQueries } = payload;
@@ -28,6 +34,15 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
       articleResponse: restData,
     }));
   } catch (error) {
+    if (error.response.status === 403) { // TODO: Not Available Article
+      toast.failureMessage('열람할 수 없는 아티클 입니다.');
+      history.replace(RoutePaths.ARTICLE_HOME);
+    } else if (error.response.status === 404) {
+      toast.failureMessage('아티클이 존재하지 않습니다.');
+      history.replace(RoutePaths.ARTICLE_HOME);
+    } else {
+      toast.failureMessage();
+    }
     yield put(Actions.loadArticleFailure({
       channelName,
       contentIndex,
