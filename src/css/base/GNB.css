@@ -14,8 +14,11 @@
   z-index: 900;
   @nest .iosApp & {
     position: fixed;
-    top: 0;
     width: 100%;
+    /* inapp safe area iOS 11.0 버전 */
+    top: constant(safe-area-inset-top);
+    /* inapp safe area iOS 11.2 이상 */
+    top: env(safe-area-inset-top);
   }
 }
 .GNBWrapper-transparent {

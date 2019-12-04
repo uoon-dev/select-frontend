@@ -4,7 +4,7 @@
   bottom: 0;
   overflow: visible;
   cursor: default;
-  z-index: 99999;
+  z-index: 998;
 
   & .vex-overlay {
     display: none;
@@ -25,7 +25,7 @@
     text-align: left;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
     pointer-events: inherit;
-    z-index: 99999;
+    z-index: 998;
   }
 
   & .vex-content.RSGToast_Content-success {
