@@ -18,7 +18,6 @@ export const Intro: React.FunctionComponent = () => {
     hasSubscribedBefore,
     BASE_URL_STORE,
     FREE_PROMOTION_MONTHS,
-    hasSubscribedBefore,
   } = useSelector((state: RidiSelectState) => ({
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
