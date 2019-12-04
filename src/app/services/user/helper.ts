@@ -37,6 +37,7 @@ const fetchTicketInfo = async (): Promise<RidiSelectTicketDTO> => {
     withCredentials: true,
   }).then((response) => ({
     hasAvailableTicket: true,
+    hasSubscribedBefore: true,
     availableUntil: response.data.available_until,
     fetchTicketError: null,
   })).catch((e) => ({
