@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from '@ridi/rsg';
 
 import { Actions } from 'app/services/article';
+import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
@@ -36,6 +37,13 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
     document.execCommand('copy');
     document.body.removeChild(domForCopyUrl);
     toast.success('아티클 링크가 복사되었습니다.');
+
+    const trackingParams = {
+      eventName: 'Share Article',
+      id: articleState.article!.id,
+      misc: JSON.stringify({ share_type : 'copy' }),
+    };
+    dispatch(TrackingActions.trackingArticleActions({trackingParams}));
   };
 
   return (
