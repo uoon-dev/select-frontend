@@ -4,9 +4,9 @@
   --gnb_mobile_height: 44px;
   --gnb_pc_height: 58px;
   --gnb_android_app_height: 57px;
-  // iOS 11.0 버전
+  /* iOS 11.0 버전 */
   --gnb_ios_app_height: calc(57px + constant(safe-area-inset-top));
-  // iOS 11.2 이상
+  /* iOS 11.2 이상 */
   --gnb_ios_app_height: calc(57px + env(safe-area-inset-top));
 }
 
@@ -18,9 +18,9 @@
   @nest .iosApp & {
     position: fixed;
     width: 100%;
-    // iOS 11.0 버전
+    /* iOS 11.0 버전 */
     padding-top: constant(safe-area-inset-top);
-    // iOS 11.2 이상
+    /* iOS 11.2 이상 */
     padding-top: env(safe-area-inset-top);
   }
 }
