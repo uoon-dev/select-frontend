@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios';
 
 interface RidiSelectTicketDTO {
   hasAvailableTicket: boolean;
+  hasSubscribedBefore: boolean;
   availableUntil?: DateDTO;
   fetchTicketError: AxiosError|null;
 }
@@ -22,6 +23,7 @@ export interface UserDTO {
   email: string;
   availableUntil?: DateDTO;
   hasAvailableTicket: boolean;
+  hasSubscribedBefore: boolean;
 }
 
 const NOT_LOGGED_IN_ACCOUNT_INFO: RidiSelectAccountDTO = {
