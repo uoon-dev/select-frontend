@@ -15,6 +15,7 @@ export const Intro: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const {
     isLoggedIn,
+    hasSubscribedBefore,
     BASE_URL_STORE,
     FREE_PROMOTION_MONTHS,
     hasSubscribedBefore,
