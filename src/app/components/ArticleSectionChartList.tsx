@@ -45,7 +45,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
     return groupedArticles;
   };
 
-  const trackingClick = (index: number, id: number) => {
+  const trackingClick = (index: number, id: number | string) => {
     if (!section) { return; }
     const trackingParams: DefaultTrackingParams = {
       section,
@@ -96,7 +96,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                         <Link
                           className="ArticleChartList_Channel_Link"
                           to={articleChannelToPath({channelName: channelMeta.name})}
-                          onClick={() => trackingClick(index, channelMeta.id)}
+                          onClick={() => trackingClick(index, `ch:${channelMeta.id}`)}
                         >
                           <span className="ArticleChartList_Meta_Channel">{channelMeta.displayName}</span>
                         </Link>

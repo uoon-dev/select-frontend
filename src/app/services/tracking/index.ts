@@ -3,7 +3,7 @@ import { createAction } from 'redux-act';
 export interface DefaultTrackingParams {
   section: string;
   index: number; // index in section
-  id: number;
+  id: number | string;
   misc?: string;
 }
 
