@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 
 export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
   section?: string;
+  misc?: string;
+  children?: any;
 };
 
 export type TrackImpressionProps = TrackImpressionOwnProps & ReturnType<typeof mapDispatchToProps>;
@@ -22,17 +24,18 @@ export class TrackImpression extends React.Component<TrackImpressionProps> {
   private initialCheckTimeout?: number;
 
   public trackEmpression = () => {
-    const { trackImpression, section, index, id  } = this.props;
+    const { trackImpression, section, index, id, misc } = this.props;
     if (!section) {
       return;
     }
 
     if (isInViewport(this.ref.current!) && this.ref.current!.clientHeight) {
-      trackImpression({
-        section,
-        index,
-        id,
-      });
+      if (misc) {
+        trackImpression({section, index, id, misc});
+      } else {
+        trackImpression({section, index, id});
+      }
+
       if (this.scrollEndHandlerIndex) {
         unsubscribeFromScrollEnd(this.scrollEndHandlerIndex);
         this.scrollEndHandlerIndex = undefined;

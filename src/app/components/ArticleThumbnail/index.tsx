@@ -13,6 +13,7 @@ interface ArticleThumbnailProps {
   imageUrl?: string;
   articleTitle: string;
   isEnabled?: boolean;
+  onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
 export const BlockIconComponent = (props: any) => (
@@ -28,6 +29,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    onLinkClick = () => {},
     thumbnailShape = ThumbnailShape.RECTANGLE,
     thumbnailClassName,
     isEnabled = true,
@@ -79,6 +81,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       <Link
         className="ArticleThumbnail_Link"
         to={linkUrl}
+        onClick={onLinkClick}
       >
         <Lazyload
           offset={100}

@@ -1,7 +1,7 @@
 import { Button, Icon } from '@ridi/rsg';
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { SearchResultArticleList } from 'app/components/SearchResult/SearchResultArticleList';
-import { SearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
+import { ConnectedSearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { AppStatus } from 'app/services/app';
 import { ArticlesState } from 'app/services/article';
@@ -161,7 +161,7 @@ export class SearchResult extends React.Component<Props, State> {
                 <p className="PageSearchResult_Title">
                   {`'`}<strong>{query}</strong>{`'에 대한 도서 검색 결과`}
                 </p>
-                <SearchResultBookList
+                <ConnectedSearchResultBookList
                   keyword={query}
                   books={searchResult.books[query].itemListByPage[page].itemList.map((item): SearchResultBook => {
                     return {

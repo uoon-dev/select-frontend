@@ -136,6 +136,10 @@ export class ClosingReservedBooks extends React.Component<Props> {
                   <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
                 </div>
                   <ConnectedGridBookList
+                    serviceTitleForTracking="select-book"
+                    pageTitleForTracking="closing-reserved"
+                    uiPartTitleForTracking="book-list"
+                    miscTracking={JSON.stringify({sect_page : page})}
                     books={itemListByPage[page].itemList}
                   />
                   <MediaQuery maxWidth={840}>

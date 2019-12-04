@@ -19,6 +19,7 @@ const PC_BANNER_WIDTH = 432;
 const PC_BANNER_HEIGHT = 432;
 
 interface BigBannerStateProps {
+  appStatus: AppStatus;
   fetchedAt: number | null;
   bigBannerList: BigBanner[];
   isInApp: boolean;
@@ -111,8 +112,9 @@ export class BigBannerCarousel extends React.Component<Props, State> {
   }
 
   public render() {
-    const { fetchedAt, bigBannerList, trackClick, isInApp } = this.props;
-    const section = getSectionStringForTracking('home', 'big-banner');
+    const { fetchedAt, bigBannerList, trackClick, isInApp, appStatus } = this.props;
+    const service = appStatus === AppStatus.Articles ? 'select-article' : 'select-book';
+    const section = getSectionStringForTracking(service, 'home', 'big-banner');
     if (!fetchedAt || bigBannerList.length === 0) {
       return (<BigBannerPlaceholder minHeight={this.state.clientWidth} />);
     }
@@ -191,6 +193,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
 const mapStateToProps = (state: RidiSelectState): BigBannerStateProps => {
   const { appStatus } = state.app;
   return {
+    appStatus,
     fetchedAt: appStatus === AppStatus.Books ? state.home.fetchedAt : state.articleHome.fetchedAt,
     bigBannerList: appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
     isInApp: selectIsInApp(state),

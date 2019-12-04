@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import { ArticleChannelInfoHeaderPlaceholder } from 'app/placeholder/ArticleChannelInfoHeaderPlaceholder';
 import { Actions } from 'app/services/articleChannel';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
@@ -33,6 +34,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
   });
 
   const dispatch = useDispatch();
+  const section = getSectionStringForTracking('select-article', 'content', 'channel');
 
   React.useEffect(() => {
     if (!props.channelName || typeof isChannelFollowing === 'boolean') {
@@ -40,6 +42,17 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
     }
     dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
   }, []);
+
+  const trackingClick = (index: number, id: number) => {
+    if (!section) { return; }
+
+    const trackingParams: DefaultTrackingParams = {
+      section,
+      index,
+      id,
+    };
+    dispatch(TrackingActions.trackClick({trackingParams}));
+  };
 
   if (
     !props.channelId ||
@@ -59,11 +72,13 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
         thumbnailClassName="ChannelInfoHeader_ChannelLink"
         linkUrl={articleChannelToPath({channelName: channelState.channelMeta.name})}
         channelName={channelState.channelMeta.name}
+        onLinkClick={() => trackingClick(0, channelState.channelMeta!.id)}
       />
       <div className="ChannelInfoHeader_Meta">
         <Link
           className="ChannelInfoHeader_ChannelLink"
           to={articleChannelToPath({channelName: channelState.channelMeta.name})}
+          onClick={() => trackingClick(0, channelState.channelMeta!.id)}
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>

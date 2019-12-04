@@ -168,8 +168,10 @@ export class Category extends React.Component<Props, State> {
         ) : (
           <>
           <ConnectedGridBookList
+            serviceTitleForTracking="select-book"
             pageTitleForTracking="category"
-            filterForTracking={categoryId.toString()}
+            uiPartTitleForTracking="book-list"
+            miscTracking={JSON.stringify({sect_cate_id : categoryId , sect_page : page})}
             books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
           />
           {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>

@@ -110,8 +110,20 @@ export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.track
   });
 }
 
+export function* trackingArticleActions({ payload }: ReturnType<typeof Actions.trackingArticleActions>) {
+  if (!tracker) {
+    initializeTracker(yield select((s) => s));
+  }
+  const { trackingParams } = payload;
+  tracker.sendEvent(trackingParams.eventName, { id: trackingParams.id });
+}
+
 export function* watchTrackingArgsUpdate() {
   yield takeLatest(Actions.trackingArgsUpdate.getType(), trackingArgsUpdate);
+}
+
+export function* watchTrackingArticleActions() {
+  yield takeLatest(Actions.trackingArticleActions.getType(), trackingArticleActions);
 }
 
 export function* trackingSaga() {
@@ -121,5 +133,6 @@ export function* trackingSaga() {
     watchTrackImpressions(),
     watchTrackMySelectAdded(),
     watchTrackingArgsUpdate(),
+    watchTrackingArticleActions(),
   ]);
 }

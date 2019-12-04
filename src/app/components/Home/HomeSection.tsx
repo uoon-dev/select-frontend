@@ -107,8 +107,10 @@ export class HomeSection extends React.Component<Props> {
           {(isMobile) => (
             <ConnectedInlineHorizontalBookList
               books={collectionBooks}
+              serviceTitleForTracking="select-book"
               pageTitleForTracking="home"
-              uiPartTitleForTracking={id.toString()}
+              uiPartTitleForTracking="collection-list"
+              miscTracking={JSON.stringify({ sect_collection_id: id })}
               bookThumbnailSize={isMobile ? 110 : 120}
             />
           )}

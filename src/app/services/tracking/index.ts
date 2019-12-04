@@ -1,15 +1,21 @@
 import { createAction } from 'redux-act';
 
-import { BookId } from 'app/types';
 export interface DefaultTrackingParams {
   section: string;
   index: number; // index in section
-  id: BookId;
+  id: number;
+  misc?: string;
 }
 
 export interface TrakcingCustomEventParams {
-  b_id: BookId;
+  b_id: number;
   eventName: string;
+}
+
+export interface TrackingArticleEventParams {
+  id: number;
+  eventName: string;
+  misc?: string;
 }
 
 export const Actions = {
@@ -28,4 +34,9 @@ export const Actions = {
     updateKey: 'userId' | 'deviceType',
     updateValue: string,
   }>('trackingArgsUpdate'),
+
+  trackingArticleActions: createAction<{
+    trackingParams: TrackingArticleEventParams,
+  }>('trackingArticleActions'),
+
 };

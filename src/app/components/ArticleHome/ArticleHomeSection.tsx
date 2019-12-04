@@ -64,7 +64,12 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
         ) : (
           <>
             <ArticleSectionHeader title={title} />
-            <ArticleSectionChartList articleList={sectionData.articles && sectionData.articles.map((id) => articles[id].article!)} />
+            <ArticleSectionChartList
+              articleList={sectionData.articles && sectionData.articles.map((id) => articles[id].article!)}
+              serviceTitleForTracking="select-article"
+              pageTitleForTracking="home"
+              uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
+            />
           </>
         )}
       </section>
@@ -81,8 +86,9 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
         <>
         <ArticleSectionHeader title={title} />
         <GridArticleList
-          pageTitleForTracking="article-home"
-          uiPartTitleForTracking="article-home-section"
+          serviceTitleForTracking="select-article"
+          pageTitleForTracking="home"
+          uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
           renderChannelMeta={true}
           articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
         />
