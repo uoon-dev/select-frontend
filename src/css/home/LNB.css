@@ -15,7 +15,10 @@
     top: 0;
   }
   @nest .iosApp .GNBWrapper + & {
-    top: var(--gnb_ios_app_height);
+    /* inapp safe area iOS 11.0 버전 */
+    top: calc(constant(safe-area-inset-top) + var(--gnb_ios_app_height));
+    /* inapp safe area iOS 11.2 이상 */
+    top: calc(env(safe-area-inset-top) + var(--gnb_ios_app_height));
     @media (--pc-screen) {
       top: var(--gnb_pc_height);
     }

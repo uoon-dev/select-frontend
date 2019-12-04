@@ -4,8 +4,7 @@
   --gnb_mobile_height: 44px;
   --gnb_pc_height: 58px;
   --gnb_android_app_height: 57px;
-  --gnb_ios_app_height: calc(constant(safe-area-inset-top) + 57px);
-  --gnb_ios_app_height: calc(env(safe-area-inset-top) + 57px);
+  --gnb_ios_app_height: 57px;
 }
 
 .GNBWrapper {
@@ -14,13 +13,12 @@
   background: #fff;
   z-index: 900;
   @nest .iosApp & {
-    /* inapp safe area iOS 11.0 버전 */
-    padding-top: constant(safe-area-inset-top);
-    /* inapp safe area iOS 11.2 이상 */
-    padding-top: env(safe-area-inset-top);
     position: fixed;
     width: 100%;
-    top: 0;
+    /* inapp safe area iOS 11.0 버전 */
+    top: constant(safe-area-inset-top);
+    /* inapp safe area iOS 11.2 이상 */
+    top: env(safe-area-inset-top);
   }
 }
 .GNBWrapper-transparent {
