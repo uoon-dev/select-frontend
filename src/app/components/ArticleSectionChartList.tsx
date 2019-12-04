@@ -1,12 +1,13 @@
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/requests';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ThumbnailShape } from './ArticleThumbnail/types';
 
@@ -30,7 +31,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
   const section = !!serviceTitleForTracking && !!pageTitleForTracking
     ? getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking)
     : undefined;
-
+  const dispatch = useDispatch();
   const groupChartActicles = (articles: ArticleResponse[], groupingUnitCount: number) => {
     const groupedArticles: ArticleResponse[][] = [];
     articles.slice(0, 10).map((article, idx) => {
@@ -42,6 +43,16 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
     });
 
     return groupedArticles;
+  };
+
+  const trackingClick = (index: number, id: number) => {
+    if (!section) { return; }
+    const trackingParams: DefaultTrackingParams = {
+      section,
+      index,
+      id,
+    };
+    dispatch(TrackingActions.trackClick({trackingParams}));
   };
 
   return (
@@ -71,21 +82,26 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                       imageUrl={article.thumbnailUrl}
                       articleTitle={article.title}
                       thumbnailShape={ThumbnailShape.SQUARE}
+                      onLinkClick={() => trackingClick(index, article.id)}
                     />
+                    <div className="ArticleChartList_Meta">
                     <Link
-                      className="ArticleChartList_Meta"
+                      className="ArticleChartList_Meta_Link"
                       to={articleUrl}
+                      onClick={() => trackingClick(index, article.id)}
                     >
                       <span className="ArticleChartList_Meta_Title">{article.title}</span>
+                    </Link>
                       {channelMeta ? (
                         <Link
                           className="ArticleChartList_Channel_Link"
                           to={articleChannelToPath({channelName: channelMeta.name})}
+                          onClick={() => trackingClick(index, channelMeta.id)}
                         >
                           <span className="ArticleChartList_Meta_Channel">{channelMeta.displayName}</span>
                         </Link>
                       ) : null}
-                    </Link>
+                    </div>
                   </ConnectedTrackImpression>
                 </li>
               );

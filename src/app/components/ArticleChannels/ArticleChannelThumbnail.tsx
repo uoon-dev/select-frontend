@@ -11,6 +11,7 @@ interface ArticleChannelThumbnailProps {
   imageUrl?: string;
   channelName: string;
   isEnabled?: boolean;
+  onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
 export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = (props) => {
@@ -20,6 +21,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     linkUrl,
     imageUrl,
     channelName,
+    onLinkClick = () => {},
     isEnabled = true,
   } = props;
 
@@ -66,6 +68,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       <Link
         className="ArticleChannelThumbnail_Link"
         to={linkUrl}
+        onClick={onLinkClick}
       >
         <Lazyload
           offset={100}

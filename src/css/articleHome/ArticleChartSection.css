@@ -78,6 +78,10 @@
   white-space: normal;
 }
 
+.ArticleChartList_Meta_Link {
+  text-decoration: none;
+}
+
 .ArticleChartList_Meta_Channel {
   margin-top: 4px;
   display: block;

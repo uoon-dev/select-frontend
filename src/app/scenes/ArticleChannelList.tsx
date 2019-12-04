@@ -58,7 +58,11 @@ export const ArticleChannelList: React.FunctionComponent = () => {
                           index={idx}
                           id={channelMeta.id}
                         >
-                          <ArticleChannelMeta {...channelMeta} />
+                          <ArticleChannelMeta
+                            idx={idx}
+                            section={section}
+                            {...channelMeta}
+                          />
                         </ConnectedTrackImpression>
                       </li>
                     ) : null;

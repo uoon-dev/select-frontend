@@ -9,11 +9,11 @@ import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
-
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
+import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
 import { BookIdsPair } from 'app/services/mySelect/requests';
 import { getPageQuery } from 'app/services/routing/selectors';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
@@ -206,6 +206,7 @@ class MySelect extends React.Component<Props, State> {
   }
 
   public renderBooks(books: MySelectBook[]) {
+    const { trackClick } = this.props;
     const section = getSectionStringForTracking('select-book', 'my-select', 'book-list');
 
     return (
@@ -239,9 +240,22 @@ class MySelect extends React.Component<Props, State> {
                     linkType="Link"
                     imageClassName="MySelectBookList_Thumbnail"
                     linkWrapperClassName="MySelectBookList_Link"
+                    onLinkClick={() => section && trackClick({
+                      section,
+                      index: idx,
+                      id: book.id,
+                    })}
                   />
                   <div className="MySelectBookList_Right">
-                    <Link to={`/book/${book.id}`} className="MySelectBookList_Link">
+                    <Link
+                      to={`/book/${book.id}`}
+                      className="MySelectBookList_Link"
+                      onClick={() => section && trackClick({
+                        section,
+                        index: idx,
+                        id: book.id,
+                      })}
+                    >
                       <div className="MySelectBookList_Meta">
                         <h2 className="MySelectBookList_Title">{book.title.main}</h2>
                         <span className="MySelectBookList_Authors">{stringifyAuthors(book.authors, 2)}</span>
@@ -383,6 +397,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(Actions.deleteMySelectRequest({ deleteBookIdPairs, page, isEveryBookChecked })),
     dispatchResetMySelectPageFetchedStatus: (page: number) =>
       dispatch(Actions.resetMySelectPageFetchedStatus({ page })),
+    trackClick: (trackingParams: DefaultTrackingParams) => dispatch(TrackingActions.trackClick({ trackingParams })),
   };
 };
 

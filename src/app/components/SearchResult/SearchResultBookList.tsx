@@ -1,10 +1,12 @@
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { SearchResultBook } from 'app/services/searchResult';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { getSortedAuthorsHtmlString } from 'app/utils/search';
 import { getDTOAuthorsCount, stringifyAuthors } from 'app/utils/utils';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -12,8 +14,8 @@ interface Props {
   books: SearchResultBook[];
 }
 
-export const SearchResultBookList: React.SFC<Props> = (props) => {
-  const { keyword, books } = props;
+export const SearchResultBookList: React.SFC<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
+  const { keyword, books, trackClick } = props;
   const section = getSectionStringForTracking('select-book', 'search-result', 'book-list');
 
   return (
@@ -31,9 +33,22 @@ export const SearchResultBookList: React.SFC<Props> = (props) => {
                 width={100}
                 linkUrl={`/book/${book.id}?q=${keyword}&s=search`}
                 linkType="Link"
+                onLinkClick={() => section && trackClick({
+                  section,
+                  index: idx,
+                  id: book.id,
+                })}
                 sizeWrapperClassName="SearchResultBookList_Thumbnail"
               />
-              <Link to={`/book/${book.id}?q=${keyword}&s=search`} className="SearchResultBookList_Meta">
+              <Link
+                to={`/book/${book.id}?q=${keyword}&s=search`}
+                className="SearchResultBookList_Meta"
+                onClick={() => section && trackClick({
+                  section,
+                  index: idx,
+                  id: book.id,
+                })}
+              >
                 <h3
                   className="SearchResultBookList_Title"
                   dangerouslySetInnerHTML={{ __html: book.highlight.title || book.title.main }}
@@ -58,3 +73,9 @@ export const SearchResultBookList: React.SFC<Props> = (props) => {
     </ul>
   );
 };
+
+const mapDispatchToProps = (dispatch: any) => ({
+  trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
+});
+
+export const ConnectedSearchResultBookList = connect(null, mapDispatchToProps)(SearchResultBookList);

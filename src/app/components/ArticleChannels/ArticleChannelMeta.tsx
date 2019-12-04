@@ -1,13 +1,31 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 import { ArticleChannel } from 'app/services/articleChannel';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { articleChannelToPath } from 'app/utils/toPath';
+import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
 
-export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel> = (props) => {
-  const { id, name, thumbnailUrl, displayName, description } = props;
+export interface SectionProps {
+  section?: string;
+  idx?: number;
+}
+
+export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & SectionProps> = (props) => {
+  const { id, name, thumbnailUrl, displayName, description, section, idx= 0 } = props;
+  const dispatch = useDispatch();
+
+  const trackingClick = (index: number, trackingId: number) => {
+    if (!section) { return; }
+
+    const trackingParams: DefaultTrackingParams = {
+      section,
+      index,
+      id: trackingId,
+    };
+    dispatch(TrackingActions.trackClick({trackingParams}));
+  };
 
   return (
     <div className="ArticleChannelMeta_Wrapper">
@@ -15,8 +33,13 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel> = (prop
         channelName={name}
         imageUrl={thumbnailUrl}
         linkUrl={articleChannelToPath({ channelName: name })}
+        onLinkClick={() => trackingClick(idx, id)}
       />
-      <Link className="ArticleChannelMeta_Link" to={articleChannelToPath({ channelName: name })}>
+      <Link
+        className="ArticleChannelMeta_Link"
+        to={articleChannelToPath({ channelName: name })}
+        onClick={() => trackingClick(idx, id)}
+      >
         <span className="ArticleChannelMeta_Title">{displayName}</span>
         <span className="ArticleChannelMeta_Desc">{description}</span>
       </Link>

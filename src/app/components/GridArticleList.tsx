@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
@@ -59,6 +59,17 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     }
     dispatch(Actions.favoriteArticleActionRequest({ articleId, method }));
   };
+
+  const trackingClick = (index: number, id: number) => {
+    if (!section) { return; }
+    const trackingParams: DefaultTrackingParams = {
+      section,
+      index,
+      id,
+    };
+    dispatch(TrackingActions.trackClick({trackingParams}));
+  };
+
   return (
     <ul
       className={classNames(
@@ -85,6 +96,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
+                onLinkClick={() => trackingClick(idx, article.id)}
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelThumbnail && channelMeta ? (
@@ -93,6 +105,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     linkUrl={articleChannelToPath({channelName: channelMeta.name})}
                     channelName={channelMeta.displayName}
                     isEnabled={channelMeta.isEnabled}
+                    onLinkClick={() => trackingClick(idx, article.id)}
                   />
                 ) : null}
                 <div className="GridArticleItem_Meta_InnerWrapper">
@@ -101,13 +114,17 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
+                        onClick={() => trackingClick(idx, article.id)}
                       >
                         <p className="GridArticleItem_Title">
                           {article.title}
                         </p>
                       </Link>
                       {renderChannelMeta && channelMeta ? (
-                        <Link to={articleChannelToPath({channelName: channelMeta.name})}>
+                        <Link
+                          to={articleChannelToPath({channelName: channelMeta.name})}
+                          onClick={() => trackingClick(idx, channelMeta.id)}
+                        >
                           <p className="GridArticleItem_ChannelName">
                             {channelMeta.displayName}
                           </p>
@@ -116,6 +133,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
+                        onClick={() => trackingClick(idx, article.id)}
                       >
                       {renderAuthor && article.author ? (
                         <span className="GridArticleItem_Author">

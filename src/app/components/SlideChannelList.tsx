@@ -3,6 +3,7 @@ import { BlockIconComponent } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFollowing';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import toast from 'app/utils/toast';
 import { articleChannelToPath } from 'app/utils/toPath';
@@ -35,6 +36,17 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
     });
   };
 
+  const trackingClick = (index: number, id: number) => {
+    if (!section) { return; }
+
+    const trackingParams: DefaultTrackingParams = {
+      section,
+      index,
+      id,
+    };
+    dispatch(TrackingActions.trackClick({trackingParams}));
+  };
+
   return (
     <section>
       <ul className="FollowingChannel_List">
@@ -53,10 +65,12 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
                         imageUrl={channel.thumbnailUrl}
                         channelName={channel.displayName}
                         linkUrl={articleChannelToPath({channelName: channel.name})}
+                        onLinkClick={() => trackingClick(idx, channel.id)}
                       />
                       <Link
                         to={articleChannelToPath({channelName: channel.name})}
                         className="FollowingChannel_Item_Link"
+                        onClick={() => trackingClick(idx, channel.id)}
                       >
                         {channel.displayName}
                       </Link>
