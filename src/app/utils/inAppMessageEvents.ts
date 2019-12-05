@@ -16,9 +16,9 @@ export const setInitializeInAppEvent = () => {
       window.postRobot.send(window, 'inApp', { name: 'setBlacklistOfOutlink', args: [[
         '//ridibooks.com',
         '//library.ridibooks.com',
-        '//outstanding.kr/premium-membership/',
-        '//outstanding.kr/register/',
-        '//outstanding.kr/login/',
+        '//outstanding.kr/premium-membership',
+        '//outstanding.kr/register',
+        '//outstanding.kr/login',
       ]] });
     }
   };
