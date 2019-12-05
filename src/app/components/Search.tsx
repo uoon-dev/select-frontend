@@ -40,7 +40,7 @@ export interface InstantSearchHighlight {
 }
 export interface InstantSearchArticleHighlight {
   title?: string;
-  channelDisplayName?: string;
+  articleChannel?: { displayName: string; };
 }
 
 export interface InstantSearchResultBook {
@@ -53,9 +53,7 @@ export interface InstantSearchResultBook {
 
 export interface InstantSearchResultArticle {
   id: number;
-  channelId: number;
-  channelDisplayName: string;
-  channelName: string;
+  articleChannel: { displayName: string; id: number; name: string; };
   contentId: number;
   title: string;
   highlight: InstantSearchArticleHighlight;
@@ -102,6 +100,9 @@ interface SearchState {
     },
     Articles: {
       [instantSearchKeyword: string]: InstantSearchResultArticle[];
+    },
+    Common: {
+      [instantSearchKeyword: string]: InstantSearchResultBook[];
     },
   };
 }
@@ -158,7 +159,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
       highlightIndex: -1,
       currentHelperType: SearchHelperFlag.NONE,
       history: { enabled, bookKeywordList, articleKeywordList },
-      instantSearchResultsByKeyword: { Books: {}, Articles: {} },
+      instantSearchResultsByKeyword: { Books: {}, Articles: {}, Common: {} },
     };
   }
 
@@ -378,15 +379,15 @@ export class Search extends React.Component<SearchProps, SearchState> {
     let targetKeyword = '';
     if (article.highlight.title) {
       targetKeyword = article.title;
-    } else if (article.highlight.channelDisplayName) {
-      targetKeyword = article.channelDisplayName;
+    } else if (article.highlight.articleChannel) {
+      targetKeyword = article.articleChannel.displayName;
     }
 
     this.manageScrollDisable(false);
     this.setStateClean();
     this.pushHistoryKeyword(targetKeyword);
 
-    history.push(`${articleContentToPath({channelName: article.channelName, contentIndex: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
+    history.push(`${articleContentToPath({channelName: article.articleChannel.name, contentIndex: article.contentId})}?q=${encodeURIComponent(targetKeyword)}&s=instant`);
   }
 
   private fullSearchWithKeyword(keyword: string): void {

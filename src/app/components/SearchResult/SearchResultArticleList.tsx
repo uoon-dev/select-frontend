@@ -42,7 +42,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
           >
             <div className="SearchResultArticleList_Link">
               <ArticleThumbnail
-                linkUrl={`/article/${getArticleKeyFromData(article)}`}
+                linkUrl={`/article/${getArticleKeyFromData(article, 'search')}`}
                 imageUrl={article.thumbnailUrl}
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName={'SearchResultArticleList_Thumbnail'}
@@ -50,7 +50,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                 onLinkClick={() => trackingClick(idx, article.id)}
               />
               <Link
-                to={`/article/${getArticleKeyFromData(article)}?q=${keyword}&s=search`}
+                to={`/article/${getArticleKeyFromData(article, 'search')}?q=${keyword}&s=search`}
                 className="SearchResultArticleList_Meta"
                 onClick={() => trackingClick(idx, article.id)}
               >
@@ -65,10 +65,13 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                   />) : (
                     article.authors && <span className="SearchResultArticleList_Author">{article.authors.map((author) => author.name).join(',')}</span>
                   )
-                }                
+                }
                 <span
                   className="SearchResultArticleList_Channel"
-                  dangerouslySetInnerHTML={{ __html: article.highlight.channelDisplayName || channelState[article.channelName].channelMeta!.displayName }}
+                  dangerouslySetInnerHTML={{ __html:
+                    article.highlight.articleChannel &&
+                    article.highlight.articleChannel.displayName ||
+                    channelState[article.channelName].channelMeta!.displayName }}
                 />
               </Link>
             </div>

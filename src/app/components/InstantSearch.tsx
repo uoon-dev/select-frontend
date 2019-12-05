@@ -80,7 +80,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                 >
                   <Link
                     className="InstantSearchedName"
-                    to={`${articleContentToPath({channelName: article.channelName, contentIndex: article.contentId})}?q=${encodeURIComponent(keyword)}&s=instant`}
+                    to={`${articleContentToPath({channelName: article.articleChannel.name, contentIndex: article.contentId})}?q=${encodeURIComponent(keyword)}&s=instant`}
                   >
                     <span
                       className="InstantSearchTitle"
@@ -89,8 +89,11 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                     <span
                       className="InstantSearchAuthor"
                       dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
-                        article.highlight.channelDisplayName ? article.highlight.channelDisplayName : article.channelDisplayName,
-                        getAuthorsCount(article.channelDisplayName),
+                        article.highlight.articleChannel &&
+                        article.highlight.articleChannel.displayName ?
+                        article.highlight.articleChannel.displayName :
+                        article.articleChannel.displayName,
+                        getAuthorsCount(article.articleChannel.displayName),
                         2,
                       )}}
                     />

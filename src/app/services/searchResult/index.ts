@@ -37,6 +37,7 @@ export interface SearchResultHighlight {
   publisher?: string;
   channelDisplayName?: string;
   authorNames?: string;
+  articleChannel?: { displayName: string; };
 }
 
 export interface SearchResultItem {
@@ -120,7 +121,7 @@ searchResultReducer.on(Actions.queryKeywordSuccess, (state, action) => {
               highlight: book.highlight,
               publisher: book.publisher,
             })) : response.articles!.map((article: SearchResultArticle) => ({
-              contentKey: getArticleKeyFromData(article),
+              contentKey: getArticleKeyFromData(article, 'search'),
               highlight: article.highlight,
             })),
             isFetched: true,
