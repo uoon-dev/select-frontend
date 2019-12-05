@@ -10,6 +10,7 @@ import {
   BookAuthor,
   BookAuthors,
 } from 'app/services/book';
+import { SearchResultArticle } from 'app/services/searchResult/index';
 import { store } from 'app/store';
 import { sendPostRobotInappLogin } from 'app/utils/inAppMessageEvents';
 
@@ -87,8 +88,8 @@ export function refineArticleJSON(articleJSON: ArticleContentJSON): ArticleConte
   };
 }
 
-export function getArticleKeyFromData(article: Article): string {
-  const channelName = article.channelName;
+export function getArticleKeyFromData(article: Article | SearchResultArticle, articleType?: string): string {
+  const channelName = articleType ? article.articleChannel.name : article.channelName;
   const contentIndex = article.contentId;
 
   return `@${channelName}/${contentIndex}`;
