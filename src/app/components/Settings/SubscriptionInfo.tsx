@@ -122,7 +122,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
         size="large"
         href={`${BASE_URL_STORE}/select/payments`}
       >
-        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '1개월 무료로 읽어보기'}
+        {hasSubscribedBefore ? '다시 시작하기' : '무료로 시작하기'}
       </Button>
     );
   }
