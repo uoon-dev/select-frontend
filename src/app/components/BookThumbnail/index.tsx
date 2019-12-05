@@ -76,7 +76,6 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = (props) => {
 export * from './CoverImage';
 export * from './DefaultLazyloadPlaceholder';
 export * from './helpers';
-export * from './LazyloadWrapper';
 export * from './LinkWrapper';
 export * from './SizeWrapper';
 export * from './types';

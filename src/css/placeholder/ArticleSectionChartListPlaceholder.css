@@ -1,0 +1,20 @@
+.ArticleChartList_Rank_Skeleton {
+  width: 16px;
+  height: 16px;
+  align-self: center;
+  margin-right: 10px;  
+}
+.ArticleChartThumbnail_Skeleton {
+  width: 60px;
+  height: 60px;
+}
+
+.ArticleChartList_Meta_Title_Skeleton {
+  width: 282px;
+  height: 22px;
+}
+.ArticleChartList_Meta_Channel_Skeleton {
+  width: 120px;
+  height: 22px;
+  margin-top: 3px;
+}

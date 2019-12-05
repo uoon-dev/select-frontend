@@ -21,6 +21,7 @@ module.exports = (env, argv) => ({
       './src/app/index.tsx',
       './src/css/main.css',
     ],
+    articleContentStyle: './src/css/articleContentStyle.css'
   },
   output: {
     filename: '[name].[hash].js',

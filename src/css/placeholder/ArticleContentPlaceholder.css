@@ -1,0 +1,67 @@
+.ArticleContent_Title_Skeleton {
+  width: 300px;
+  height: 39px;
+  margin-top: 30px;
+  @media (max-width: 640px) {
+    margin: 30px 20px 0;
+    width: 250px;
+  }
+}
+
+.ChannelInfoHeader_Thumbnail_Skeleton {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 20px;
+  border: solid 1px rgba(0, 0, 0, .02);
+}
+
+.ChannelInfoHeader_Title_Skeleton {
+  display: block;
+  width: 90px;
+  height: 16px;
+}
+
+.ChannelInfoHeader_Desc_Skeleton {
+  display: block;
+  width: 120px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.ChannelInfoHeader_Button_Skeleton {
+  width: 76px;
+  height: 30px;
+  margin-left: auto;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+.ArticleContent_Text_Skeleton {
+  width: 100%;
+  height: 20px;
+  margin-top: 8px;
+  @media (max-width: 640px) {
+    width: 320px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  @media (--minimal-mobile-screen) {
+    width: 270px;
+  }
+}
+
+.ArticleContent_LastText_Skeleton {
+  width: 30%;
+  height: 20px;
+  margin-top: 8px;
+  @media (max-width: 640px) {
+    width: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  @media (--minimal-mobile-screen) {
+    width: 150px;
+  }
+}

@@ -1,0 +1,148 @@
+@custom-media --full-width-range (max-width: 414px);
+@custom-media --small-screen-device (max-width: 600px);
+
+.GridArticleList {
+  @apply --reset-list;
+
+  display: flex;
+  padding: 0 14px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.GridArticleItem {
+  @apply --reset-layout;
+
+  width: 25%;
+  @nest .GridArticleList-large & {
+    width: 50%;
+  }
+  padding: 20px 6px 0;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.GridArticleItem_Meta {
+  display: flex;
+  width: 100%;
+  padding-top: 10px;
+  box-sizing: border-box;
+  & .ArticleChannelThumbnail_Wrapper {
+    flex: none;
+  }
+}
+
+.GridArticleItem_Meta_InnerWrapper {
+  vertical-align: top;
+}
+
+.GridArticleItem_Link {
+  @apply --reset-font-unlimited;
+  text-decoration: none;
+}
+
+.GridArticleItem_Title {
+  @apply --reset-layout;
+  @apply --reset-font-unlimited;
+
+  display: block;
+  display: -webkit-box;
+  font-size: 14px;
+  line-height: 1.57;
+  color: var(--gray_100);
+  font-weight: 500;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  @nest .GridArticleList-large & {
+    font-size: 16px;
+    line-height: 1.63;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+  }
+
+
+}
+
+.GridArticleItem_Author {
+  @apply --reset-font-unlimited;
+
+  margin-top: 4px;
+  display: block;
+  font-size: 13px;
+  color: var(--slategray_60);
+}
+
+.GridArticleItem_ChannelName {
+  @apply --reset-layout;
+
+  display: inline-block;
+  padding-top: 4px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_60);
+}
+
+.GridArticleItem_RegDate {
+  @apply --reset-layout;
+
+  display: inline-block;
+  padding-top: 4px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_60);
+}
+
+.GridArticleItem_ButtonWrapper {
+  display: table-cell;
+  margin-left: auto;
+}
+.GridArticleItem_FavoriteButton {
+  @apply --reset-layout;
+
+  display: block;
+  padding: 0 10px 10px 10px;
+  margin-right: -10px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.GridArticleItem_FavoriteButtonIcon {
+  width: 13px;
+  height: 12px;
+  fill: var(--slategray_30);
+  margin-top: 7px;
+}
+
+.GridArticleItem_FavoriteButton-active {
+  fill: #eb5847;
+}
+
+@media (--full-width-range) {
+  .GridArticleList-fullWidthAvailable {
+    padding: 0 0 20px 0;
+    & .GridArticleItem {
+      width: 100%;
+      padding: 20px 0 0;
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+    & .GridArticleItem_Meta {
+      padding: 10px 10px 0;
+    }
+  }
+}
+
+@media (--small-screen-device) {
+  .GridArticleItem {
+    width: 50%;
+  }
+}

@@ -1,0 +1,115 @@
+.PageArticleContent {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  & .ChannelInfoHeader_Wrapper {
+    padding: 10px 0 30px;
+  }
+}
+
+.ArticleContent_Title {
+  @apply --reset-layout;
+
+  padding-top: 30px;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -.68px;
+  color: var(--gray_100);
+}
+
+.ArticleContent_ContentWrapper {
+  position: relative;
+}
+
+.RidiselectArticle {
+  position: relative;
+  z-index: 10;
+}
+
+.ArticleContent_ButtonsWrapper {
+  @apply --reset-list;
+
+  padding: 60px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ArticleContent_ButtonElement {
+  width: 50%;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.ArticleContent_Button {
+  width: 100%;
+  height: 40px;
+}
+
+.ArticleContent_LikeButton_Icon {
+  width: 12px;
+  height: 10px;
+  margin-right: 4px;
+  fill: var(--slategray_30);
+
+  @nest .ArticleContent_LikeButton-active & {
+    fill: var(--red_40);
+  }
+}
+
+.ArticleContent_ShareButton_Icon {
+  width: 14px;
+  margin-right: 3px;
+  fill: var(--slategray_60);
+}
+
+.ArticleContent_GetTicketToReadButtonWrapper {
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  padding: 120px 10px 0;
+  box-sizing: border-box;
+  z-index: 50;
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 68%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 68%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 68%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+  &.ArticleContent_GetTicketToReadButtonWrapper-publicContent {
+    position: relative;
+    padding: 10px;
+    height: auto;
+    background: none;
+  }
+}
+
+.ArticleContent_GetTicketToReadButton {
+  width: 100%;
+  height: 50px;
+}
+
+@media (max-width: 640px) {
+  .ArticleContent_Title {
+    padding: 30px 20px 0;
+  }
+  .PageArticleContent {
+    & .ChannelInfoHeader_Wrapper {
+      padding: 10px 20px 30px;
+    }
+  }
+  .ArticleContent_ButtonsWrapper {
+    padding: 60px 12px;
+  }
+}
+
+@media (--mobile-layout) {
+  .ArticleContent_ButtonsWrapper {
+    padding: 30px 12px;
+  }
+}

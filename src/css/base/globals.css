@@ -5,6 +5,26 @@ body {
     @apply --reset-input-focus;
   }
 
+  &.iosApp {
+    /* inapp safe area iOS 11.0 버전 */
+    padding-top: constant(safe-area-inset-top);
+    /* inapp safe area iOS 11.2 이상 */
+    padding-top: env(safe-area-inset-top);
+    &::before {
+      width: 100%;
+      /* inapp safe area iOS 11.0 버전 */
+      height: constant(safe-area-inset-top);
+      /* inapp safe area iOS 11.2 이상 */
+      height: env(safe-area-inset-top);
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: '';
+      z-index: 999;
+      background: #fff;
+    }
+  }
+
   &.hasWebActionBar {
     margin-top: 56px;
     &.iosApp {
@@ -138,7 +158,7 @@ body {
 
 section.SceneWrapper,
 main.SceneWrapper {
-  min-height: 450px;
+  min-height: 500px;
   @media (--pc-screen) {
     min-height: 900px;
   }
@@ -178,27 +198,29 @@ main.SceneWrapper {
 .PageHeader {
   @apply --reset-layout;
 
-  box-sizing: border-box;
   display: flex;
+  height: 47px;
+  line-height: 47px;
+  box-sizing: border-box;
   position: relative;
   align-items: center;
-  min-height: 40px;
   margin: 0 auto;
-  padding: 6px 15px;
-  background-color: var(--bluegray_90);
+  padding: 0 15px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
+  & .PageTitle {
+    color: #000;
+  }
 
   @media (--pc-screen) {
     width: 800px;
+    height: auto;
+    line-height: auto;
     min-height: 24px;
     margin: 50px auto 17px;
     padding: 0;
     background: none;
-  }
-
-  @nest .androidApp & {
-    @media (--pc-screen) {
-      background-color: white;
-    }
+    box-shadow: none;
   }
 
   @nest .androidApp .Skeleton_Wrapper & {
@@ -275,16 +297,20 @@ main.SceneWrapper {
   }
 
   @nest .iosApp & {
+    /* inapp safe area iOS 11.0 버전 */
+    top: constant(safe-area-inset-top);
+    /* inapp safe area iOS 11.2 이상 */
+    top: env(safe-area-inset-top);
     height: var(--gnb_ios_app_height);
-    background: var(--bluegray_80);
-    border-bottom: 1px solid var(--bluegray_70);
+    background: #fff;
+    border-bottom: 1px solid var(--slategray_20);
     vertical-align: middle;
   }
 }
 
 .WebActionBar_Text {
   overflow: hidden;
-  color: #fff;
+  color: var(--bluegray_80);;
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -294,11 +320,17 @@ main.SceneWrapper {
   @media (--pc-screen) {
     display: inline-block;
   }
+
+  @nest .WebActionBar-dark & {
+    color: #fff;
+  }
+
   @nest .iosApp & {
     position: absolute;
     width: 100%;
     top: 0;
     left: 0;
+    margin: 0;
     padding: 0 70px;
     box-sizing: border-box;
     z-index: 901;
@@ -306,7 +338,7 @@ main.SceneWrapper {
     text-align: center;
     font-size: 17px;
     font-weight: 600;
-    line-height: 24px;
+    line-height: var(--gnb_ios_app_height);
     font-family: 'Apple SD Gothic Neo', Noto Sans KR, NotoSansKR, Sans-serif;
   }
 }
@@ -336,7 +368,11 @@ main.SceneWrapper {
 .UpButton_Icon {
   width: 16px;
   height: 16px;
-  fill: white;
+  fill: var(--bluegray_80);
+
+  @nest .WebActionBar-dark & {
+    fill: #fff;
+  }
 
   @nest .iosApp & {
     width: 13px;
@@ -469,6 +505,7 @@ main.SceneWrapper {
   @apply --reset-layout;
 
   display: inherit;
+  width: 100%;
 }
 
 /* Controll body scroll in android app and allow only scrollable elements for pointer events */

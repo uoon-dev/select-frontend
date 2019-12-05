@@ -89,7 +89,10 @@ export class Charts extends React.Component<Props> {
         ) : (
           <>
             <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
               pageTitleForTracking="popular"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({sect_page: page})}
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
               isChart={true}
               page={page}

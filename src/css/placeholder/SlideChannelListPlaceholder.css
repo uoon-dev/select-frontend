@@ -1,0 +1,13 @@
+.ChannelThumbnail_Skeleton {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+  border: 1px solid #eee;
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.ChannelName_Skeleton {
+  width: 55px;
+  height: 17px;
+}

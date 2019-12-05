@@ -11,6 +11,9 @@
   @nest .androidApp & {
     top: var(--gnb_android_app_height);
   }
+  @nest .iosApp & {
+    top: var(--gnb_ios_app_height);
+  }
 }
 .InstantSearch-loading {
   padding: 20px 0 30px;

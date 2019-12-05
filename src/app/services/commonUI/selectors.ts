@@ -10,7 +10,7 @@ export const selectTransparentType = (state: RidiSelectState): GNBTransparentTyp
 
 export const getSolidBackgroundColorRGBString = createSelector(
   [selectGnbColor, getIsIosInApp],
-  (gnbColor: RGB, isIosInApp: boolean): string => isIosInApp ? 'rgba(33, 43, 59, 1)' : `rgba(${gnbColor.r}, ${gnbColor.g}, ${gnbColor.b}, 1)`,
+  (gnbColor: RGB, isIosInApp: boolean): string => isIosInApp ? 'rgba(255, 255, 255, 1)' : `rgba(${gnbColor.r}, ${gnbColor.g}, ${gnbColor.b}, 1)`,
 );
 
 export const getTransparentBackgroundColorRGBString = createSelector(

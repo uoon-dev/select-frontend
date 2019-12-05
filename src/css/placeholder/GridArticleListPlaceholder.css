@@ -1,0 +1,48 @@
+.ArticleThumbnail_Skeleton {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 1px;
+  overflow: hidden;
+  padding-top: 56.25%;
+}
+
+.GridArticleItem_ChannelThumbnail_Skeleton {
+  margin-right: 10px;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 48px;
+  height: 40px;
+  padding-top: 3px;
+  border-radius: 20px;
+}
+
+.GridArticleItem_Meta_InnerWrapper {
+  width: 100%;
+}
+
+.GridArticleItem_Title_Skeleton {
+  width: 100%;
+  height: 20px;
+  margin-top: 3px;
+  &:last-child {
+    width: 30%;
+  }
+}
+
+.GridArticleList-large {
+  & .GridArticleItem_Title_Skeleton {
+    width: 224px;
+    height: 17px;
+    @media (--big-mobile-layout) {
+      width: 120px;
+    }
+  }
+  & .GridArticleItem_ChannelName_Skeleton {
+    margin-top: 9px;
+    width: 61px;
+    height: 17px;
+  }
+}
+
+

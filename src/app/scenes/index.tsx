@@ -17,3 +17,9 @@ export * from './NotAvailableBook';
 export * from './ClosingReservedBooks';
 export * from './WrongLocation';
 export * from './Voucher';
+
+export * from './ArticleHome';
+export * from './ArticleFollowing';
+export * from './ArticleChannelList';
+export * from './ArticleFavorite';
+export * from './ArticleChannelDetail';

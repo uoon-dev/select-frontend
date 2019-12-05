@@ -1,0 +1,51 @@
+.ChannelInfoHeader_Wrapper {
+  display: flex;
+  padding: 0 18px;
+  align-items: center;
+}
+.ChannelInfoHeader_ChannelLink {
+  text-decoration: none;
+}
+
+.ChannelInfoHeader_Title {
+  display: block;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.3px;
+  color: var(--gray_100);
+}
+.ChannelInfoHeader_Desc {
+  margin: 2px 0 0;
+  display: block;
+}
+
+.ChannelInfoHeader_Desc_AuthorName {
+  display: inline-block;
+  position: relative;
+  line-height: 18px;
+  font-size: 12px;
+  letter-spacing: -.3px;
+  color: var(--slategray_60);
+  padding-right: 6px;
+  margin-right: 4px;
+  vertical-align: top;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 10px;
+    top: 5px;
+    right: 0;
+    background: var(--slategray_30);
+  }
+}
+
+.ChannelInfoHeader_Desc_PublishDate {
+  display: inline-block;
+  line-height: 18px;
+  font-size: 12px;
+  letter-spacing: -.3px;
+  color: var(--slategray_60);
+  vertical-align: top;
+}
