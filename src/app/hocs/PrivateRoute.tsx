@@ -13,6 +13,7 @@ export enum RouteBlockLevel {
 export interface PrivateRouteProps extends RouteProps {
   isRidiApp: boolean;
   isFetching: boolean;
+  ticketFetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
   BASE_URL_STORE: string;
   ticketFetchStatus: FetchStatusFlag;
