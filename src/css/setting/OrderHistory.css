@@ -1,14 +1,25 @@
+.PageOrderHistory {
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  & .rui_empty_1 {
+    margin: 116px 0;
+  }
+  @media (--pc-screen) {
+    padding-bottom: 60px;
+  }
+}
+
 .OrderHistoryList {
   max-width: 800px;
   margin: 0;
   padding: 0;
   list-style: none;
-  padding-bottom: 40px;
 
-  @media (--pc-screen) {
-    padding-bottom: 60px;
-  }  
+  @media (--mobile-screen) {
+    padding-bottom: 30px;
+  }
 }
+
 .OrderHistoryItem {
   display: table;
   width: 100%;
@@ -20,8 +31,8 @@
 
 .OrderHistoryItem_Info {
   display: table-cell;
-  height: 93px;
-  padding-left: 15px;
+  min-height: 93px;
+  padding: 15px 0 15px 15px;
   vertical-align: middle;
 }
 .Ordered_Date {
@@ -50,6 +61,22 @@
   @nest .OrderHistoryItem-canceled & {
     color: var(--slategray_50);
   }
+}
+.Ordered_VoucherInfo {
+  display: block;
+  font-weight: 400;
+  margin: 0;
+  padding-top: 5px;
+  color: var(--slategray_50);
+  font-size: 13px;
+}
+.Ordered_Term {
+  display: block;
+  font-weight: 400;
+  margin: 0;
+  padding-top: 5px;
+  color: var(--slategray_50);
+  font-size: 13px;
 }
 
 .OrderHistoryItem_AmountInfo {
@@ -143,7 +170,8 @@
     font-size: 14px;
   }
   .Ordered_Name {
-    padding: 0;
+    padding: 20px 0;
+    box-sizing: border-box;
   }
   .Ordered_Type {
     width: 109px;

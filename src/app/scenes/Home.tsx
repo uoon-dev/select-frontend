@@ -1,5 +1,5 @@
 import * as classNames from 'classnames';
-import * as differenceInHours from 'date-fns/difference_in_hours';
+import { differenceInHours } from 'date-fns';
 import * as React from 'react';
 import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ interface HomeStateProps {
   isIosInApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
-  isSubscribing: boolean;
+  hasAvailableTicket: boolean;
   fetchStatus: FetchStatusFlag;
   fetchedAt: number | null;
   collectionIdList: number[];
@@ -67,7 +67,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
   }
 
   public render() {
-    const { isIosInApp, isFetching, isSubscribing } = this.props;
+    const { isIosInApp, isFetching, hasAvailableTicket } = this.props;
 
     return (
       <main
@@ -82,7 +82,7 @@ export class Home extends React.PureComponent<HomeStateProps & ReturnType<typeof
         <div className="a11y"><h1>리디셀렉트 홈</h1></div>
         <ConnectedBigBannerCarousel />
         <ConnectedHomeSectionList />
-        {(!isIosInApp && !isFetching && !isSubscribing) && <AlertForNonSubscriber />}
+        {(!isIosInApp && !isFetching && !hasAvailableTicket) && <AlertForNonSubscriber />}
       </main>
     );
   }
@@ -93,7 +93,7 @@ const mapStateToProps = (state: RidiSelectState): HomeStateProps => {
     isIosInApp: getIsIosInApp(state),
     isFetching: state.user.isFetching,
     isLoggedIn: state.user.isLoggedIn,
-    isSubscribing: state.user.isSubscribing,
+    hasAvailableTicket: state.user.hasAvailableTicket,
     fetchStatus: state.home.fetchStatus,
     fetchedAt: state.home.fetchedAt,
     collectionIdList: state.home.collectionIdList,
