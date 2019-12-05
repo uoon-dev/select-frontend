@@ -60,7 +60,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     dispatch(Actions.favoriteArticleActionRequest({ articleId, method }));
   };
 
-  const trackingClick = (index: number, id: number) => {
+  const trackingClick = (index: number, id: number | string) => {
     if (!section) { return; }
     const trackingParams: DefaultTrackingParams = {
       section,
@@ -105,7 +105,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                     linkUrl={articleChannelToPath({channelName: channelMeta.name})}
                     channelName={channelMeta.displayName}
                     isEnabled={channelMeta.isEnabled}
-                    onLinkClick={() => trackingClick(idx, article.id)}
+                    onLinkClick={() => trackingClick(idx, `ch:${channelMeta.id}`)}
                   />
                 ) : null}
                 <div className="GridArticleItem_Meta_InnerWrapper">
@@ -123,7 +123,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       {renderChannelMeta && channelMeta ? (
                         <Link
                           to={articleChannelToPath({channelName: channelMeta.name})}
-                          onClick={() => trackingClick(idx, channelMeta.id)}
+                          onClick={() => trackingClick(idx, `ch:${channelMeta.id}`)}
                         >
                           <p className="GridArticleItem_ChannelName">
                             {channelMeta.displayName}

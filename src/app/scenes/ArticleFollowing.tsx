@@ -80,7 +80,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
             channels={channelItems}
           />
           <div className="FollowingArticleList">
-            {articleItems &&
+            {articleItems && articleItems.length > 0 ?
               <GridArticleList
                 serviceTitleForTracking="select-article"
                 pageTitleForTracking="following"
@@ -94,6 +94,9 @@ export const ArticleFollowing: React.FunctionComponent = () => {
                 renderFavoriteButton={true}
                 isFullWidthAvailable={true}
                 gridListSizeClassNames="GridArticleList-large"
+              /> :
+              <GridArticleListPlaceholder
+                gridSize={'large'}
               />
             }
           </div>
