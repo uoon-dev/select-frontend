@@ -39,7 +39,7 @@ export interface FavoriteArticleActionResponse {
 export const requestArticles = (requestQueries?: ArticleRequestQueries, articleIds?: number[]): Promise<ArticleListResponse> => {
   let requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
   if (articleIds) {
-    requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}&ids=${articleIds}`;
+    requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}&ids=${articleIds}&size=24`;
   }
   return request({
     url: requestUrl,

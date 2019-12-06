@@ -12,7 +12,7 @@
 .ArticleContent_Title {
   @apply --reset-layout;
 
-  padding-top: 30px;
+  padding-top: 60px;
   font-family: NotoSansCJKkr, sans-serif;
   font-size: 30px;
   font-weight: 700;
