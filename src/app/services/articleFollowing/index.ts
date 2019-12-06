@@ -9,24 +9,26 @@ import { createAction, createReducer } from 'redux-act';
 export const Actions = {
   loadFollowingChannelListRequest: createAction('loadFollowingChannelListRequest'),
   loadFollowingChannelListSuccess: createAction<{
-    response: FollowingChannelListResponse,
+    response: FollowingChannelListResponse;
   }>('loadFollowingChannelListSuccess'),
   loadFollowingChannelListFailure: createAction('loadFollowingChannelListFailure'),
 
   loadFollowingArticleListRequest: createAction<{ page: number; }>('loadFollowingArticleListRequest'),
   loadFollowingArticleListSuccess: createAction<{
-    page: number,
-    response: FollowingArticleListResponse,
+    page: number;
+    response: FollowingArticleListResponse;
   }>('loadFollowingArticleListSuccess'),
   loadFollowingArticleListFailure: createAction<{ page: number; }>('loadFollowingArticleListFailure'),
   loadUnFollowChannelRequest: createAction<{channelId: number, channelName: string, method: Method}>('loadUnFollowChannelRequest'),
   loadUnseenFollowingFeedsRequest: createAction('loadUnseenFollowingFeedsRequest'),
   loadUnseenFollowingFeedsSuccess: createAction<{
-    unSeenFeedList: UnseenFollowingFeedsResponse;
+    unSeenFeedList: number[];
   }>('loadUnseenFollowingFeedsSuccess'),
   loadUnseenFollowingFeedsFailure: createAction('loadUnseenFollowingFeedsFailure'),
   setUnseenFollowingFeedsToSeenRequest: createAction('setUnseenFollowingFeedsToSeenRequest'),
-  setUnseenFollowingFeedsToSeenSuccess: createAction<setAllFollowingFeedsToSeen>('setUnseenFollowingFeedsToSeenSuccess'),
+  setUnseenFollowingFeedsToSeenSuccess: createAction<
+    setAllFollowingFeedsToSeen
+  >('setUnseenFollowingFeedsToSeenSuccess'),
   setUnseenFollowingFeedsToSeenFailure: createAction('setUnseenFollowingFeedsToSeenFailure'),
 };
 
@@ -124,7 +126,10 @@ articleFollowReducer.on(Actions.loadUnseenFollowingFeedsRequest, (state) => ({
 
 articleFollowReducer.on(Actions.loadUnseenFollowingFeedsSuccess, (state, { unSeenFeedList }) => ({
   ...state,
-  unseenFeeds: unSeenFeedList,
+  unseenFeeds: {
+    ...state.unseenFeeds,
+    ...unSeenFeedList,
+  },
   unseenFeedsFetchStatus: FetchStatusFlag.IDLE,
 }));
 

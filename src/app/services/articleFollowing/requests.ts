@@ -16,7 +16,11 @@ export interface FollowingArticleListResponse {
   results: Article[];
 }
 
-export type UnseenFollowingFeedsResponse = number[];
+export interface UnseenFollowingFeedsResponse {
+  totalPage: number;
+  totalCount: number;
+  result: number[];
+}
 
 export interface SetAllFollowingFeedsToSeenResponse {
   feedLastSeenTime: DateDTO;
