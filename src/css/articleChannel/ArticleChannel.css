@@ -13,7 +13,7 @@
     & .ArticleChannel_Image {
       width: 80px;
       height: 80px;
-      border: 1px solid #eee;
+      border: 1px solid rgba(0,0,0,0.1);
       box-sizing: border-box;
       border-radius: 999px;
       object-fit: cover;

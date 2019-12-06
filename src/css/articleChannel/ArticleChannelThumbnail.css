@@ -4,9 +4,6 @@
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  border-radius: 999px;
-  border: solid 1px rgba(0, 0, 0, .1);
-  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -14,6 +11,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 20px;
+  border: solid 1px rgba(0, 0, 0, .1);
+  box-sizing: border-box;  
 }
 
 .ArticleChannelCoverImage_Placeholder {
@@ -29,6 +29,9 @@
   top: 0;
   left: 0;
   background: #e6e8eb;
+  border: solid 1px rgba(0, 0, 0, .1);
+  border-radius: 999px;
+  box-sizing: border-box;
 }
 
 .ArticleChannelThumbnail_DefaultCoverImage_Logo {
