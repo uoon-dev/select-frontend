@@ -12,6 +12,9 @@
 .ArticleChartList_Meta_Title_Skeleton {
   width: 282px;
   height: 22px;
+  @media (--mobile-screen) {
+    width: 152px;
+  }
 }
 .ArticleChartList_Meta_Channel_Skeleton {
   width: 120px;

@@ -53,7 +53,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
   }, [page]);
 
   return (
-    <main className="SceneWrapper">
+    <main className="SceneWrapper PageArticleChannelDetail">
       <HelmetWithTitle titleName={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} />
       {isInApp ? <ConnectedPageHeader pageTitle={isFetchedChannelMeta() && articleChannelData ? articleChannelData.channelMeta!.displayName : ''} /> : null}
       <div className="a11y"><h1>리디셀렉트 아티클 채널</h1></div>
