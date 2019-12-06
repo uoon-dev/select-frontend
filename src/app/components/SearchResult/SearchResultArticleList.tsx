@@ -43,7 +43,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
           >
             <div className="SearchResultArticleList_Link">
               <ArticleThumbnail
-                linkUrl={`/article/${getArticleKeyFromData(article, 'search')}`}
+                linkUrl={`/article/${getArticleKeyFromData(article)}`}
                 imageUrl={article.thumbnailUrl}
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName={'SearchResultArticleList_Thumbnail'}
@@ -51,7 +51,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                 onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
               />
               <Link
-                to={`/article/${getArticleKeyFromData(article, 'search')}?q=${keyword}&s=search`}
+                to={`/article/${getArticleKeyFromData(article)}?q=${keyword}&s=search`}
                 className="SearchResultArticleList_Meta"
                 onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
               >

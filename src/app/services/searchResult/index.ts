@@ -121,7 +121,7 @@ searchResultReducer.on(Actions.queryKeywordSuccess, (state, action) => {
               highlight: book.highlight,
               publisher: book.publisher,
             })) : response.articles!.map((article: SearchResultArticle) => ({
-              contentKey: getArticleKeyFromData(article, 'search'),
+              contentKey: getArticleKeyFromData(article),
               highlight: article.highlight,
             })),
             isFetched: true,
