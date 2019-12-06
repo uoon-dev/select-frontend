@@ -24,7 +24,7 @@ export interface SetAllFollowingFeedsToSeenResponse {
 
 export const requestFollowingChannelList = (requestQueries?: ArticleRequestQueries): Promise<FollowingChannelListResponse> => (
   request({
-    url: `/article/me/followings${buildArticleRequestQueriesToString(requestQueries)}`,
+    url: `/article/me/following${buildArticleRequestQueriesToString(requestQueries)}`,
     method: 'GET',
   }).then((response) => camelize<AxiosResponse<FollowingChannelListResponse>>(response, { recursive: true }).data)
 );
