@@ -21,12 +21,13 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
   const section = getSectionStringForTracking('select-article', 'search-result', 'article-list');
   const dispatch = useDispatch();
 
-  const trackingClick = (index: number, id: number) => {
+  const trackingClick = (index: number, id: number, misc?: string) => {
     if (!section) { return; }
     const trackingParams: DefaultTrackingParams = {
       section,
       index,
       id,
+      misc,
     };
     dispatch(TrackingActions.trackClick({trackingParams}));
   };
@@ -47,12 +48,12 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName={'SearchResultArticleList_Thumbnail'}
                 articleTitle={article.title}
-                onLinkClick={() => trackingClick(idx, article.id)}
+                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
               />
               <Link
                 to={`/article/${getArticleKeyFromData(article, 'search')}?q=${keyword}&s=search`}
                 className="SearchResultArticleList_Meta"
-                onClick={() => trackingClick(idx, article.id)}
+                onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
               >
                 <h3
                   className="SearchResultArticleList_Title"

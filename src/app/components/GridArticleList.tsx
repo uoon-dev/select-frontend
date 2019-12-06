@@ -60,12 +60,13 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
     dispatch(Actions.favoriteArticleActionRequest({ articleId, method }));
   };
 
-  const trackingClick = (index: number, id: number | string) => {
+  const trackingClick = (index: number, id: number | string, misc?: string) => {
     if (!section) { return; }
     const trackingParams: DefaultTrackingParams = {
       section,
       index,
       id,
+      misc,
     };
     dispatch(TrackingActions.trackClick({trackingParams}));
   };
@@ -96,7 +97,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
-                onLinkClick={() => trackingClick(idx, article.id)}
+                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelThumbnail && channelMeta ? (
@@ -114,7 +115,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id)}
+                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
                       >
                         <p className="GridArticleItem_Title">
                           {article.title}
@@ -133,7 +134,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id)}
+                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
                       >
                       {renderAuthor && article.author ? (
                         <span className="GridArticleItem_Author">
