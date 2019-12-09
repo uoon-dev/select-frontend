@@ -113,7 +113,9 @@ export const Intro: React.FunctionComponent = () => {
                 ])}
                 color="blue"
                 size="large"
-                onClick={() => {}}
+                onClick={() => {
+                  // TODO: 이벤트 페이지 주소로 이동처리 필요.
+                }}
               >
                 <span className="SectionMain_Button_MainLabel">11개월치 반값 결제</span>
                 <span className="SectionMain_Button_SubLabel">월 4,500원</span>
