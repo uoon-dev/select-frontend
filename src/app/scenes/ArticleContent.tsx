@@ -24,20 +24,14 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
     hasAvailableTicket: state.user.hasAvailableTicket,
   }));
   const dispatch = useDispatch();
-
   React.useEffect(() => {
     if (
-      (
-        articleState &&
-        articleState.contentFetchStatus === FetchStatusFlag.FETCHING
-       ) || (
-        articleState &&
-        articleState.contentFetchStatus === FetchStatusFlag.IDLE &&
-        articleState.content
-       )
+      articleState &&
+      articleState.contentFetchStatus === FetchStatusFlag.FETCHING
     ) {
       return;
     }
+
     dispatch(Actions.loadArticleRequest({
       channelName,
       contentIndex: Number(contentIndex),
@@ -50,7 +44,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
         ],
       },
     }));
-  }, []);
+  }, [hasAvailableTicket]);
 
   return (
     <main className="SceneWrapper PageArticleContent">
