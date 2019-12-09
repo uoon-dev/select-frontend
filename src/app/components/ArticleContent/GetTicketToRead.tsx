@@ -18,6 +18,8 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     return null;
   }
 
+  const paymentUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.origin + location.pathname)}`;
+
   return (
     <div
       className={classNames(
@@ -31,10 +33,10 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
         className="ArticleContent_GetTicketToReadButton"
         onClick={() => {
           if (isLoggedIn) {
-            window.location.replace(`${BASE_URL_STORE}/select/payments`);
+            window.location.replace(paymentUrl);
             return;
           }
-          moveToLogin(`${BASE_URL_STORE}/select/payments`);
+          moveToLogin(paymentUrl);
         }}
       >
         리디셀렉트 구독하고 무료로 보기
