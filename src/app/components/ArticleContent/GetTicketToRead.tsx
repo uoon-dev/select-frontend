@@ -6,6 +6,7 @@ import { Button } from '@ridi/rsg';
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
 import * as classNames from 'classnames';
+import { throttle } from 'lodash-es';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
   const { isLoggedIn, BASE_URL_STORE, articleState } = useSelector((state: RidiSelectState) => ({
@@ -13,6 +14,36 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     articleState: state.articlesById[props.contentKey],
     isLoggedIn: state.user.isLoggedIn,
   }));
+
+  const [isSticky, setIsSticky] = React.useState(false);
+  const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
+
+  const throttledScrollFunction = throttle(() => {
+    if (
+      !getTicketToReadButtonWrapper ||
+      !getTicketToReadButtonWrapper.current ||
+      !getTicketToReadButtonWrapper.current.parentElement
+    ) {
+      return;
+    }
+    const parentElement = getTicketToReadButtonWrapper.current.parentElement as HTMLElement;
+    const currentScrollTop = window.pageYOffset || document.documentElement!.scrollTop;
+    if (
+      (currentScrollTop + window.innerHeight) >=
+      (parentElement.offsetTop + parentElement.offsetHeight)
+    ) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  }, 100);
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', throttledScrollFunction);
+    return () => {
+      window.removeEventListener('scroll', throttledScrollFunction);
+    };
+  }, []);
 
   if (!articleState || !articleState.article) {
     return null;
@@ -25,7 +56,9 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
       className={classNames(
         'ArticleContent_GetTicketToReadButtonWrapper',
         articleState.article.isPublic && 'ArticleContent_GetTicketToReadButtonWrapper-publicContent',
+        isSticky && 'ArticleContent_GetTicketToReadButtonWrapper-sticky',
       )}
+      ref={getTicketToReadButtonWrapper}
     >
       <Button
         size="large"
