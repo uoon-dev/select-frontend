@@ -88,7 +88,10 @@ export const Intro: React.FunctionComponent = () => {
             <>
               <Button
                 type="button"
-                className="SectionMain_Button"
+                className={classNames([
+                  'SectionMain_Button',
+                  'Intro_Subscription_Button',
+                ])}
                 color="gray"
                 size="large"
                 onClick={() => {
@@ -99,18 +102,23 @@ export const Intro: React.FunctionComponent = () => {
                   moveToLogin(`${BASE_URL_STORE}/select/payments`);
                 }}
               >
-                매월 정기 결제
+                <span className="SectionMain_Button_MainLabel">매월 정기 결제</span>
+                <span className="SectionMain_Button_SubLabel">월 9,900원</span>
               </Button>
               <Button
                 type="button"
-                className="SectionMain_Button"
+                className={classNames([
+                  'SectionMain_Button',
+                  'Intro_GetVoucher_Button',
+                ])}
                 color="blue"
                 size="large"
                 onClick={() => {}}
               >
-                11개월치 반값 결제
+                <span className="SectionMain_Button_MainLabel">11개월치 반값 결제</span>
+                <span className="SectionMain_Button_SubLabel">월 4,500원</span>
               </Button>
-              <p>반값 결제 이벤트 2020.01.17.까지</p>
+              <p className="SectionMain_ButtonCaption">반값 결제 이벤트 2020.01.17.까지</p>
             </>
           ) : (
             <>
@@ -133,7 +141,7 @@ export const Intro: React.FunctionComponent = () => {
                 }
                 <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
               </Button>
-              <p>1개월 후 월 9,900원. 언제든 원클릭으로 해지</p>
+              <p className="SectionMain_ButtonCaption">1개월 후 월 9,900원. 언제든 원클릭으로 해지</p>
             </>
           )}
         </div>
