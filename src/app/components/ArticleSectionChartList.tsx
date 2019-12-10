@@ -2,7 +2,7 @@ import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
-import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { getSectionStringForTracking, mixedMiscTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
@@ -17,6 +17,7 @@ interface ArticleSectionChartListProps {
   serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
+  miscTracking?: string;
   articleList?: ArticleResponse[];
 }
 
@@ -26,6 +27,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
     serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
+    miscTracking,
   } = props;
   const { articleChannelById } = useSelector((state: RidiSelectState) => ({ articleChannelById: state.articleChannelById }));
   const section = !!serviceTitleForTracking && !!pageTitleForTracking
@@ -47,12 +49,16 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
 
   const trackingClick = (index: number, id: number | string, misc?: string) => {
     if (!section) { return; }
-    const trackingParams: DefaultTrackingParams = {
-      section,
-      index,
-      id,
-      misc,
-    };
+    const trackingParams: DefaultTrackingParams = { section, index, id };
+
+    if (misc) {
+      let miscParam = misc;
+      if (miscTracking && misc) {
+        miscParam = mixedMiscTracking(miscTracking, misc);
+      }
+      trackingParams.misc = miscParam;
+    }
+
     dispatch(TrackingActions.trackClick({trackingParams}));
   };
 
@@ -76,6 +82,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                     section={section}
                     index={index}
                     id={article.id}
+                    misc={miscTracking}
                   >
                     <span className="ArticleChartList_Rank">{index + 1}</span>
                     <ArticleThumbnail
@@ -83,13 +90,13 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                       imageUrl={article.thumbnailUrl}
                       articleTitle={article.title}
                       thumbnailShape={ThumbnailShape.SQUARE}
-                      onLinkClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: channelMeta!.id}))}
+                      onLinkClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: `ch:${channelMeta!.id}`}))}
                     />
                     <div className="ArticleChartList_Meta">
                     <Link
                       className="ArticleChartList_Meta_Link"
                       to={articleUrl}
-                      onClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: channelMeta!.id}))}
+                      onClick={() => trackingClick(index, article.id, JSON.stringify({ sect_ch: `ch:${channelMeta!.id}`}))}
                     >
                       <span className="ArticleChartList_Meta_Title">{article.title}</span>
                     </Link>

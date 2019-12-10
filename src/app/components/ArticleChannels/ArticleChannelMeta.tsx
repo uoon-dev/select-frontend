@@ -16,7 +16,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & Sectio
   const { id, name, thumbnailUrl, displayName, description, section, idx= 0 } = props;
   const dispatch = useDispatch();
 
-  const trackingClick = (index: number, trackingId: number) => {
+  const trackingClick = (index: number, trackingId: string) => {
     if (!section) { return; }
 
     const trackingParams: DefaultTrackingParams = {
@@ -33,12 +33,12 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannel & Sectio
         channelName={name}
         imageUrl={thumbnailUrl}
         linkUrl={articleChannelToPath({ channelName: name })}
-        onLinkClick={() => trackingClick(idx, id)}
+        onLinkClick={() => trackingClick(idx, `ch:${id}`)}
       />
       <Link
         className="ArticleChannelMeta_Link"
         to={articleChannelToPath({ channelName: name })}
-        onClick={() => trackingClick(idx, id)}
+        onClick={() => trackingClick(idx, `ch:${id}`)}
       >
         <span className="ArticleChannelMeta_Title">{displayName}</span>
         <span className="ArticleChannelMeta_Desc">{description}</span>

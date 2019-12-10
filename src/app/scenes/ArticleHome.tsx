@@ -53,6 +53,7 @@ export const ArticleHome: React.FunctionComponent = () => {
         title={'최근 추가된 아티클'}
         type={ArticleSectionType.LIST}
         articleHomeSectionType={ArticleHomeSectionType.RECENT}
+        order={0}
       />
     </div>
     <div className="ArticleHome_Panel">
@@ -60,6 +61,7 @@ export const ArticleHome: React.FunctionComponent = () => {
         title={'인기 아티클'}
         type={ArticleSectionType.CHART}
         articleHomeSectionType={ArticleHomeSectionType.POPULAR}
+        order={1}
       />
     </div>
     <div className="ArticleHome_Panel">
@@ -67,6 +69,7 @@ export const ArticleHome: React.FunctionComponent = () => {
         title={'추천 아티클'}
         type={ArticleSectionType.LIST}
         articleHomeSectionType={ArticleHomeSectionType.RECOMMEND}
+        order={2}
       />
     </div>
     </main>
