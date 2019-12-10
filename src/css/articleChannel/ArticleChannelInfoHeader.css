@@ -22,30 +22,33 @@
 
 .ChannelInfoHeader_Desc_AuthorName {
   display: inline-block;
-  position: relative;
   line-height: 18px;
   font-size: 12px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
-  padding-right: 6px;
-  margin-right: 4px;
+  padding-right: 5px;
   vertical-align: top;
-  &::after {
-    content: '';
-    position: absolute;
-    width: 1px;
-    height: 10px;
-    top: 5px;
-    right: 0;
-    background: var(--slategray_30);
-  }
+
 }
 
 .ChannelInfoHeader_Desc_PublishDate {
   display: inline-block;
+  position: relative;
+  padding-left: 6px;
   line-height: 18px;
   font-size: 12px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
   vertical-align: top;
+  &.ChannelInfoHeader_Desc_PublishDate-hasDivider {
+    &::before {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 10px;
+      top: 5px;
+      left: 0;
+      background: var(--slategray_30);
+    }
+  }
 }
