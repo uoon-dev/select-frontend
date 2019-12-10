@@ -50,7 +50,7 @@
       }
       & .GNBSearchInput {
         height: 36px;
-        line-height: 36px;
+        line-height: 22px;
       }
     }
     @nest .iosApp & {
@@ -71,7 +71,7 @@
       }
       & .GNBSearchInput {
         height: 36px;
-        line-height: 36px;
+        line-height: 22px;
       }
     }
   }
@@ -182,7 +182,7 @@
   display: block;
   width: 100%;
   height: 36px;
-  padding: 6px 0 8px;
+  padding: 6px 24px 8px 0;
   line-height: 22px;
   border: none;
   outline: none;
@@ -227,10 +227,13 @@
       position: relative;
       width: auto;
       height: var(--gnb_pc_height);
+      top: unset;
+      left: unset;
       padding: 11px 10px 11px 28px;
       background: transparent;
       text-align: right;
       z-index: 900;
+
       & .GNBSearchInputWrapper {
         display: inline-block;
         margin: 0;
