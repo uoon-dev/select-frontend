@@ -7,10 +7,8 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 
 export const ArticleContentHeader: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const { articleState, isInApp } = useSelector((state: RidiSelectState) => ({
-    articleState: state.articlesById[props.contentKey],
-    isInApp: selectIsInApp(state),
-  }));
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+  const isInApp = useSelector((state: RidiSelectState) => selectIsInApp(state));
 
   if (!articleState || !articleState.article) {
     return <ArticleContentHeaderPlaceholder />;

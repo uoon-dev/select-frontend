@@ -9,11 +9,9 @@ import * as classNames from 'classnames';
 import { throttle } from 'lodash-es';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const { isLoggedIn, BASE_URL_STORE, articleState } = useSelector((state: RidiSelectState) => ({
-    BASE_URL_STORE: state.environment.STORE_URL,
-    articleState: state.articlesById[props.contentKey],
-    isLoggedIn: state.user.isLoggedIn,
-  }));
+  const BASE_URL_STORE = useSelector((state: RidiSelectState) => state.environment.STORE_URL);
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+  const isLoggedIn = useSelector((state: RidiSelectState) => state.user.isLoggedIn);
 
   const [isSticky, setIsSticky] = React.useState(false);
   const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);

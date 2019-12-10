@@ -9,9 +9,7 @@ import { ArticleContentPlaceholder } from 'app/placeholder/ArticleContentPlaceho
 import { RidiSelectState } from 'app/store';
 
 export const ArticleContentComponent: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const { articleState } = useSelector((state: RidiSelectState) => ({
-    articleState: state.articlesById[props.contentKey],
-  }));
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
 
   if (
     !articleState ||
