@@ -21,9 +21,9 @@
     top: calc(env(safe-area-inset-top) + var(--gnb_ios_app_height));
     @media (--pc-screen) {
       /* inapp safe area iOS 11.0 버전 */
-      top: calc(constant(safe-area-inset-top) + var(--gnb_pc_height);
+      top: calc(constant(safe-area-inset-top) + var(--gnb_pc_height));
       /* inapp safe area iOS 11.2 이상 */
-      top: calc(env(safe-area-inset-top) + var(--gnb_pc_height);
+      top: calc(env(safe-area-inset-top) + var(--gnb_pc_height));
     }
   }
 }
