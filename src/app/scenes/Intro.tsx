@@ -1,4 +1,5 @@
 import * as classNames from 'classnames';
+import * as qs from 'qs';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -53,6 +54,7 @@ export const Intro: React.FunctionComponent = () => {
   const currentDate = new Date();
 
   const isInEventTerm = elevenMonthVoucherEventStartDate <= currentDate && elevenMonthVoucherEventEndDate >= currentDate;
+  const queryString = qs.parse(location.search, { ignoreQueryPrefix: true });
 
   return (
     <main className="SceneWrapper">
@@ -107,16 +109,17 @@ export const Intro: React.FunctionComponent = () => {
                 <span className="SectionMain_Button_SubLabel">월 9,900원</span>
               </Button>
               <Button
-                type="button"
+                component="a"
+                target="_self"
                 className={classNames([
                   'SectionMain_Button',
                   'Intro_GetVoucher_Button',
                 ])}
                 color="blue"
                 size="large"
-                onClick={() => {
-                  // TODO: 이벤트 페이지 주소로 이동처리 필요.
-                }}
+                href={`https://ridibooks.com/event/18707?utm_source=operation&utm_medium=button&utm_campaign=inhouse&utm_content=10m_half${
+                  queryString.utm_source ? `&utm_term=${queryString.utm_source}` : ''}`
+                }
               >
                 <span className="SectionMain_Button_MainLabel">11개월치 반값 결제</span>
                 <span className="SectionMain_Button_SubLabel">월 4,500원</span>
