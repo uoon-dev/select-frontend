@@ -17,6 +17,7 @@ export const Intro: React.FunctionComponent = () => {
     isLoggedIn,
     hasSubscribedBefore,
     BASE_URL_STORE,
+    FREE_PROMOTION_MONTHS,
   } = useSelector((state: RidiSelectState) => ({
     isLoggedIn: state.user.isLoggedIn,
     hasSubscribedBefore: state.user.hasSubscribedBefore,
@@ -143,7 +144,9 @@ export const Intro: React.FunctionComponent = () => {
                 }
                 <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
               </Button>
-              <p className="SectionMain_ButtonCaption">1개월 후 월 9,900원. 언제든 원클릭으로 해지</p>
+              <p className="SectionMain_ButtonCaption">
+                {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
+              </p>
             </>
           )}
         </div>
