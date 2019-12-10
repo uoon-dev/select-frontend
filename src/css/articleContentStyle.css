@@ -44,6 +44,7 @@
     & a:active {
       font-weight: inherit;
       font-size: inherit;
+      color: var(--dodgerblue_40);
     }
   }
 
