@@ -1,6 +1,8 @@
+import Arrow from 'app/components/Arrow';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 import { BlockIconComponent } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { useScrollSlider } from 'app/hooks/useScrollSlider';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { Actions } from 'app/services/articleFollowing';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -17,6 +19,9 @@ interface SlideChannelListProps {
 }
 
 export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = (props) => {
+  const ref = React.useRef<HTMLUListElement>(null);
+  const [moveLeft, moveRight, isOnTheLeft, isOnTheRight] = useScrollSlider(ref, true);
+
   const { channels } = props;
   const dispatch = useDispatch();
   const section = getSectionStringForTracking('select-article', 'following', 'channel-list');
@@ -48,8 +53,8 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
   };
 
   return (
-    <section>
-      <ul className="FollowingChannel_List">
+    <section className="FollowingChannel_ListWrap">
+      <ul className="FollowingChannel_List scrollBarHidden" ref={ref}>
         {
           channels.map((channel, idx) => (
             <li key={idx} className="FollowingChannel_Item">
@@ -92,6 +97,22 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
           ))
         }
       </ul>
+        <form>
+          <Arrow
+            label={'이전'}
+            side={'left'}
+            onClickHandler={moveLeft}
+            arrowClass="SlideArrowButton_Left"
+            arrowTransition={!isOnTheLeft && 'arrowTransition'}
+          />
+          <Arrow
+            label={'다음'}
+            side={'right'}
+            onClickHandler={moveRight}
+            arrowClass="SlideArrowButton_Right"
+            arrowTransition={!isOnTheRight && 'arrowTransition'}
+          />
+        </form>
     </section>
   );
 };
