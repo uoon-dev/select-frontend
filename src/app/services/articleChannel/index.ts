@@ -43,7 +43,7 @@ export const Actions = {
   }>('loadArticleChannelArticlesFailure'),
 
   articleChannelFollowingActionRequest: createAction<{ channelId: number, channelName: string, method: Method }>('articleChannelFollowingActionRequest'),
-  articleChannelFollowingActionSuccess: createAction<{ channelName: string, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
+  articleChannelFollowingActionSuccess: createAction<{ channelName: string, method: Method, response: ArticleChannelFollowingResponse }>('articleChannelFollowingActionSuccess'),
   articleChannelFollowingActionFailure: createAction<{ channelName: string }>('articleChannelFollowingActionFailure'),
 };
 
@@ -232,7 +232,16 @@ articleChannelReducer.on(Actions.articleChannelFollowingActionRequest, (state, a
 });
 
 articleChannelReducer.on(Actions.articleChannelFollowingActionSuccess, (state, action) => {
-  const { channelName, response } = action;
+  const { channelName, response, method } = action;
+
+  let followersCount;
+
+  if (typeof state[channelName].channelMeta!.followersCount === 'number') {
+    followersCount = (method === 'POST')
+      ? state[channelName].channelMeta!.followersCount! + 1
+      : state[channelName].channelMeta!.followersCount! - 1;
+  }
+
   return {
     ...state,
     [channelName]: {
@@ -240,6 +249,7 @@ articleChannelReducer.on(Actions.articleChannelFollowingActionSuccess, (state, a
       channelMeta: {
         ...state[channelName].channelMeta!,
         isFollowing: response.isFollowing,
+        followersCount,
       },
       followFetchStatus: FetchStatusFlag.IDLE,
     },

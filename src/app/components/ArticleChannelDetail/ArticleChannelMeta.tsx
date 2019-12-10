@@ -1,6 +1,6 @@
-import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
-import { Method } from 'axios';
 import * as React from 'react';
+
+import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 
 interface ArticleChannelMetaProps {
   id: number;
@@ -23,15 +23,6 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
     subDescription,
     followersCount = 0,
   } = props;
-  const [followCount, setFollowCount] = React.useState(followersCount);
-
-  const setChannelFollowCount = (method: Method) => {
-    if (method === 'POST') {
-      setFollowCount(followCount + 1);
-    } else {
-      setFollowCount(followCount - 1);
-    }
-  };
 
   return (
     <section>
@@ -43,11 +34,10 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <h2 className="ArticleChannel_Meta_Title">{displayName}</h2>
           <p className="ArticleChannel_Meta_Desc">{description}</p>
           <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
-          <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{followCount}</strong></span>
+          <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{followersCount}</strong></span>
           <ArticleChannelFollowButton
             channelId={id}
             channelName={name}
-            afterAction={setChannelFollowCount}
           />
         </div>
       </div>
