@@ -15,8 +15,7 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
 
   const [isSticky, setIsSticky] = React.useState(false);
   const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
-
-  const throttledScrollFunction = throttle(() => {
+  const scrollFunction = () => {
     if (
       !getTicketToReadButtonWrapper ||
       !getTicketToReadButtonWrapper.current ||
@@ -34,10 +33,12 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     } else {
       setIsSticky(false);
     }
-  }, 100);
+  };
+  const throttledScrollFunction = throttle(scrollFunction, 100);
 
   React.useEffect(() => {
     window.addEventListener('scroll', throttledScrollFunction);
+    scrollFunction();
     return () => {
       window.removeEventListener('scroll', throttledScrollFunction);
     };
