@@ -19,9 +19,7 @@ export const ShareSVG = (props: { className?: string; }) => (
 );
 
 export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const { articleState } = useSelector((state: RidiSelectState) => ({
-    articleState: state.articlesById[props.contentKey],
-  }));
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
   const dispatch = useDispatch();
 
   if (!articleState || !articleState.article) {

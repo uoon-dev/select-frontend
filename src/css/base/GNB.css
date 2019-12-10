@@ -360,6 +360,13 @@
       border: none;
       & .GNBLeft {
         padding-left: 40px;
+        @nest .iosApp & {
+          padding-left: 0;
+        }
+        @nest .androidApp & {
+          padding-left: 0;
+        }
+
         & .GNBLogoWrapper {
           height: var(--gnb_pc_height);
           padding: 21px 11.7px 0 0;

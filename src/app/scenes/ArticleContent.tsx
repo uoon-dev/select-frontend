@@ -18,12 +18,10 @@ type OwnProps = RouteProps & {};
 export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const { channelName, contentIndex } = props.match.params;
   const contentKey = `@${channelName}/${Number(contentIndex)}`;
-
-  const { articleState, hasAvailableTicket } = useSelector((state: RidiSelectState) => ({
-    articleState: state.articlesById[contentKey],
-    hasAvailableTicket: state.user.hasAvailableTicket,
-  }));
   const dispatch = useDispatch();
+
+  const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
+  const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
   React.useEffect(() => {
     if (
       articleState &&
