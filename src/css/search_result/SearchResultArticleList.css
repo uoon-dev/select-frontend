@@ -33,9 +33,10 @@
 
 .SearchResultArticleList_Link {
   display: flex;
-  align-items: start;
   color: inherit;
   text-decoration: inherit;
+  align-items: center;
+  justify-content: center;
 }
 
 .SearchResultArticleList_Thumbnail {

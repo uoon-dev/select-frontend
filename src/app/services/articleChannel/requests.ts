@@ -24,7 +24,7 @@ export interface ArticleChannelFollowingResponse {
 }
 
 export const requestArticleChannelList = (requestQueries?: ArticleRequestQueries): Promise<ArticleChannelListResponse> => {
-  const requestUrl = `/article/channels${buildArticleRequestQueriesToString(requestQueries)}`;
+  const requestUrl = `/article/channels${buildArticleRequestQueriesToString(requestQueries)}&size=100`;
 
   return request({
     url: requestUrl,
