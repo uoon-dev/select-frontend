@@ -48,7 +48,7 @@
   @apply --reset-layout;
 
   display: block;
-  margin-top: 20px;
+  margin: 0px;
   color: #000;
   font-size: 15px;
   font-weight: 400;
