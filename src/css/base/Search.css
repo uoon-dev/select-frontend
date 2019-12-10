@@ -227,10 +227,13 @@
       position: relative;
       width: auto;
       height: var(--gnb_pc_height);
+      top: unset;
+      left: unset;
       padding: 11px 10px 11px 28px;
       background: transparent;
       text-align: right;
       z-index: 900;
+
       & .GNBSearchInputWrapper {
         display: inline-block;
         margin: 0;
