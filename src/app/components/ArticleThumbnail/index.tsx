@@ -92,6 +92,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           placeholder={<div className="Skeleton" />}
         >
           {!isWrongImage ? (
+            <>
               <img
                 className={classNames(
                   'ArticleThumbnail_CoverImage',
@@ -102,6 +103,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
                 onLoad={() => setIsLoaded(true)}
                 onError={() => setIsWrongImage(true)}
               />
+              <span className="ArticleThumbnail_CoverShadow" />
+            </>
           ) : (
             <span className="ArticleThumbnail_DefaultCoverImage">
               <img
