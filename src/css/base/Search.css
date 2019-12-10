@@ -303,10 +303,7 @@
       top: 41px;
     }
     @nest .iosApp & {
-      /* inapp safe area iOS 11.0 버전 */
-      top: calc(constant(safe-area-inset-top) + 41px);
-      /* inapp safe area iOS 11.2 이상 */
-      top: calc(env(safe-area-inset-top) + 41px);
+      top: 41px;
     }
   }
   .GNBSearchWrapper.active {
