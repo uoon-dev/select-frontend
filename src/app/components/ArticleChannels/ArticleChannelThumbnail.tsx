@@ -79,16 +79,19 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
           placeholder={<div className="Skeleton" />}
         >
           {!isWrongImage ? (
-            <img
-              className={classNames(
-                'ArticleChannelThumbnail_CoverImage',
-                imageClassName,
-              )}
-              src={imageUrl}
-              alt={channelName}
-              onLoad={() => setIsLoaded(true)}
-              onError={() => setIsWrongImage(true)}
-            />
+            <>
+              <img
+                className={classNames(
+                  'ArticleChannelThumbnail_CoverImage',
+                  imageClassName,
+                )}
+                src={imageUrl}
+                alt={channelName}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setIsWrongImage(true)}
+              />
+              <span className="ArticleChannelThumbnail_CoverShadow" />
+            </>
           ) : (
             <span className="ArticleChannelThumbnail_DefaultCoverImage">
               <img

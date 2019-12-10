@@ -1,19 +1,7 @@
 .ArticleThumbnail_Wrapper {
   @apply --reset-layout;
 
-  width: 100%;
-  position: relative;
-  &:after {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    z-index: 10;
-    box-sizing: border-box;
-    border: 1px solid rgba(0,0,0,.1);
-  }   
+  width: 100%;  
 }
 
 .ArticleThumbnail_Link {
@@ -44,6 +32,19 @@
     height: 100%;
     object-fit: cover;
   }
+}
+
+.ArticleThumbnail_CoverShadow {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  border: 1px solid rgba(0,0,0,.1);
 }
 
 .ArticleCoverImage_Placeholder {
