@@ -129,10 +129,9 @@ body {
   & .RUIRadio_Label {
     line-height: 13px;
   }
-
-  @media (--mobile-screen) {
-    /* TODO: RIDI UI에서 업데이트 되고 이 곳에서는 제거 되어야 함. */
-    & .RUISelectBox_Select {
+  & .RUISelectBox_Select {
+    vertical-align: top;
+    @media (--mobile-screen) {
       line-height: 17px;
     }
   }
