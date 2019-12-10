@@ -18,12 +18,12 @@ import { articleChannelToPath } from 'app/utils/toPath';
 export const ArticleChannelDetail: React.FunctionComponent = () => {
   const channelName = useParams<{ channelName: string }>().channelName;
   const page = useSelector(getPageQuery);
+  const articleChannelData = useSelector((state: RidiSelectState) => state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined);
+  const articlesById = useSelector((state: RidiSelectState) => state.articlesById);
+  const isInApp = useSelector(selectIsInApp);
+
   const itemCountPerPage = 12;
-  const { articleChannelData, articlesById, isInApp } = useSelector((state: RidiSelectState) => ({
-    articleChannelData: state.articleChannelById[channelName] ? state.articleChannelById[channelName] : undefined,
-    articlesById: state.articlesById,
-    isInApp: selectIsInApp(state),
-  }));
+
   const dispatch = useDispatch();
 
   const isFetched = () => {
