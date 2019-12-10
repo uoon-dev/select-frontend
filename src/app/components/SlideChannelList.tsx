@@ -36,7 +36,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
     });
   };
 
-  const trackingClick = (index: number, id: number) => {
+  const trackingClick = (index: number, id: string) => {
     if (!section) { return; }
 
     const trackingParams: DefaultTrackingParams = {
@@ -56,7 +56,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
               <ConnectedTrackImpression
                 section={section}
                 index={idx}
-                id={channel.id}
+                id={`ch:${channel.id}`}
               >
                 <div className="FollowingChannel_Item_InnerWrapper">
                   { channel.isEnabled ?
@@ -65,12 +65,12 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
                         imageUrl={channel.thumbnailUrl}
                         channelName={channel.displayName}
                         linkUrl={articleChannelToPath({channelName: channel.name})}
-                        onLinkClick={() => trackingClick(idx, channel.id)}
+                        onLinkClick={() => trackingClick(idx, `ch:${channel.id}`)}
                       />
                       <Link
                         to={articleChannelToPath({channelName: channel.name})}
                         className="FollowingChannel_Item_Link"
-                        onClick={() => trackingClick(idx, channel.id)}
+                        onClick={() => trackingClick(idx, `ch:${channel.id}`)}
                       >
                         {channel.displayName}
                       </Link>

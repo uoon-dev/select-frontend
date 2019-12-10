@@ -11,7 +11,7 @@ import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
-import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { getSectionStringForTracking, mixedMiscTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildDateDistanceFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
@@ -62,12 +62,17 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
 
   const trackingClick = (index: number, id: number | string, misc?: string) => {
     if (!section) { return; }
-    const trackingParams: DefaultTrackingParams = {
-      section,
-      index,
-      id,
-      misc,
-    };
+
+    const trackingParams: DefaultTrackingParams = { section, index, id };
+
+    if (misc) {
+      let miscParam = misc;
+      if (miscTracking && misc) {
+        miscParam = mixedMiscTracking(miscTracking, misc);
+      }
+      trackingParams.misc = miscParam;
+    }
+
     dispatch(TrackingActions.trackClick({trackingParams}));
   };
 
@@ -97,7 +102,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
-                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
+                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
               />
               <div className="GridArticleItem_Meta">
                 {renderChannelThumbnail && channelMeta ? (
@@ -115,7 +120,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
+                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
                       >
                         <p className="GridArticleItem_Title">
                           {article.title}
@@ -134,7 +139,7 @@ export const GridArticleList: React.FunctionComponent<Props> = (props) => {
                       <Link
                         to={articleUrl}
                         className="GridArticleItem_Link"
-                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelMeta!.id}))}
+                        onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelMeta!.id}`}))}
                       >
                       {renderAuthor && article.author ? (
                         <span className="GridArticleItem_Author">

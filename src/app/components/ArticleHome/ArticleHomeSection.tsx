@@ -14,6 +14,7 @@ import { RidiSelectState } from 'app/store';
 interface ArticleHomeSectionProps {
   title: string;
   type: string;
+  order: number;
   articleHomeSectionType: ArticleHomeSectionType;
   articleList?: ArticleResponse[];
   articleChartList?: ArticleResponse[];
@@ -36,7 +37,7 @@ export const ArticleSectionHeader: React.FunctionComponent<ArticleSectionHeaderP
 };
 
 export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps> = (props) => {
-  const { title, type, articleHomeSectionType } = props;
+  const { title, type, order, articleHomeSectionType } = props;
   const dispatch = useDispatch();
   const { sectionData, articles } = useSelector((state: RidiSelectState) => ({
     sectionData: state.articleHome[articleHomeSectionType],
@@ -69,6 +70,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
               serviceTitleForTracking="select-article"
               pageTitleForTracking="home"
               uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
+              miscTracking={JSON.stringify({sect_order: order})}
             />
           </>
         )}
@@ -89,6 +91,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
           serviceTitleForTracking="select-article"
           pageTitleForTracking="home"
           uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
+          miscTracking={JSON.stringify({sect_order: order})}
           renderChannelMeta={true}
           articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
         />

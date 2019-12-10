@@ -48,12 +48,12 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = (props) =
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName={'SearchResultArticleList_Thumbnail'}
                 articleTitle={article.title}
-                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
+                onLinkClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelState[article.channelName].channelMeta!.id}`}))}
               />
               <Link
                 to={`/article/${getArticleKeyFromData(article)}?q=${keyword}&s=search`}
                 className="SearchResultArticleList_Meta"
-                onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: channelState[article.channelName].channelMeta!.id}))}
+                onClick={() => trackingClick(idx, article.id, JSON.stringify({sect_ch: `ch:${channelState[article.channelName].channelMeta!.id}`}))}
               >
                 <h3
                   className="SearchResultArticleList_Title"
