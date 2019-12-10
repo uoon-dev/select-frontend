@@ -111,8 +111,38 @@
     fill: #fff;
   }
 
+  &.Intro_Subscription_Button {
+    display: inline-block;
+    padding: 0 19px 0 18px;
+    border: solid 1px var(--bluegray_80);
+    background-color: var(--bluegray_70);
+    box-shadow: none;
+    text-align: left;
+  }
+  &.Intro_GetVoucher_Button {
+    display: inline-block;
+    padding: 0 19px 0 18px;
+    margin-top: 10px;
+    box-shadow: none;
+    text-align: left;
+  }
+  & .SectionMain_Button_SubLabel {
+    float: right;
+  }
+
   @media (--pc-screen) {
     width: 240px;
+  }
+}
+
+.SectionMain_ButtonCaption {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: #fff;
+  @media (--mobile-screen) {
+    width: 100%;
   }
 }
 

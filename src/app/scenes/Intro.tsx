@@ -34,6 +34,26 @@ export const Intro: React.FunctionComponent = () => {
     };
   }, []);
 
+  const elevenMonthVoucherEventStartDate = new Date();
+  elevenMonthVoucherEventStartDate.setUTCSeconds(0);
+  elevenMonthVoucherEventStartDate.setUTCMinutes(0);
+  elevenMonthVoucherEventStartDate.setUTCHours(11 - 9);
+  elevenMonthVoucherEventStartDate.setUTCDate(18);
+  elevenMonthVoucherEventStartDate.setUTCMonth(12 - 1);
+  elevenMonthVoucherEventStartDate.setUTCFullYear(2019);
+
+  const elevenMonthVoucherEventEndDate = new Date();
+  elevenMonthVoucherEventEndDate.setUTCSeconds(59);
+  elevenMonthVoucherEventEndDate.setUTCMinutes(59);
+  elevenMonthVoucherEventEndDate.setUTCHours(23 - 9);
+  elevenMonthVoucherEventEndDate.setUTCDate(17);
+  elevenMonthVoucherEventEndDate.setUTCMonth(1 - 1);
+  elevenMonthVoucherEventEndDate.setUTCFullYear(2020);
+
+  const currentDate = new Date();
+
+  const isInEventTerm = elevenMonthVoucherEventStartDate <= currentDate && elevenMonthVoucherEventEndDate >= currentDate;
+
   return (
     <main className="SceneWrapper">
       <HelmetWithTitle
@@ -59,33 +79,76 @@ export const Intro: React.FunctionComponent = () => {
       >
         <div className="SectionMain_Content">
           <h2 className="SectionMain_MainCopy">
-            신간도 베스트셀러도<br />
-            월정액으로 제한없이
+            베스트셀러부터<br />
+            프리미엄 아티클까지
           </h2>
           <p className="SectionMain_Description">
-            {FREE_PROMOTION_MONTHS}개월 무료 후 월 6,500원
-            <br />
-            언제든 원클릭으로 해지
+            1개월 무료
           </p>
-          <Button
-            type="button"
-            className="SectionMain_Button"
-            color="blue"
-            size="large"
-            onClick={() => {
-              if (isLoggedIn) {
-                window.location.replace(`${BASE_URL_STORE}/select/payments`);
-                return;
-              }
-              moveToLogin(`${BASE_URL_STORE}/select/payments`);
-            }}
-          >
-            {!hasSubscribedBefore ?
-              '무료로 시작하기' :
-              '다시 시작하기'
-            }
-            <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
-          </Button>
+          {isInEventTerm ? (
+            <>
+              <Button
+                type="button"
+                className={classNames([
+                  'SectionMain_Button',
+                  'Intro_Subscription_Button',
+                ])}
+                color="gray"
+                size="large"
+                onClick={() => {
+                  if (isLoggedIn) {
+                    window.location.replace(`${BASE_URL_STORE}/select/payments`);
+                    return;
+                  }
+                  moveToLogin(`${BASE_URL_STORE}/select/payments`);
+                }}
+              >
+                <span className="SectionMain_Button_MainLabel">매월 정기 결제</span>
+                <span className="SectionMain_Button_SubLabel">월 9,900원</span>
+              </Button>
+              <Button
+                type="button"
+                className={classNames([
+                  'SectionMain_Button',
+                  'Intro_GetVoucher_Button',
+                ])}
+                color="blue"
+                size="large"
+                onClick={() => {
+                  // TODO: 이벤트 페이지 주소로 이동처리 필요.
+                }}
+              >
+                <span className="SectionMain_Button_MainLabel">11개월치 반값 결제</span>
+                <span className="SectionMain_Button_SubLabel">월 4,500원</span>
+              </Button>
+              <p className="SectionMain_ButtonCaption">반값 결제 이벤트 2020.01.17.까지</p>
+            </>
+          ) : (
+            <>
+              <Button
+                type="button"
+                className="SectionMain_Button"
+                color="blue"
+                size="large"
+                onClick={() => {
+                  if (isLoggedIn) {
+                    window.location.replace(`${BASE_URL_STORE}/select/payments`);
+                    return;
+                  }
+                  moveToLogin(`${BASE_URL_STORE}/select/payments`);
+                }}
+              >
+                {!hasSubscribedBefore ?
+                  '무료로 시작하기' :
+                  '다시 시작하기'
+                }
+                <Icon name="arrow_5_right" className="RSGIcon-arrow5Right" />
+              </Button>
+              <p className="SectionMain_ButtonCaption">
+                {`${FREE_PROMOTION_MONTHS}개월 후 월 9,900원. 언제든 원클릭으로 해지`}
+              </p>
+            </>
+          )}
         </div>
       </section>
     </main>
