@@ -19,6 +19,7 @@ import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
+  order: number;
 }
 
 interface HomeCollectionStateProps {
@@ -57,7 +58,7 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
 
 export class HomeSection extends React.Component<Props> {
   public render() {
-    const { collection, onScreen, books } = this.props;
+    const { collection, onScreen, books, order } = this.props;
     const { type, title, id, itemListByPage } = collection;
     const collectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
 
@@ -110,7 +111,7 @@ export class HomeSection extends React.Component<Props> {
               serviceTitleForTracking="select-book"
               pageTitleForTracking="home"
               uiPartTitleForTracking="collection-list"
-              miscTracking={JSON.stringify({ sect_collection_id: id })}
+              miscTracking={JSON.stringify({ sect_collection_id: id, sect_order: order })}
               bookThumbnailSize={isMobile ? 110 : 120}
             />
           )}
