@@ -9,6 +9,7 @@
     display: flex;
   }
   & .ArticleChannel_Thumbnail {
+    position: relative;
     margin-right: 18px;
     & .ArticleChannel_Image {
       width: 80px;
@@ -17,6 +18,19 @@
       box-sizing: border-box;
       border-radius: 999px;
       object-fit: cover;
+    }
+
+    & .ArticleChannel_ImageShadow {
+      position: absolute;
+      content: '';
+      width: 80px;
+      height: 80px;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: 999px;  
+      display: block;
     }
   }
   & .Channel_FollowButton {

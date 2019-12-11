@@ -29,6 +29,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
       <div className="ArticleChannelMeta_Wrap">
         <div className="ArticleChannel_Thumbnail">
           <img src={thumbnailUrl} className={'ArticleChannel_Image'} />
+          <span className="ArticleChannel_ImageShadow" />
         </div>
         <div className="ArticleChannel_Meta">
           <h2 className="ArticleChannel_Meta_Title">{displayName}</h2>
