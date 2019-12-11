@@ -31,6 +31,9 @@
     width: 60px;
     align-self: center;
   }
+  & .ArticleThumbnail_CoverImage {
+    width: 60px;
+  }
 }
 
 .ArticleChartList_Rank {
