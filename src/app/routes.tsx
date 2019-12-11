@@ -21,7 +21,6 @@ import {
   ConnectedClosingReservedBooks,
   ConnectedCollection,
   ConnectedErrorPage,
-  ConnectedGuide,
   ConnectedHome,
   ConnectedManageSubscription,
   ConnectedMySelect,
