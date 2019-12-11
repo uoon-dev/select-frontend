@@ -42,6 +42,7 @@
   color: var(--slategray_60);
   vertical-align: top;
   &.ChannelInfoHeader_Desc_PublishDate-hasDivider {
+    padding-left: 6px;
     &::before {
       content: '';
       position: absolute;
@@ -49,7 +50,6 @@
       height: 10px;
       top: 5px;
       left: 0;
-      padding-left: 6px;
       background: var(--slategray_30);
     }
   }
