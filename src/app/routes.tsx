@@ -90,7 +90,6 @@ export const LNBRoutes = [
 
 // 도서, 아티클에 포함되지 않고 공통으로 쓰이는 페이지들
 export const CommonRoutes = [
-  RoutePaths.GUIDE,
   RoutePaths.SETTING,
   RoutePaths.VOUCHER,
   RoutePaths.MY_SELECT_HISTORY,
@@ -182,11 +181,6 @@ export const Routes: React.SFC<Props> = (props) => {
           <Route
             path={RoutePaths.NOT_AVAILABLE_BOOK}
             component={NotAvailableBook}
-            {...props}
-          />
-          <Route
-            path={RoutePaths.GUIDE}
-            component={ConnectedGuide}
             {...props}
           />
           <Route
