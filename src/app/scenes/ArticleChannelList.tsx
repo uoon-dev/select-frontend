@@ -56,7 +56,7 @@ export const ArticleChannelList: React.FunctionComponent = () => {
                         <ConnectedTrackImpression
                           section={section}
                           index={idx}
-                          id={channelMeta.id}
+                          id={`ch:${channelMeta.id}`}
                         >
                           <ArticleChannelMeta
                             idx={idx}

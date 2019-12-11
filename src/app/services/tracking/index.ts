@@ -13,7 +13,7 @@ export interface TrakcingCustomEventParams {
 }
 
 export interface TrackingArticleEventParams {
-  id: number;
+  id: number | string;
   eventName: string;
   misc?: string;
 }
