@@ -159,14 +159,17 @@ export class Settings extends React.PureComponent<SettingProps> {
       dispatchLoadOrderHistory,
       dispatchLoadSubscriptionRequest,
       dispatchUpdateGNBTabExpose,
+      subscriptionState,
     } = this.props;
 
     if (!isLoggedIn && !isFetching && !isAccountMeRetried) {
       dispatchLoadAccountMeRequest();
     }
     dispatchUpdateGNBTabExpose(false);
-    dispatchLoadSubscriptionRequest();
     dispatchLoadOrderHistory(1);
+    if (!subscriptionState) {
+      dispatchLoadSubscriptionRequest();
+    }
   }
 
   public componentWillUnmount() {

@@ -142,11 +142,14 @@ export interface SubscriptionState {
   isUsingRidipay: boolean;
   currency: string;
   monthlyPayPrice: number;
+  newMonthlyPayPrice: number;
   cardBrand: string;
   formattedMonthlyPayPrice: string;
+  formattedNewMonthlyPayPrice: string;
   maskedCardNo: string;
   cardSubscription: string[];
   pgType: string;
+  isSubscribedWithOldPrice: boolean;
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
