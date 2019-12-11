@@ -88,7 +88,7 @@ export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Ac
     const eventName = method === 'POST' ? 'Follow Channel' : 'Unfollow Channel';
     const trackingParams = {
       eventName,
-      id: Number(response.channelId),
+      id: `ch:${response.channelId}`,
     };
     yield put(TrackingActions.trackingArticleActions({ trackingParams }));
   } catch (e) {

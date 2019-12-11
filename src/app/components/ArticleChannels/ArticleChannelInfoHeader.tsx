@@ -44,7 +44,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
     dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
   }, []);
 
-  const trackingClick = (index: number, id: number) => {
+  const trackingClick = (index: number, id: string) => {
     if (!section) { return; }
 
     const trackingParams: DefaultTrackingParams = {
@@ -73,13 +73,13 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
         thumbnailClassName="ChannelInfoHeader_ChannelLink"
         linkUrl={articleChannelToPath({channelName: channelState.channelMeta.name})}
         channelName={channelState.channelMeta.name}
-        onLinkClick={() => trackingClick(0, channelState.channelMeta!.id)}
+        onLinkClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
       />
       <div className="ChannelInfoHeader_Meta">
         <Link
           className="ChannelInfoHeader_ChannelLink"
           to={articleChannelToPath({channelName: channelState.channelMeta.name})}
-          onClick={() => trackingClick(0, channelState.channelMeta!.id)}
+          onClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>
