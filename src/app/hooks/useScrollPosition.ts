@@ -2,7 +2,7 @@
  * made by jeongsik@ridi.com
  */
 import horizontalAnimateScroll from 'app/utils/scrollTo';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebouncedCallback as useDebounce } from 'use-debounce';
 
 export const useScrollPosition = (
@@ -49,12 +49,12 @@ export const useScrollPosition = (
     },
     [rafId],
   );
-  const [debouncedHScrollHandler] = useDebounce(computePosition, debounceDelay, [ref]);
-  const [debouncedResizeHandler] = useDebounce(computePosition, 500, [ref]);
+  const [debouncedHScrollHandler] = useDebounce(computePosition, debounceDelay);
+  const [debouncedResizeHandler] = useDebounce(computePosition, 500);
   useEffect(() => {
     if (window && ref.current) {
       ref.current.addEventListener('scroll', debouncedHScrollHandler);
-      ref.current.addEventListener('wheel', handleWheelEvent);
+      ref.current.addEventListener('wheel', handleWheelEvent, { passive: false });
 
       if (listenResizeEvent) {
         window.addEventListener('resize', debouncedResizeHandler);
@@ -88,5 +88,8 @@ export const useScrollPosition = (
     rafId,
   ]);
 
-  return [isOnTheLeft, isOnTheRight, horizontalScrollTo, computePosition];
+  const memoizeIsOnTheLeft = useMemo(() => isOnTheLeft, [isOnTheLeft]);
+  const memoizeIsOnTheRight = useMemo(() => isOnTheRight, [isOnTheRight]);
+
+  return [memoizeIsOnTheLeft, memoizeIsOnTheRight, horizontalScrollTo, computePosition];
 };
