@@ -1,17 +1,18 @@
 .ArticleChartList_Wrapper {
+  display: block;
   margin-top: 20px;
   padding: 0 20px;
+  white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  display: flex;
 }
 
 .ArticleChartGroup {
+  display: inline-block;
   vertical-align: top;
   margin: 0;
-  padding: 0;
-  padding-right: 20px;
+  padding: 0 20px 0 0;
   @media (--pc-screen) {
     margin-right: 20px;
     padding-right: 0px;
@@ -30,9 +31,6 @@
   & .ArticleThumbnail_Wrapper {
     width: 60px;
     align-self: center;
-  }
-  & .ArticleThumbnail_CoverImage {
-    width: 60px;
   }
 }
 
