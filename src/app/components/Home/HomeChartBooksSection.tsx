@@ -20,13 +20,14 @@ interface HomeChartBooksSectionProps {
   books: Book[];
   title: string;
   collectionId: CollectionId;
+  order: number;
 }
 
 type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
 
 export class HomeChartBooksSection extends React.Component<Props> {
   public renderCharts(contentsCount: number) {
-    const { books, trackClick } = this.props;
+    const { books, trackClick, order } = this.props;
     const section = getSectionStringForTracking('select-book', 'home', 'popular');
     return (
       <div className="HomeSection_Chart">
@@ -43,6 +44,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       section={section}
                       index={index}
                       id={book.id}
+                      misc={JSON.stringify({sect_order: order})}
                     >
                       <span className="HomeSection_ChartBookRanking">
                         {index + 1}

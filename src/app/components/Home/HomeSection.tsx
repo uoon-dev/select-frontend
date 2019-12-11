@@ -97,6 +97,7 @@ export class HomeSection extends React.Component<Props> {
           books={collectionBooks}
           title={title!}
           collectionId={id}
+          order={order}
         />
       );
     }
