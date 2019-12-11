@@ -17,11 +17,13 @@
 }
 .ChannelInfoHeader_Desc {
   margin: 2px 0 0;
+  padding-right: 5px;
   display: block;
 }
 
 .ChannelInfoHeader_Desc_AuthorName {
-  display: inline-block;
+  display: inline;
+  word-break: break-all;
   line-height: 18px;
   font-size: 12px;
   letter-spacing: -.3px;
@@ -32,9 +34,8 @@
 }
 
 .ChannelInfoHeader_Desc_PublishDate {
-  display: inline-block;
+  display: inline;
   position: relative;
-  padding-left: 6px;
   line-height: 18px;
   font-size: 12px;
   letter-spacing: -.3px;
@@ -48,6 +49,7 @@
       height: 10px;
       top: 5px;
       left: 0;
+      padding-left: 6px;
       background: var(--slategray_30);
     }
   }
