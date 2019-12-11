@@ -13,14 +13,16 @@ import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPla
 
 import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { getPageQuery } from 'app/services/routing/selectors';
-import { Actions, PurchaseHistory } from 'app/services/user';
-import { Ticket, TicketToBeCanceledWith } from 'app/services/user/requests';
+import { Actions, PurchaseHistory, SubscriptionState } from 'app/services/user';
+import { Ticket } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 
 interface OrderStateProps {
   orderHistory: PurchaseHistory;
+  subscriptionFetchStatus: FetchStatusFlag;
+  subscriptionState?: SubscriptionState | null;
   page: number;
 }
 
@@ -28,19 +30,26 @@ type Props = OrderStateProps & ReturnType<typeof mapDispatchToProps>;
 
 export class OrderHistory extends React.PureComponent<Props> {
   private handleCancelPurchaseButtonClick = (payment: Ticket) => () => {
-    const { orderHistory, dispatchCancelPurchase } = this.props;
+    const { orderHistory, dispatchCancelPurchase, subscriptionState } = this.props;
     const { id, ticketIdsToBeCanceledWith } = payment;
 
     if (orderHistory.isCancelFetching) {
       toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
+    const comfirmMessageBlocks = [];
 
-    const confirmMessage =  ticketIdsToBeCanceledWith.length > 0
-      ? '결제를 취소하시겠습니까?\n미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.'
-      : '결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.';
+    if (subscriptionState && subscriptionState.isSubscribedWithOldPrice) {
+      comfirmMessageBlocks.push(`\n결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`);
+    }
+    if (ticketIdsToBeCanceledWith.length > 0) {
+      comfirmMessageBlocks.push(`${comfirmMessageBlocks.length > 0 ? '\n\n' : '\n'}미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.`);
+    }
+    if (comfirmMessageBlocks.length <= 0) {
+      comfirmMessageBlocks.push('\n결제를 취소할 경우 즉시 이용할 수 없습니다.');
+    }
 
-    if (confirm(confirmMessage)) {
+    if (confirm(`결제를 취소하시겠습니까?${comfirmMessageBlocks.join('')}`)) {
       dispatchCancelPurchase(id);
     }
   }
@@ -146,10 +155,15 @@ export class OrderHistory extends React.PureComponent<Props> {
     const {
       dispatchLoadOrderHistory,
       dispatchUpdateGNBTabExpose,
+      dispatchLoadSubscriptionRequest,
+      subscriptionState,
       page,
     } = this.props;
     if (!this.isFetched(page)) {
       dispatchLoadOrderHistory(page);
+    }
+    if (!subscriptionState) {
+      dispatchLoadSubscriptionRequest();
     }
     dispatchUpdateGNBTabExpose(false);
   }
@@ -171,7 +185,7 @@ export class OrderHistory extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { page, orderHistory } = this.props;
+    const { page, orderHistory, subscriptionFetchStatus } = this.props;
 
     const itemCount: number = orderHistory.itemCount ? orderHistory.itemCount : 0;
     const itemCountPerPage: number = 10;
@@ -185,7 +199,9 @@ export class OrderHistory extends React.PureComponent<Props> {
         <HelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
         <ConnectedPageHeader pageTitle={PageTitleText.ORDER_HISTORY} />
         {(
-          !this.isFetched(page) || isNaN(page)
+          !this.isFetched(page) ||
+          subscriptionFetchStatus === FetchStatusFlag.FETCHING ||
+          isNaN(page)
         ) ? (
           <SubscriptionListPlaceholder />
         ) : (
@@ -222,6 +238,8 @@ export class OrderHistory extends React.PureComponent<Props> {
 const mapStateToProps = (rootState: RidiSelectState): OrderStateProps => {
   return {
     orderHistory: rootState.user.purchaseHistory,
+    subscriptionFetchStatus: rootState.user.subscriptionFetchStatus,
+    subscriptionState: rootState.user.subscription,
     page: getPageQuery(rootState),
   };
 };
@@ -229,6 +247,7 @@ const mapStateToProps = (rootState: RidiSelectState): OrderStateProps => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     dispatchLoadOrderHistory: (page: number) => dispatch(Actions.loadPurchasesRequest({ page })),
+    dispatchLoadSubscriptionRequest: () => dispatch(Actions.loadSubscriptionRequest()),
     dispatchClearPurchases: () => dispatch(Actions.clearPurchases()),
     dispatchCancelPurchase: (purchaseId: number) => dispatch(Actions.cancelPurchaseRequest({ purchaseId })),
     dispatchUpdateGNBTabExpose: (isGnbTab: boolean) => dispatch(CommonUIActions.updateGNBTabExpose({ isGnbTab })),

@@ -35,14 +35,6 @@ export const Intro: React.FunctionComponent = () => {
     };
   }, []);
 
-  const elevenMonthVoucherEventStartDate = new Date();
-  elevenMonthVoucherEventStartDate.setUTCSeconds(0);
-  elevenMonthVoucherEventStartDate.setUTCMinutes(0);
-  elevenMonthVoucherEventStartDate.setUTCHours(11 - 9);
-  elevenMonthVoucherEventStartDate.setUTCDate(18);
-  elevenMonthVoucherEventStartDate.setUTCMonth(12 - 1);
-  elevenMonthVoucherEventStartDate.setUTCFullYear(2019);
-
   const elevenMonthVoucherEventEndDate = new Date();
   elevenMonthVoucherEventEndDate.setUTCSeconds(59);
   elevenMonthVoucherEventEndDate.setUTCMinutes(59);
@@ -53,7 +45,7 @@ export const Intro: React.FunctionComponent = () => {
 
   const currentDate = new Date();
 
-  const isInEventTerm = elevenMonthVoucherEventStartDate <= currentDate && elevenMonthVoucherEventEndDate >= currentDate;
+  const isInEventTerm = elevenMonthVoucherEventEndDate >= currentDate;
   const queryString = qs.parse(location.search, { ignoreQueryPrefix: true });
 
   return (

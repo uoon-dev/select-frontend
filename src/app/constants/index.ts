@@ -59,7 +59,7 @@ export enum RoutePaths {
   ORDER_HISTORY = '/order-history',
   MY_SELECT_HISTORY = '/my-select-history',
   SEARCH_RESULT = '/search',
-  GUIDE = '/guide',
+  GUIDE = '/article/@ridiselect/5',
   AVAILABLE_BOOKS = '/books',
   INTRO = '/intro',
   NOT_AVAILABLE_BOOK = '/not-available-book',
