@@ -25,14 +25,16 @@ const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
     onClickHandler(e);
   };
   return (
-    <button
-      type={'submit'}
-      onClick={handleClick}
-      className={classNames('SlideArrowButton', arrowClass, arrowTransition ? arrowTransition : '')}
-    >
-      <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
-      <span className={'a11y'}>{props.label}</span>
-    </button>
+    <div className={classNames('ArrowButtonGradient', arrowClass, arrowTransition ? arrowTransition : '')}>
+      <button
+        type={'submit'}
+        onClick={handleClick}
+        className={'SlideArrowButton'}
+      >
+        <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
+        <span className={'a11y'}>{props.label}</span>
+      </button>
+    </div>
   );
 };
 

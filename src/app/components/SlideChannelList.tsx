@@ -12,6 +12,7 @@ import { articleChannelToPath } from 'app/utils/toPath';
 import { Method } from 'axios';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
+import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 interface SlideChannelListProps {
@@ -97,6 +98,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
           ))
         }
       </ul>
+      <MediaQuery minWidth={900}>
         <form>
           <Arrow
             label={'이전'}
@@ -113,6 +115,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
             arrowTransition={!isOnTheRight && 'arrowTransition'}
           />
         </form>
+      </MediaQuery>
     </section>
   );
 };
