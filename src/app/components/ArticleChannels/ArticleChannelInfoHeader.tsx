@@ -70,7 +70,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{ channelId?: num
     <div className="ChannelInfoHeader_Wrapper">
       <ArticleChannelThumbnail
         imageUrl={channelState.channelMeta.thumbnailUrl}
-        thumbnailClassName="ChannelInfoHeader_ChannelLink"
+        thumbnailClassName="ChannelInfoHeader_ChannelThumbnailLink"
         linkUrl={articleChannelToPath({channelName: channelState.channelMeta.name})}
         channelName={channelState.channelMeta.name}
         onLinkClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}

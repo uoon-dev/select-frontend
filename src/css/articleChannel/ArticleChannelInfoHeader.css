@@ -6,7 +6,9 @@
 .ChannelInfoHeader_ChannelLink {
   text-decoration: none;
 }
-
+.ChannelInfoHeader_Meta {
+  flex: 1;
+}
 .ChannelInfoHeader_Title {
   display: block;
   font-family: NotoSansCJKkr, sans-serif;
