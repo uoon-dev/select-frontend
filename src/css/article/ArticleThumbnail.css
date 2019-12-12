@@ -1,7 +1,7 @@
 .ArticleThumbnail_Wrapper {
   @apply --reset-layout;
 
-  width: 100%;  
+  width: 100%;
 }
 
 .ArticleThumbnail_Link {
@@ -79,7 +79,7 @@
   width: 100%;
   border-radius: 1px;
   overflow: hidden;
-  padding-top: 56.25%;  
+  padding-top: 56.25%;
   background-color: var(--gray_30);
 }
 
@@ -90,18 +90,18 @@
   fill: #e6e6e6;
   left: 50%;
   top: 50%;
-  transform: translate(-20px, -35px);  
+  transform: translate(-20px, -35px);
 }
 
 .ArticleThumbnail_BlockText {
   position: absolute;
   margin: 0;
-  font-family: NotoSansCJKkr;
+  font-family: NotoSansCJKkr, sans-serif;
   font-size: 13px;
   letter-spacing: -0.37px;
   text-align: center;
-  color: #fff;  
+  color: #fff;
   width: 100%;
   top: 50%;
-  transform: translateY(15px);  
+  transform: translateY(15px);
 }

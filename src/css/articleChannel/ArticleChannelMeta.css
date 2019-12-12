@@ -12,7 +12,7 @@
 }
 
 .ArticleChannelMeta_Title {
-  font-family: NotoSansCJKkr;
+  font-family: NotoSansCJKkr, sans-serif;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -.3px;
@@ -21,7 +21,7 @@
 .ArticleChannelMeta_Desc {
   margin-top: 2px;
   display: block;
-  font-family: NotoSansCJKkr;
+  font-family: NotoSansCJKkr, sans-serif;
   font-size: 12px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
