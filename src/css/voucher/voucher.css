@@ -40,6 +40,7 @@
 }
 
 .VoucherContent {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -47,6 +48,7 @@
   justify-content: center;
   padding: 0 30px;
   color: #fff;
+  z-index: 40;
   @media (--pc-screen) {
     width: 800px;
     margin: 0 auto;
