@@ -46,8 +46,10 @@
 }
 
 .ArticleContent_Button {
+  display: button;
   width: 100%;
   height: 40px;
+  vertical-align: middle;
 }
 
 .ArticleContent_LikeButton_Icon {
@@ -63,6 +65,7 @@
 
 .ArticleContent_ShareButton_Icon {
   width: 14px;
+  height: 14px;
   margin-right: 3px;
   fill: var(--slategray_60);
 }
