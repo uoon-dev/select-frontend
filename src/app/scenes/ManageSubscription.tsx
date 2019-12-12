@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'app/components';
-import history from 'app/config/history';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Actions as CommonUIActions } from 'app/services/commonUI';
