@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { ConnectedPageHeader, HelmetWithTitle, UnsubscribeWarningPopup } from 'app/components';
-import history from 'app/config/history';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 import { Actions as CommonUIActions } from 'app/services/commonUI';
@@ -23,29 +22,23 @@ interface ManageSubscriptionStateProps {
   isIosInApp: boolean;
 }
 
-interface ManageSubscriptionState {
-  isUnsubscribeWarningPopupActive: boolean;
-}
-
 type ManageSubscriptionProps = ManageSubscriptionStateProps & ReturnType<typeof mapDispatchToProps>;
 
-export class ManageSubscription extends React.PureComponent<ManageSubscriptionProps, ManageSubscriptionState> {
-  public state: ManageSubscriptionState = {
-    isUnsubscribeWarningPopupActive: false,
-  };
-
-  private moveToNewRelease = () => {
-    this.toggleUnsubscribeWarningPopup(false);
-    const trackingCode = '?utm_source=etc&utm_medium=etc&utm_campaign=inhouse&utm_term=unknown&utm_content=P001';
-    history.push(`/new-releases${trackingCode}`);
-  }
-
+export class ManageSubscription extends React.PureComponent<ManageSubscriptionProps> {
   private handleUnsubscribeButtonClick = () => {
-    if (this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING) {
+    const { userState, subscriptionState, dispatchUnsubscribeRequest } = this.props;
+    if (
+      userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING ||
+      (
+        subscriptionState &&
+        subscriptionState.isSubscribedWithOldPrice &&
+        !confirm(`구독 해지 예약 시 정기 결제 금액이\n${subscriptionState.formattedNewMonthlyPayPrice}으로 인상됩니다.그래도 해지를\n예약하시겠습니까?`)
+      )
+    ) {
       return;
     }
-    this.toggleUnsubscribeWarningPopup(false);
-    this.props.dispatchUnsubscribeRequest();
+
+    dispatchUnsubscribeRequest();
   }
 
   private handleCancelUnsubscriptionButtonClick = () => {
@@ -93,12 +86,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
     }
   }
 
-  public toggleUnsubscribeWarningPopup = (activeState: boolean) => {
-    this.setState({
-      isUnsubscribeWarningPopupActive: activeState,
-    });
-  }
-
   public componentDidMount() {
     if (!this.props.subscriptionState) {
       this.props.dispatchLoadSubscriptionRequest();
@@ -113,7 +100,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
   public render() {
     const { subscriptionState, environment, isIosInApp, userState } = this.props;
     const { STORE_URL } = environment;
-    const { isUnsubscribeWarningPopupActive } = this.state;
     return (
       <main
         className={classNames(
@@ -209,7 +195,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                 ) : (
                   <Button
                     className="ToggleSubscriptionButton"
-                    onClick={() => this.toggleUnsubscribeWarningPopup(true)}
+                    onClick={() => this.handleUnsubscribeButtonClick()}
                     outline={true}
                     spinner={this.props.userState.unsubscriptionFetchStatus === FetchStatusFlag.FETCHING}
                   >
@@ -238,12 +224,6 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   </p>
                 )
               }
-              <UnsubscribeWarningPopup
-                active={isUnsubscribeWarningPopupActive}
-                closeFunc={() => this.toggleUnsubscribeWarningPopup(false)}
-                moveToNewReleaseFunc={() => this.moveToNewRelease()}
-                unsubscribeFunc={() => this.handleUnsubscribeButtonClick()}
-              />
             </>
           )
           : (
