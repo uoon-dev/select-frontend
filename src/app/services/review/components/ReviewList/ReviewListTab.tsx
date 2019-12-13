@@ -10,7 +10,7 @@ export const ReviewListTab: React.SFC<ReviewListTabProps> = (props) => {
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         <ScopedTab
           tabList={tabList}
           selectedTabName={selectedTabName}

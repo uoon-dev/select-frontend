@@ -327,7 +327,7 @@ class MySelect extends React.Component<Props, State> {
                   </div>
                   {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
                 </div>
-                <MediaQuery maxWidth={840}>
+                <MediaQuery maxWidth={834}>
                   {
                     (isMobile) => <Pagination
                       currentPage={page}

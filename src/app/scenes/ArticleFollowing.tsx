@@ -100,7 +100,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
               />
             }
           </div>
-          <MediaQuery maxWidth={840}>
+          <MediaQuery maxWidth={834}>
             {(isMobile) => (
               <Pagination
                 currentPage={page}

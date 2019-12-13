@@ -142,7 +142,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
                     miscTracking={JSON.stringify({sect_page : page})}
                     books={itemListByPage[page].itemList}
                   />
-                  <MediaQuery maxWidth={840}>
+                  <MediaQuery maxWidth={834}>
                     {
                       (isMobile) => <Pagination
                         currentPage={page}

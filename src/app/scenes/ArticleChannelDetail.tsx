@@ -80,7 +80,7 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
           <GridArticleListPlaceholder />
         }
         {articleChannelData && articleChannelData.itemCount! > 0 &&
-          <MediaQuery maxWidth={840}>
+          <MediaQuery maxWidth={834}>
             {(isMobile) => (
               <Pagination
                 currentPage={page}

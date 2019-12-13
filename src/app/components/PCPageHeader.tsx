@@ -4,7 +4,7 @@ import { ConnectedPageHeader, PageHeaderOwnProps } from './PageHeader';
 
 export const PCPageHeader: React.SFC<PageHeaderOwnProps> = (props) => {
   return (
-    <MediaQuery maxWidth={840}>
+    <MediaQuery maxWidth={834}>
       {(isMobile) => isMobile
         ? <h1 className="a11y">{props.pageTitle}</h1>
         : <ConnectedPageHeader {...props} />

@@ -31,7 +31,7 @@ type Props = HomeSectionProps & HomeCollectionStateProps;
 export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
   return (
     <div className="HomeSection_Header">
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         {(isMobile) =>
           isMobile ? (
             <Link to={props.link}>
@@ -105,7 +105,7 @@ export class HomeSection extends React.Component<Props> {
     return (
       <section className="HomeSection">
         <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           {(isMobile) => (
             <ConnectedInlineHorizontalBookList
               books={collectionBooks}

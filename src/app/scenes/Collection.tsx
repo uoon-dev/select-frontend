@@ -106,7 +106,7 @@ export class Collection extends React.Component<Props> {
               miscTracking={JSON.stringify({ sect_collection_id: collection.id, sect_page: page })}
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
-            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={834}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

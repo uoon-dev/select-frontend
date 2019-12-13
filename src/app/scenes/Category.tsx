@@ -154,7 +154,7 @@ export class Category extends React.Component<Props, State> {
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           {(isMobile) => isMobile && (
             <div className="Category_Header GridBookList">
               {selectBoxTemplate}
@@ -174,7 +174,7 @@ export class Category extends React.Component<Props, State> {
             miscTracking={JSON.stringify({sect_cate_id : categoryId , sect_page : page})}
             books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
           />
-          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={834}>
             {
               (isMobile) => <Pagination
                 currentPage={page}

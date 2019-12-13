@@ -12,7 +12,7 @@ let tracker: Tracker;
 
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
-  if (document.body.clientWidth < 840) {
+  if (document.body.clientWidth < 834) {
     deviceType = DeviceType.Mobile;
   } else {
     deviceType = DeviceType.PC;

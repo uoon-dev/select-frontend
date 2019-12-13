@@ -41,7 +41,7 @@ export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = (props) => {
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         <BuyerRatingSummaryBlock
           summary={reviewSummary}
         />
