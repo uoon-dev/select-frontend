@@ -31,7 +31,7 @@ export class HomeSpotlightSection extends React.Component<Props> {
     const { books, trackImpression, collectionId } = this.props;
     const section = getSectionStringForTracking('select-book', 'home', 'spotlight');
 
-    const trackingStartIdx = sliderIdx > 0 ? sliderIdx * 5 - 1 : 0;
+    const trackingStartIdx = sliderIdx > 0 ? sliderIdx - 1 : 0;
     const trackingEndIdx =
       trackingStartIdx + 5 > books.length ? books.length : trackingStartIdx + 5;
 
