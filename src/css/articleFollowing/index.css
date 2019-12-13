@@ -88,6 +88,7 @@
   width: 40px;
   height: 40px;
   border-radius: 40px;
+  border-color: transparent;
   box-shadow: 0 0.8px 3px rgba(0, 0, 0, 0.33);
   &:hover {
     opacity: 0.6;
@@ -102,16 +103,14 @@
   opacity: 0.95;
 }
 .ArrowButtonGradient {
-  display: flex;
-  align-items: center;
-  width: 70px;
+  width: 62px;
   height: 62px;
 }
 
 .SlideArrowButton_Left {
   position: absolute;
   left: -45px;
-  top: 30px;
+  top: 35px;
   justify-content: flex-start;
   transition: opacity 0.2s;
   @media (--mobile-layout) {
@@ -128,26 +127,35 @@
     background-image: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%, white 100%);
   }
 }
+.ArrowButtonGradient_Left {
+  position: absolute;
+  left: 0px;
+  top: 27px;
+  @media (--mobile-layout) {
+    top: 12px;
+  }
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0), white 100%);  
+}
+
 .SlideArrowButton_Right {
   position: absolute;
   right: -45px;
-  top: 30px;
-  justify-content: flex-end;
+  top: 35px;
   transition: opacity 0.2s;
   @media (--mobile-layout) {
     top: 15px;
   }
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 25px;
-    height: 100%;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%, white 100%);
-  }
 }
+.ArrowButtonGradient_Right {
+  position: absolute;
+  right: 0px;
+  top: 27px;
+  @media (--mobile-layout) {
+    top: 12px;
+  }
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);  
+}
+
 .SlideArrowButtonIcon_Left {
   transform-origin: center;
   transform: rotateX(180deg) translate(-2%, 0) rotate(180deg);

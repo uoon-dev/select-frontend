@@ -3,10 +3,12 @@
  */
 import * as classNames from 'classnames';
 import * as React from 'react';
+import MediaQuery from 'react-responsive';
 
 interface ArrowProps {
   side?: 'left' | 'right';
   arrowClass: string;
+  arrowGradient: string;
   arrowTransition: boolean | string;
   label: string;
   onClickHandler: (e: React.FormEvent) => void;
@@ -19,22 +21,25 @@ const ArrowV = (props: any) => (
 );
 
 const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
-  const { arrowTransition, side, arrowClass, onClickHandler } = props;
+  const { arrowTransition, side, arrowClass, arrowGradient, onClickHandler } = props;
   const handleClick = (e: React.FormEvent) => {
     e.preventDefault();
     onClickHandler(e);
   };
   return (
-    <div className={classNames('ArrowButtonGradient', arrowClass, arrowTransition ? arrowTransition : '')}>
-      <button
-        type="button"
-        onClick={handleClick}
-        className="SlideArrowButton"
-      >
-        <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
-        <span className={'a11y'}>{props.label}</span>
-      </button>
-    </div>
+    <>
+      <div className={classNames('ArrowButtonGradient', arrowGradient, arrowTransition ? arrowTransition : '')} />
+      <MediaQuery minWidth={900}>
+        <button
+          type={'submit'}
+          onClick={handleClick}
+          className={classNames('SlideArrowButton', arrowClass, arrowTransition ? arrowTransition : '')}
+        >
+          <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
+          <span className={'a11y'}>{props.label}</span>
+        </button>
+      </MediaQuery>
+    </>
   );
 };
 
