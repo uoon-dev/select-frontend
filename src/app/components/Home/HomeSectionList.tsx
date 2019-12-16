@@ -95,7 +95,6 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
             key={spotlight.id}
             collection={spotlight}
             onScreen={true}
-            order={0}
           />
         </div>
         {collectionIdList
@@ -113,12 +112,14 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
               }}
             >
               {collectionGroup.map((collection, collectionIdx) => (
-                <ConnectedHomeSection
-                  key={collection.id}
-                  collection={collection}
-                  onScreen={renderedLastGroupIdx >= idx}
-                  order={collectionIdx + 1}
-                />
+                <>
+                  <ConnectedHomeSection
+                    key={collection.id}
+                    collection={collection}
+                    onScreen={renderedLastGroupIdx >= idx}
+                    order={idx === 0 ? collectionIdx : (idx + collectionIdx + 1)}
+                  />
+                </>
               ))}
             </div>
           ),
