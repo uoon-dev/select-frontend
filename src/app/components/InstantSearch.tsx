@@ -86,16 +86,23 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                       className="InstantSearchTitle"
                       dangerouslySetInnerHTML={{__html: article.highlight.title ? article.highlight.title : article.title}}
                     />
+                    { article.authorsInfo &&
+                      <span
+                        className="InstantSearchWriter"
+                        dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
+                          article.highlight.authorNames ? article.highlight.authorNames : article.authorsInfo[0].name,
+                          article.authorsInfo.length, 1,
+                        )}}
+                      />
+                    }
                     <span
-                      className="InstantSearchAuthor"
-                      dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
+                      className="InstantSearchChannel"
+                      dangerouslySetInnerHTML={{__html:
                         article.highlight.articleChannel &&
                         article.highlight.articleChannel.displayName ?
                         article.highlight.articleChannel.displayName :
                         article.articleChannel.displayName,
-                        getAuthorsCount(article.articleChannel.displayName),
-                        2,
-                      )}}
+                      }}
                     />
                   </Link>
                 </li>

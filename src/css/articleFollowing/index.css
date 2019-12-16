@@ -19,6 +19,7 @@
 
 .FollowingChannel_Item {
   display: inline-block;
+  vertical-align: top;
   &:last-child {
     margin-right: 0;
   }
@@ -90,6 +91,8 @@
   border-radius: 40px;
   border-color: transparent;
   box-shadow: 0 0.8px 3px rgba(0, 0, 0, 0.33);
+  margin: 0;
+  padding: 0;
   &:hover {
     opacity: 0.6;
   }
@@ -167,7 +170,7 @@
 }
 
 .arrowTransition {
-  opacity: 0;
+  opacity: 0 !important;
   pointer-events: none;
 }
 
