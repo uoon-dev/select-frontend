@@ -94,3 +94,7 @@ export function getArticleKeyFromData(article: Article | SearchResultArticle, ar
 
   return `@${channelName}/${contentIndex}`;
 }
+
+export function checkCorrectPath(path: string) {
+  return location.pathname === path;
+}
