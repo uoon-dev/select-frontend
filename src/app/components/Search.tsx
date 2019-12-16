@@ -40,7 +40,14 @@ export interface InstantSearchHighlight {
 }
 export interface InstantSearchArticleHighlight {
   title?: string;
+  authorNames?: string;
   articleChannel?: { displayName: string; };
+}
+
+export interface AuthorInfo {
+  name: string;
+  id: number;
+  isDeleted: boolean;
 }
 
 export interface InstantSearchResultBook {
@@ -54,6 +61,7 @@ export interface InstantSearchResultBook {
 export interface InstantSearchResultArticle {
   id: number;
   articleChannel: { displayName: string; id: number; name: string; };
+  authorsInfo: AuthorInfo[];
   contentId: number;
   title: string;
   highlight: InstantSearchArticleHighlight;
