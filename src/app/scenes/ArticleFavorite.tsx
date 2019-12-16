@@ -14,29 +14,35 @@ import { getFavoriteArticleList } from 'app/services/articleFavorite/selectors';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import { checkCorrectPath } from 'app/utils/utils';
 
 export const ArticleFavorite: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
 
-  const page = useSelector(getPageQuery);
   const articleItems = useSelector(getFavoriteArticleList);
   const {
+    page,
     isFetched,
     favoriteArticleFetchStatus,
     itemCount,
     hasAvailableTicket,
     unseenFeedsFetchStatus,
-  } = useSelector((state: RidiSelectState) => ({
-    isFetched: state.favoriteArticle.itemListByPage[page] ? state.favoriteArticle.itemListByPage[page].isFetched : false,
-    favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[page] ? state.favoriteArticle.itemListByPage[page].fetchStatus : FetchStatusFlag.IDLE,
-    itemCount: state.favoriteArticle && state.favoriteArticle.itemCount ? state.favoriteArticle.itemCount : 1,
-    hasAvailableTicket: state.user.hasAvailableTicket,
-    unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
-  }));
+  } = useSelector((state: RidiSelectState) => {
+    const pageFromQuery = getPageQuery(state);
+
+    return {
+      page: getPageQuery(state),
+      isFetched: state.favoriteArticle.itemListByPage[pageFromQuery] ? state.favoriteArticle.itemListByPage[pageFromQuery].isFetched : false,
+      favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[pageFromQuery] ? state.favoriteArticle.itemListByPage[pageFromQuery].fetchStatus : FetchStatusFlag.IDLE,
+      itemCount: state.favoriteArticle && state.favoriteArticle.itemCount ? state.favoriteArticle.itemCount : 1,
+      hasAvailableTicket: state.user.hasAvailableTicket,
+      unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
+    };
+  });
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (favoriteArticleFetchStatus === FetchStatusFlag.IDLE || !isFetched) {
+    if ((favoriteArticleFetchStatus === FetchStatusFlag.IDLE || !isFetched) && checkCorrectPath(RoutePaths.ARTICLE_FAVORITE)) {
       dispatch(Actions.loadFavoriteArticleListRequest({ page }));
     }
     if (hasAvailableTicket && unseenFeedsFetchStatus !== FetchStatusFlag.FETCHING) {

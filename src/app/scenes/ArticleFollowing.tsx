@@ -13,6 +13,7 @@ import { Actions } from 'app/services/articleFollowing';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import { checkCorrectPath } from 'app/utils/utils';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
@@ -51,7 +52,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
     if (channelFetchStatus === FetchStatusFlag.IDLE) {
       dispatch(Actions.loadFollowingChannelListRequest());
     }
-    if (articleFetchStatus === FetchStatusFlag.IDLE) {
+    if (articleFetchStatus === FetchStatusFlag.IDLE && checkCorrectPath(RoutePaths.ARTICLE_FOLLOWING)) {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, [page]);
