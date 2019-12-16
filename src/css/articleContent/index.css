@@ -104,9 +104,11 @@
 }
 
 .ArticleContent_GetTicketToReadButton {
+  display: block;
   width: 100%;
   max-width: 600px;
   height: 50px;
+  line-height: 48px;
 }
 
 @media (max-width: 640px) {
