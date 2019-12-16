@@ -23,17 +23,19 @@
 
 .ArticleContent_ContentWrapper {
   position: relative;
+
+  & .RidiselectArticle {
+    position: relative;
+    padding-bottom: 60px;
+    z-index: 10;
+  }
 }
 
-.RidiselectArticle {
-  position: relative;
-  z-index: 10;
-}
 
 .ArticleContent_ButtonsWrapper {
   @apply --reset-list;
 
-  padding: 60px 0;
+  padding: 0 0 60px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -95,10 +97,9 @@
 
   &.ArticleContent_GetTicketToReadButtonWrapper-publicContent {
     &.ArticleContent_GetTicketToReadButtonWrapper-sticky {
-      padding: 10px;
+      padding: 10px 20px;
       height: auto;
       background: none;
-      position: relative;
     }
   }
 }
@@ -122,7 +123,7 @@
     }
   }
   .ArticleContent_ButtonsWrapper {
-    padding: 60px 12px;
+    padding: 0 12px 60px;
   }
   .ArticleContent_GetTicketToReadButtonWrapper {
     padding: 120px 20px 0;
@@ -131,6 +132,6 @@
 
 @media (--mobile-layout) {
   .ArticleContent_ButtonsWrapper {
-    padding: 30px 12px;
+    padding: 0 12px 30px;
   }
 }
