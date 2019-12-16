@@ -28,6 +28,9 @@
     position: relative;
     padding-bottom: 60px;
     z-index: 10;
+    @media (--pc-screen) {
+      min-height: 660px;
+    }
   }
 }
 
