@@ -1,5 +1,6 @@
 import { FetchStatusFlag } from 'app/constants';
 import { BigBanner } from 'app/services/home';
+import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
@@ -7,6 +8,7 @@ export const Actions = {
   loadArticleBannerSuccess: createAction<{
     fetchedAt: number,
     response: BigBanner[],
+    isIosInApp: boolean,
   }>('loadArticleBannerSuccess'),
   loadArticleBannerFailure: createAction('loadArticleBannerFailure'),
   loadArticleHomeSectionListRequest: createAction<{
@@ -108,11 +110,13 @@ articleHomeReducer.on(Actions.loadArticleBannerRequest, (state) => {
 });
 
 articleHomeReducer.on(Actions.loadArticleBannerSuccess, (state, action) => {
-  const { response, fetchedAt } = action;
+  const { response, fetchedAt, isIosInApp } = action;
 
   return {
     ...state,
-    bigBannerList: response,
+    bigBannerList: isIosInApp
+      ? response.filter((banner) => isRidiselectUrl(banner.linkUrl))
+      : response,
     fetchedAt,
     fetchStatus: FetchStatusFlag.IDLE,
   };

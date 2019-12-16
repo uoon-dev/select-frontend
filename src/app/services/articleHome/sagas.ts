@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery, takeLeading } from 'redux-saga/effects';
 
 import { ErrorStatus } from 'app/constants/index';
 import { Actions as ArticleActions } from 'app/services/article';
@@ -9,6 +9,7 @@ import { requestBanner } from 'app/services/home/requests';
 import { ArticleRequestOrderType, ArticleRequestType } from 'app/types';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { getArticleKeyFromData } from 'app/utils/utils';
+import { getIsIosInApp } from '../environment/selectors';
 
 function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actions.loadArticleHomeSectionListRequest>) {
   const { targetSection } = payload;
@@ -38,9 +39,12 @@ function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actio
 function* loadArticleBanner() {
   try {
     const response: BigBanner[] = yield call(requestBanner, 'article');
+    const isIosInApp: boolean = yield select((s) => getIsIosInApp(s));
+
     yield put(Actions.loadArticleBannerSuccess({
       response,
       fetchedAt: Date.now(),
+      isIosInApp,
     }));
   } catch (e) {
     yield put(Actions.loadArticleBannerFailure());
