@@ -16,7 +16,8 @@ function* loadArticleHomeSectionListRequest({ payload }: ReturnType<typeof Actio
   try {
     const response: ArticleListResponse = yield call(requestArticles, {
       type: targetSection === ArticleHomeSectionType.RECOMMEND ? ArticleRequestType.RECOMMEND : undefined,
-      ordering: targetSection === ArticleHomeSectionType.POPULAR ? ArticleRequestOrderType.POPULAR : ArticleRequestOrderType.RECENT,
+      ordering: targetSection === ArticleHomeSectionType.POPULAR ? ArticleRequestOrderType.POPULAR : undefined,
+      exceptRidiChannel: targetSection === ArticleHomeSectionType.RECOMMEND || targetSection === ArticleHomeSectionType.POPULAR ? true : undefined,
     });
     yield put(ArticleActions.updateArticles({
       articles: response.results,
