@@ -4,8 +4,8 @@ import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
+import { MAX_WIDTH } from 'app/constants';
 import { FetchStatusFlag } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
@@ -31,7 +31,7 @@ type Props = HomeSectionProps & HomeCollectionStateProps;
 export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
   return (
     <div className="HomeSection_Header">
-      <MediaQuery maxWidth={834}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         {(isMobile) =>
           isMobile ? (
             <Link to={props.link}>
@@ -105,7 +105,7 @@ export class HomeSection extends React.Component<Props> {
     return (
       <section className="HomeSection">
         <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
-        <MediaQuery maxWidth={834}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => (
             <ConnectedInlineHorizontalBookList
               books={collectionBooks}

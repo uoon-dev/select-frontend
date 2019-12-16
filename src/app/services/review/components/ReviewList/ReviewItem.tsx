@@ -1,6 +1,7 @@
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
+import { MAX_WIDTH } from 'app/constants';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Review } from 'app/services/review';
 import { ReviewClosed, ReviewSpoilerAlert, StarRating } from 'app/services/review/components';
@@ -96,7 +97,7 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
     return (
       <>
         <li className="ReviewItem">
-          <MediaQuery maxWidth={834}>
+          <MediaQuery maxWidth={MAX_WIDTH}>
             {isBuyer && <StarRating rating={rating} width={60}/>}
             {isContentOpen ? (
               <ReviewContent>

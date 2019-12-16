@@ -2,8 +2,8 @@
 @custom-media --bp-2nd (width >= 360px) and (width <= 413px);
 @custom-media --bp-3rd (width >= 414px) and (width <= 599px);
 @custom-media --bp-4th (width >= 600px) and (width <= 767px);
-@custom-media --bp-5th (width >= 768px) and (width <= 834px);
-@custom-media --bp-6th (width >= 835px) and (width <= 1023px);
+@custom-media --bp-5th (width >= 768px) and (width <= 833px);
+@custom-media --bp-6th (width >= 834px) and (width <= 1023px);
 @custom-media --bp-7th (width >= 1024px);
 
 :root {

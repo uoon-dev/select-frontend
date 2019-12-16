@@ -6,7 +6,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Button, CheckBox, Empty } from '@ridi/rsg';
 
 import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
@@ -128,7 +128,7 @@ class MySelectHistory extends React.Component<Props, State> {
                 getNotAvailableConvertDateDiff(book.endDatetime) < 0 ? 'not_available' : null,
               )}
             >
-              <MediaQuery maxWidth={834}>
+              <MediaQuery maxWidth={MAX_WIDTH}>
                 {(isMobile) => (
                   <DTOBookThumbnail
                     book={book}

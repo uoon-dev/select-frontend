@@ -8,7 +8,7 @@ import { Dispatch } from 'redux';
 import { Button, Empty } from '@ridi/rsg';
 
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
 import { Actions as CommonUIActions } from 'app/services/commonUI';
@@ -120,7 +120,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const cancelableItemExists = itemList.some((item) => item.isCancellable);
     return (
       <ul className="OrderHistoryList">
-        <MediaQuery maxWidth={834}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => {
             return itemList.map((item) => (
               <li
@@ -209,7 +209,7 @@ export class OrderHistory extends React.PureComponent<Props> {
           {this.renderItems(this.props.page)}
           {itemCount > 0 &&
             <>
-              <MediaQuery maxWidth={834}>
+              <MediaQuery maxWidth={MAX_WIDTH}>
                 {(isMobile) => <Pagination
                   currentPage={page}
                   totalPages={Math.ceil(itemCount / itemCountPerPage)}

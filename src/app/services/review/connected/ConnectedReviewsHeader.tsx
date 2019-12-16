@@ -1,7 +1,4 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
-
+import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import { BuyerRatingSummaryBlock } from 'app/services/review/components';
 import { ConnectedCommentForm } from 'app/services/review/connected/ConnectedCommentForm';
 import { ConnectedCommentList } from 'app/services/review/connected/ConnectedCommentList';
@@ -11,6 +8,9 @@ import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getMyReview, getReviewSummary } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
 
 interface ReviewsHeaderProps {
   bookId: number;
@@ -41,7 +41,7 @@ export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = (props) => {
 
   return (
     <>
-      <MediaQuery maxWidth={834}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         <BuyerRatingSummaryBlock
           summary={reviewSummary}
         />
@@ -68,7 +68,7 @@ export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = (props) => {
           </ConnectedMyReview>
         </div>
       </MediaQuery>
-      <MediaQuery minWidth={841}>
+      <MediaQuery minWidth={MIN_WIDTH}>
         <div className="ReviewsHeader">
           <BuyerRatingSummaryBlock
             summary={reviewSummary}
