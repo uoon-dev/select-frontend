@@ -37,6 +37,7 @@ export interface ArticleRequestQueries {
   includes?: ArticleRequestIncludableData[];
   ordering?: ArticleRequestOrderType;
   type?: ArticleRequestType;
+  exceptRidiChannel?: boolean;
 }
 
 /*
