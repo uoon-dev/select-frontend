@@ -99,22 +99,20 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
         }
       </ul>
       <MediaQuery minWidth={900}>
-        <form>
-          <Arrow
-            label={'이전'}
-            side={'left'}
-            onClickHandler={moveLeft}
-            arrowClass="SlideArrowButton_Left"
-            arrowTransition={!isOnTheLeft && 'arrowTransition'}
-          />
-          <Arrow
-            label={'다음'}
-            side={'right'}
-            onClickHandler={moveRight}
-            arrowClass="SlideArrowButton_Right"
-            arrowTransition={!isOnTheRight && 'arrowTransition'}
-          />
-        </form>
+        <Arrow
+          label={'이전'}
+          side={'left'}
+          onClickHandler={moveLeft}
+          arrowClass="SlideArrowButton_Left"
+          arrowTransition={!isOnTheLeft && 'arrowTransition'}
+        />
+        <Arrow
+          label={'다음'}
+          side={'right'}
+          onClickHandler={moveRight}
+          arrowClass="SlideArrowButton_Right"
+          arrowTransition={!isOnTheRight && 'arrowTransition'}
+        />
       </MediaQuery>
     </section>
   );
