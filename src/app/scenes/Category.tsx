@@ -154,7 +154,7 @@ export class Category extends React.Component<Props, State> {
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
-        <MediaQuery maxWidth={MAX_WIDTH}>
+        <MediaQuery maxWidth={MAX_WIDTH + 1}>
           {(isMobile) => isMobile && (
             <div className="Category_Header GridBookList">
               {selectBoxTemplate}
