@@ -80,7 +80,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
                 isFullWidthAvailable={true}
                 gridListSizeClassNames="GridArticleList-large"
               />
-              <MediaQuery maxWidth={840}>
+              <MediaQuery maxWidth={834}>
                 {(isMobile) => (
                   <Pagination
                     currentPage={page}

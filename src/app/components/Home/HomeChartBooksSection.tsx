@@ -97,7 +97,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
     return (
       <div className="HomeSection HomeSection-horizontal-pad">
         <SectionHeader title={title} link={'/charts'} />
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12)}
         </MediaQuery>
       </div>

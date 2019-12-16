@@ -128,7 +128,7 @@ class MySelectHistory extends React.Component<Props, State> {
                 getNotAvailableConvertDateDiff(book.endDatetime) < 0 ? 'not_available' : null,
               )}
             >
-              <MediaQuery maxWidth={840}>
+              <MediaQuery maxWidth={834}>
                 {(isMobile) => (
                   <DTOBookThumbnail
                     book={book}

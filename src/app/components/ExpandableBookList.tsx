@@ -27,7 +27,7 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
       )}
     >
         <h2 className="ExpandableBookList_Title">{listTitle}</h2>
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           {(isMobile) => (
             <>
               <ConnectedInlineHorizontalBookList

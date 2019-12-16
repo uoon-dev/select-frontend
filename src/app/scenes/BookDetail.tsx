@@ -90,7 +90,7 @@ export class BookDetail extends React.Component<Props> {
       return <BookDetailPlaceholder />;
     }
     return (
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         {(isMobile) => (
           <main
             className={classNames(

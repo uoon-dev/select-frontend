@@ -96,7 +96,7 @@ export const BuyerRatingSummaryBlock: React.SFC<BuyerRatingSummaryProps> = (prop
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         <BuyerRatingSummaryDefault
           summary={summary}
         />

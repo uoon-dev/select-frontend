@@ -97,7 +97,7 @@ export class Charts extends React.Component<Props> {
               isChart={true}
               page={page}
             />
-            {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={834}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

@@ -103,7 +103,7 @@ export class NewReleases extends React.Component<Props> {
               miscTracking={JSON.stringify({ sect_page: page })}
               books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
-            {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={834}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

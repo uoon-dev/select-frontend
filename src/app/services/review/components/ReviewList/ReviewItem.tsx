@@ -96,7 +96,7 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
     return (
       <>
         <li className="ReviewItem">
-          <MediaQuery maxWidth={840}>
+          <MediaQuery maxWidth={834}>
             {isBuyer && <StarRating rating={rating} width={60}/>}
             {isContentOpen ? (
               <ReviewContent>

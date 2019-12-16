@@ -120,7 +120,7 @@ export class OrderHistory extends React.PureComponent<Props> {
     const cancelableItemExists = itemList.some((item) => item.isCancellable);
     return (
       <ul className="OrderHistoryList">
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           {(isMobile) => {
             return itemList.map((item) => (
               <li
@@ -209,7 +209,7 @@ export class OrderHistory extends React.PureComponent<Props> {
           {this.renderItems(this.props.page)}
           {itemCount > 0 &&
             <>
-              <MediaQuery maxWidth={840}>
+              <MediaQuery maxWidth={834}>
                 {(isMobile) => <Pagination
                   currentPage={page}
                   totalPages={Math.ceil(itemCount / itemCountPerPage)}

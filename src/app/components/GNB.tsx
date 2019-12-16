@@ -270,7 +270,7 @@ export class GNB extends React.Component<Props> {
     } = this.props;
 
     return (
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         {(isMobile) => (
           <header
             className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}

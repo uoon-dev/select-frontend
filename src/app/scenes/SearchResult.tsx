@@ -188,7 +188,7 @@ export class SearchResult extends React.Component<Props, State> {
                 />
               </>
             )}
-            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={834}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

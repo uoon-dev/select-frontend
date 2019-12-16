@@ -81,7 +81,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
           onChange={this.onChangeReviewContent}
           isDisabled={isDisabled}
         />
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={834}>
           <div className="ReviewForm_SubInputs">
             <SpoilerCheckbox
               isChecked={hasSpoiler}

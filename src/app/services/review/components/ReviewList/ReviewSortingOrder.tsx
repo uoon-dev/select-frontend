@@ -16,7 +16,7 @@ export const ReviewSortingOrder: React.SFC<ReviewSortingOrderProps> = (props) =>
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={834}>
         <RSGTab
           tabList={sortingCriteriaList.map(
             (key: ReviewSortingCriteria) => ({ name: key, displayName: reviewSortingCriteriaMap[key] }),

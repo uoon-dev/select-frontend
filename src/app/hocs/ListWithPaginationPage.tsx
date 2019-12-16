@@ -77,7 +77,7 @@ export class ListWithPaginationPage extends React.Component<Props> {
               <h2 className="a11y">{page} 페이지</h2>
               {renderItems(page)}
             </section>
-            {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={834}>
               {(isMobile) => <Pagination
                 currentPage={page}
                 isMobile={isMobile}
