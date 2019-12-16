@@ -7,7 +7,7 @@ import { ConnectedSearch } from 'app/components/Search';
 import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
 
-import { RoutePaths } from 'app/constants';
+import { MAX_WIDTH, RoutePaths } from 'app/constants';
 import {
   getBackgroundColorRGBString,
   getGNBType,
@@ -270,7 +270,7 @@ export class GNB extends React.Component<Props> {
     } = this.props;
 
     return (
-      <MediaQuery maxWidth={834}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         {(isMobile) => (
           <header
             className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}

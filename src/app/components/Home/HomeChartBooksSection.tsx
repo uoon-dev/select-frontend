@@ -6,6 +6,7 @@ import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
 import { DTOBookThumbnail } from 'app/components';
+import { MAX_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 import { CollectionId } from 'app/services/collection';
 import { groupChartBooks } from 'app/services/home/uitls';
@@ -97,7 +98,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
     return (
       <div className="HomeSection HomeSection-horizontal-pad">
         <SectionHeader title={title} link={'/charts'} />
-        <MediaQuery maxWidth={834}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12)}
         </MediaQuery>
       </div>

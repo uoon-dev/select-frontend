@@ -4,7 +4,7 @@ import MediaQuery from 'react-responsive';
 
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
-import { PageTitleText } from 'app/constants';
+import { MAX_WIDTH, PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Category as CategoryState, CategoryCollectionState } from 'app/services/category';
@@ -154,7 +154,7 @@ export class Category extends React.Component<Props, State> {
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
-        <MediaQuery maxWidth={834}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => isMobile && (
             <div className="Category_Header GridBookList">
               {selectBoxTemplate}
@@ -174,7 +174,7 @@ export class Category extends React.Component<Props, State> {
             miscTracking={JSON.stringify({sect_cat_id : categoryId , sect_page : page})}
             books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
           />
-          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={834}>
+          {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
             {
               (isMobile) => <Pagination
                 currentPage={page}

@@ -98,7 +98,7 @@
   }
 }
 
-@media (--pc-screen) {
+@media (min-width: 835px) {
   .LnbMenu_List {
     box-sizing: border-box;
     display: block;

@@ -6,7 +6,7 @@ import { Empty } from '@ridi/rsg';
 
 import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { Tab, Tabs } from 'app/components/Tabs';
-import { PageTitleText, RoutePaths } from 'app/constants';
+import { MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
@@ -142,7 +142,7 @@ export class ClosingReservedBooks extends React.Component<Props> {
                     miscTracking={JSON.stringify({sect_page : page})}
                     books={itemListByPage[page].itemList}
                   />
-                  <MediaQuery maxWidth={834}>
+                  <MediaQuery maxWidth={MAX_WIDTH}>
                     {
                       (isMobile) => <Pagination
                         currentPage={page}

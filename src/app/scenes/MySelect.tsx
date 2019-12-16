@@ -7,7 +7,7 @@ import { Dispatch } from 'redux';
 import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
@@ -327,7 +327,7 @@ class MySelect extends React.Component<Props, State> {
                   </div>
                   {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
                 </div>
-                <MediaQuery maxWidth={834}>
+                <MediaQuery maxWidth={MAX_WIDTH}>
                   {
                     (isMobile) => <Pagination
                       currentPage={page}

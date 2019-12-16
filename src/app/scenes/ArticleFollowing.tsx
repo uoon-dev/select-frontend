@@ -6,7 +6,7 @@ import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SlideChannelList } from 'app/components/SlideChannelList';
-import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { Actions } from 'app/services/articleFollowing';
@@ -100,7 +100,7 @@ export const ArticleFollowing: React.FunctionComponent = () => {
               />
             }
           </div>
-          <MediaQuery maxWidth={834}>
+          <MediaQuery maxWidth={MAX_WIDTH}>
             {(isMobile) => (
               <Pagination
                 currentPage={page}

@@ -7,7 +7,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { GridArticleList } from 'app/components/GridArticleList';
-import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleFavorite';
 import { getFavoriteArticleList } from 'app/services/articleFavorite/selectors';
@@ -80,7 +80,7 @@ export const ArticleFavorite: React.FunctionComponent = () => {
                 isFullWidthAvailable={true}
                 gridListSizeClassNames="GridArticleList-large"
               />
-              <MediaQuery maxWidth={834}>
+              <MediaQuery maxWidth={MAX_WIDTH}>
                 {(isMobile) => (
                   <Pagination
                     currentPage={page}

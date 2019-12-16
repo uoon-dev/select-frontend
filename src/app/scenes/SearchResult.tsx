@@ -2,6 +2,7 @@ import { Button, Icon } from '@ridi/rsg';
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { SearchResultArticleList } from 'app/components/SearchResult/SearchResultArticleList';
 import { ConnectedSearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
+import { MAX_WIDTH } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { AppStatus } from 'app/services/app';
 import { ArticlesState } from 'app/services/article';
@@ -188,7 +189,7 @@ export class SearchResult extends React.Component<Props, State> {
                 />
               </>
             )}
-            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={834}>
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

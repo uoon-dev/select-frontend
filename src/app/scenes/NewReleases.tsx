@@ -6,7 +6,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
-import { PageTitleText } from 'app/constants';
+import { MAX_WIDTH, PageTitleText } from 'app/constants';
 
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
@@ -103,7 +103,7 @@ export class NewReleases extends React.Component<Props> {
               miscTracking={JSON.stringify({ sect_page: page })}
               books={newReleases.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
-            {itemCount > 0 && <MediaQuery maxWidth={834}>
+            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}
