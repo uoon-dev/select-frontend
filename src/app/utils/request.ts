@@ -48,6 +48,9 @@ export function buildArticleRequestQueriesToString(requestQueries?: ArticleReque
   if (requestQueries && requestQueries.type) {
     queries.push(`type=${requestQueries.type}`);
   }
+  if (requestQueries && requestQueries.exceptRidiChannel) {
+    queries.push(`except_ridi=1`);
+  }
 
   return queries.length > 0 ? `?${queries.join('&')}` : '';
 }
