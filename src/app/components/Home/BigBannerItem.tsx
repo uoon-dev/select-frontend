@@ -1,4 +1,3 @@
-import { EnvironmentState } from 'app/services/environment';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 import * as React from 'react';

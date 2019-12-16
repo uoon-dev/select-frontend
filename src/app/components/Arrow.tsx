@@ -27,9 +27,9 @@ const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
   return (
     <div className={classNames('ArrowButtonGradient', arrowClass, arrowTransition ? arrowTransition : '')}>
       <button
-        type={'submit'}
+        type="button"
         onClick={handleClick}
-        className={'SlideArrowButton'}
+        className="SlideArrowButton"
       >
         <ArrowV className={classNames(side === 'left' ? 'SlideArrowButtonIcon_Left' : 'SlideArrowButtonIcon_Right')} />
         <span className={'a11y'}>{props.label}</span>
