@@ -31,7 +31,7 @@ const Arrow: React.FunctionComponent<ArrowProps> = (props) => {
       <div className={classNames('ArrowButtonGradient', arrowGradient, arrowTransition ? arrowTransition : '')} />
       <MediaQuery minWidth={900}>
         <button
-          type={'submit'}
+          type="button"
           onClick={handleClick}
           className={classNames('SlideArrowButton', arrowClass, arrowTransition ? arrowTransition : '')}
         >
