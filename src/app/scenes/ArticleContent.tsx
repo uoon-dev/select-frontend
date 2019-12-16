@@ -22,6 +22,8 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
 
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
   const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
+  const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
+
   React.useEffect(() => {
     if (
       articleState &&
@@ -53,15 +55,19 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
         <ArticleContentComponent
           contentKey={contentKey}
         />
-        {hasAvailableTicket ? (
-          <ArticleContentBottomButtons
-            contentKey={contentKey}
-          />
-        ) : (
-          <ArticleContentGetTicketToRead
-            contentKey={contentKey}
-          />
-        )}
+        {!articleState || !articleState.content || ticketFetchStatus === FetchStatusFlag.FETCHING ?
+          null : (
+            hasAvailableTicket ? (
+              <ArticleContentBottomButtons
+                contentKey={contentKey}
+              />
+            ) : (
+              <ArticleContentGetTicketToRead
+                contentKey={contentKey}
+              />
+            )
+          )
+        }
       </div>
     </main>
   );
