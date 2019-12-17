@@ -19,7 +19,7 @@ export interface FollowingArticleListResponse {
 export interface UnseenFollowingFeedsResponse {
   totalPage: number;
   totalCount: number;
-  result: number[];
+  results: number[];
 }
 
 export interface SetAllFollowingFeedsToSeenResponse {

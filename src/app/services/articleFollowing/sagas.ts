@@ -59,7 +59,7 @@ function* loadFollowingArticleList({ payload }: ReturnType<typeof Actions.loadFo
 function* loadUnseenFollowingFeedsRequest() {
   try {
     const response: UnseenFollowingFeedsResponse = yield call(requestUnseenFollowingFeeds);
-    yield put(Actions.loadUnseenFollowingFeedsSuccess({ unSeenFeedList: response.result }));
+    yield put(Actions.loadUnseenFollowingFeedsSuccess({ unSeenFeedList: response.results }));
   } catch (e) {
     yield put(Actions.setUnseenFollowingFeedsToSeenFailure());
   }
