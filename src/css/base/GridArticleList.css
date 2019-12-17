@@ -137,6 +137,7 @@
     }
     & .GridArticleItem_Meta {
       padding: 10px 10px 0;
+      overflow: hidden;
     }
   }
 }

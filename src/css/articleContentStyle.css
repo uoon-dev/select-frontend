@@ -243,6 +243,11 @@
     max-width: 100%;
     height: auto;
     margin: 0 auto;
+
+    &.emoji {
+      display: inline;
+      width: 1em;
+    }
   }
 
   & figcaption {
