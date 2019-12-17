@@ -2,7 +2,6 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { MAX_WIDTH } from 'app/constants';
-import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Review } from 'app/services/review';
 import { ReviewClosed, ReviewSpoilerAlert, StarRating } from 'app/services/review/components';
 import { ReviewButtons } from 'app/services/review/components/ReviewList/ReviewButtons';

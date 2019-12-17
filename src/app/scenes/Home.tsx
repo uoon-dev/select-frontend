@@ -8,7 +8,7 @@ import { HelmetWithTitle } from 'app/components';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
 import { PageTitleText } from 'app/constants';
-import { Actions as CollectionActions, CollectionId, CollectionsState } from 'app/services/collection';
+import { Actions as CollectionActions, CollectionId } from 'app/services/collection';
 import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';

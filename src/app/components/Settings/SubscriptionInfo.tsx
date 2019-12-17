@@ -150,6 +150,22 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
     );
   }
 
+  private renderAddCardButton() {
+    const { BASE_URL_STORE, isIosInApp } = this.props;
+
+    return isIosInApp ? null : (
+      <Button
+        className="SubscribeToUseButton"
+        component="a"
+        color="blue"
+        size="large"
+        href={`${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.href)}`}
+      >
+        카드 등록하기
+      </Button>
+    );
+  }
+
   public render() {
     const { subscriptionState, hasAvailableTicket } = this.props;
     return (
