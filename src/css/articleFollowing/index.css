@@ -108,6 +108,9 @@
 .ArrowButtonGradient {
   width: 62px;
   height: 62px;
+  @media (--mobile-layout) {
+    display: none;
+  }  
 }
 
 .SlideArrowButton_Left {
