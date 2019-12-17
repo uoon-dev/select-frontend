@@ -126,10 +126,7 @@ articleFollowReducer.on(Actions.loadUnseenFollowingFeedsRequest, (state) => ({
 
 articleFollowReducer.on(Actions.loadUnseenFollowingFeedsSuccess, (state, { unSeenFeedList }) => ({
   ...state,
-  unseenFeeds: {
-    ...state.unseenFeeds,
-    ...unSeenFeedList,
-  },
+  unseenFeeds: state.unseenFeeds ? state.unseenFeeds.concat(unSeenFeedList) : unSeenFeedList,
   unseenFeedsFetchStatus: FetchStatusFlag.IDLE,
 }));
 
