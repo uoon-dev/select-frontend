@@ -16,7 +16,6 @@ export interface PrivateRouteProps extends RouteProps {
   ticketFetchStatus: FetchStatusFlag;
   isLoggedIn: boolean;
   BASE_URL_STORE: string;
-  ticketFetchStatus: FetchStatusFlag;
   hasAvailableTicket: boolean;
   routeBlockLevel?: RouteBlockLevel;
 }
