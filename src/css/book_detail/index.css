@@ -525,11 +525,11 @@
   justify-content: center;
   width: 90%;
   margin: 0 auto;
-  @media (min-width: 414px) and (max-width: 840px) {
+  @media (min-width: 414px) and (max-width: 834px) {
     width: 70%;
     max-width: 400px;
   }
-  @media (--pc-screen) {
+  @media (--pc-layout) {
     width: 400px;
   }
 }

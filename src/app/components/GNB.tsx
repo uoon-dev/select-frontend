@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
+import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
 
-import { RoutePaths } from 'app/constants';
+import { MAX_WIDTH, RoutePaths } from 'app/constants';
 import {
   getBackgroundColorRGBString,
   getGNBType,
@@ -29,13 +30,34 @@ interface Props {
   BASE_URL_RIDISELECT: string;
   LIBRARY_URL: string;
   isFetching: boolean;
+  isGnbTab: boolean;
   isInApp: boolean;
   isIosInApp: boolean;
   isAndroidInApp: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
   isSimpleGNB: boolean;
+  appStatus: AppStatus;
 }
+
+interface GNBTab {
+  name: string;
+  classname: string;
+  pathname: string;
+}
+
+const GNBTabMenus: GNBTab[] = [
+  {
+    name: '도서',
+    classname: 'Books',
+    pathname: RoutePaths.HOME,
+  },
+  {
+    name: '아티클',
+    classname: 'Articles',
+    pathname: RoutePaths.ARTICLE_HOME,
+  },
+];
 
 export class GNB extends React.Component<Props> {
   private renderServiceLink() {
@@ -62,8 +84,14 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderGNBLogo() {
+    const { appStatus } = this.props;
+    const GNBLogoLink = appStatus === AppStatus.Articles ? RoutePaths.ARTICLE_HOME : RoutePaths.HOME;
+
     return (
-      <Link className="GNBLogoWrapper" to={RoutePaths.HOME}>
+      <Link
+        className="GNBLogoWrapper"
+        to={GNBLogoLink}
+      >
         <Icon
           name="logo_ridiselect_1"
           className="GNBLogo"
@@ -73,11 +101,44 @@ export class GNB extends React.Component<Props> {
     );
   }
 
+  private renderGNBTab() {
+    const {
+      isGnbTab,
+      backgroundColorRGBString,
+      appStatus,
+    } = this.props;
+
+    return isGnbTab && (
+      <nav
+        className={'GnbTab_Wrapper'}
+        style={{ backgroundColor: backgroundColorRGBString }}
+      >
+        <h2 className="a11y">GNB 탭 메뉴</h2>
+        <ul className="GnbTab_List">
+          {GNBTabMenus.map((menu) => (
+            <li className={`GnbTab_Item GnbTab_${menu.classname}`} key={menu.pathname}>
+              <Link
+                className={classNames(['GnbTab_Link', menu.classname === appStatus && 'GnbTab_Link-active'])}
+                to={menu.pathname}
+              >
+                <h3 className="reset-heading">{menu.name}</h3>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  }
+
   private renderSettingButton() {
-    const { isIosInApp } = this.props;
+    const { gnbType, isIosInApp } = this.props;
 
     return (
-      <Link className="GNBSettingButton" to="/settings" key="gnb-setting-link-button">
+      <Link
+        className={classNames('GNBSettingButton', gnbType === 'dark' && 'GNBSettingDarkColor')}
+        to="/settings"
+        key="gnb-setting-link-button"
+      >
         <h2 className="a11y">셀렉트 관리</h2>
         {isIosInApp ? (
           // TODO: iosInApp 용 아이콘. 이 외에 사용할 곳이 없어서 별도로 처리할지? 그냥 둘지?
@@ -89,7 +150,7 @@ export class GNB extends React.Component<Props> {
           >
             <g
               transform="translate(2.000000, 2.000000)"
-              stroke="#339CF2"
+              stroke="#2E3847"
               strokeWidth="1.5"
               fill="none"
               fillRule="evenodd"
@@ -116,7 +177,7 @@ export class GNB extends React.Component<Props> {
     return (
       <a
         href={LIBRARY_URL}
-        className="GNB_LinkButton GNB_WebLibrary_Button"
+        className={classNames('GNB_LinkButton', 'GNB_WebLibrary_Button')}
         key="gnb-web-library-link-button"
       >
       내 서재
@@ -125,9 +186,7 @@ export class GNB extends React.Component<Props> {
   }
 
   private renderLoginButton() {
-    const {
-      isInApp,
-    } = this.props;
+    const { isInApp } = this.props;
 
     if (isInApp) {
       // TODO: 안드로이드 인앱에서 postRobot을 지원하기 전까지는 Toast 메세지를 띄우거나 버튼을 숨김처리.
@@ -191,39 +250,60 @@ export class GNB extends React.Component<Props> {
     );
   }
 
-  private renderGNBSearchButton() {
+  private renderGNBSearchButton(isMobile: boolean) {
     const {
       isSimpleGNB,
+      appStatus,
     } = this.props;
-    return isSimpleGNB ? null : (
-      <MediaQuery maxWidth={840}>
-        {(matches) => <ConnectedSearch isMobile={matches} />}
-      </MediaQuery>
+    return isSimpleGNB || appStatus === AppStatus.Common ? null : (
+      <ConnectedSearch isMobile={isMobile} />
     );
   }
 
   public render() {
     const {
       gnbType,
+      isInApp,
+      isGnbTab,
+      isSimpleGNB,
       backgroundColorRGBString,
     } = this.props;
 
     return (
-      <header
-        className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
-        style={{ backgroundColor: backgroundColorRGBString }}
-      >
-        <div className="GNBContentWrapper">
-          <div className="GNBLeft">
-            {this.renderGNBLogo()}
-            {this.renderServiceLink()}
-          </div>
-          <div className="GNBRight">
-            {this.renderGNBSearchButton()}
-            {this.renderGNBAccountButtons()}
-          </div>
-        </div>
-      </header>
+      <MediaQuery maxWidth={MAX_WIDTH}>
+        {(isMobile) => (
+          <header
+            className={classNames('GNBWrapper', `GNBWrapper-${gnbType}`)}
+            style={{ backgroundColor: backgroundColorRGBString }}
+          >
+            <div className="GNBContentWrapper">
+              <div className="GNBLeft">
+                {isInApp && !isSimpleGNB ? (
+                  isGnbTab ? (
+                    this.renderGNBTab()
+                  ) : (
+                    this.renderGNBLogo()
+                  )
+                ) : (
+                  <>
+                    {this.renderGNBLogo()}
+                    {this.renderServiceLink()}
+                  </>
+                )}
+              </div>
+              <div className="GNBRight">
+                {this.renderGNBSearchButton(isMobile)}
+                {this.renderGNBAccountButtons()}
+              </div>
+            </div>
+            {isInApp || isSimpleGNB ? null : (
+              <div className="GNBTab ">
+                {this.renderGNBTab()}
+              </div>
+            )}
+          </header>
+        )}
+      </MediaQuery>
     );
   }
 }
@@ -241,6 +321,8 @@ const mapStateToProps = (rootState: RidiSelectState) => ({
   isIosInApp: getIsIosInApp(rootState),
   isAndroidInApp: getIsAndroidInApp(rootState),
   isSimpleGNB: getIsSimpleGNB(rootState),
+  isGnbTab: rootState.commonUI.isGnbTab,
+  appStatus: rootState.app.appStatus,
 });
 
 export const ConnectedGNB = connect(mapStateToProps)(GNB);

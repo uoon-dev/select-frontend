@@ -10,13 +10,17 @@ import { ErrorResponseStatus } from 'app/services/serviceStatus';
 
 import history from 'app/config/history';
 import {
+  ArticleChannelDetail,
+  ArticleChannelList,
+  ArticleFavorite,
+  ArticleFollowing,
+  ArticleHome,
   ConnectedBookDetail,
   ConnectedCategory,
   ConnectedCharts,
   ConnectedClosingReservedBooks,
   ConnectedCollection,
   ConnectedErrorPage,
-  ConnectedGuide,
   ConnectedHome,
   ConnectedManageSubscription,
   ConnectedMySelect,
@@ -31,22 +35,31 @@ import {
   WrongLocation,
 } from 'app/scenes';
 
-import { RoutePaths } from 'app/constants';
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import {
+  ConnectedAppManager,
   ConnectedPrivateRoute,
-  ConnectedScrollManager,
   RouteBlockLevel,
 } from 'app/hocs';
+import { ArticleContent } from 'app/scenes/ArticleContent';
+import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { selectIsInApp } from './services/environment/selectors';
 
 export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
   hasAvailableTicket: boolean;
+  BASE_URL_STORE: string;
   errorResponseState?: ErrorResponseStatus;
+  ticketFetchStatus: FetchStatusFlag;
 }
+
+export const HomeRoutes = [
+  RoutePaths.HOME,
+  RoutePaths.ARTICLE_HOME,
+];
 
 export const inAppGnbRoutes = [
   RoutePaths.HOME,
@@ -55,6 +68,11 @@ export const inAppGnbRoutes = [
   RoutePaths.MY_SELECT,
   RoutePaths.SEARCH_RESULT,
   RoutePaths.INTRO,
+  // Article
+  RoutePaths.ARTICLE_HOME,
+  RoutePaths.ARTICLE_FOLLOWING,
+  RoutePaths.ARTICLE_CHANNELS,
+  RoutePaths.ARTICLE_FAVORITE,
 ];
 
 export const LNBRoutes = [
@@ -62,6 +80,20 @@ export const LNBRoutes = [
   RoutePaths.NEW_RELEASE,
   RoutePaths.CATEGORY,
   RoutePaths.MY_SELECT,
+  /* 셀렉트 2.0 - 아티클 */
+  RoutePaths.ARTICLE_HOME,
+  RoutePaths.ARTICLE_FOLLOWING,
+  RoutePaths.ARTICLE_CHANNELS,
+  RoutePaths.ARTICLE_FAVORITE,
+];
+
+// 도서, 아티클에 포함되지 않고 공통으로 쓰이는 페이지들
+export const CommonRoutes = [
+  RoutePaths.SETTING,
+  RoutePaths.VOUCHER,
+  RoutePaths.MY_SELECT_HISTORY,
+  RoutePaths.ORDER_HISTORY,
+  RoutePaths.MANAGE_SUBSCRIPTION,
 ];
 
 export const PrimaryRoutes = [
@@ -71,10 +103,9 @@ export const PrimaryRoutes = [
 
 export const Routes: React.SFC<Props> = (props) => {
   const { errorResponseState } = props;
-
   return !errorResponseState ? (
     <ConnectedRouter history={history}>
-      <ConnectedScrollManager>
+      <ConnectedAppManager>
         <Route
           render={({ location }) => (
             (!props.isRidiApp || (inAppGnbRoutes.includes(location.pathname as RoutePaths))) && <ConnectedGNB />
@@ -87,6 +118,7 @@ export const Routes: React.SFC<Props> = (props) => {
         />
         <Switch>
           <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Redirect exact={true} from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
           <Route
             path={RoutePaths.HOME}
             component={ConnectedHome}
@@ -151,15 +183,45 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
           <Route
-            path={RoutePaths.GUIDE}
-            component={ConnectedGuide}
-            {...props}
-          />
-          <Route
             path={RoutePaths.CLOSING_RESERVED_BOOKS}
             component={ConnectedClosingReservedBooks}
             {...props}
           />
+
+          {/* 셀렉트 2.0 - Article */}
+          <Route
+            path={RoutePaths.ARTICLE_HOME}
+            component={ArticleHome}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_CHANNELS}
+            component={ArticleChannelList}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
+            component={ArticleChannelDetail}
+            {...props}
+          />
+          <Route
+            path={RoutePaths.ARTICLE_CONTENT}
+            component={ArticleContent}
+            {...props}
+          />
+          <ConnectedPrivateRoute
+            path={RoutePaths.ARTICLE_FOLLOWING}
+            component={ArticleFollowing}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+            {...props}
+          />
+          <ConnectedPrivateRoute
+            path={RoutePaths.ARTICLE_FAVORITE}
+            component={ArticleFavorite}
+            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+            {...props}
+          />
+
           <Route
             path={RoutePaths.INTRO}
             exact={true}
@@ -183,8 +245,11 @@ export const Routes: React.SFC<Props> = (props) => {
             {...props}
           />
         </Switch>
+        <Route
+          render={({ location }) => (HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />)}
+        />
         {!props.isRidiApp && <ConnectedFooter />}
-      </ConnectedScrollManager>
+      </ConnectedAppManager>
     </ConnectedRouter>
   ) : <ConnectedErrorPage />;
 };
@@ -193,8 +258,10 @@ const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
   isFetching: rootState.user.isFetching,
+  BASE_URL_STORE: rootState.environment.STORE_URL,
   hasAvailableTicket: rootState.user.hasAvailableTicket,
   errorResponseState: rootState.serviceStatus.errorResponseState,
+  ticketFetchStatus: rootState.user.ticketFetchStatus,
 });
 
 export const ConnectedRoutes = connect(mapStateToProps)(Routes);

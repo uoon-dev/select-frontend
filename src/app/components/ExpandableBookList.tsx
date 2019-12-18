@@ -4,6 +4,7 @@ import MediaQuery from 'react-responsive';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components';
 import { Expander } from 'app/components/BookDetail/Expander';
+import { MAX_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 
 interface ExpandableBookListProps {
@@ -27,11 +28,12 @@ export const ExpandableBookList: React.FunctionComponent<ExpandableBookListProps
       )}
     >
         <h2 className="ExpandableBookList_Title">{listTitle}</h2>
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => (
             <>
               <ConnectedInlineHorizontalBookList
                 books={(isExpanded || isMobile) ? books : books.slice(0, 6)}
+                serviceTitleForTracking="select-book"
                 uiPartTitleForTracking={uiPartTitleForTracking}
                 disableInlineOnPC={isExpanded}
                 renderAuthor={false}

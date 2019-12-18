@@ -21,6 +21,7 @@ module.exports = (env, argv) => ({
       './src/app/index.tsx',
       './src/css/main.css',
     ],
+    articleContentStyle: './src/css/articleContentStyle.css'
   },
   output: {
     filename: '[name].[hash].js',
@@ -112,7 +113,7 @@ module.exports = (env, argv) => ({
       silent: true,
     }),
   ],
-  devtool: argv.mode !== 'production' ?  'cheap-module-eval-source-map' : 'cheap-source-map',
+  devtool: argv.mode === 'production' ? 'cheap-source-map' : !argv.liveReload ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
   devServer: {
     compress: true,
     disableHostCheck: true,

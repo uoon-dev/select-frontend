@@ -2,14 +2,16 @@ import * as React from 'react';
 import Lazyload from 'react-lazyload';
 
 import { DefaultLazyloadPlaceholder } from 'app/components/BookThumbnail/DefaultLazyloadPlaceholder';
-import { getThumbnailHeight } from 'app/components/BookThumbnail/helpers';
-import { ThumbnailSize } from 'app/components/BookThumbnail/types';
+import { getThumbnailHeight as getBookThumbnailHeight } from 'app/components/BookThumbnail/helpers';
+import { ThumbnailSize as BookThumbnailSize } from 'app/components/BookThumbnail/types';
+import { ContentsType } from 'app/constants';
 
 export interface LazyloadWrapperProps {
-  width: ThumbnailSize;
+  width: BookThumbnailSize;
   lazyload: boolean;
   placeholder?: JSX.Element;
   hasOverflowWrapper?: boolean;
+  contentsType?: ContentsType;
 }
 
 export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
@@ -24,7 +26,7 @@ export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
 
     const sizeStyle = {
       width,
-      height: getThumbnailHeight(width),
+      height: getBookThumbnailHeight(width as BookThumbnailSize),
     };
 
     return lazyload ? (
@@ -35,19 +37,14 @@ export class LazyloadWrapper extends React.Component<LazyloadWrapperProps> {
         throttle={true}
         resize={true}
         overflow={hasOverflowWrapper}
-        placeholder={
-          placeholder ||
-          <DefaultLazyloadPlaceholder size={sizeStyle} />
-        }
+        placeholder={placeholder || <DefaultLazyloadPlaceholder size={sizeStyle} />}
       >
         <div className="RSGBookThumbnail_Wrapper-lazyloaded">
           {children}
         </div>
       </Lazyload>
     ) : (
-      <>
-        {children}
-      </>
+      <>{children}</>
     );
   }
 }

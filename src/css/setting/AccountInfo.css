@@ -129,49 +129,6 @@
   top: 150px;
 }
 
-.UnsubscribeWarningPopup_Title {
-  margin: 40px 0 0;
-  color: #000;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1em;
-  text-align: center;
-  & .Warning_Icon {
-    width: 17px;
-    height: 17px;
-    margin-right: 6px;
-    vertical-align: top;
-    fill: var(--slategray_60);
-  }
-}
-
-.UnsubscribeWarningPopup_Text {
-  margin: 0;
-  padding-top: 14px;
-  color: var(--slategray_60);
-  font-size: 15px;
-  line-height: 23px;
-  text-align: center;
-}
-.UnsubscribeWarningPopup_ButtonGroup {
-  width: 200px;
-  margin: 20px auto 0;
-}
-.MoveToNewRelease_Button,
-.Unsubscribe_Button {
-  display: block;
-  align-items: initial;
-  justify-content: initial;
-  width: 100%;
-  text-align: center;
-  pointer-events: all;
-  vertical-align: middle;
-}
-
-.Unsubscribe_Button {
-  margin-top: 6px;
-}
-
 @media (--pc-screen) {
   .PageSetting {
     & .PageHeader {

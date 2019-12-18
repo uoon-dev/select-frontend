@@ -11,9 +11,14 @@ export * from './OrderHistory';
 export * from './SearchResult';
 export * from './Collection';
 export * from './Settings';
-export * from './Guide';
 export * from './Intro';
 export * from './NotAvailableBook';
 export * from './ClosingReservedBooks';
 export * from './WrongLocation';
 export * from './Voucher';
+
+export * from './ArticleHome';
+export * from './ArticleFollowing';
+export * from './ArticleChannelList';
+export * from './ArticleFavorite';
+export * from './ArticleChannelDetail';

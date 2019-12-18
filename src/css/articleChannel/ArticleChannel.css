@@ -1,0 +1,112 @@
+.ArticleChannelMeta_Wrap {
+  padding: 30px 20px 10px;
+  @media (--pc-screen) {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 12px 40px;
+  }
+  @media (min-width: 600px) {
+    display: flex;
+  }
+  & .ArticleChannel_Thumbnail {
+    position: relative;
+    margin-right: 18px;
+    & .ArticleChannel_Image {
+      width: 80px;
+      height: 80px;
+      box-sizing: border-box;
+      border-radius: 999px;
+      object-fit: cover;
+    }
+
+    & .ArticleChannel_ImageShadow {
+      position: absolute;
+      content: '';
+      width: 80px;
+      height: 80px;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: 999px;
+      display: block;
+    }
+  }
+  & .Channel_FollowButton {
+    width: 100px;
+    margin-top: 10px;
+  }
+}
+
+.ArticleChannel_Meta {
+  @media (max-width: 600px) {
+    margin-top: 10px;
+  }
+}
+
+.ArticleChannel_Meta_Title {
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.5px;
+  color: var(--gray_100);
+  margin: 0;
+  padding: 0;
+}
+
+.ArticleChannel_Meta_Desc {
+  margin: 0;
+  margin-top: 10px;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_90);
+  line-height: 1.5em;
+  white-space: pre-line;
+}
+
+
+.ArticleChannel_Meta_Serial {
+  display: block;
+  margin-top: 4px;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_50);
+}
+
+.ArticleChannel_Meta_Following {
+  display: block;
+  margin-top: 10px;
+  font-family: NotoSansCJKkr, sans-serif;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_50);
+
+}
+
+.ArticleChannel_Meta_FollowingNumber {
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dodgerblue_50);
+}
+
+.ArticleChannel_Following_Icon {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+  margin-right: 4px;
+}
+
+
+
+.Channel_ArticleList {
+  @media (--pc-screen) {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+  margin-bottom: 30px;
+}

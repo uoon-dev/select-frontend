@@ -2,7 +2,7 @@ import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { Icon } from '@ridi/rsg';
-
+import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import { ReviewSummary } from 'app/services/review/reducer.state';
 import { StarRating } from '../StarRating/StarRating';
 import { RatingBarGraph } from './RatingBarGraph';
@@ -96,12 +96,12 @@ export const BuyerRatingSummaryBlock: React.SFC<BuyerRatingSummaryProps> = (prop
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         <BuyerRatingSummaryDefault
           summary={summary}
         />
       </MediaQuery>
-      <MediaQuery minWidth={841}>
+      <MediaQuery minWidth={MIN_WIDTH}>
         <BuyerRatingSummaryVertical
           summary={summary}
         />

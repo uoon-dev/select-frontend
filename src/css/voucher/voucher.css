@@ -1,8 +1,9 @@
 .VoucherContent_Wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   min-height: 900px;
-  padding-top: var(--gnb_pc_height);
   box-sizing: border-box;
   background: url(../images/intro/hero_bg.jpg) center center no-repeat;
   background-size: cover;
@@ -40,7 +41,12 @@
 
 .VoucherContent {
   position: relative;
-  padding: 56.7px 30px 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 30px;
   color: #fff;
   z-index: 40;
   @media (--pc-screen) {

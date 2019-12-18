@@ -6,7 +6,7 @@ import { Empty } from '@ridi/rsg';
 
 import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { Tab, Tabs } from 'app/components/Tabs';
-import { PageTitleText, RoutePaths } from 'app/constants';
+import { MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
@@ -136,9 +136,13 @@ export class ClosingReservedBooks extends React.Component<Props> {
                   <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
                 </div>
                   <ConnectedGridBookList
+                    serviceTitleForTracking="select-book"
+                    pageTitleForTracking="closing-reserved"
+                    uiPartTitleForTracking="book-list"
+                    miscTracking={JSON.stringify({sect_page : page})}
                     books={itemListByPage[page].itemList}
                   />
-                  <MediaQuery maxWidth={840}>
+                  <MediaQuery maxWidth={MAX_WIDTH}>
                     {
                       (isMobile) => <Pagination
                         currentPage={page}

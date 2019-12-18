@@ -1,7 +1,8 @@
-import { EnvironmentState } from 'app/services/environment';
+import { RidiSelectState } from 'app/store';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface BigBannerItemProps {
@@ -12,13 +13,16 @@ interface BigBannerItemProps {
 
 export const BigBannerItem: React.SFC<BigBannerItemProps> = (props) => {
   const { onClick, linkUrl, isInApp, children } = props;
+  const SELECT_URL = useSelector((state: RidiSelectState) => state.environment.SELECT_URL);
+
   const compProps = {
     className: 'BigBanner_Item',
     onClick,
     children,
   };
+
   if (isRidiselectUrl(linkUrl)) {
-    const linkProps = { ...compProps, to: linkUrl };
+    const linkProps = { ...compProps, to: linkUrl.replace(SELECT_URL, '') };
     return <Link {...linkProps}/>;
   }
   if (isInApp) {

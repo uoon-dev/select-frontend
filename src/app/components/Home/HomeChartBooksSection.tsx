@@ -6,6 +6,7 @@ import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
 import { DTOBookThumbnail } from 'app/components';
+import { MAX_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 import { CollectionId } from 'app/services/collection';
 import { groupChartBooks } from 'app/services/home/uitls';
@@ -20,14 +21,15 @@ interface HomeChartBooksSectionProps {
   books: Book[];
   title: string;
   collectionId: CollectionId;
+  order: number;
 }
 
 type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
 
 export class HomeChartBooksSection extends React.Component<Props> {
   public renderCharts(contentsCount: number) {
-    const { books, trackClick } = this.props;
-    const section = getSectionStringForTracking('home', 'popular');
+    const { books, trackClick, order } = this.props;
+    const section = getSectionStringForTracking('select-book', 'home', 'popular');
     return (
       <div className="HomeSection_Chart">
         {books
@@ -43,6 +45,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       section={section}
                       index={index}
                       id={book.id}
+                      misc={JSON.stringify({sect_order: order})}
                     >
                       <span className="HomeSection_ChartBookRanking">
                         {index + 1}
@@ -95,7 +98,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
     return (
       <div className="HomeSection HomeSection-horizontal-pad">
         <SectionHeader title={title} link={'/charts'} />
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => isMobile ? this.renderCharts(24) : this.renderCharts(12)}
         </MediaQuery>
       </div>

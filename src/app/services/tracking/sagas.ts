@@ -1,18 +1,18 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
+import env from 'app/config/env';
+import { MAX_WIDTH } from 'app/constants';
 import { Actions } from 'app/services/tracking';
 import { hasCompletedPayletterSubscription, hasCompletedRidiPaySubscription, RidiSelectState } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
 import { LOCATION_CHANGE, replace } from 'connected-react-router';
 import { all, put, select, take, takeLatest } from 'redux-saga/effects';
 
-import env from 'app/config/env';
-
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
 
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
-  if (document.body.clientWidth < 840) {
+  if (document.body.clientWidth < MAX_WIDTH) {
     deviceType = DeviceType.Mobile;
   } else {
     deviceType = DeviceType.PC;
@@ -110,8 +110,20 @@ export function* trackingArgsUpdate({ payload }: ReturnType<typeof Actions.track
   });
 }
 
+export function* trackingArticleActions({ payload }: ReturnType<typeof Actions.trackingArticleActions>) {
+  if (!tracker) {
+    initializeTracker(yield select((s) => s));
+  }
+  const { trackingParams } = payload;
+  tracker.sendEvent(trackingParams.eventName, { id: trackingParams.id });
+}
+
 export function* watchTrackingArgsUpdate() {
   yield takeLatest(Actions.trackingArgsUpdate.getType(), trackingArgsUpdate);
+}
+
+export function* watchTrackingArticleActions() {
+  yield takeLatest(Actions.trackingArticleActions.getType(), trackingArticleActions);
 }
 
 export function* trackingSaga() {
@@ -121,5 +133,6 @@ export function* trackingSaga() {
     watchTrackImpressions(),
     watchTrackMySelectAdded(),
     watchTrackingArgsUpdate(),
+    watchTrackingArticleActions(),
   ]);
 }

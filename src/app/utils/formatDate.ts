@@ -1,5 +1,5 @@
 import { DateDTO } from 'app/types';
-import { format } from 'date-fns';
+import { format, formatDistanceStrict } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 export const koreanDayOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
@@ -38,4 +38,10 @@ export const buildKoreanDayDateFormat = (dateString?: string): string => {
   const formatString: string = format(date, 'yyyy년 MM월 dd일');
   const weekDayIndex: number = parseInt(format(date, 'i', { locale: ko }), 10) - 1;
   return `${formatString}(${koreanDayOfWeek[weekDayIndex]})`;
+};
+
+export const buildDateDistanceFormat = (date: DateDTO) => {
+  const curDate = new Date();
+  const diffDate = new Date(date);
+  return formatDistanceStrict(curDate, diffDate, {locale: ko});
 };

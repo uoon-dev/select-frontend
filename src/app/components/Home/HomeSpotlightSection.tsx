@@ -28,10 +28,10 @@ export class HomeSpotlightSection extends React.Component<Props> {
   private slider: Slider;
 
   private setSliderImpression(sliderIdx: number) {
-    const { books, trackImpression } = this.props;
-    const section = getSectionStringForTracking('home', 'spotlight');
+    const { books, trackImpression, collectionId } = this.props;
+    const section = getSectionStringForTracking('select-book', 'home', 'spotlight');
 
-    const trackingStartIdx = sliderIdx > 0 ? sliderIdx * 5 - 1 : 0;
+    const trackingStartIdx = sliderIdx > 0 ? sliderIdx - 1 : 0;
     const trackingEndIdx =
       trackingStartIdx + 5 > books.length ? books.length : trackingStartIdx + 5;
 
@@ -41,6 +41,7 @@ export class HomeSpotlightSection extends React.Component<Props> {
           section,
           index: idx,
           id: books[idx].id,
+          misc: JSON.stringify({ sect_collection_id: collectionId }),
         });
       }
     }
@@ -48,7 +49,7 @@ export class HomeSpotlightSection extends React.Component<Props> {
 
   public render() {
     const { books, trackClick, collectionId, title } = this.props;
-    const section = getSectionStringForTracking('home', 'spotlight');
+    const section = getSectionStringForTracking('select-book', 'home', 'spotlight');
     return (
       <div className="HomeSection_Spotlight">
         <div className="HomeSection_Spotlight_Contents">
@@ -64,8 +65,10 @@ export class HomeSpotlightSection extends React.Component<Props> {
               isMobile ? (
                 <ConnectedInlineHorizontalBookList
                   books={books}
+                  serviceTitleForTracking="select-book"
                   pageTitleForTracking="home"
-                  uiPartTitleForTracking={collectionId.toString()}
+                  uiPartTitleForTracking="spotlight"
+                  miscTracking={JSON.stringify({ sect_collection_id: collectionId })}
                   renderAuthor={true}
                   bookThumbnailSize={140}
                 />

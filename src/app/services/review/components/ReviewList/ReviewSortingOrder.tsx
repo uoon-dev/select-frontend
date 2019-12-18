@@ -1,6 +1,7 @@
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
 
+import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import { PipeDelimitedListMenu } from 'app/hocs';
 import { ReviewSortingCriteria, reviewSortingCriteriaMap } from 'app/services/review';
 import { RSGTab } from 'app/services/review/components';
@@ -16,7 +17,7 @@ export const ReviewSortingOrder: React.SFC<ReviewSortingOrderProps> = (props) =>
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         <RSGTab
           tabList={sortingCriteriaList.map(
             (key: ReviewSortingCriteria) => ({ name: key, displayName: reviewSortingCriteriaMap[key] }),
@@ -26,7 +27,7 @@ export const ReviewSortingOrder: React.SFC<ReviewSortingOrderProps> = (props) =>
           justify={true}
         />
       </MediaQuery>
-      <MediaQuery minWidth={841}>
+      <MediaQuery minWidth={MIN_WIDTH}>
         <PipeDelimitedListMenu
           list={sortingCriteriaList.map((key: ReviewSortingCriteria) => ({ type: key }))}
           activeItemType={sortBy}

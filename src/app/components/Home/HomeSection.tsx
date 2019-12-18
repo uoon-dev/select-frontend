@@ -4,8 +4,8 @@ import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
-
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
+import { MAX_WIDTH } from 'app/constants';
 import { FetchStatusFlag } from 'app/constants';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
@@ -19,6 +19,7 @@ import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
+  order: number;
 }
 
 interface HomeCollectionStateProps {
@@ -30,7 +31,7 @@ type Props = HomeSectionProps & HomeCollectionStateProps;
 export const SectionHeader: React.SFC<{ title: string; link: string }> = (props) => {
   return (
     <div className="HomeSection_Header">
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         {(isMobile) =>
           isMobile ? (
             <Link to={props.link}>
@@ -57,7 +58,7 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
 
 export class HomeSection extends React.Component<Props> {
   public render() {
-    const { collection, onScreen, books } = this.props;
+    const { collection, onScreen, books, order } = this.props;
     const { type, title, id, itemListByPage } = collection;
     const collectionBooks: Book[] = itemListByPage[1].itemList.map((bookId: number) => books[bookId].book!);
 
@@ -96,6 +97,7 @@ export class HomeSection extends React.Component<Props> {
           books={collectionBooks}
           title={title!}
           collectionId={id}
+          order={order}
         />
       );
     }
@@ -103,12 +105,14 @@ export class HomeSection extends React.Component<Props> {
     return (
       <section className="HomeSection">
         <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
-        <MediaQuery maxWidth={840}>
+        <MediaQuery maxWidth={MAX_WIDTH}>
           {(isMobile) => (
             <ConnectedInlineHorizontalBookList
               books={collectionBooks}
+              serviceTitleForTracking="select-book"
               pageTitleForTracking="home"
-              uiPartTitleForTracking={id.toString()}
+              uiPartTitleForTracking="collection-list"
+              miscTracking={JSON.stringify({ sect_collection_id: id, sect_order: order })}
               bookThumbnailSize={isMobile ? 110 : 120}
             />
           )}

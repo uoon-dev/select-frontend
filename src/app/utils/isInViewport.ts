@@ -1,30 +1,14 @@
-
-const viewport = window;
-
-function belowTheFold(elementRect: ClientRect) {
-  const fold = viewport.innerHeight + viewport.pageYOffset;
-  return fold <= elementRect.top;
-}
-
-function rightOfFold(elementRect: ClientRect) {
-  const fold = viewport.innerWidth + viewport.pageXOffset;
-  return fold <= elementRect.left;
-}
-
-function aboveTheTop(elementRect: ClientRect) {
-  const fold = viewport.pageYOffset;
-  return fold >= elementRect.top + elementRect.height;
-}
-
-function leftOfBegin(elementRect: ClientRect) {
-  const fold = viewport.pageXOffset;
-  return fold >= elementRect.left + elementRect.width;
-}
+const aboveTheTop = (elementRect: ClientRect) => elementRect.top + elementRect.height <= 0;
+const belowTheFold = (elementRect: ClientRect) => elementRect.top >= window.innerHeight;
+const leftOfBegin = (elementRect: ClientRect) => elementRect.left + elementRect.width <= 0;
+const rightOfFold = (elementRect: ClientRect) => elementRect.left >= window.innerWidth;
 
 export function isInViewport(element: HTMLElement) {
   const elementRect = element.getBoundingClientRect();
-  return !rightOfFold(elementRect) &&
-    !leftOfBegin(elementRect) &&
-    !belowTheFold(elementRect) &&
-    !aboveTheTop(elementRect);
+  return !(
+    aboveTheTop(elementRect) ||
+    belowTheFold(elementRect) ||
+    leftOfBegin(elementRect) ||
+    rightOfFold(elementRect)
+  );
 }

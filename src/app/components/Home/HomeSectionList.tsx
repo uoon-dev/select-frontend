@@ -111,12 +111,15 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
                 }
               }}
             >
-              {collectionGroup.map((collection) => (
-                <ConnectedHomeSection
-                  key={collection.id}
-                  collection={collection}
-                  onScreen={renderedLastGroupIdx >= idx}
-                />
+              {collectionGroup.map((collection, collectionIdx) => (
+                <>
+                  <ConnectedHomeSection
+                    key={collection.id}
+                    collection={collection}
+                    onScreen={renderedLastGroupIdx >= idx}
+                    order={idx === 0 ? collectionIdx : (idx + collectionIdx + 1)}
+                  />
+                </>
               ))}
             </div>
           ),

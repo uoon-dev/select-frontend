@@ -6,7 +6,7 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
-import { PageTitleText } from 'app/constants';
+import { MAX_WIDTH, PageTitleText} from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { BookState } from 'app/services/book';
@@ -89,12 +89,15 @@ export class Charts extends React.Component<Props> {
         ) : (
           <>
             <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
               pageTitleForTracking="popular"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({sect_page: page})}
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
               isChart={true}
               page={page}
             />
-            {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

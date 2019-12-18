@@ -6,8 +6,8 @@ import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
+import { MAX_WIDTH } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-
 import { BookState } from 'app/services/book';
 import { Actions, DefaultCollectionState } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -100,10 +100,13 @@ export class Collection extends React.Component<Props> {
         ) : (
           <>
             <ConnectedGridBookList
-              pageTitleForTracking={collection.id.toString()}
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="collection"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({ sect_collection_id: collection.id, sect_page: page })}
               books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
             />
-            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={840}>
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
               {
                 (isMobile) => <Pagination
                   currentPage={page}

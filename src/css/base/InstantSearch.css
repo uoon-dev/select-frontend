@@ -11,6 +11,9 @@
   @nest .androidApp & {
     top: var(--gnb_android_app_height);
   }
+  @nest .iosApp & {
+    top: var(--gnb_ios_app_height);
+  }
 }
 .InstantSearch-loading {
   padding: 20px 0 30px;
@@ -72,6 +75,8 @@
   & .point_text,
   & .InstantSearchTitle,
   & .InstantSearchAuthor,
+  & .InstantSearchWriter,
+  & .InstantSearchChannel,
   & .InstantSearchPublisher {
     display: inline;
     letter-spacing: -.3px;
@@ -90,12 +95,24 @@
     font-size: 14px;
   }
   & .InstantSearchAuthor,
+  & .InstantSearchWriter,
+  & .InstantSearchChannel,
   & .InstantSearchPublisher {
     color: var(--slategray_50);
     font-size: 13px;
   }
   & .InstantSearchAuthor {
     padding-right: 4px;
+  }
+  & .InstantSearchWriter {
+    &::after {
+      background: #e5e5e5;
+      display: inline-block;
+      width: 1px;
+      height: 10px;
+      margin: 0 6px;
+      content: "";
+    }    
   }
   & .InstantSearchPublisher {
     position: relative;

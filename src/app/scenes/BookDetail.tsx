@@ -12,7 +12,7 @@ import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaC
 import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, MAX_WIDTH } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import {
   Actions as BookActions,
@@ -90,7 +90,7 @@ export class BookDetail extends React.Component<Props> {
       return <BookDetailPlaceholder />;
     }
     return (
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         {(isMobile) => (
           <main
             className={classNames(

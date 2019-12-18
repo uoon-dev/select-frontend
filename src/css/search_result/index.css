@@ -1,4 +1,5 @@
 @import 'SearchResultBookList.css';
+@import 'SearchResultArticleList.css';
 
 .PageSearchResult {
   max-width: 800px;
@@ -9,7 +10,7 @@
     }
   }
   @media (--mobile-screen) {
-    padding-top: var(--mobile-blocked-search-padding);
+    padding-top: var(--mobile-blocked-search-height);
   }
   @nest .androidApp & {
     padding-top: 40px;
@@ -20,6 +21,13 @@
   height: auto !important;
   min-height: 130px !important;
 }
+
+.SearchResultArticleList_Thumbnail {
+  height: auto !important;
+  min-height: 100px !important;
+  width: 100px !important;
+}
+
 
 .PageSearchResult_Title {
   display: none;

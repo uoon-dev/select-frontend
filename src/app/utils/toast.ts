@@ -95,9 +95,6 @@ class Toast {
       button,
     } = options;
 
-    // to show safari action bar
-    window.scrollBy(0, -1);
-
     window.requestAnimationFrame(() => {
       this.close();
       this.documentRootElement!.classList.add(`${TOAST_CLASS_NAME}-open`);

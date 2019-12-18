@@ -26,12 +26,19 @@ interface SubscriptionInfoStateProps {
 type SubscriptionInfoProps = SubscriptionInfoStateProps & ReturnType<typeof mapDispatchToProps>;
 class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   private handleCancelPurchaseButtonClick = (purchaseId: number) => () => {
-    if (this.props.isPurchaseCancelFetching) {
+    const { isPurchaseCancelFetching, dispatchCancelPurchase, subscriptionState } = this.props;
+    if (isPurchaseCancelFetching) {
       toast.failureMessage('취소 진행중입니다. 잠시 후에 다시 시도해주세요.');
       return;
     }
-    if (confirm(`결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`)) {
-      this.props.dispatchCancelPurchase(purchaseId);
+
+    let confirmMessage = `결제를 취소하시겠습니까?\n결제를 취소할 경우 즉시 이용할 수 없습니다.`;
+
+    if (subscriptionState && subscriptionState.isSubscribedWithOldPrice) {
+      confirmMessage = `결제를 취소하시겠습니까?\n결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`;
+    }
+    if (confirm(confirmMessage)) {
+      dispatchCancelPurchase(purchaseId);
     }
   }
 
@@ -122,7 +129,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
         size="large"
         href={`${BASE_URL_STORE}/select/payments`}
       >
-        {hasSubscribedBefore ? '리디셀렉트 구독하기' : '1개월 무료로 읽어보기'}
+        {hasSubscribedBefore ? '다시 시작하기' : '무료로 시작하기'}
       </Button>
     );
   }

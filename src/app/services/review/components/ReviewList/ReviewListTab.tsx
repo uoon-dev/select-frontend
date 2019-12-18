@@ -1,7 +1,7 @@
+import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+import { RSGTab, ScopedTab, ScopedTabProps } from 'app/services/review/components';
 import * as React from 'react';
 import MediaQuery from 'react-responsive';
-
-import { RSGTab, ScopedTab, ScopedTabProps } from 'app/services/review/components';
 
 export type ReviewListTabProps = ScopedTabProps;
 
@@ -10,14 +10,14 @@ export const ReviewListTab: React.SFC<ReviewListTabProps> = (props) => {
 
   return (
     <>
-      <MediaQuery maxWidth={840}>
+      <MediaQuery maxWidth={MAX_WIDTH}>
         <ScopedTab
           tabList={tabList}
           selectedTabName={selectedTabName}
           onClick={onClick}
         />
       </MediaQuery>
-      <MediaQuery minWidth={841}>
+      <MediaQuery minWidth={MIN_WIDTH}>
         <RSGTab
           tabList={tabList}
           selectedTabName={selectedTabName}

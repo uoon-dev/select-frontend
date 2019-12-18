@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Link, LinkProps } from 'react-router-dom';
-
 import { Pagination } from 'app/components/Pagination';
+import { MAX_WIDTH } from 'app/constants';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
 
 interface OwnProps {
   fetch: (page: number) => any;
@@ -77,7 +77,7 @@ export class ListWithPaginationPage extends React.Component<Props> {
               <h2 className="a11y">{page} 페이지</h2>
               {renderItems(page)}
             </section>
-            {itemCount > 0 && <MediaQuery maxWidth={840}>
+            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
               {(isMobile) => <Pagination
                 currentPage={page}
                 isMobile={isMobile}

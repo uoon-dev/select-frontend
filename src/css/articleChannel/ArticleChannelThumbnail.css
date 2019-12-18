@@ -1,0 +1,71 @@
+.ArticleChannelThumbnail_Wrapper {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  overflow: hidden; 
+}
+
+.ArticleChannelThumbnail_CoverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.ArticleChannelThumbnail_CoverShadow {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 20px;  
+  display: block;
+}
+
+.ArticleChannelCoverImage_Placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  border: solid 1px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+}
+
+.ArticleChannelThumbnail_DefaultCoverImage {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #e6e8eb;
+  border: solid 1px rgba(0, 0, 0, .1);
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.ArticleChannelThumbnail_DefaultCoverImage_Logo {
+  display: block;
+  align-self: center;
+  width: 50%;
+  margin: 0 auto;
+}
+.ArticleChannelThumbnail_Block {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: #b3b3b3;
+  line-height: 31px;
+  text-align: center;
+}
+
+.ArticleChannelThumbnail_BlockImage {
+  fill: #e6e6e6;
+  vertical-align: middle;
+  margin-top: 4px;
+}

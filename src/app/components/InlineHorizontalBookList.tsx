@@ -12,9 +12,10 @@ import { stringifyAuthors } from 'app/utils/utils';
 import { ThumbnailSize } from './BookThumbnail';
 
 interface Props {
+  serviceTitleForTracking?: string;
   pageTitleForTracking?: string;
   uiPartTitleForTracking?: string;
-  filterForTracking?: string;
+  miscTracking?: string;
   books: Book[];
   disableInlineOnPC?: boolean;
   lazyloadThumbnail?: boolean;
@@ -24,9 +25,10 @@ interface Props {
 
 export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnType<typeof mapDispatchToProps>> = (props) => {
   const {
+    serviceTitleForTracking,
     pageTitleForTracking,
     uiPartTitleForTracking,
-    filterForTracking,
+    miscTracking,
     books,
     disableInlineOnPC,
     lazyloadThumbnail,
@@ -35,7 +37,8 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
     bookThumbnailSize = 120,
   } = props;
 
-  const section = !!pageTitleForTracking ? getSectionStringForTracking(pageTitleForTracking, uiPartTitleForTracking, filterForTracking) : undefined;
+  const section = !!serviceTitleForTracking && !!pageTitleForTracking ?
+    getSectionStringForTracking(serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking) : undefined;
   return (
     <ul
       className={classNames([
@@ -49,6 +52,7 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
             section={section}
             index={idx}
             id={book.id}
+            misc={miscTracking}
           >
             <>
               <DTOBookThumbnail
@@ -82,14 +86,14 @@ export const InlineHorizontalBookList: React.FunctionComponent<Props & ReturnTyp
                   {book.title.main}
                 </span>
                 {renderAuthor && (
-                    <span
-                      className="InlineHorizontalBookList_Author"
-                      style={{
-                        width: `${bookThumbnailSize}px`,
-                      }}
-                    >
-                      {stringifyAuthors(book.authors, 2)}
-                    </span>
+                  <span
+                    className="InlineHorizontalBookList_Author"
+                    style={{
+                      width: `${bookThumbnailSize}px`,
+                    }}
+                  >
+                    {stringifyAuthors(book.authors, 2)}
+                  </span>
                 )}
               </Link>
             </>
