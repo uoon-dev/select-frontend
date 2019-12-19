@@ -1,6 +1,6 @@
-import * as React from 'react';
-
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
+import * as Modernizr from 'modernizr';
+import * as React from 'react';
 
 interface ArticleChannelMetaProps {
   id: number;
@@ -28,7 +28,11 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
     <section>
       <div className="ArticleChannelMeta_Wrap">
         <div className="ArticleChannel_Thumbnail">
-          <img src={thumbnailUrl} className={'ArticleChannel_Image'} />
+          { Modernizr.objectfit ?
+            <img src={thumbnailUrl} className={'ArticleChannel_Image'} />
+            :
+            <div className={'ArticleChannel_BackgroundImage'} style={{ backgroundImage: `url(${thumbnailUrl})`}} />
+          }
           <span className="ArticleChannel_ImageShadow" />
         </div>
         <div className="ArticleChannel_Meta">

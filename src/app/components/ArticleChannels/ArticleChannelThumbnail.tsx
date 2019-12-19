@@ -1,5 +1,6 @@
 import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
 import * as classNames from 'classnames';
+import * as Modernizr from 'modernizr';
 import * as React from 'react';
 import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
@@ -36,6 +37,39 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       () => setIsEndTransition(true),
     );
   }
+
+  const renderThumbnailImage = () => {
+    if (!Modernizr.objectfit) {
+      return (
+        <>
+          <div
+            className={classNames(
+              'ArticleChannelThumbnail_BackgroundImage',
+              imageClassName,
+            )}
+            style={{ backgroundImage: `url(${imageUrl})`}}
+          />
+          <span className="ArticleChannelThumbnail_CoverShadow" />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <img
+          className={classNames(
+            'ArticleChannelThumbnail_CoverImage',
+            imageClassName,
+          )}
+          src={imageUrl}
+          alt={channelName}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsWrongImage(true)}
+        />
+        <span className="ArticleChannelThumbnail_CoverShadow" />
+      </>
+    );
+  };
 
   React.useEffect(() => {
     if (!imageUrl) {
@@ -79,19 +113,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
           placeholder={<div className="Skeleton" />}
         >
           {!isWrongImage ? (
-            <>
-              <img
-                className={classNames(
-                  'ArticleChannelThumbnail_CoverImage',
-                  imageClassName,
-                )}
-                src={imageUrl}
-                alt={channelName}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setIsWrongImage(true)}
-              />
-              <span className="ArticleChannelThumbnail_CoverShadow" />
-            </>
+            renderThumbnailImage()
           ) : (
             <span className="ArticleChannelThumbnail_DefaultCoverImage">
               <img

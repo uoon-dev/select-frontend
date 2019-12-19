@@ -19,6 +19,15 @@
       object-fit: cover;
     }
 
+    & .ArticleChannel_BackgroundImage {
+      width: 80px;
+      height: 80px;
+      box-sizing: border-box;
+      border-radius: 999px;
+      background-size: cover;
+      background-position: center center;      
+    }
+
     & .ArticleChannel_ImageShadow {
       position: absolute;
       content: '';
