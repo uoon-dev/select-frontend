@@ -1,9 +1,9 @@
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import * as classNames from 'classnames';
+import * as Modernizr from 'modernizr';
 import * as React from 'react';
 import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
-
-import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -53,6 +53,39 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     }
   }, []);
 
+  const renderThumbnailImage = () => {
+    if (!Modernizr.objectfit) {
+      return (
+        <>
+          <div
+            className={classNames(
+              'ArticleThumbnail_BackgroundImage',
+              imageClassName,
+            )}
+            style={{ backgroundImage: `url(${imageUrl})`}}
+          />
+          <span className="ArticleThumbnail_CoverShadow" />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <img
+          className={classNames(
+            'ArticleThumbnail_CoverImage',
+            imageClassName,
+          )}
+          src={imageUrl}
+          alt={articleTitle}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsWrongImage(true)}
+        />
+        <span className="ArticleThumbnail_CoverShadow" />
+      </>
+    );
+  };
+
   if (!isEnabled) {
     return (
       <div
@@ -69,7 +102,6 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       </div>
     );
   }
-
   return (
     <div
       className={classNames(
@@ -92,19 +124,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           placeholder={<div className="Skeleton" />}
         >
           {!isWrongImage ? (
-            <>
-              <img
-                className={classNames(
-                  'ArticleThumbnail_CoverImage',
-                  imageClassName,
-                )}
-                src={imageUrl}
-                alt={articleTitle}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setIsWrongImage(true)}
-              />
-              <span className="ArticleThumbnail_CoverShadow" />
-            </>
+            renderThumbnailImage()
           ) : (
             <span className="ArticleThumbnail_DefaultCoverImage">
               <img
