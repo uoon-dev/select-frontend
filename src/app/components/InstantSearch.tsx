@@ -86,7 +86,7 @@ export class InstantSearch extends React.PureComponent<InstantSearchProps> {
                       className="InstantSearchTitle"
                       dangerouslySetInnerHTML={{__html: article.highlight.title ? article.highlight.title : article.title}}
                     />
-                    { article.authorsInfo &&
+                    { article.authorsInfo && article.authorsInfo.length > 0 &&
                       <span
                         className="InstantSearchWriter"
                         dangerouslySetInnerHTML={{__html: getSortedAuthorsHtmlString(
