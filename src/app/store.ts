@@ -11,6 +11,7 @@ import { closingReservedBooksReducer } from './services/closingReservedBooks/ind
 
 import browserHistory from 'app/config/history';
 import { appReducer, AppState } from 'app/services/app';
+import { watchAppState } from 'app/services/app/sagas';
 import { bookReducer, BookState } from 'app/services/book';
 import { bookRootSaga } from 'app/services/book/sagas';
 import { commonUIReducer, CommonUIState } from 'app/services/commonUI';
@@ -66,6 +67,7 @@ declare global {
 
 function* rootSaga(dispatch: Dispatch) {
   yield all([
+    watchAppState(),
     homeRootSaga(),
     bookRootSaga(),
     reviewRootSaga(dispatch),
