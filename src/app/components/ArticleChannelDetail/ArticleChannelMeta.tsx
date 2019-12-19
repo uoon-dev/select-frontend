@@ -1,4 +1,5 @@
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
+import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import * as Modernizr from 'modernizr';
 import * as React from 'react';
 
@@ -39,7 +40,7 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
           <h2 className="ArticleChannel_Meta_Title">{displayName}</h2>
           <p className="ArticleChannel_Meta_Desc">{description}</p>
           <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
-          <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{followersCount}</strong></span>
+          <span className="ArticleChannel_Meta_Following">팔로잉 <strong className="ArticleChannel_Meta_FollowingNumber">{thousandsSeperator(followersCount)}</strong></span>
           <ArticleChannelFollowButton
             channelId={id}
             channelName={name}
