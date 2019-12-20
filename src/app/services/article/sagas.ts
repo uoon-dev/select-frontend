@@ -35,11 +35,13 @@ export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleR
       articleResponse: restData,
     }));
   } catch (error) {
-    if (error.response.status === 403) {
+    const status = error && error.response && error.response.status;
+
+    if (status === 403) {
       // TODO: Not Available Article
       toast.failureMessage('열람할 수 없는 아티클 입니다.');
       history.replace(RoutePaths.ARTICLE_HOME);
-    } else if (error.response.status === 404) {
+    } else if (status === 404) {
       toast.failureMessage('아티클이 존재하지 않습니다.');
       history.replace(RoutePaths.ARTICLE_HOME);
     } else {
@@ -86,13 +88,12 @@ function* favoriteArticleAction({ payload }: ReturnType<typeof Actions.favoriteA
     yield put(TrackingActions.trackingArticleActions({ trackingParams }));
 
   } catch (e) {
-    if (e
-      && e.response
-      && e.response.data
-      && e.response.data.status === ErrorStatus.MAINTENANCE
-    ) {
+    const data = e && e.response && e.response.data;
+
+    if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
+
     showMessageForRequestError();
   }
 }
