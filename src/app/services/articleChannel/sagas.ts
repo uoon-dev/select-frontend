@@ -18,9 +18,13 @@ function* loadArticleChannelList() {
     yield put(Actions.updateChannelDetail({ channels: response.results }));
     yield put(Actions.loadArticleChannelListSuccess({ response }));
   } catch (e) {
-    const { data } = e.response;
+    const data = e && e.response && e.response.data;
+
     yield put(Actions.loadArticleChannelListFailure());
-    if (data && data.status === ErrorStatus.MAINTENANCE) {
+    if (
+      data &&
+      data.status === ErrorStatus.MAINTENANCE
+    ) {
       return;
     }
     showMessageForRequestError(e);
@@ -36,7 +40,9 @@ function* loadArticleChannelDetail({ payload }: ReturnType<typeof Actions.loadAr
       { includes: [ArticleRequestIncludableData.FOLLOWERS_COUNT, ArticleRequestIncludableData.IS_FOLLOWING]});
     yield put(Actions.loadArticleChannelDetailSuccess({ articleChannelDetail: response, channelName }));
   } catch (e) {
-    const { data, status } = e.response;
+    const data = e && e.response && e.response.data;
+    const status = e && e.response && e.response.status;
+
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
     }
@@ -61,7 +67,8 @@ function* loadArticleChannelArticles({ payload }: ReturnType<typeof Actions.load
     yield put(ArticleActions.updateArticles({ articles: response.results }));
     yield put(Actions.loadArticleChannelArticlesSuccess({ channelName, page, response}));
   } catch (e) {
-    const { data } = e.response;
+    const data = e && e.response && e.response.data;
+
     yield put(Actions.loadArticleChannelArticlesFailure({channelName, page}));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
@@ -92,7 +99,8 @@ export function* articleChannelFollowingAction({ payload }: ReturnType<typeof Ac
     };
     yield put(TrackingActions.trackingArticleActions({ trackingParams }));
   } catch (e) {
-    const { data } = e.response;
+    const data = e && e.response && e.response.data;
+
     yield put(Actions.articleChannelFollowingActionFailure({ channelName }));
     if (data && data.status === ErrorStatus.MAINTENANCE) {
       return;
