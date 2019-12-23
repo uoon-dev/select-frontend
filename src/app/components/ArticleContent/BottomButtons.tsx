@@ -1,7 +1,6 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import 'url-polyfill';
 
 import { Button, Icon } from '@ridi/rsg';
 

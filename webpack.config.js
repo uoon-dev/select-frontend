@@ -17,6 +17,7 @@ require('dotenv').config();
 module.exports = (env, argv) => ({
   entry: {
     app: [
+      'url-polyfill',
       '@babel/polyfill',
       './src/app/index.tsx',
       './src/css/main.css',
