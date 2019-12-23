@@ -1,5 +1,5 @@
-export const MAX_WIDTH: number = 833;
-export const MIN_WIDTH: number = 834;
+export const MAX_WIDTH: number = 834;
+export const MIN_WIDTH: number = 835;
 
 export enum FetchStatusFlag {
   IDLE,
