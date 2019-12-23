@@ -18,6 +18,7 @@ module.exports = (env, argv) => ({
   entry: {
     app: [
       '@babel/polyfill',
+      'url-polyfill',
       './src/app/index.tsx',
       './src/css/main.css',
     ],
@@ -70,7 +71,7 @@ module.exports = (env, argv) => ({
       {
         test: /\.modernizrrc$/,
         loader: "modernizr-loader!json-loader"
-      },    
+      },
     ],
   },
   resolve: {
@@ -81,7 +82,7 @@ module.exports = (env, argv) => ({
     ],
     alias: {
       modernizr$: path.resolve(__dirname, ".modernizrrc")
-    },    
+    },
   },
   plugins: [
     new ProgressPlugin(),
