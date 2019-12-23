@@ -18,7 +18,6 @@ module.exports = (env, argv) => ({
   entry: {
     app: [
       '@babel/polyfill',
-      'url-polyfill',
       './src/app/index.tsx',
       './src/css/main.css',
     ],
