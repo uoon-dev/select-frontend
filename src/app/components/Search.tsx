@@ -537,7 +537,10 @@ export class Search extends React.Component<SearchProps, SearchState> {
           });
           return;
         }
-        this.getInstantSearchedList(value);
+
+        if (this.state.isActive) {
+          this.getInstantSearchedList(value);
+        }
       });
   }
 
