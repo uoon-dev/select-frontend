@@ -130,6 +130,7 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "spaniel": "^2.5.2",
+    "url-polyfill": "^1.1.7",
     "use-debounce": "^3.3.0",
     "vex-dialog": "^1.1.0",
     "vex-js": "^4.1.0",

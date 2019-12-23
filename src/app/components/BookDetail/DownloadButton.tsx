@@ -85,7 +85,10 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     },
     addQueryPrefix: true,
   });
-  const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.origin + location.pathname) + queryString}`;
+  const locationUrl = new URL(location.href);
+  locationUrl.search = '';
+  locationUrl.hash = '';
+  const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(locationUrl.toString()) + queryString}`;
 
   if (checkCanDownload()) {
     return (

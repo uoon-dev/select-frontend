@@ -40,7 +40,7 @@
   text-decoration: none;
   width: 62px;
   padding-top: 5px;
-  font-family: NotoSansCJKkr, sans-serif;
+  font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 11px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
@@ -73,7 +73,7 @@
   text-decoration: none;
   width: 62px;
   padding-top: 5px;
-  font-family: NotoSansCJKkr, sans-serif;
+  font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 11px;
   letter-spacing: -.3px;
   color: var(--slategray_60);
@@ -111,7 +111,7 @@
   z-index: 10;
   @media (--mobile-layout) {
     display: none;
-  }  
+  }
 }
 
 .SlideArrowButton_Left {
@@ -141,7 +141,7 @@
   @media (--mobile-layout) {
     top: 12px;
   }
-  background-image: linear-gradient(to left, rgba(255, 255, 255, 0), white 100%);  
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0), white 100%);
 }
 
 .SlideArrowButton_Right {
@@ -160,7 +160,7 @@
   @media (--mobile-layout) {
     top: 12px;
   }
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);  
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);
 }
 
 .SlideArrowButtonIcon_Left {

@@ -33,7 +33,7 @@
   & ol {
     margin: 0;
     padding: 0;
-    font-family: NotoSansCJKkr, sans-serif;
+    font-family: Noto Sans KR, NotoSansKR, sans-serif;
     line-height: 1.75;
     letter-spacing: -.3px;
     color: var(--slategray_90);
