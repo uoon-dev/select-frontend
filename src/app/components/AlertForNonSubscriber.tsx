@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
+import history from 'app/config/history';
+import { RoutePaths } from 'app/constants';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { useSelector } from 'react-redux';
 import { GoToSubscribeButton } from './GoToSubscribeButton';
 
 export const AlertForNonSubscriber: React.FunctionComponent = () => {
@@ -26,7 +28,7 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
         </p>
         <GoToSubscribeButton
           className="AlertForNonSubscriber_SubscribeButton"
-          onClick={() => { location.href = `${STORE_URL}/select/payments`; }}
+          onClick={() => { history.push(RoutePaths.INTRO); }}
         />
         <button
           className="AlertForNonSubscriber_CloseButton"
