@@ -24,16 +24,6 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
     }
 
     let failureMessage = '이용권 등록에 실패했습니다. 이용권 코드를 확인해주세요.';
-<<<<<<< HEAD
-    if (code === UseVoucherResponseCode.redeemedVoucher) {
-      failureMessage = '이미 등록된 이용권입니다.';
-    } else if (code === UseVoucherResponseCode.deactivatedVoucher) {
-      failureMessage = '등록할 수 없는 이용권입니다.';
-    } else if (code === UseVoucherResponseCode.oneTimeRedeemableVoucher) {
-      failureMessage = 'ID당 1회만 사용할 수 있도록 제한된 이용권입니다.';
-    } else if (code === UseVoucherResponseCode.expiredVoucher) {
-      failureMessage = '유효기간이 만료된 이용권입니다.';
-=======
     switch (code) {
       case UseVoucherResponseCode.redeemedVoucher:
         failureMessage = '이미 등록된 이용권입니다.';
@@ -53,7 +43,6 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
       case UseVoucherResponseCode.voucherProviderInerworkingFailed:
         failureMessage = `이용권 등록에 실패했습니다.\n쇼핑몰에서 구매하신 이용권의 경우 일시적으로 연동 실패가 발생하고 있습니다. (2019.12.24. 12:00~)\n불편을 드려 죄송합니다.`;
         break;
->>>>>>> f6ca444e... 외부에서 구매한 바우처의 경우 실패시 문구 수정.
     }
     toast.failureMessage(failureMessage);
   }
