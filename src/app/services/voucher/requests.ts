@@ -10,6 +10,7 @@ export enum UseVoucherResponseCode {
   deactivatedVoucher = 'DEACTIVATED_VOUCHER',
   oneTimeRedeemableVoucher = 'ONE_TIME_REDEEMABLE_VOUCHER',
   redeemedVoucher = 'REDEEMED_VOUCHER',
+  voucherProviderInerworkingFailed = 'VOUCHER_PROVIDER_INTERWORKING_FAILED',
 }
 
 export const requestUseVoucher = (voucherCode: string) =>
