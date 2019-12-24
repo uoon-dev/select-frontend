@@ -40,9 +40,6 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
       case UseVoucherResponseCode.voucherNotFound:
         failureMessage = '잘못된 이용권 코드입니다. 이용권 코드를 확인해주세요.';
         break;
-      case UseVoucherResponseCode.voucherProviderInerworkingFailed:
-        failureMessage = `이용권 등록에 실패했습니다.\n쇼핑몰에서 구매하신 이용권의 경우 일시적으로 연동 실패가 발생하고 있습니다. (2019.12.24. 12:00~)\n불편을 드려 죄송합니다.`;
-        break;
     }
     toast.failureMessage(failureMessage);
   }
