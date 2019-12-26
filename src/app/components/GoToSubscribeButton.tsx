@@ -6,10 +6,12 @@ import { useSelector } from 'react-redux';
 
 interface GoToSubscribeButtonProps {
   className?: string;
-  onClick: () => void;
+  component?: React.ReactType;
+  onClick?: () => void;
+  to?: string;
 }
 
-export const GoToSubscribeButton: React.FunctionComponent<GoToSubscribeButtonProps> = ({ className, onClick }) => {
+export const GoToSubscribeButton: React.FunctionComponent<GoToSubscribeButtonProps> = ({ className, onClick, component, to }) => {
   const hasSubscribedBefore = useSelector((state: RidiSelectState) => state.user && state.user.hasSubscribedBefore);
   const isLoggedIn = useSelector((state: RidiSelectState) => state.user && state.user.isLoggedIn);
 
@@ -22,6 +24,8 @@ export const GoToSubscribeButton: React.FunctionComponent<GoToSubscribeButtonPro
       color="blue"
       size="large"
       onClick={onClick}
+      component={component}
+      to={to}
     >
       {isLoggedIn && hasSubscribedBefore ? '다시 시작하기' : '무료로 시작하기'}
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="GoToSubscribeButton_Icon">
