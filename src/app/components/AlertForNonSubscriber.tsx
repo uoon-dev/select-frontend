@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import history from 'app/config/history';
-import { RoutePaths } from 'app/constants';
+import { GoToSubscribeButton } from 'app/components/GoToSubscribeButton';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { GoToSubscribeButton } from './GoToSubscribeButton';
 
 export const AlertForNonSubscriber: React.FunctionComponent = () => {
   const [isIgnored, setIgnoreAlert] = React.useState(false);
-  const { STORE_URL, hasSubscribedBefore, isUserFetching, hasAvailableTicket, isIosInApp } = useSelector((state: RidiSelectState) => ({
-    STORE_URL: state.environment.STORE_URL,
+  const { hasSubscribedBefore, isUserFetching, hasAvailableTicket, isIosInApp } = useSelector((state: RidiSelectState) => ({
     hasSubscribedBefore: state.user.hasSubscribedBefore,
     hasAvailableTicket: state.user.hasAvailableTicket,
     isUserFetching: state.user.isFetching,
@@ -28,7 +26,8 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
         </p>
         <GoToSubscribeButton
           className="AlertForNonSubscriber_SubscribeButton"
-          onClick={() => { history.push(RoutePaths.INTRO); }}
+          component={Link}
+          to="/intro"
         />
         <button
           className="AlertForNonSubscriber_CloseButton"

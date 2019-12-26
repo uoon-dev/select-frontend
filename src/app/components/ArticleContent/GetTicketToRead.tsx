@@ -7,11 +7,12 @@ import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
 import * as classNames from 'classnames';
 import { throttle } from 'lodash-es';
+import { Link } from 'react-router-dom';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
   const BASE_URL_STORE = useSelector((state: RidiSelectState) => state.environment.STORE_URL);
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
-  const isLoggedIn = useSelector((state: RidiSelectState) => state.user.isLoggedIn);
+  const hasSubscribedBefore = useSelector((state: RidiSelectState) => state.user.hasSubscribedBefore);
 
   const [isSticky, setIsSticky] = React.useState(false);
   const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
@@ -48,8 +49,6 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     return null;
   }
 
-  const paymentUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.origin + location.pathname)}`;
-
   return (
     <div
       className={classNames(
@@ -62,16 +61,11 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
       <Button
         size="large"
         color="blue"
+        component={Link}
         className="ArticleContent_GetTicketToReadButton"
-        onClick={() => {
-          if (isLoggedIn) {
-            window.location.replace(paymentUrl);
-            return;
-          }
-          moveToLogin(paymentUrl);
-        }}
+        to="/intro"
       >
-        리디셀렉트 구독하고 무료로 보기
+        {`리디셀렉트 구독하고 ${hasSubscribedBefore ? '바로' : '무료로'} 보기`}
       </Button>
     </div>
   );
