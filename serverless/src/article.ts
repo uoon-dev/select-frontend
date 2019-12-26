@@ -18,7 +18,7 @@ router.get('/article/@:channelName/:contentIndex', async (req, res) => {
     const data = await (await fetch(getArticleApiUrl(channelName, contentIndex))).json();
     const openGraph: Partial<OpenGraph> = {
       title: `${data.title} - 리디셀렉트`,
-      description: `${data.channel.display_name}`,
+      description: data.channel.display_name,
       type: 'article',
       url: `https://select.ridibooks.com/article/@${channelName}/${contentIndex}`,
       image: data.thumbnail_url,
@@ -33,13 +33,13 @@ router.get('/article/@:channelName/:contentIndex', async (req, res) => {
   }
 });
 
-router.get('/article/channel/:@channelName', async (req, res) => {
+router.get('/article/channel/@:channelName', async (req, res) => {
   const { channelName } = req.params;
   try {
     const data = await (await fetch(getArticleApiUrl(channelName))).json();
     const openGraph: Partial<OpenGraph> = {
       title: `${data.display_name} - 리디셀렉트`,
-      description: `${data.description}`,
+      description: data.description,
       type: 'article',
       url: `https://select.ridibooks.com/article/channel/@${channelName}`,
       image: data.thumbnail_url,
