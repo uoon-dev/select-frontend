@@ -4,17 +4,15 @@ import { useSelector } from 'react-redux';
 import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
-import { moveToLogin } from 'app/utils/utils';
 import * as classNames from 'classnames';
 import { throttle } from 'lodash-es';
 import { Link } from 'react-router-dom';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
-  const BASE_URL_STORE = useSelector((state: RidiSelectState) => state.environment.STORE_URL);
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
   const hasSubscribedBefore = useSelector((state: RidiSelectState) => state.user.hasSubscribedBefore);
 
-  const [isSticky, setIsSticky] = React.useState(false);
+  const [isSticky, setIsSticky] = React.useState(true);
   const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
   const scrollFunction = () => {
     if (
@@ -27,8 +25,13 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
     const parentElement = getTicketToReadButtonWrapper.current.parentElement as HTMLElement;
     const currentScrollTop = window.pageYOffset || document.documentElement!.scrollTop;
     if (
-      (currentScrollTop + window.innerHeight) >=
-      (parentElement.offsetTop + parentElement.offsetHeight)
+      (
+        window.innerHeight >=
+        (parentElement.offsetTop + parentElement.offsetHeight)
+      ) || (
+        (currentScrollTop + window.innerHeight) >=
+        (parentElement.offsetTop + parentElement.offsetHeight)
+      )
     ) {
       setIsSticky(true);
     } else {
