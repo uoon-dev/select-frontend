@@ -29,6 +29,7 @@
 
 .AlertForNonSubscriber_SubscribeButton {
   height: 40px;
+  line-height: 38px;
   margin-top: 20px;
 }
 
