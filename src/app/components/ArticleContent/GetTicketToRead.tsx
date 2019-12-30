@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey: string }> = (props) => {
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[props.contentKey]);
+  const isLoggedIn = useSelector((state: RidiSelectState) => state.user.isLoggedIn);
   const hasSubscribedBefore = useSelector((state: RidiSelectState) => state.user.hasSubscribedBefore);
 
   const [isSticky, setIsSticky] = React.useState(true);
@@ -68,7 +69,7 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{ contentKey
         className="ArticleContent_GetTicketToReadButton"
         to="/intro"
       >
-        {`리디셀렉트 구독하고 ${hasSubscribedBefore ? '바로' : '무료로'} 보기`}
+        {`리디셀렉트 구독하고 ${isLoggedIn && hasSubscribedBefore ? '바로' : '무료로'} 보기`}
       </Button>
     </div>
   );
