@@ -105,7 +105,7 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     <Button
       color="blue"
       size="large"
-      components={Link}
+      component={Link}
       spinner={shouldDisplaySpinnerOnDownload}
       className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
       to="/intro"
