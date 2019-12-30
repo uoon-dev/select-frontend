@@ -43,6 +43,7 @@ import {
   RouteBlockLevel,
 } from 'app/hocs';
 import { ArticleContent } from 'app/scenes/ArticleContent';
+import { AppStatus } from 'app/services/app';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 
@@ -50,6 +51,7 @@ export interface Props {
   isRidiApp: boolean;
   isFetching: boolean;
   isLoggedIn: boolean;
+  appStatus: AppStatus;
   hasAvailableTicket: boolean;
   BASE_URL_STORE: string;
   errorResponseState?: ErrorResponseStatus;
@@ -117,7 +119,16 @@ export const Routes: React.SFC<Props> = (props) => {
           )}
         />
         <Switch>
-          <Redirect exact={true} from={RoutePaths.ROOT} to={RoutePaths.HOME} />
+          <Route
+            path={RoutePaths.ROOT}
+            exact={true}
+          >
+            {
+              props.appStatus !== AppStatus.Articles
+              ? <Redirect to={RoutePaths.HOME} />
+              : <Redirect to={RoutePaths.ARTICLE_HOME} />
+            }
+          </Route>
           <Redirect exact={true} from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
           <Route
             path={RoutePaths.HOME}
@@ -257,6 +268,7 @@ export const Routes: React.SFC<Props> = (props) => {
 const mapStateToProps = (rootState: RidiSelectState): Props => ({
   isLoggedIn: rootState.user.isLoggedIn,
   isRidiApp: selectIsInApp(rootState),
+  appStatus: rootState.app.appStatus,
   isFetching: rootState.user.isFetching,
   BASE_URL_STORE: rootState.environment.STORE_URL,
   hasAvailableTicket: rootState.user.hasAvailableTicket,

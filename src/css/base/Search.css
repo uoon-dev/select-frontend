@@ -80,7 +80,15 @@
 .GNBSearchWrapper-colored {
   & .GNBSearchInputWrapper {
     background: rgba(255, 255, 255, .1);
+  }
+  & .GNBSearchInput {
     color: #fff;
+  }
+  & .GNBSearchIcon {
+    fill: #fff;
+  }
+  & .GNBSearchResetButtonIcon {
+    fill: #fff;
   }
   &.active {
     & .RSGIcon-search {

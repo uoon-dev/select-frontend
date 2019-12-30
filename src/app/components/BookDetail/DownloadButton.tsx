@@ -1,4 +1,3 @@
-import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +11,7 @@ import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { moveToLogin } from 'app/utils/utils';
+import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
   bookId: number;
@@ -38,15 +37,12 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     isLoggedIn,
     hasAvailableTicket,
     hasSubscribedBefore,
-    env,
     isInApp,
     ownershipStatus,
     ownershipFetchStatus,
     mySelect,
     dispatchAddMySelect,
   } = props;
-
-  const { STORE_URL: BASE_URL_STORE } = env;
 
   const checkCanDownload = () => !!ownershipStatus && ownershipStatus.isDownloadAvailable;
 
@@ -78,15 +74,6 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     dispatchAddMySelect(bookId);
   };
 
-  const queryString = qs.stringify(qs.parse(location.search, { ignoreQueryPrefix: true }), {
-    filter: (prefix, value) => {
-      if (prefix.includes('utm_')) { return; }
-      return value;
-    },
-    addQueryPrefix: true,
-  });
-  const paymentsUrl = `${BASE_URL_STORE}/select/payments?return_url=${encodeURIComponent(location.origin + location.pathname) + queryString}`;
-
   if (checkCanDownload()) {
     return (
       <Button
@@ -97,18 +84,6 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
         onClick={handleDownloadButtonClick}
       >
         {isInApp ? '읽기' : '다운로드'}
-      </Button>
-    );
-  } else if (!isLoggedIn) {
-    return (
-      <Button
-        color="blue"
-        size="large"
-        spinner={shouldDisplaySpinnerOnDownload}
-        className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-        onClick={() => moveToLogin(paymentsUrl)}
-      >
-        {hasSubscribedBefore ? '리디셀렉트 구독하고 바로 보기' : '리디셀렉트 구독하고 무료로 보기'}
       </Button>
     );
   } else if (hasAvailableTicket) {
@@ -130,12 +105,12 @@ const BookDetailDownloadButton: React.FunctionComponent<Props> = (props) => {
     <Button
       color="blue"
       size="large"
+      component={Link}
       spinner={shouldDisplaySpinnerOnDownload}
       className="PageBookDetail_DownloadButton PageBookDetail_DownloadButton-large"
-      component="a"
-      href={paymentsUrl}
+      to="/intro"
     >
-      {hasSubscribedBefore ? '리디셀렉트 구독하고 바로 보기' : '리디셀렉트 구독하고 무료로 보기'}
+      {`리디셀렉트 구독하고 ${isLoggedIn && hasSubscribedBefore ? '바로' : '무료로'} 보기`}
     </Button>
   );
 };

@@ -17,6 +17,7 @@ require('dotenv').config();
 module.exports = (env, argv) => ({
   entry: {
     app: [
+      'url-polyfill',
       '@babel/polyfill',
       './src/app/index.tsx',
       './src/css/main.css',
@@ -67,6 +68,10 @@ module.exports = (env, argv) => ({
           },
         ],
       },
+      {
+        test: /\.modernizrrc$/,
+        loader: "modernizr-loader!json-loader"
+      },
     ],
   },
   resolve: {
@@ -75,6 +80,9 @@ module.exports = (env, argv) => ({
       path.resolve(__dirname, 'src'),
       'node_modules',
     ],
+    alias: {
+      modernizr$: path.resolve(__dirname, ".modernizrrc")
+    },
   },
   plugins: [
     new ProgressPlugin(),

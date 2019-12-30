@@ -28,8 +28,11 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{ contentKey: 
 
   const copyUrl = () => {
     const domForCopyUrl = document.createElement('textarea');
+    const locationUrl = new URL(location.href);
+    locationUrl.search = '';
+    locationUrl.hash = '';
+    domForCopyUrl.value = locationUrl.toString();
     domForCopyUrl.className = 'a11y';
-    domForCopyUrl.value = location.href;
     document.body.appendChild(domForCopyUrl);
     domForCopyUrl.select();
     document.execCommand('copy');

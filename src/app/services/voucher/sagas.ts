@@ -41,6 +41,7 @@ export function* useVoucher({ payload }: ReturnType<typeof Actions.useVoucher>) 
         failureMessage = '잘못된 이용권 코드입니다. 이용권 코드를 확인해주세요.';
         break;
     }
+
     toast.failureMessage(failureMessage);
   }
 }
