@@ -11,6 +11,7 @@ import { Actions as ArticleFollowingActions } from 'app/services/articleFollowin
 import { Actions } from 'app/services/articleHome';
 import { ArticleHomeSectionType, ArticleSectionType } from 'app/services/articleHome';
 import { RidiSelectState } from 'app/store';
+import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 export const ArticleHome: React.FunctionComponent = () => {
   const {
@@ -28,6 +29,7 @@ export const ArticleHome: React.FunctionComponent = () => {
     if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
       dispatch(Actions.loadArticleBannerRequest());
     }
+    sendPostRobotInitialRendered();
   }, []);
 
   React.useEffect(() => {
