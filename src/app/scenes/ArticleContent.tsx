@@ -10,6 +10,7 @@ import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
+import { HelmetWithTitle } from 'app/components';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -48,6 +49,9 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
 
   return (
     <main className="SceneWrapper PageArticleContent">
+      <HelmetWithTitle
+        titleName={articleState && articleState.article ? articleState.article.title : ''}
+      />
       <ArticleContentHeader
         contentKey={contentKey}
       />
