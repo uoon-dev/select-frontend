@@ -37,7 +37,6 @@ module.exports = (env, argv) => ({
         exclude: /node_modules/,
         use: [
           'babel-loader',
-          'tslint-loader',
         ],
       },
       {
