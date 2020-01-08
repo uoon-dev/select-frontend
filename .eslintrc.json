@@ -55,7 +55,7 @@
     // 콘솔 사용 여부
     "no-console": 0,
     // 사용하지 않는 변수는 허용하지 않는다.
-    "no-unused-vars": 1,
+    "no-unused-vars": 0,
     // 연산자의 혼합을 허용(삼항 연산자같은 경우를 위해..)
     "no-mixed-operators": 0,
     // 파일 끝이 개행으로 끝나도록
@@ -63,23 +63,13 @@
     // 화살표 함수 허용
     "no-confusing-arrow": 0,
     // 화살표 함수 인수에 괄호 생략 가능
-    "arrow-parens": [2, "as-needed"],
+    "arrow-parens": 0,
     // 화살표 함수 시작 전,후에 공백이 들어가야 한다.
     "arrow-spacing": ["error", { "before": true, "after": true }],
     // 화살표 본문 중괄호 생략 가능
     "arrow-body-style": [2, "as-needed"],
     // 불필요한 괄호를 허용하지 않는다.(예외 사항 아래 5개 제외)
-    "no-extra-parens": [
-      "warn",
-      "all",
-      {
-        "conditionalAssign": false,
-        "returnAssign": false,
-        "nestedBinaryExpressions": false,
-        "ignoreJSX": "none",
-        "enforceForArrowConditionals": false
-      }
-    ],
+    "no-extra-parens": 0,
     // 함수의 파라미터로 받은 값을 변수로 재할당 할수 없다.
     "no-param-reassign": 1,
     // 문자열 연결 대신 백틱 템플릿 사용
@@ -91,6 +81,7 @@
     // 사용하지 않는 표현식에 대한 허용
     "no-unused-expressions": 0,
     // 모듈이 단일 이름을 내보내는 경우 기본 내보내기를 선호
+    "no-extra-boolean-cast": 0,
     "import/prefer-default-export": 0,
     // 외부 패키지 사용 금지
     "import/no-extraneous-dependencies": [
@@ -105,6 +96,7 @@
     "import/order": 0,
     // 내보낸 변수 이름을 기본이름으로 import
     "import/no-named-as-default-member": 0,
+    "import/no-unresolved": 0,
     // 모든 앵커를 유효한걸로 친다. 허용 X
     "jsx-a11y/anchor-is-valid": 0,
     // 클릭이벤트가 있는 곳에 하나 이상의 키 이벤트가 있어야 한다. 허용하지 않음
@@ -129,6 +121,8 @@
     "react/jsx-curly-spacing": 0,
     // setState에서 state접근 허용
     "react/no-access-state-in-setstate": 0,
+    "react/jsx-no-target-blank": [1, { "enforceDynamicLinks": "never" }],
+    "react/no-unescaped-entities": 0,
     // indent를 2-space로 맞춘다.
     "@typescript-eslint/indent": ["error", 2],
     // camelcase 고정 허용 X
@@ -143,11 +137,14 @@
     "@typescript-eslint/no-unused-vars": 0,
     // 함수의 return type을 전부 명시하지 않는다.
     "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-var-requires": 0,
     // 멤버 선언 순서
     "@typescript-eslint/member-ordering": [
       1,
       {
-        "order": [
+        "default": [
           "constructor",
           "private-static-field",
           "protected-static-field",

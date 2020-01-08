@@ -35,8 +35,8 @@ const BookDetailNoticeList: React.FunctionComponent<Props> = (props) => {
   } = props;
 
   const noticeContents = isIosInApp && noticeList ? noticeList.map(({ id, content }) => {
-    content = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
-    return { id, content };
+    const replaceContent = content.replace(/<a(\s[^>]*)?>.*?<\/a>/ig, '');
+    return { id, content: replaceContent };
   }) : noticeList;
 
   return (

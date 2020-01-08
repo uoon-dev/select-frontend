@@ -64,7 +64,7 @@ export class Collection extends React.Component<Props> {
 
     if (nextProps.page !== this.props.page ||
       nextProps.collectionId !== this.props.collectionId
-      ) {
+    ) {
       const { dispatchLoadCollection, page } = nextProps;
       if (!this.isFetched(page)) {
         dispatchLoadCollection(collectionId, page);
@@ -85,7 +85,7 @@ export class Collection extends React.Component<Props> {
     const { books, collection, collectionId, page } = this.props;
 
     const itemCount: any  = collection ? collection.itemCount : 0;
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage = 24;
 
     return (
       <main className="SceneWrapper">
@@ -95,52 +95,47 @@ export class Collection extends React.Component<Props> {
         {!!collection && <ConnectedPageHeader pageTitle={collection.title} />}
         {(
           !this.isFetched(page) || isNaN(page)
-        ) ? (
-          <GridBookListSkeleton />
-        ) : (
-          <>
-            <ConnectedGridBookList
-              serviceTitleForTracking="select-book"
-              pageTitleForTracking="collection"
-              uiPartTitleForTracking="book-list"
-              miscTracking={JSON.stringify({ sect_collection_id: collection.id, sect_page: page })}
-              books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
-            />
-            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-              {
-                (isMobile) => <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `${collectionToPath({ collectionId })}?page=${p}`,
-                    }),
-                  }}
-                />
-              }
-            </MediaQuery>}
-          </>
-        )}
+        ) ? <GridBookListSkeleton />
+          : (
+            <>
+              <ConnectedGridBookList
+                serviceTitleForTracking="select-book"
+                pageTitleForTracking="collection"
+                uiPartTitleForTracking="book-list"
+                miscTracking={JSON.stringify({ sect_collection_id: collection.id, sect_page: page })}
+                books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
+              />
+              {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+                {
+                  (isMobile) => <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `${collectionToPath({ collectionId })}?page=${p}`,
+                      }),
+                    }}
+                  />
+                }
+              </MediaQuery>}
+            </>
+          )}
       </main>
     );
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState, ownProps: OwnProps): CollectionStateProps => {
-  return {
-    books: rootState.booksById,
-    collection: rootState.collectionsById[Number(ownProps.match.params.collectionId)],
-    collectionId: Number(ownProps.match.params.collectionId),
-    page: getPageQuery(rootState),
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatchLoadCollection: (collectionId: number, page: number) => dispatch(Actions.loadCollectionRequest({ collectionId, page })),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState, ownProps: OwnProps): CollectionStateProps => ({
+  books: rootState.booksById,
+  collection: rootState.collectionsById[Number(ownProps.match.params.collectionId)],
+  collectionId: Number(ownProps.match.params.collectionId),
+  page: getPageQuery(rootState),
+});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dispatchLoadCollection: (collectionId: number, page: number) => dispatch(Actions.loadCollectionRequest({ collectionId, page })),
+});
 export const ConnectedCollection = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Collection),
 );

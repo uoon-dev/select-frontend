@@ -22,7 +22,7 @@ interface HomeSpotlightSectionProps {
 }
 
 type Props = HomeSpotlightSectionProps &
-  ReturnType<typeof mapDispatchToProps>;
+ReturnType<typeof mapDispatchToProps>;
 
 export class HomeSpotlightSection extends React.Component<Props> {
   private slider: Slider;

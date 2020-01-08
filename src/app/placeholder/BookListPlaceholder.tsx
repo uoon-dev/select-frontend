@@ -77,7 +77,7 @@ export const ChartBookListSkeleton: React.SFC = () => {
                   <span className="HomeSection_ChartBookTitle Skeleton" />
                   <span className="HomeSection_ChartBookRating Skeleton" />
                 </div>
-            </li>
+              </li>
             ); },
           )}
         </ol>

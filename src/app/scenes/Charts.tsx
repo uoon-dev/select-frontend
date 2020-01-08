@@ -77,60 +77,55 @@ export class Charts extends React.Component<Props> {
   public render() {
     const { collection, books, page } = this.props;
     const itemCount: number = collection.itemCount ? collection.itemCount : 0;
-    const itemCountPerPage: number = 24;
+    const itemCountPerPage = 24;
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CHARTS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CHARTS} />
         {(
           !this.isFetched(page) || isNaN(page)
-        ) ? (
-          <GridBookListSkeleton displayRanking={true} />
-        ) : (
-          <>
-            <ConnectedGridBookList
-              serviceTitleForTracking="select-book"
-              pageTitleForTracking="popular"
-              uiPartTitleForTracking="book-list"
-              miscTracking={JSON.stringify({sect_page: page})}
-              books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
-              isChart={true}
-              page={page}
-            />
-            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-              {
-                (isMobile) => <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `/charts?page=${p}`,
-                    }),
-                  }}
-                />
-              }
-            </MediaQuery>}
-          </>
-        )}
+        ) ? <GridBookListSkeleton displayRanking={true} />
+          : (
+            <>
+              <ConnectedGridBookList
+                serviceTitleForTracking="select-book"
+                pageTitleForTracking="popular"
+                uiPartTitleForTracking="book-list"
+                miscTracking={JSON.stringify({sect_page: page})}
+                books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
+                isChart={true}
+                page={page}
+              />
+              {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+                {
+                  (isMobile) => <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `/charts?page=${p}`,
+                      }),
+                    }}
+                  />
+                }
+              </MediaQuery>}
+            </>
+          )}
       </main>
     );
   }
 }
 
-const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => {
-  return {
-    collection: rootState.collectionsById.popular,
-    books: rootState.booksById,
-    page: getPageQuery(rootState),
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
-  };
-};
+const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
+  collection: rootState.collectionsById.popular,
+  books: rootState.booksById,
+  page: getPageQuery(rootState),
+});
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dispatchLoadNewReleases: (page: number) => dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
+});
 export const ConnectedCharts = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Charts),
 );

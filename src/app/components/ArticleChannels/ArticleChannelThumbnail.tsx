@@ -22,6 +22,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     linkUrl,
     imageUrl,
     channelName,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     isEnabled = true,
   } = props;
