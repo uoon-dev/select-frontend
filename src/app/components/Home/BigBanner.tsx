@@ -1,8 +1,8 @@
 import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
+import { Actions as ArticleBannerActions } from 'app/services/articleHome';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { Actions as BookBannerActions, BigBanner } from 'app/services/home';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-import { Actions as ArticleBannerActions } from 'app/services/articleHome';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import * as classNames from 'classnames';
@@ -23,7 +23,7 @@ interface BigBannerStateProps {
   appStatus: AppStatus;
   fetchedAt: number | null;
   bigBannerList: BigBanner[];
-  currentIdx: number; 
+  currentIdx: number;
   isInApp: boolean;
 }
 
@@ -114,7 +114,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
       this.wrapper.removeEventListener('touchmove', this.preventTouch);
       window.removeEventListener('resize', this.handleWindowResize);
     }
-    updateCurrentIdx(this.state.currentIdx, appStatus);    
+    updateCurrentIdx(this.state.currentIdx, appStatus);
   }
 
   public render() {
@@ -153,7 +153,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               initialSlide={this.props.currentIdx}
               afterChange={(currentIdx) => {
                 this.setState({
-                  currentIdx: currentIdx,
+                  currentIdx,
                 });
                 this.setSliderImpression(section, currentIdx);
               }}
@@ -184,7 +184,7 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               ))}
             </Slider>
             <div className="BigBanner-Count">
-              {this.state.currentIdx+1} / {this.state.totalIdx}
+              {this.state.currentIdx + 1} / {this.state.totalIdx}
             </div>
             <SliderControls
               onPrevClick={() => this.slider.slickPrev()}
@@ -212,11 +212,10 @@ const mapDispatchToProps = (dispatch: any) => ({
   trackClick: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackClick({ trackingParams })),
   trackImpression: (trackingParams: DefaultTrackingParams) => dispatch(Actions.trackImpression({ trackingParams })),
   updateCurrentIdx: (currentIdx: number, appType: AppStatus) => {
-    if(appType === AppStatus.Books) {
-      return dispatch(BookBannerActions.updateBannerIndex({ currentIdx }));
-    }    
-    return dispatch(ArticleBannerActions.updateBannerIndex({ currentIdx }));
-  }
+    const targetAction = appType === AppStatus.Books ? BookBannerActions : ArticleBannerActions;
+
+    return dispatch(targetAction.updateBannerIndex({ currentIdx }));
+  },
 });
 
 export const ConnectedBigBannerCarousel = connect(mapStateToProps, mapDispatchToProps)(BigBannerCarousel);
