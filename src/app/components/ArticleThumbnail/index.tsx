@@ -29,6 +29,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     thumbnailShape = ThumbnailShape.RECTANGLE,
     thumbnailClassName,

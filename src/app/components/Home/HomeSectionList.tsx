@@ -122,19 +122,16 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
                 </>
               ))}
             </div>
-          ),
-        )}
+          ))}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps => {
-  return {
-    fetchedAt: state.home.fetchedAt,
-    collectionIdList: state.home.collectionIdList,
-    collections: state.collectionsById,
-  };
-};
+const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps => ({
+  fetchedAt: state.home.fetchedAt,
+  collectionIdList: state.home.collectionIdList,
+  collections: state.collectionsById,
+});
 
 export const ConnectedHomeSectionList = connect(mapStateToProps, null)(HomeSectionList);

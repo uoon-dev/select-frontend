@@ -49,7 +49,7 @@ export const Voucher: React.FunctionComponent = () => {
   };
 
   const submitVoucherCode = (voucherCode: string) => {
-    const trimmedCode = voucherCode.replace(/\-/g, '');
+    const trimmedCode = voucherCode.replace(/-/g, '');
     if (trimmedCode.length < 16) {
       toast.failureMessage('올바른 이용권 코드가 아닙니다.');
       return;
