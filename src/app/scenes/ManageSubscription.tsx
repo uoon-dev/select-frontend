@@ -174,13 +174,13 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                 {subscriptionState.isOptout ?
                   (subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' || subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ?
                     (!isIosInApp &&
-                    <Button
-                      className="ToggleSubscriptionButton"
-                      onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
-                      outline={true}
-                    >
-                      결제 수단 변경
-                    </Button>
+                      <Button
+                        className="ToggleSubscriptionButton"
+                        onClick={() => { this.handleChangePaymentButtonClick('unsubscription'); }}
+                        outline={true}
+                      >
+                        결제 수단 변경
+                      </Button>
                     ) : (
                       <Button
                         className="ToggleSubscriptionButton"

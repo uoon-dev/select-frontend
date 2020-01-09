@@ -42,7 +42,6 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = (props)
         ) : (
           <div className="HomeSection_Title">
             <h2 className="reset-heading">{props.title}</h2>
-            {/* TODO: This class name is weird */}
             <Link to={props.link} className="HomeSection_TitleLink">
                 전체 보기
               <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />

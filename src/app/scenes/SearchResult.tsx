@@ -154,53 +154,52 @@ export class SearchResult extends React.Component<Props, State> {
           !this.isFetched(query, page) || isNaN(page)
         ) ? 
           <LandscapeBookListSkeleton />
-          : (
-            this.isListExist(searchResultData[query].itemListByPage[page].itemList) ? (
-              <>
-                {type === 'books' ? (
-                  <>
-                    <p className="PageSearchResult_Title">
-                      {'\''}<strong>{query}</strong>{'\'에 대한 도서 검색 결과'}
-                    </p>
-                    <ConnectedSearchResultBookList
-                      keyword={query}
-                      books={searchResult.books[query].itemListByPage[page].itemList.map((item): SearchResultBook => ({
-                        ...books[item.bookId].book!,
-                        highlight: item.highlight,
-                        publisher: item.publisher,
-                      }))}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <p className="PageSearchResult_Title">
-                      {'\''}<strong>{query}</strong>{'\' 아티클 검색 결과'}
-                    </p>
-                    <SearchResultArticleList
-                      keyword={query}
-                      articles={searchResult.articles[query].itemListByPage[page].itemList.map((item): SearchResultArticle => ({
-                        ...articles[item.contentKey].article!,
-                        highlight: item.highlight,
-                      }))}
-                    />
-                  </>
-                )}
-                {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-                  {
-                    (isMobile) => <Pagination
-                      currentPage={page}
-                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                      isMobile={isMobile}
-                      item={{
-                        el: Link,
-                        getProps: (p): LinkProps => ({
-                          to: `/search?q=${query}&page=${p}&type=${appStatus}`,
-                        }),
-                      }}
-                    />
-                  }
-                </MediaQuery>}
-              </>) : this.renderEmpty()
+          : (this.isListExist(searchResultData[query].itemListByPage[page].itemList) ? (
+            <>
+              {type === 'books' ? (
+                <>
+                  <p className="PageSearchResult_Title">
+                    {'\''}<strong>{query}</strong>{'\'에 대한 도서 검색 결과'}
+                  </p>
+                  <ConnectedSearchResultBookList
+                    keyword={query}
+                    books={searchResult.books[query].itemListByPage[page].itemList.map((item): SearchResultBook => ({
+                      ...books[item.bookId].book!,
+                      highlight: item.highlight,
+                      publisher: item.publisher,
+                    }))}
+                  />
+                </>
+              ) : (
+                <>
+                  <p className="PageSearchResult_Title">
+                    {'\''}<strong>{query}</strong>{'\' 아티클 검색 결과'}
+                  </p>
+                  <SearchResultArticleList
+                    keyword={query}
+                    articles={searchResult.articles[query].itemListByPage[page].itemList.map((item): SearchResultArticle => ({
+                      ...articles[item.contentKey].article!,
+                      highlight: item.highlight,
+                    }))}
+                  />
+                </>
+              )}
+              {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+                {
+                  (isMobile) => <Pagination
+                    currentPage={page}
+                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    isMobile={isMobile}
+                    item={{
+                      el: Link,
+                      getProps: (p): LinkProps => ({
+                        to: `/search?q=${query}&page=${p}&type=${appStatus}`,
+                      }),
+                    }}
+                  />
+                }
+              </MediaQuery>}
+            </>) : this.renderEmpty()
           )}
         {
           !environment.platform.isRidibooks &&

@@ -122,8 +122,7 @@ export class HomeSectionList extends React.Component<HomeCollectionListStateProp
                 </>
               ))}
             </div>
-          ),
-          )}
+          ))}
       </div>
     );
   }

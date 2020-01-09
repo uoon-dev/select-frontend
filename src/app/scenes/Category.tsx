@@ -161,36 +161,34 @@ export class Category extends React.Component<Props, State> {
             </div>
           )}
         </MediaQuery>
-        {
-          (
-            !isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page)
-          ) ? <GridBookListSkeleton />
-            : (
-              <>
-                <ConnectedGridBookList
-                  serviceTitleForTracking="select-book"
-                  pageTitleForTracking="category"
-                  uiPartTitleForTracking="book-list"
-                  miscTracking={JSON.stringify({sect_cat_id : categoryId , sect_page : page})}
-                  books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
+        {!isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page)
+          ? <GridBookListSkeleton />
+          : 
+          <>
+            <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="category"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({sect_cat_id : categoryId , sect_page : page})}
+              books={category.itemListByPage[page].itemList.map((id) => books[id].book!)}
+            />
+            {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/categories?id=${categoryId}&page=${p}`,
+                    }),
+                  }}
                 />
-                {!isNaN(itemCount) && itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-                  {
-                    (isMobile) => <Pagination
-                      currentPage={page}
-                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                      isMobile={isMobile}
-                      item={{
-                        el: Link,
-                        getProps: (p): LinkProps => ({
-                          to: `/categories?id=${categoryId}&page=${p}`,
-                        }),
-                      }}
-                    />
-                  }
-                </MediaQuery>}
-              </>
-            )}
+              }
+            </MediaQuery>}
+          </>
+        }
       </main>
     );
   }

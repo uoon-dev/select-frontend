@@ -302,7 +302,7 @@ class MySelect extends React.Component<Props, State> {
                       checked={this.areEveryBookChecked()}
                       onChange={this.handleSelectAllCheckBoxChange}
                     >
-                          전체 선택
+                      전체 선택
                     </CheckBox>
                   </div>
                   <Button
@@ -311,36 +311,33 @@ class MySelect extends React.Component<Props, State> {
                     outline={true}
                     spinner={this.props.deletionFetchStatus === FetchStatusFlag.FETCHING}
                   >
-                      선택 삭제
+                    선택 삭제
                   </Button>
                   <Button
                     className="MySelectControls_Button"
                     color="blue"
                     onClick={this.handleDownloadSelectedBooksButtonClick}
                   >
-                      다운로드
+                    다운로드
                   </Button>
                 </div>
                 {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
               </div>
               <MediaQuery maxWidth={MAX_WIDTH}>
-                {
-                  (isMobile) => <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/my-select?page=${p}`,
-                      }),
-                    }}
-                  />
-                }
+                {(isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/my-select?page=${p}`,
+                    }),
+                  }}
+                />}
               </MediaQuery>
             </>
           ) : (!isUserFetching && isLoggedIn && hasAvailableTicket && isReSubscribed) ? (
-          /* 도서 이용 내역 확인하기 버튼 위치 */
             <>
               <Empty className={'Empty_HasButton'} description="이전에 이용한 책을 도서 이용 내역에서 확인해보세요." iconName="book_1" />
               <Link to={'/my-select-history'} className="MySelectBookList_Link">
@@ -363,8 +360,7 @@ class MySelect extends React.Component<Props, State> {
             </>
           ) : (
             <Empty description="마이 셀렉트에 등록된 도서가 없습니다." iconName="book_1" />
-          )
-          }
+          )}
         </div>
       </main>
     );

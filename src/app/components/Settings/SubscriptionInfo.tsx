@@ -85,7 +85,7 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
       <li className="LatestBillDateInfo" key="latest-bill-date-info">
         <strong className="LatestBillDateInfo_Title">최근 결제일</strong>
         <span className="LatestBillDateInfo_Term">
-          {`${buildOnlyDateFormat(latestPurchaseDate)}`}
+          {buildOnlyDateFormat(latestPurchaseDate)}
           {isPurchaseCancellable && latestPurchaseId &&
             <span className="CancelSubscriptionButton_Wrapper">
               <Button

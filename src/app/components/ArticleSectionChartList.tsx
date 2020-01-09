@@ -115,8 +115,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
               );
             })}
           </ol>
-        ),
-        )}
+        ))}
     </div>
   );
 };

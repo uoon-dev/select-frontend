@@ -82,37 +82,36 @@ export class Charts extends React.Component<Props> {
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CHARTS} />
         <ConnectedPageHeader pageTitle={PageTitleText.CHARTS} />
-        {(
-          !this.isFetched(page) || isNaN(page)
-        ) ? <GridBookListSkeleton displayRanking={true} />
-          : (
-            <>
-              <ConnectedGridBookList
-                serviceTitleForTracking="select-book"
-                pageTitleForTracking="popular"
-                uiPartTitleForTracking="book-list"
-                miscTracking={JSON.stringify({sect_page: page})}
-                books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
-                isChart={true}
-                page={page}
-              />
-              {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
-                {
-                  (isMobile) => <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/charts?page=${p}`,
-                      }),
-                    }}
-                  />
-                }
-              </MediaQuery>}
-            </>
-          )}
+        {!this.isFetched(page) || isNaN(page)
+          ? <GridBookListSkeleton displayRanking={true} />
+          : 
+          <>
+            <ConnectedGridBookList
+              serviceTitleForTracking="select-book"
+              pageTitleForTracking="popular"
+              uiPartTitleForTracking="book-list"
+              miscTracking={JSON.stringify({sect_page: page})}
+              books={collection.itemListByPage[page].itemList.map((id) => books[id].book!)}
+              isChart={true}
+              page={page}
+            />
+            {itemCount > 0 && <MediaQuery maxWidth={MAX_WIDTH}>
+              {
+                (isMobile) => <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  isMobile={isMobile}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `/charts?page=${p}`,
+                    }),
+                  }}
+                />
+              }
+            </MediaQuery>}
+          </>
+        }
       </main>
     );
   }

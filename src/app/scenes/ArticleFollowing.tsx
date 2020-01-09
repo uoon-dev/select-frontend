@@ -130,14 +130,14 @@ export const ArticleFollowing: React.FunctionComponent = () => {
           />
         )
       ) : (
-        <React.Fragment>
+        <>
           <SlideChannelListPlaceholder />
           <div className="FollowingArticleList">
             <GridArticleListPlaceholder
               gridSize={'large'}
             />
           </div>
-        </React.Fragment>
+        </>
       )
       }
     </main>
