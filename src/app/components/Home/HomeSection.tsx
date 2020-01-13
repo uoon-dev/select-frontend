@@ -19,7 +19,7 @@ import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
-  order: number;
+  order?: number;
 }
 
 interface HomeCollectionStateProps {
