@@ -37,6 +37,7 @@
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.6",
     "@types/webfontloader": "^1.6.29",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.0",
