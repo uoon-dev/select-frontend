@@ -112,7 +112,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
           throttle={true}
           resize={true}
           overflow={false}
-          placeholder={<div className="Skeleton CoverImage_Placeholder ArticleCoverImage_Placeholder" />}
+          placeholder={<div className="Skeleton ArticleCoverImage_Placeholder" />}
         >
           {!isWrongImage ? (
             renderThumbnailImage()
