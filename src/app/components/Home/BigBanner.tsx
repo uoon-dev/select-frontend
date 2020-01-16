@@ -7,7 +7,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import { debounce } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';

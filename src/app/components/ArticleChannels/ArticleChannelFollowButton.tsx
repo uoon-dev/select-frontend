@@ -1,5 +1,5 @@
 import { Method } from 'axios';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';

@@ -9,7 +9,7 @@ import { Actions as ArticleFollowingActions } from 'app/services/articleFollowin
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ArticleChannelList: React.FunctionComponent = () => {

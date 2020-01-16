@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';

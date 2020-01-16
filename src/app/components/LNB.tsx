@@ -6,7 +6,7 @@ import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import { assignIn, flow, omit } from 'lodash-es';
 import * as qs from 'qs';
-import * as React from 'react';
+import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 

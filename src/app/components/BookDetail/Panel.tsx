@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 
 import { BookDetailSectionPlaceholder } from 'app/components/BookDetail/BookDetailSectionPlaceholder';
 import { Expander } from 'app/components/BookDetail/Expander';

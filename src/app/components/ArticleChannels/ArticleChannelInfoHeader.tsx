@@ -6,7 +6,7 @@ import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';

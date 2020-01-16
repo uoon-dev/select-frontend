@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Lazyload from 'react-lazyload';
 import * as Modernizr from 'modernizr';
 import { Link } from 'react-router-dom';

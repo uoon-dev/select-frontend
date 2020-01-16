@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';

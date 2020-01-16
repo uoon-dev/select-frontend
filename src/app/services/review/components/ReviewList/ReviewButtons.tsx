@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 
 import { Button, Icon } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 
 import { NewlineToBr } from 'app/components/NewlineToBr';
 import { FetchStatusFlag } from 'app/constants';

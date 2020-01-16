@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { FetchStatusFlag, MAX_WIDTH } from 'app/constants';

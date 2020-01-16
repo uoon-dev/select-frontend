@@ -1,11 +1,12 @@
-import { css } from '@emotion/core';
-import * as React from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { GoToSubscribeButton } from 'app/components/GoToSubscribeButton';
-import { getIsIosInApp } from 'app/services/environment/selectors';
+import { css } from '@emotion/core';
+
 import { RidiSelectState } from 'app/store';
+import { getIsIosInApp } from 'app/services/environment/selectors';
+import { GoToSubscribeButton } from 'app/components/GoToSubscribeButton';
 
 const backdropFilter = css`
   backdrop-filter: blur(3px);

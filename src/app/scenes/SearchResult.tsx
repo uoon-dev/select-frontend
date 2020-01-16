@@ -14,7 +14,7 @@ import { Actions as SearchResultActions, SearchResultArticle, SearchResultBook, 
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import * as qs from 'qs';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
