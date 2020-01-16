@@ -1,6 +1,6 @@
 import { ConnectedRouter } from 'connected-react-router';
 import * as pathToRegexp from 'path-to-regexp';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
