@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { throttle } from 'lodash-es';
 import { Link } from 'react-router-dom';
 

@@ -3,7 +3,7 @@ import { GNBColorLevel } from 'app/services/commonUI';
 import { getSolidBackgroundColorRGBString, selectGnbColorLevel } from 'app/services/commonUI/selectors';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
 

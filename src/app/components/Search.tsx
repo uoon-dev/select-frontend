@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { isString, take } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';

@@ -14,7 +14,7 @@ import { Actions, ReservedCollectionState } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 
 import { getPageQuery } from 'app/services/routing/selectors';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;

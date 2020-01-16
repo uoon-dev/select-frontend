@@ -18,7 +18,7 @@ import { RidiSelectState } from 'app/store';
 import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 interface StateProps {
   mySelectHistory: MySelectHistroyState;

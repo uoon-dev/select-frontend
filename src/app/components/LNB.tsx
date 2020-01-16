@@ -3,7 +3,7 @@ import { AppStatus } from 'app/services/app';
 import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { assignIn, flow, omit } from 'lodash-es';
 import * as qs from 'qs';
 import * as React from 'react';

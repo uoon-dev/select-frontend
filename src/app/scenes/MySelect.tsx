@@ -19,7 +19,7 @@ import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 interface StateProps {
   isAndroidInApp: boolean;

@@ -1,4 +1,4 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import detectIt from 'detect-it';
 import * as React from 'react';
 

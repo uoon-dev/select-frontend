@@ -5,7 +5,7 @@ import { Actions as BookBannerActions, BigBanner } from 'app/services/home';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { debounce } from 'lodash-es';
 import * as React from 'react';
 import { connect } from 'react-redux';

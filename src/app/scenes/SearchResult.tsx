@@ -12,7 +12,7 @@ import { EnvironmentState } from 'app/services/environment';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions as SearchResultActions, SearchResultArticle, SearchResultBook, SearchResultState } from 'app/services/searchResult';
 import { RidiSelectState } from 'app/store';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as qs from 'qs';
 import * as React from 'react';
 import { connect } from 'react-redux';

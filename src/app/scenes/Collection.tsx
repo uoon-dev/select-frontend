@@ -13,7 +13,7 @@ import { Actions, DefaultCollectionState } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 interface CollectionStateProps {
   books: BookState;
