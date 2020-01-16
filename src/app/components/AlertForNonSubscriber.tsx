@@ -1,3 +1,4 @@
+import { css } from '@emotion/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,10 @@ import { Link } from 'react-router-dom';
 import { GoToSubscribeButton } from 'app/components/GoToSubscribeButton';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
+
+const backdropFilter = css`
+  backdrop-filter: blur(3px);
+`;
 
 export const AlertForNonSubscriber: React.FunctionComponent = () => {
   const [isIgnored, setIgnoreAlert] = React.useState(false);
@@ -19,7 +24,7 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
     !isIosInApp &&
     !isUserFetching &&
     !hasAvailableTicket ? (
-      <div className="AlertForNonSubscriber">
+      <div className="AlertForNonSubscriber" css={backdropFilter}>
         <p className="AlertForNonSubscriber_MainText">베스트셀러부터<br/>프리미엄 아티클까지</p>
         <p className="AlertForNonSubscriber_SubText">
           {hasSubscribedBefore ? '모두 무제한으로' : '1개월 무료'}
