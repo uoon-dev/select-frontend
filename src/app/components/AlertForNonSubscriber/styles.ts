@@ -34,9 +34,11 @@ export const subText = css`
 `;
 
 export const subscribeButton = css`
-  height: 40px;
-  line-height: 38px;
   margin-top: 20px;
+  .GoToSubscribeButton {
+    height: 40px;
+    line-height: 38px;
+  }
 `;
 
 export const closeButton = css`

@@ -20,11 +20,12 @@ export const AlertForNonSubscriber: React.FunctionComponent = () => {
       <p css={styles.subText}>
         {hasSubscribedBefore ? '모두 무제한으로' : '1개월 무료'}
       </p>
-      <GoToSubscribeButton
-        css={styles.subscribeButton}
-        component={Link}
-        to="/intro"
-      />
+      <div css={styles.subscribeButton}>
+        <GoToSubscribeButton
+          component={Link}
+          to="/intro"
+        />
+      </div>
       <button
         css={styles.closeButton}
         type="button"
