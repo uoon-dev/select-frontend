@@ -14,7 +14,7 @@ interface OrderHistoryListAmountInfoProps {
 
 export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) => {
   const { payment } = props;
-  const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id, ticketIdsToBeCanceledWith } = payment;
+  const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id, ticketIdsToBeCanceledWith, isCashReceiptIssuable, cashReceiptUrl } = payment;
 
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
@@ -50,8 +50,8 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           ? '무료'
           : voucherCode ? '' : formattedPrice}
       </p>
-      <div className="CancelOrderButton_Wrapper">
-        {isCancellable && (
+      <div className="OrderHistoryButtons">
+        {isCancellable ? (
           <Button
             className="CancelOrderButton"
             color="gray"
@@ -61,7 +61,38 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           >
             결제 취소
           </Button>
-        )}
+        ) : null}
+        {isCashReceiptIssuable ? (
+          cashReceiptUrl ? (
+            <>
+              <Button
+                className="CashReceiptCancel_Button"
+                color="gray"
+                outline={true}
+                size="medium"
+              >
+                발급 취소
+              </Button><br/>
+              <Button
+                className="CashReceiptPrint_Button"
+                color="gray"
+                outline={true}
+                size="medium"
+              >
+                영수증 인쇄
+              </Button>
+            </>
+          ) : (
+            <Button
+              className="CashReceiptIssue_Button"
+              color="gray"
+              outline={true}
+              size="medium"
+            >
+              영수증 발급
+            </Button>
+          )
+        ) : null}
       </div>
     </>
   );

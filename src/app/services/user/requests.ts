@@ -24,6 +24,9 @@ export interface Ticket {
   voucherCode?: string;
   voucherExpireDate?: DateDTO;
   ticketIdsToBeCanceledWith: number[];
+  cashReceiptUrl?: string;
+  pgReceiptUrl?: string;
+  isCashReceiptIssuable?: boolean;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
