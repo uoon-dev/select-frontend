@@ -26,7 +26,7 @@ import {
   ConnectedMySelect,
   ConnectedMySelectHistory,
   ConnectedNewReleases,
-  ConnectedOrderHistory,
+  OrderHistory,
   ConnectedSearchResult,
   ConnectedSetting,
   Intro,
@@ -173,7 +173,7 @@ export const Routes: React.SFC<Props> = (props) => {
           />
           <ConnectedPrivateRoute
             path={RoutePaths.ORDER_HISTORY}
-            component={ConnectedOrderHistory}
+            component={OrderHistory}
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
