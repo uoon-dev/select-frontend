@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
@@ -6,7 +6,10 @@ import { Button } from '@ridi/rsg';
 import toast from 'app/utils/toast';
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/user';
+import { Modal } from 'app/components/Modal';
 import { Ticket } from 'app/services/user/requests';
+import { RUIRadioInput } from 'app/services/review';
+import * as styles from 'app/components/OrderHistory/styles';
 
 interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
@@ -15,6 +18,9 @@ interface OrderHistoryListAmountInfoProps {
 export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) => {
   const { payment } = props;
   const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id, ticketIdsToBeCanceledWith, isCashReceiptIssuable, cashReceiptUrl } = payment;
+
+  const [cashReceiptIssuePopupActive, setCashReceiptIssuePopupActive] = React.useState(false);
+  const [cashReceiptIssueType, setCashReceiptIssueType] = React.useState('INCOME_DEDUCTION');
 
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
@@ -43,6 +49,13 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     }
   }
 
+  const handleCashReceiptIssueTypeChange = (e: any) => {
+    if (!e.currentTarget.checked) {
+      return;
+    }
+    setCashReceiptIssueType(e.currentTarget.value);
+  }
+
   return (
     <>
       <p className="Ordered_Amount">
@@ -62,7 +75,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
             결제 취소
           </Button>
         ) : null}
-        {isCashReceiptIssuable ? (
+        {!isCashReceiptIssuable ? (
           cashReceiptUrl ? (
             <>
               <Button
@@ -87,6 +100,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
               className="CashReceiptIssue_Button"
               color="gray"
               outline={true}
+              onClick={() => setCashReceiptIssuePopupActive(true)}
               size="medium"
             >
               영수증 발급
@@ -94,6 +108,46 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           )
         ) : null}
       </div>
+      {cashReceiptIssuePopupActive ? (
+        <Modal
+          title="현금영수증 발급 신청"
+          onClose={() => setCashReceiptIssuePopupActive(false)}
+        >
+          <div>
+            <p css={styles.cashReceiptIssueModalSubTitle}>발행 용도</p>
+            <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
+              <RUIRadioInput
+                inputName="cashReceiptIssueType"
+                id="cashReceipt_incomeDeduction"
+                value="INCOME_DEDUCTION"
+                isChecked={cashReceiptIssueType === 'INCOME_DEDUCTION'}
+                onChange={handleCashReceiptIssueTypeChange}
+                displayName="소득 공제용"
+              />
+            </span>
+            <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
+              <RUIRadioInput
+                inputName="cashReceiptIssueType"
+                id="cashReceipt_ExpenseEvidence"
+                value="EXPENSE_EVIDENCE"
+                isChecked={cashReceiptIssueType === 'EXPENSE_EVIDENCE'}
+                onChange={handleCashReceiptIssueTypeChange}
+                displayName="지출 증빙용"
+              />
+            </span>
+          </div>
+          <div>
+            <p css={styles.cashReceiptIssueModalSubTitle}>발급 번호</p>
+            <div css={styles.cashReceiptIssueModalIssueNumberInputWrapper}>
+              <input
+                type="text"
+                css={styles.cashReceiptIssueModalIssueNumberInput}
+                placeholder={cashReceiptIssueType === 'INCOME_DEDUCTION' ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
+              />
+            </div>
+          </div>
+        </Modal>
+      ) : null}
     </>
   );
 }

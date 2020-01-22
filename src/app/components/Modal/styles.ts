@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 
 import Colors from 'app/styles/colors';
-import { resetButton } from 'app/styles/customProperties';
+import { resetButton, resetLayout } from 'app/styles/customProperties';
 
 export const modalContainer = css`
   position: fixed;
@@ -44,14 +44,19 @@ export const modalHeader = css`
 `;
 
 export const modalTitle = css`
+  ${resetLayout}
   font-weight: 700;
   font-size: 17px;
   line-height: 24px;
   color: #000;
+  text-align: left;
 `;
 
 export const modalCloseButton = css`
   ${resetButton}
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 54px;
   height: 64px;
 `;
