@@ -7,8 +7,8 @@ import toast from 'app/utils/toast';
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/user';
 import { Modal } from 'app/components/Modal';
+import { Radio } from 'app/components/Forms/Radio';
 import { Ticket } from 'app/services/user/requests';
-import { RUIRadioInput } from 'app/services/review';
 import * as styles from 'app/components/OrderHistory/styles';
 
 interface OrderHistoryListAmountInfoProps {
@@ -113,10 +113,10 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           title="현금영수증 발급 신청"
           onClose={() => setCashReceiptIssuePopupActive(false)}
         >
-          <div>
+          <div css={styles.cashReceiptIssueModalWrapper}>
             <p css={styles.cashReceiptIssueModalSubTitle}>발행 용도</p>
             <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
-              <RUIRadioInput
+              <Radio
                 inputName="cashReceiptIssueType"
                 id="cashReceipt_incomeDeduction"
                 value="INCOME_DEDUCTION"
@@ -126,7 +126,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
               />
             </span>
             <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
-              <RUIRadioInput
+              <Radio
                 inputName="cashReceiptIssueType"
                 id="cashReceipt_ExpenseEvidence"
                 value="EXPENSE_EVIDENCE"
