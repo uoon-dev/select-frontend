@@ -34,6 +34,9 @@ export const radioLabel = css`
   color: ${Colors.slategray_60};
   font-size: 13px;
   font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: top;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   transition: color .2s;
@@ -43,7 +46,7 @@ export const radioLabel = css`
     box-sizing: border-box;
     display: block;
     position: absolute;
-    top: -.1em;
+    top: 0;
     left: 0;
     width: 20px;
     height: 20px;
