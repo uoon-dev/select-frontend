@@ -5,7 +5,7 @@ import env from 'app/config/env';
 import { UserRidiSelectBookResponse } from 'app/services/mySelect/requests';
 import { SubscriptionState } from 'app/services/user';
 import { DateDTO } from 'app/types';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, Method } from 'axios';
 
 export interface Ticket {
   id: number;
@@ -135,6 +135,21 @@ export const requestCancelUnsubscription = (subscriptionId: number): Promise<Axi
     url: `${env.STORE_API}/api/select/users/me/subscription/${subscriptionId}`,
     method: 'PUT',
   });
+
+export const requestCashReceiptIssue = (ticketId: number, method: Method, issuePurpose?: string, issueNumber?: string): Promise<AxiosResponse<null>> => {
+  let data = null;
+  if (issuePurpose && issueNumber) {
+    data = {
+      issue_purpose: issuePurpose,
+      issue_number: issueNumber,
+    };
+  }
+  return axios({
+    url: `${env.STORE_API}/api/select/users/me/tickets/${ticketId}/cash-receipt`,
+    method,
+    data,
+  });
+}
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
   axios({

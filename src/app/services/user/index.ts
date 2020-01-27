@@ -6,7 +6,7 @@ import { MySelectBook , userRidiSelectBookToMySelectBook } from 'app/services/my
 import { UserDTO } from 'app/services/user/helper';
 import { MySelectHistoryResponse, PurchasesResponse, SubscriptionResponse, Ticket } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
-import { AxiosError } from 'axios';
+import { AxiosError, Method } from 'axios';
 
 export const Actions = {
   fetchUserInfo: createAction<{
@@ -97,6 +97,19 @@ export const Actions = {
     email: string,
   }>('loadAccountsMeSuccess'),
   loadAccountsMeFailure: createAction('loadAccountsMeFailure'),
+
+  cashReceiptIssueRequest: createAction<{
+    ticketId: number,
+    method: Method,
+    issuePurpose?: string,
+    issueNumber?: string,
+  }>('CashReceiptIssueRequest'),
+  cashReceiptIssueSuccess: createAction<{
+    ticketId: number,
+    method: Method,
+    cashReceiptUrl: string | null,
+  }>('CashReceiptIssueRequest'),
+  cashReceiptIssueFailure: createAction('CashReceiptIssueRequest'),
 };
 
 // TODO: 서버에서 내려주는 방식이 string 으로 내려주고 있어서 확인 후 수정 필요.
@@ -154,6 +167,7 @@ export interface SubscriptionState {
 
 export interface PurchaseHistory extends Paginated<Ticket> {
   isCancelFetching: boolean;
+  isCashReceiptIssueFetching: boolean;
 }
 
 export interface UserState {
@@ -193,6 +207,7 @@ export const INITIAL_STATE: UserState = {
   purchaseHistory: {
     itemListByPage: {},
     isCancelFetching: false,
+    isCashReceiptIssueFetching: false,
   },
 };
 
@@ -413,6 +428,7 @@ userReducer.on(Actions.clearPurchases, (state = INITIAL_STATE) => ({
   purchaseHistory: {
     itemListByPage: {},
     isCancelFetching: false,
+    isCashReceiptIssueFetching: false,
   },
 }));
 
@@ -485,3 +501,43 @@ userReducer.on(Actions.cancelUnsubscriptionFailure, (state = INITIAL_STATE) => (
   ...state,
   unsubscriptionCancellationFetchStatus: FetchStatusFlag.FETCH_ERROR,
 }));
+
+userReducer.on(Actions.cashReceiptIssueRequest, (state = INITIAL_STATE) => ({
+  ...state,
+  purchaseHistory: {
+    ...state.purchaseHistory,
+    isCashReceiptIssueFetching: true,
+  },
+}));
+
+userReducer.on(Actions.cashReceiptIssueSuccess, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  purchaseHistory: {
+    ...state.purchaseHistory,
+    itemListByPage: Object
+      .keys(state.purchaseHistory.itemListByPage)
+      .reduce((listByPage, p): ItemListByPage<Ticket> => {
+        const page = Number(p);
+        return {
+          ...listByPage,
+          [page]: {
+            ...state.purchaseHistory.itemListByPage[page],
+            itemList: state.purchaseHistory.itemListByPage[page].itemList.map((item) => ({
+              ...item,
+              cashReceiptUrl: item.id === payload.ticketId ? payload.cashReceiptUrl : item.cashReceiptUrl,
+            })),
+          },
+        };
+      }, {}),
+    isCashReceiptIssueFetching: false,
+  },
+}));
+
+userReducer.on(Actions.cashReceiptIssueFailure, (state = INITIAL_STATE) => ({
+  ...state,
+  purchaseHistory: {
+    ...state.purchaseHistory,
+    isCashReceiptIssueFetching: false,
+  },
+}));
+

@@ -23,9 +23,9 @@ import {
   requestSubscription,
   requestUnsubscribe,
   SubscriptionResponse,
+  requestCashReceiptIssue,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
-import { DateDTO } from 'app/types';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { fixWrongPaginationScope, isValidPaginationParameter, updateQueryStringParam } from 'app/utils/request';
 import toast from 'app/utils/toast';
@@ -244,6 +244,32 @@ export function* watchCancelUnsubscription() {
   }
 }
 
+
+export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.cashReceiptIssueRequest>) {
+  const { ticketId, method, issuePurpose, issueNumber } = payload;
+  try {
+    const response = yield call(requestCashReceiptIssue, ticketId, method, issuePurpose, issueNumber);
+    // TODO: 전달된 데이터로 변경해야함
+    const cashReceiptUrl = method === 'POST' ? 'sampleData' : null;
+    yield put(Actions.cashReceiptIssueSuccess({ ticketId, method, cashReceiptUrl }));
+  } catch (e) {
+    yield put(Actions.cashReceiptIssueFailure());
+    if (
+      e.response.status === 400 && e.response.data.code === 'INVALID_PARAM' ||
+      e.response.status === 500 && e.response.data.code === 'CASH_RECEIPT_ISSUE_FAILED'
+    ) {
+      toast.failureMessage(e.message);
+      return;
+    }
+    toast.failureMessage('알 수 없는 문제가 발생했습니다. 다시 시도해주세요.')
+  }
+}
+
+export function* watchCashReceiptIssueRequest() {
+  yield takeLatest(Actions.cashReceiptIssueRequest.getType(), cashReceiptIssueRequest);
+}
+
+
 export function* userRootSaga() {
   yield all([
     watchInitializeUser(),
@@ -256,5 +282,6 @@ export function* userRootSaga() {
     watchCancelPurchase(),
     watchUnsubscribe(),
     watchCancelUnsubscription(),
+    watchCashReceiptIssueRequest(),
   ]);
 }
