@@ -20,7 +20,7 @@ export const cashReceiptIssueModalSubTitle = css`
 export const cashReceiptIssueModalIssueTypeList = css`
   ${resetLayout}
   display: block;
-  padding: 12px 0;
+  padding: 0 0 10px;
 `;
 
 export const cashReceiptIssueModalIssueTypeListItem = css`
@@ -82,4 +82,14 @@ export const cashReceiptIssueModalIssueNumberInput = css`
     width: 0;
     height: 0;
   }
+`;
+
+export const cashReceiptIssueModalIssueButtonWrapper = css`
+  text-align: right;
+  padding-top: 20px;
+`;
+
+export const cashReceiptIssueModalIssueButton = css`
+  width: 64px;
+  font-size: 14px;
 `;

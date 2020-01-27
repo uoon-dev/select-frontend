@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
@@ -6,10 +6,8 @@ import { Button } from '@ridi/rsg';
 import toast from 'app/utils/toast';
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/user';
-import { Modal } from 'app/components/Modal';
-import { Radio } from 'app/components/Forms/Radio';
 import { Ticket } from 'app/services/user/requests';
-import * as styles from 'app/components/OrderHistory/styles';
+import { CashReceiptIssueModal } from './CashReceiptIssueModal';
 
 interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
@@ -19,13 +17,12 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
   const { payment } = props;
   const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id, ticketIdsToBeCanceledWith, isCashReceiptIssuable, cashReceiptUrl } = payment;
 
-  const [cashReceiptIssuePopupActive, setCashReceiptIssuePopupActive] = React.useState(false);
-  const [cashReceiptIssueType, setCashReceiptIssueType] = React.useState('INCOME_DEDUCTION');
-
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
 
   const dispatch = useDispatch();
+
+  const [cashReceiptIssuePopupActive, setCashReceiptIssuePopupActive] = React.useState(false);
 
   const handleCancelPurchaseButtonClick = () => {
     if (orderHistory.isCancelFetching) {
@@ -47,13 +44,6 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     if (confirm(`결제를 취소하시겠습니까?${comfirmMessageBlocks.join('')}`)) {
       dispatch(Actions.cancelPurchaseRequest({ purchaseId: id }))
     }
-  }
-
-  const handleCashReceiptIssueTypeChange = (e: any) => {
-    if (!e.currentTarget.checked) {
-      return;
-    }
-    setCashReceiptIssueType(e.currentTarget.value);
   }
 
   return (
@@ -109,44 +99,10 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
         ) : null}
       </div>
       {cashReceiptIssuePopupActive ? (
-        <Modal
-          title="현금영수증 발급 신청"
-          onClose={() => setCashReceiptIssuePopupActive(false)}
-        >
-          <div css={styles.cashReceiptIssueModalWrapper}>
-            <p css={styles.cashReceiptIssueModalSubTitle}>발행 용도</p>
-            <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
-              <Radio
-                inputName="cashReceiptIssueType"
-                id="cashReceipt_incomeDeduction"
-                value="INCOME_DEDUCTION"
-                isChecked={cashReceiptIssueType === 'INCOME_DEDUCTION'}
-                onChange={handleCashReceiptIssueTypeChange}
-                displayName="소득 공제용"
-              />
-            </span>
-            <span css={styles.cashReceiptIssueModalIssueTypeListItem}>
-              <Radio
-                inputName="cashReceiptIssueType"
-                id="cashReceipt_ExpenseEvidence"
-                value="EXPENSE_EVIDENCE"
-                isChecked={cashReceiptIssueType === 'EXPENSE_EVIDENCE'}
-                onChange={handleCashReceiptIssueTypeChange}
-                displayName="지출 증빙용"
-              />
-            </span>
-          </div>
-          <div>
-            <p css={styles.cashReceiptIssueModalSubTitle}>발급 번호</p>
-            <div css={styles.cashReceiptIssueModalIssueNumberInputWrapper}>
-              <input
-                type="text"
-                css={styles.cashReceiptIssueModalIssueNumberInput}
-                placeholder={cashReceiptIssueType === 'INCOME_DEDUCTION' ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
-              />
-            </div>
-          </div>
-        </Modal>
+        <CashReceiptIssueModal
+          id={id}
+          closeModal={() => setCashReceiptIssuePopupActive(false)}
+        />
       ) : null}
     </>
   );
