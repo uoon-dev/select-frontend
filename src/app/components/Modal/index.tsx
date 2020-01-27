@@ -11,6 +11,10 @@ interface ModalProps {
 
 export const Modal: React.FunctionComponent<ModalProps> = (props) => (
   <div css={styles.modalContainer}>
+    <span
+      css={styles.modalContainerDimmedBG}
+      onClick={props.onClose}
+    />
     <div css={styles.modalComponent}>
       <div css={styles.modalHeader}>
         <h4 css={styles.modalTitle}>{props.title}</h4>

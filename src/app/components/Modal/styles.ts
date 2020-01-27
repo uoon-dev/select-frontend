@@ -15,16 +15,16 @@ export const modalContainer = css`
   width: 100%;
   height: 100%;
   z-index: 9999;
+`;
 
-  &:after {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    content: '';
-    background: rgba(0, 0, 0, 0.5);
-  }
+export const modalContainerDimmedBG = css`
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  content: '';
+  background: rgba(0, 0, 0, .5);
 `;
 
 export const modalComponent = css`
