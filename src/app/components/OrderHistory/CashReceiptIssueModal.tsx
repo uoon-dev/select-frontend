@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
 
@@ -7,6 +7,8 @@ import { Actions } from 'app/services/user';
 import { Modal } from 'app/components/Modal';
 import { Radio } from 'app/components/Forms/Radio';
 import * as styles from 'app/components/OrderHistory/styles';
+import toast from 'app/utils/toast';
+import { RidiSelectState } from 'app/store';
 
 interface CashReceiptIssueModalProps {
   id: number;
@@ -14,6 +16,8 @@ interface CashReceiptIssueModalProps {
 }
 export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModalProps> = (props) => {
   const { id, closeModal } = props;
+
+  const isCashReceiptIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
 
   const [cashReceiptIssueType, setCashReceiptIssueType] = React.useState('INCOME_DEDUCTION')
   const [cashReceiptIssueModalIssueNumber, setCashReceiptIssueModalIssueNumber] = React.useState('');
@@ -26,6 +30,24 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     }
     setCashReceiptIssueModalIssueNumber('');
     setCashReceiptIssueType(e.currentTarget.value);
+  }
+
+  const submitCashReceiptIssueRequest = () => {
+    if (isCashReceiptIssueFetching) {
+      return;
+    }
+
+    if (!cashReceiptIssueModalIssueNumber || cashReceiptIssueModalIssueNumber.length <= 0) {
+      toast.failureMessage('번호를 확인해주세요.');
+      return;
+    }
+
+    dispatch(Actions.cashReceiptIssueRequest({
+      ticketId: id,
+      method: 'POST',
+      issuePurpose: cashReceiptIssueType,
+      issueNumber: cashReceiptIssueModalIssueNumber,
+    }));
   }
 
   return (
@@ -73,12 +95,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             size="large"
             type="button"
             css={styles.cashReceiptIssueModalIssueButton}
-            onClick={() => dispatch(Actions.cashReceiptIssueRequest({
-              ticketId: id,
-              method: 'POST',
-              issuePurpose: cashReceiptIssueType,
-              issueNumber: cashReceiptIssueModalIssueNumber,
-            }))}
+            onClick={submitCashReceiptIssueRequest}
           >
             확인
           </Button>

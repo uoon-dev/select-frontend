@@ -252,6 +252,7 @@ export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.
     // TODO: 전달된 데이터로 변경해야함
     const cashReceiptUrl = method === 'POST' ? 'sampleData' : null;
     yield put(Actions.cashReceiptIssueSuccess({ ticketId, method, cashReceiptUrl }));
+    toast.success(`현금영수증이 ${method === 'POST' ? '발급' : '취소'}되었습니다.`);
   } catch (e) {
     yield put(Actions.cashReceiptIssueFailure());
     if (

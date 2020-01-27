@@ -65,7 +65,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
             결제 취소
           </Button>
         ) : null}
-        {!isCashReceiptIssuable ? (
+        {isCashReceiptIssuable ? (
           cashReceiptUrl ? (
             <>
               <Button
@@ -73,6 +73,15 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
                 color="gray"
                 outline={true}
                 size="medium"
+                onClick={() => {
+                  if (orderHistory.isCashReceiptIssueFetching) {
+                    return;
+                  }
+                  dispatch(Actions.cashReceiptIssueRequest({
+                    ticketId: id,
+                    method: 'DELETE',
+                  }));
+                }}
               >
                 발급 취소
               </Button><br/>
