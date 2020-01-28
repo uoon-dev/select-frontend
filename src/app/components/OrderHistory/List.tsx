@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { RidiSelectState } from 'app/store';
 
 import { Empty } from '@ridi/rsg';
 
 import { MAX_WIDTH } from 'app/constants';
+import { RidiSelectState } from 'app/store';
 import { OrderHistoryListInfo } from 'app/components/OrderHistory/Info';
 import { OrderHistoryListAmountInfo } from 'app/components/OrderHistory/AmountInfo';
 
@@ -24,6 +24,7 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
       <Empty description="결제/이용권 내역이 없습니다." iconName="book_1" />
     );
   }
+  const ButtonExists = itemList.some((item) => item.isCancellable || item.isCashReceiptIssuable);
   return (
     <ul className="OrderHistoryList">
       <MediaQuery maxWidth={MAX_WIDTH}>
@@ -41,13 +42,19 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
                   <OrderHistoryListInfo payment={item} />
                 </div>
                 <div className="OrderHistoryItem_AmountInfo">
-                  <OrderHistoryListAmountInfo payment={item} />
+                  <OrderHistoryListAmountInfo
+                    payment={item}
+                    ButtonExists={ButtonExists}
+                  />
                 </div>
               </>
             ) : (
               <>
                 <OrderHistoryListInfo payment={item} />
-                <OrderHistoryListAmountInfo payment={item} />
+                <OrderHistoryListAmountInfo
+                  payment={item}
+                  ButtonExists={ButtonExists}
+                />
               </>
             )}
           </li>
