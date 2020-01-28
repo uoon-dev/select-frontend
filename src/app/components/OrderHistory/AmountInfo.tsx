@@ -16,7 +16,16 @@ interface OrderHistoryListAmountInfoProps {
 
 export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) => {
   const { ButtonExists, payment } = props;
-  const { isFreePromotion, formattedPrice, voucherCode, isCancellable, id, ticketIdsToBeCanceledWith, isCashReceiptIssuable, cashReceiptUrl } = payment;
+  const {
+    id,
+    voucherCode,
+    isCancellable,
+    cashReceiptUrl,
+    formattedPrice,
+    isFreePromotion,
+    isCashReceiptIssuable,
+    ticketIdsToBeCanceledWith,
+  } = payment;
 
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
@@ -89,9 +98,12 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
                 </Button><br/>
                 <Button
                   className="CashReceiptPrint_Button"
+                  component="a"
                   color="gray"
                   outline={true}
                   size="medium"
+                  href={cashReceiptUrl}
+                  target="_blank"
                 >
                   영수증 인쇄
                 </Button>
