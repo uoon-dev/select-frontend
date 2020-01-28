@@ -79,6 +79,10 @@ export interface Card {
   subscriptions: string[];
 }
 
+export interface CashReceiptIssueResponse {
+  cashReceiptUrl?: string;
+}
+
 export const requestSubscription = (): Promise<AxiosResponse<SubscriptionResponse>> =>
   request({
     url: `${env.STORE_API}/api/select/users/me/subscription`,
@@ -136,7 +140,7 @@ export const requestCancelUnsubscription = (subscriptionId: number): Promise<Axi
     method: 'PUT',
   });
 
-export const requestCashReceiptIssue = (ticketId: number, method: Method, issuePurpose?: string, issueNumber?: string): Promise<AxiosResponse<null>> => {
+export const requestCashReceiptIssue = (ticketId: number, method: Method, issuePurpose?: string, issueNumber?: string): Promise<AxiosResponse<CashReceiptIssueResponse>> => {
   let data = null;
   if (issuePurpose && issueNumber) {
     data = {

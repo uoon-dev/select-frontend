@@ -24,6 +24,7 @@ import {
   requestUnsubscribe,
   SubscriptionResponse,
   requestCashReceiptIssue,
+  CashReceiptIssueResponse,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -248,10 +249,12 @@ export function* watchCancelUnsubscription() {
 export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.cashReceiptIssueRequest>) {
   const { ticketId, method, issuePurpose, issueNumber } = payload;
   try {
-    const response = yield call(requestCashReceiptIssue, ticketId, method, issuePurpose, issueNumber);
-    // TODO: 전달된 데이터로 변경해야함
-    const cashReceiptUrl = method === 'POST' ? 'sampleData' : null;
-    yield put(Actions.cashReceiptIssueSuccess({ ticketId, method, cashReceiptUrl }));
+    const { cashReceiptUrl }: CashReceiptIssueResponse = yield call(requestCashReceiptIssue, ticketId, method, issuePurpose, issueNumber);
+    yield put(Actions.cashReceiptIssueSuccess({
+      ticketId,
+      method,
+      cashReceiptUrl: cashReceiptUrl ? cashReceiptUrl : null,
+    }));
     toast.success(`현금영수증이 ${method === 'POST' ? '발급' : '취소'}되었습니다.`);
   } catch (e) {
     yield put(Actions.cashReceiptIssueFailure());
