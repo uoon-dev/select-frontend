@@ -50,8 +50,10 @@ import { MySelectState, mySelectReducer } from 'app/services/mySelect';
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
+import { searchReducer } from 'app/services/search';
 import { searchResultReducer, SearchResultState } from 'app/services/searchResult';
 
+import searchRootSagas from 'app/services/search/sagas';
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
@@ -92,6 +94,7 @@ function* rootSaga(dispatch: Dispatch) {
     userRootSaga(),
     collectionsRootSaga(),
     categoryRootSaga(),
+    searchRootSagas(),
     searchResultRootSaga(),
     mySelectRootSaga(),
     trackingSaga(),
@@ -158,6 +161,7 @@ const reducers = combineReducers({
   reviewsByBookId: reviewsReducer,
   categories: categoryListReducer,
   categoriesById: categoryBooksReducer,
+  search: searchReducer,
   searchResult: searchResultReducer,
   mySelect: mySelectReducer,
   serviceStatus: serviceStatusReducer,
