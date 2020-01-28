@@ -152,7 +152,8 @@ export const requestCashReceiptIssue = (ticketId: number, method: Method, issueP
     url: `${env.STORE_API}/api/select/users/me/tickets/${ticketId}/cash-receipt`,
     method,
     data,
-  });
+    withCredentials: true,
+  }).then((response) => camelize<AxiosResponse<CashReceiptIssueResponse>>(response.data, { recursive: true }));
 }
 
 export const requestAccountsMe = (): Promise<AxiosResponse<AccountsMeResponse>> =>
