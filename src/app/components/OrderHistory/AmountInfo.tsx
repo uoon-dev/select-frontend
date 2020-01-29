@@ -62,6 +62,16 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     }
   }
 
+  const handleCandleCashReceiptButtonClick = () => {
+    if (orderHistory.isCashReceiptIssueFetching) {
+      return;
+    }
+    dispatch(Actions.cashReceiptIssueRequest({
+      ticketId: id,
+      method: 'DELETE',
+    }));
+  }
+
   return (
     <>
       <p className="Ordered_Amount">
@@ -89,15 +99,7 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
                 color="gray"
                 outline={true}
                 size="medium"
-                onClick={() => {
-                  if (orderHistory.isCashReceiptIssueFetching) {
-                    return;
-                  }
-                  dispatch(Actions.cashReceiptIssueRequest({
-                    ticketId: id,
-                    method: 'DELETE',
-                  }));
-                }}
+                onClick={handleCandleCashReceiptButtonClick}
               >
                 발급 취소
               </Button><br/>
