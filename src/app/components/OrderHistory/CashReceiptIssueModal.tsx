@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@ridi/rsg';
 
-import { Actions } from 'app/services/user';
+import { Actions, CashReceiptIssueType } from 'app/services/user';
 import { Modal } from 'app/components/Modal';
 import { Radio } from 'app/components/Forms/Radio';
 import * as styles from 'app/components/OrderHistory/styles';
@@ -19,7 +19,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
 
   const isIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
 
-  const [IssueType, setIssueType] = React.useState('INCOME_DEDUCTION')
+  const [IssueType, setIssueType] = React.useState(CashReceiptIssueType.INCOME_DEDUCTION)
   const [IssueNumber, setIssueNumber] = React.useState('');
 
   const dispatch = useDispatch();
@@ -62,8 +62,8 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             <Radio
               inputName="IssueType"
               id="cashReceipt_incomeDeduction"
-              value="INCOME_DEDUCTION"
-              isChecked={IssueType === 'INCOME_DEDUCTION'}
+              value={CashReceiptIssueType.INCOME_DEDUCTION}
+              isChecked={IssueType === CashReceiptIssueType.INCOME_DEDUCTION}
               onChange={handleIssueTypeChange}
               displayName="소득 공제용"
             />
@@ -72,8 +72,8 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             <Radio
               inputName="IssueType"
               id="cashReceipt_ExpenseEvidence"
-              value="EXPENSE_EVIDENCE"
-              isChecked={IssueType === 'EXPENSE_EVIDENCE'}
+              value={CashReceiptIssueType.EXPENSE_EVIDENCE}
+              isChecked={IssueType === CashReceiptIssueType.EXPENSE_EVIDENCE}
               onChange={handleIssueTypeChange}
               displayName="지출 증빙용"
             />
@@ -84,7 +84,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
           <input
             type="text"
             css={styles.cashReceiptIssueModalIssueNumberInput}
-            placeholder={IssueType === 'INCOME_DEDUCTION' ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
+            placeholder={IssueType === CashReceiptIssueType.INCOME_DEDUCTION ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
             onChange={(e) => setIssueNumber(e.currentTarget.value)}
             value={IssueNumber}
           />

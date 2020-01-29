@@ -112,6 +112,11 @@ export const Actions = {
   cashReceiptIssueFailure: createAction('CashReceiptIssueRequest'),
 };
 
+export enum CashReceiptIssueType {
+  INCOME_DEDUCTION = 'INCOME_DEDUCTION',
+  EXPENSE_EVIDENCE = 'EXPENSE_EVIDENCE',
+}
+
 // TODO: 서버에서 내려주는 방식이 string 으로 내려주고 있어서 확인 후 수정 필요.
 // 일단 string으로 받도록 interface에 지정.
 export enum PaymentMethodType {
