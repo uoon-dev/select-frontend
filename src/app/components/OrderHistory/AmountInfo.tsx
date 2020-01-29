@@ -48,16 +48,16 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     const comfirmMessageBlocks = [];
 
     if (subscriptionState && subscriptionState.isSubscribedWithOldPrice) {
-      comfirmMessageBlocks.push(`\n결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`);
+      comfirmMessageBlocks.push(`결제 금액이 인상되어 결제 취소 이후\n월 ${subscriptionState.formattedNewMonthlyPayPrice}이 적용됩니다.`);
     }
     if (ticketIdsToBeCanceledWith.length > 0) {
-      comfirmMessageBlocks.push(`${comfirmMessageBlocks.length > 0 ? '\n\n' : '\n'}미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.`);
+      comfirmMessageBlocks.push(`${comfirmMessageBlocks.length > 0 ? '\n' : ''}미사용된 이용권이 함께 취소되며 이용권은 유효기간 내에 다시 등록 가능합니다.`);
     }
     if (comfirmMessageBlocks.length <= 0) {
-      comfirmMessageBlocks.push('\n결제를 취소할 경우 즉시 이용할 수 없습니다.');
+      comfirmMessageBlocks.push('결제를 취소할 경우 즉시 이용할 수 없습니다.');
     }
 
-    if (confirm(`결제를 취소하시겠습니까?${comfirmMessageBlocks.join('')}`)) {
+    if (confirm(`결제를 취소하시겠습니까?\n${comfirmMessageBlocks.join('\n')}`)) {
       dispatch(Actions.cancelPurchaseRequest({ purchaseId: id }))
     }
   }
