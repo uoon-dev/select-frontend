@@ -38,7 +38,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     }
 
     if (!IssueNumber || IssueNumber.length < 10) {
-      toast.failureMessage('번호를 확인해주세요.');
+      toast.failureMessage('입력하신 발급 번호가 올바르지 않습니다. 다시 확인해주세요.');
       return;
     }
 
