@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 
 import Colors from 'app/styles/colors';
-import { resetButton, resetLayout, resetAppearance, resetFontUnlimited, resetInputFocus, customMedia } from 'app/styles/customProperties';
+import { resetLayout, resetAppearance, resetFontUnlimited } from 'app/styles/customProperties';
 
 export const radioWrapper = css`
   ${resetFontUnlimited}
