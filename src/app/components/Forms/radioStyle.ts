@@ -26,7 +26,7 @@ export const radioInput = css`
 `;
 
 export const radioLabel = css`
-  @apply --reset-appearance;
+  ${resetAppearance}
 
   display: inline-block;
   position: relative;
