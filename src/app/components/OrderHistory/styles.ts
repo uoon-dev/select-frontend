@@ -4,9 +4,11 @@ import Colors from 'app/styles/colors';
 import { resetLayout, resetAppearance, resetInputFocus, customMedia } from 'app/styles/customProperties';
 
 export const cashReceiptIssueModalColumn = css`
-  display: table-cell;
-  width: 0px;
-  height: auto;
+  @media (${customMedia.pcLayout}) {
+    display: table-cell;
+    width: 0px;
+    height: auto;
+  }
 `;
 
 export const cashReceiptIssueModalWrapper  = css`
