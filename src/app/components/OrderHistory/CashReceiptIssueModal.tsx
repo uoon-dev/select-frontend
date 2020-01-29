@@ -82,7 +82,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
         <p css={styles.cashReceiptIssueModalSubTitle}>발급 번호</p>
         <div css={styles.cashReceiptIssueModalIssueNumberInputWrapper}>
           <input
-            type="text"
+            type="number"
             css={styles.cashReceiptIssueModalIssueNumberInput}
             placeholder={IssueType === CashReceiptIssueType.INCOME_DEDUCTION ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
             onChange={(e) => setIssueNumber(e.currentTarget.value)}
