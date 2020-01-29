@@ -20,7 +20,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
   const isIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
 
   const [IssueType, setIssueType] = React.useState(CashReceiptIssueType.INCOME_DEDUCTION)
-  const [IssueNumber, setIssueNumber] = React.useState();
+  const [IssueNumber, setIssueNumber] = React.useState('');
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     if (!e.currentTarget.checked) {
       return;
     }
-    setIssueNumber(null);
+    setIssueNumber('');
     setIssueType(e.currentTarget.value);
   }
 
@@ -82,11 +82,12 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
         <p css={styles.cashReceiptIssueModalSubTitle}>발급 번호</p>
         <div css={styles.cashReceiptIssueModalIssueNumberInputWrapper}>
           <input
-            type="number"
+            type="text"
             css={styles.cashReceiptIssueModalIssueNumberInput}
             placeholder={IssueType === CashReceiptIssueType.INCOME_DEDUCTION ? '주민등록번호 또는 휴대폰 번호 입력' : '사업자 번호 입력'}
-            onChange={(e) => setIssueNumber(e.currentTarget.value)}
+            onChange={(e) => setIssueNumber(e.currentTarget.value.replace(/[^0-9]/g, ''))}
             value={IssueNumber}
+            maxLength={18}
           />
         </div>
         <div css={styles.cashReceiptIssueModalIssueButtonWrapper}>
