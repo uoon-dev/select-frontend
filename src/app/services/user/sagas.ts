@@ -262,7 +262,7 @@ export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.
       e.response.status === 400 && e.response.data.code === 'INVALID_PARAM' ||
       e.response.status === 500 && e.response.data.code === 'CASH_RECEIPT_ISSUE_FAILED'
     ) {
-      toast.failureMessage(e.message);
+      toast.failureMessage(e.response.data.message);
       return;
     }
     toast.failureMessage('알 수 없는 문제가 발생했습니다. 다시 시도해주세요.')
