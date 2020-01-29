@@ -7,6 +7,16 @@ import { SubscriptionState } from 'app/services/user';
 import { DateDTO } from 'app/types';
 import axios, { AxiosResponse, Method } from 'axios';
 
+export enum cashReceiptIssueResponseCode {
+  notEnoughParams = 'SUBSCRIPTION_REQUIRED_VOUCHER',
+  invalidParams = 'INVALID_PARAM',
+  ticketNotFound  = 'TICKET_NOT_FOUND',
+  cashReceiptIssueFailed = 'CASH_RECEIPT_ISSUE_FAILED',
+  internalServerError = 'INTERNAL_SERVER_ERROR',
+  cashReceiptCancellationFailed = 'CASH_RECEIPT_CANCELLATION_FAILED',
+}
+
+
 export interface Ticket {
   id: number;
   purchaseDate: DateDTO;

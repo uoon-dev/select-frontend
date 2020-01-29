@@ -25,6 +25,7 @@ import {
   SubscriptionResponse,
   requestCashReceiptIssue,
   CashReceiptIssueResponse,
+  cashReceiptIssueResponseCode,
 } from 'app/services/user/requests';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
@@ -259,8 +260,11 @@ export function* cashReceiptIssueRequest({ payload }: ReturnType<typeof Actions.
   } catch (e) {
     yield put(Actions.cashReceiptIssueFailure());
     if (
-      e.response.status === 400 && e.response.data.code === 'INVALID_PARAM' ||
-      e.response.status === 500 && e.response.data.code === 'CASH_RECEIPT_ISSUE_FAILED'
+      e.response.status === 400 && e.response.data.code === cashReceiptIssueResponseCode.invalidParams ||
+      e.response.status === 500 && (
+        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptIssueFailed ||
+        e.response.data.code === cashReceiptIssueResponseCode.cashReceiptCancellationFailed
+      )
     ) {
       toast.failureMessage(e.response.data.message);
       return;
