@@ -4,7 +4,7 @@ import Colors from 'app/styles/colors';
 import { resetLayout, resetAppearance, resetInputFocus, customMedia } from 'app/styles/customProperties';
 
 export const cashReceiptIssueModalColumn = css`
-  @media (${customMedia.pcLayout}) {
+  @media ${customMedia.pcLayout} {
     display: table-cell;
     width: 0px;
     height: auto;
@@ -48,11 +48,6 @@ export const cashReceiptIssueModalIssueNumberInputWrapper = css`
   border: solid 1px ${Colors.slategray_20};
   background-color: #fff;
   box-sizing: border-box;
-
-  @media (${customMedia.pcLayout}) {
-    display: block;
-    width: 300px;
-  }
 `;
 
 export const cashReceiptIssueModalIssueNumberInput = css`
