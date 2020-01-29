@@ -69,12 +69,6 @@ export const cashReceiptIssueModalIssueNumberInput = css`
   background: transparent;
   font-size: 15px;
 
-  &::-webkit-input-placeholder {
-    color: ${Colors.slategray_40};
-  }
-  &:-ms-input-placeholder {
-    color: ${Colors.slategray_40};
-  }
   &::placeholder {
     color: ${Colors.slategray_40};
   }
