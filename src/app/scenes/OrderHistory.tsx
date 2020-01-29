@@ -16,7 +16,7 @@ import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { OrderHistoryList } from 'app/components/OrderHistory/List';
 
 export const OrderHistory: React.FunctionComponent = () => {
-  const page = useSelector(getPageQuery);
+  const currentPage = useSelector(getPageQuery);
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
   const subscriptionFetchStatus = useSelector((state: RidiSelectState) => state.user.subscriptionFetchStatus);
@@ -24,13 +24,13 @@ export const OrderHistory: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   const isFetched = () => (
-    orderHistory.itemListByPage[page] &&
-    orderHistory.itemListByPage[page].fetchStatus !== FetchStatusFlag.FETCHING
+    orderHistory.itemListByPage[currentPage] &&
+    orderHistory.itemListByPage[currentPage].fetchStatus !== FetchStatusFlag.FETCHING
   );
 
   useEffect(() => {
     if (!isFetched()) {
-      dispatch(Actions.loadPurchasesRequest({ page }));
+      dispatch(Actions.loadPurchasesRequest({ page: currentPage }));
     }
 
     if (!subscriptionState) {
@@ -47,9 +47,9 @@ export const OrderHistory: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!isFetched()) {
-      dispatch(Actions.loadPurchasesRequest({ page }));
+      dispatch(Actions.loadPurchasesRequest({ page: currentPage }));
     }
-  }, [page]);
+  }, [currentPage]);
 
   const itemCount: number = orderHistory.itemCount ? orderHistory.itemCount : 0;
   const itemCountPerPage = 10;
@@ -65,19 +65,19 @@ export const OrderHistory: React.FunctionComponent = () => {
       {(
         !isFetched() ||
         subscriptionFetchStatus === FetchStatusFlag.FETCHING ||
-        isNaN(page)
+        isNaN(currentPage)
       ) ?
         <SubscriptionListPlaceholder />
         : (
           <>
             <OrderHistoryList
-              page={page}
+              page={currentPage}
             />
             {itemCount > 0 &&
               <>
                 <MediaQuery maxWidth={MAX_WIDTH}>
                   {(isMobile) => <Pagination
-                    currentPage={page}
+                    currentPage={currentPage}
                     totalPages={Math.ceil(itemCount / itemCountPerPage)}
                     isMobile={isMobile}
                     item={{
