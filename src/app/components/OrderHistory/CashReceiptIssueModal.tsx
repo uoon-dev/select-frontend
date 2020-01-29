@@ -20,7 +20,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
   const isIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
 
   const [IssueType, setIssueType] = React.useState(CashReceiptIssueType.INCOME_DEDUCTION)
-  const [IssueNumber, setIssueNumber] = React.useState('');
+  const [IssueNumber, setIssueNumber] = React.useState();
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     if (!e.currentTarget.checked) {
       return;
     }
-    setIssueNumber('');
+    setIssueNumber(null);
     setIssueType(e.currentTarget.value);
   }
 
@@ -37,7 +37,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
       return;
     }
 
-    if (!IssueNumber || IssueNumber.length <= 0) {
+    if (!IssueNumber || IssueNumber.length <= 10) {
       toast.failureMessage('번호를 확인해주세요.');
       return;
     }
