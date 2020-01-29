@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
@@ -54,12 +53,7 @@ export const OrderHistory: React.FunctionComponent = () => {
   const itemCount: number = orderHistory.itemCount ? orderHistory.itemCount : 0;
   const itemCountPerPage = 10;
   return (
-    <main
-      className={classNames(
-        'SceneWrapper',
-        'PageOrderHistory',
-      )}
-    >
+    <main className="SceneWrapper PageOrderHistory">
       <HelmetWithTitle titleName={PageTitleText.ORDER_HISTORY} />
       <ConnectedPageHeader pageTitle={PageTitleText.ORDER_HISTORY} />
       {(
