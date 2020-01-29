@@ -1,7 +1,13 @@
 import { css } from '@emotion/core';
 
 import Colors from 'app/styles/colors';
-import { resetButton, resetLayout, resetAppearance, resetInputFocus, customMedia } from 'app/styles/customProperties';
+import { resetLayout, resetAppearance, resetInputFocus, customMedia } from 'app/styles/customProperties';
+
+export const cashReceiptIssueModalColumn = css`
+  display: table-cell;
+  width: 0px;
+  height: auto;
+`;
 
 export const cashReceiptIssueModalWrapper  = css`
   width: 280px;

@@ -7,7 +7,8 @@ import toast from 'app/utils/toast';
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/user';
 import { Ticket } from 'app/services/user/requests';
-import { CashReceiptIssueModal } from './CashReceiptIssueModal';
+import * as styles from 'app/components/OrderHistory/styles';
+import { CashReceiptIssueModal } from 'app/components/OrderHistory/CashReceiptIssueModal';
 
 interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
@@ -26,7 +27,6 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
     isCashReceiptIssuable,
     ticketIdsToBeCanceledWith,
   } = payment;
-  console.log(cashReceiptUrl);
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const subscriptionState = useSelector((state: RidiSelectState) => state.user.subscription);
 
@@ -128,10 +128,12 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
         </div>
       ) : null}
       {cashReceiptIssuePopupActive ? (
-        <CashReceiptIssueModal
-          id={id}
-          closeModal={() => setCashReceiptIssuePopupActive(false)}
-        />
+        <div css={styles.cashReceiptIssueModalColumn}>
+          <CashReceiptIssueModal
+            id={id}
+            closeModal={() => setCashReceiptIssuePopupActive(false)}
+          />
+        </div>
       ) : null}
     </>
   );
