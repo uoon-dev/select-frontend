@@ -24,7 +24,6 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
       <Empty description="결제/이용권 내역이 없습니다." iconName="book_1" />
     );
   }
-  const ButtonExists = itemList.some((item) => item.isCancellable || item.isCashReceiptIssuable || item.cashReceiptUrl);
   return (
     <ul className="OrderHistoryList">
       <MediaQuery maxWidth={MAX_WIDTH}>
@@ -44,7 +43,6 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
                 <div className="OrderHistoryItem_AmountInfo">
                   <OrderHistoryListAmountInfo
                     payment={item}
-                    ButtonExists={ButtonExists}
                   />
                 </div>
               </>
@@ -53,7 +51,6 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
                 <OrderHistoryListInfo payment={item} />
                 <OrderHistoryListAmountInfo
                   payment={item}
-                  ButtonExists={ButtonExists}
                 />
               </>
             )}

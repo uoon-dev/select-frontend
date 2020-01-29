@@ -37,7 +37,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
       return;
     }
 
-    if (!IssueNumber || IssueNumber.length <= 10) {
+    if (!IssueNumber || IssueNumber.length < 10) {
       toast.failureMessage('번호를 확인해주세요.');
       return;
     }
