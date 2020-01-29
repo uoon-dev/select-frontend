@@ -104,4 +104,6 @@ export const cashReceiptIssueModalIssueButtonWrapper = css`
 export const cashReceiptIssueModalIssueButton = css`
   width: 64px;
   font-size: 14px;
+  box-shadow: none;
+  border: none;
 `;
