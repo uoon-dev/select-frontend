@@ -59,11 +59,10 @@ export const radioLabel = css`
 
 export const radioCheckedLabel = css`
   ${radioLabel}
-  color: ${Colors.slategray_90};
 
   &:before {
-    border-color: ${Colors.dodgerblue_60};
-    background: ${Colors.dodgerblue_50};
+    border-color: ${Colors.dodgerblue_40};
+    background: ${Colors.dodgerblue_40};
   }
 `;
 
