@@ -17,7 +17,7 @@ interface CashReceiptIssueModalProps {
 export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModalProps> = (props) => {
   const { id, closeModal } = props;
 
-  const isCashReceiptIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
+  const isIssueFetching = useSelector((state: RidiSelectState) => state.user.purchaseHistory.isCashReceiptIssueFetching);
 
   const [IssueType, setIssueType] = React.useState('INCOME_DEDUCTION')
   const [IssueNumber, setIssueNumber] = React.useState('');
@@ -33,7 +33,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
   }
 
   const submitCashReceiptIssueRequest = () => {
-    if (isCashReceiptIssueFetching) {
+    if (isIssueFetching) {
       return;
     }
 
