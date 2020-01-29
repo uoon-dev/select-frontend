@@ -524,8 +524,14 @@ userReducer.on(Actions.cashReceiptIssueSuccess, (state = INITIAL_STATE, payload)
             ...state.purchaseHistory.itemListByPage[page],
             itemList: state.purchaseHistory.itemListByPage[page].itemList.map((item) => ({
               ...item,
-              cashReceiptUrl: item.id === payload.ticketId ? payload.cashReceiptUrl : item.cashReceiptUrl,
-              isCashReceiptIssuable: payload.method === 'POST' ? false : true,
+              cashReceiptUrl: item.id === payload.ticketId ?
+                payload.cashReceiptUrl :
+                item.cashReceiptUrl,
+              isCashReceiptIssuable: item.id !== payload.ticketId ?
+                item.isCashReceiptIssuable :
+                payload.method === 'POST' ?
+                  false :
+                  true,
             })),
           },
         };
