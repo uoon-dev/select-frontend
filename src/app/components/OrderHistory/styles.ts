@@ -36,6 +36,15 @@ export const cashReceiptIssueModalIssueTypeListItem = css`
   padding: 12px 30px 12px 0;
 `;
 
+export const cashReceiptIssueModalNumberTypeListItem = css`
+  ${resetLayout}
+  padding-bottom: 4px;
+  & li {
+    display: block;
+    padding: 12px 0 4px;
+  }
+`;
+
 export const cashReceiptIssueModalIssueNumberInputWrapper = css`
   ${resetLayout}
   position: relative;

@@ -12,11 +12,10 @@ import { CashReceiptIssueModal } from 'app/components/OrderHistory/CashReceiptIs
 
 interface OrderHistoryListAmountInfoProps {
   payment: Ticket;
-  ButtonExists: boolean;
 }
 
 export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryListAmountInfoProps> = (props) => {
-  const { ButtonExists, payment } = props;
+  const { payment } = props;
   const {
     id,
     voucherCode,
@@ -79,56 +78,54 @@ export const OrderHistoryListAmountInfo: React.FunctionComponent<OrderHistoryLis
           ? '무료'
           : voucherCode ? '' : formattedPrice}
       </p>
-      {ButtonExists ? (
-        <div className="OrderHistoryButtons">
-          {isCancellable ? (
+      <div className="OrderHistoryButtons">
+        {isCancellable ? (
+          <Button
+            className="CancelOrderButton"
+            color="gray"
+            outline={true}
+            onClick={handleCancelPurchaseButtonClick}
+            size="medium"
+          >
+            결제 취소
+          </Button>
+        ) : null}
+        {cashReceiptUrl && cashReceiptUrl.length > 0 ? (
+          <>
             <Button
-              className="CancelOrderButton"
+              className="CashReceiptCancel_Button"
               color="gray"
               outline={true}
-              onClick={handleCancelPurchaseButtonClick}
               size="medium"
+              onClick={handleCandleCashReceiptButtonClick}
             >
-              결제 취소
-            </Button>
-          ) : null}
-          {cashReceiptUrl && cashReceiptUrl.length > 0 ? (
-            <>
-              <Button
-                className="CashReceiptCancel_Button"
-                color="gray"
-                outline={true}
-                size="medium"
-                onClick={handleCandleCashReceiptButtonClick}
-              >
-                발급 취소
-              </Button><br/>
-              <Button
-                className="CashReceiptPrint_Button"
-                component="a"
-                color="gray"
-                outline={true}
-                size="medium"
-                href={cashReceiptUrl}
-                target="_blank"
-              >
-                영수증 인쇄
-              </Button>
-            </>
-          ) : null}
-          {isCashReceiptIssuable ? (
+              발급 취소
+            </Button><br/>
             <Button
-              className="CashReceiptIssue_Button"
+              className="CashReceiptPrint_Button"
+              component="a"
               color="gray"
               outline={true}
-              onClick={() => setCashReceiptIssuePopupActive(true)}
               size="medium"
+              href={cashReceiptUrl}
+              target="_blank"
             >
-              영수증 발급
+              영수증 인쇄
             </Button>
-          ) : null}
-        </div>
-      ) : null}
+          </>
+        ) : null}
+        {isCashReceiptIssuable ? (
+          <Button
+            className="CashReceiptIssue_Button"
+            color="gray"
+            outline={true}
+            onClick={() => setCashReceiptIssuePopupActive(true)}
+            size="medium"
+          >
+            영수증 발급
+          </Button>
+        ) : null}
+      </div>
       {cashReceiptIssuePopupActive ? (
         <div css={styles.cashReceiptIssueModalColumn}>
           <CashReceiptIssueModal
