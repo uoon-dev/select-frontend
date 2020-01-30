@@ -14,7 +14,6 @@ export const wrapper = css`
   text-align: center;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
   z-index: 999;
-  backdrop-filter: blur(3px);
 `;
 
 export const mainText = css`
@@ -34,9 +33,11 @@ export const subText = css`
 `;
 
 export const subscribeButton = css`
-  height: 40px;
-  line-height: 38px;
   margin-top: 20px;
+  .GoToSubscribeButton {
+    height: 40px;
+    line-height: 38px;
+  }
 `;
 
 export const closeButton = css`
