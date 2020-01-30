@@ -14,7 +14,6 @@ export const wrapper = css`
   text-align: center;
   box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.1);
   z-index: 999;
-  backdrop-filter: blur(3px);
 `;
 
 export const mainText = css`
