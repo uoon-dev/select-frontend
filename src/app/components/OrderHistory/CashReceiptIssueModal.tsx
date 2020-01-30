@@ -24,9 +24,9 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
   }
 
   enum InputPlaceholders {
-    RegistrationPlaceholder = '주민등록번호 11자리 입력',
+    RegistrationPlaceholder = '주민등록번호 13자리 입력',
     PhonePlaceholder = '휴대폰 번호 11자리 입력',
-    CashReceiptCardNumber = '현금영수증 카드번호 입력',
+    CashReceiptCardNumber = '현금영수증 카드번호 18자리 입력',
     BusinessNumber = '사업자 번호 입력',
   };
 
@@ -83,7 +83,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
     switch (numberType) {
       case CashReceiptNumberType.RegistrationNumber:
         placholder = InputPlaceholders.RegistrationPlaceholder;
-        setInputMinLength(11);
+        setInputMinLength(13);
         break;
       case CashReceiptNumberType.PhoneNumber:
         placholder = InputPlaceholders.PhonePlaceholder;
@@ -91,7 +91,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
         break;
       case CashReceiptNumberType.CashReceiptCardNumber:
         placholder = InputPlaceholders.CashReceiptCardNumber;
-        setInputMinLength(13);
+        setInputMinLength(18);
         break;
     }
     setInputPlaceholder(placholder);
@@ -168,7 +168,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             placeholder={inputPlaceholder}
             onChange={(e) => setIssueNumber(e.currentTarget.value.replace(/[^0-9]/g, ''))}
             value={issueNumber}
-            maxLength={18}
+            maxLength={inputMinLength}
           />
         </div>
         <div css={styles.cashReceiptIssueModalIssueButtonWrapper}>
@@ -178,6 +178,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             type="button"
             css={styles.cashReceiptIssueModalIssueButton}
             onClick={submitCashReceiptIssueRequest}
+            disabled={issueNumber.length < inputMinLength}
           >
             확인
           </Button>
