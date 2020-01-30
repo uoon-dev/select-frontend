@@ -168,7 +168,7 @@ export const CashReceiptIssueModal: React.FunctionComponent<CashReceiptIssueModa
             placeholder={inputPlaceholder}
             onChange={(e) => setIssueNumber(e.currentTarget.value.replace(/[^0-9]/g, ''))}
             value={issueNumber}
-            maxLength={18}
+            maxLength={inputMinLength}
           />
         </div>
         <div css={styles.cashReceiptIssueModalIssueButtonWrapper}>
