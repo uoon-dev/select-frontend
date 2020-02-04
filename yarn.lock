@@ -2374,13 +2374,13 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
 
-"@ridi/event-tracker@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.8.3.tgz#30fc8a6276a350c980d158dae4986861eba7a41e"
-  integrity sha512-sQ/WRUGG6DNNa81laxNIRoT/1LtK4A4r8+a7Hv6hYPzhNxHtOijTGU8Zdw+YrlkjfEkW86/EVxvSCKbKAIsQsw==
+"@ridi/event-tracker@^0.8.4":
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.8.4.tgz#127c4445134a3c7628a47e2c4b8c5fe331359212"
+  integrity sha512-LjrTTPvygO0OYRE+gXiHiglAK5UZhdeULuypSRJV+yCz18ZvC+yfcwVESB78rBZP8eT8eGD3dqQIL5GrN+pAvw==
   dependencies:
     "@types/google.analytics" "0.0.39"
-    js-cookie "^2.2.0"
+    js-cookie "^2.2.1"
     performance-now "^2.1.0"
     url-parse "^1.4.3"
 
@@ -7973,7 +7973,7 @@ js-base64@^2.1.9:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
   integrity sha512-M7kLczedRMYX4L8Mdh4MzyAMM9O5osx+4FcOQuTvr3A9F2D9S5JXheN0ewNbrvK2UatkTRhL5ejGmGSjNMiZuw==
 
-js-cookie@^2.2.0:
+js-cookie@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
