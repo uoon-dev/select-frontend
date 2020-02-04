@@ -43,6 +43,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
     sectionData: state.articleHome[articleHomeSectionType],
     articles: state.articlesById,
   }));
+  const ArticleCount = articleHomeSectionType && articleHomeSectionType === ArticleHomeSectionType.RECENT ? 8 : 4;
 
   React.useEffect(() => {
     if (
@@ -93,7 +94,7 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
             uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
             miscTracking={JSON.stringify({sect_order: order})}
             renderChannelMeta={true}
-            articles={sectionData.articles && sectionData.articles.slice(0, 4).map((id) => articles[id].article!)}
+            articles={sectionData.articles && sectionData.articles.slice(0, ArticleCount).map((id) => articles[id].article!)}
           />
         </>
       )}
