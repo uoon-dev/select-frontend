@@ -34,8 +34,8 @@
     margin: 0;
     padding: 0;
     font-family: Noto Sans KR, NotoSansKR, sans-serif;
-    line-height: 1.75;
-    letter-spacing: -.3px;
+    line-height: 1.8em;
+    letter-spacing: -0.2px;
     color: var(--slategray_90);
 
     & a,
@@ -53,7 +53,7 @@
     &:hover,
     &:focus,
     &:active {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 400;
       color: var(--dodgerblue_40);
     }
@@ -63,7 +63,7 @@
   & p,
   & span,
   & div {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
   }
 
@@ -79,13 +79,14 @@
   }
 
   & h1 {
-    font-size: 24px;
+    font-size: 26px;
+    line-height: 1.75em;
   }
   & h2 {
-    font-size: 22px;
+    font-size: 24px;
   }
   & h3 {
-    font-size: 20px;
+    font-size: 21px;
   }
 
   & code {
@@ -95,8 +96,8 @@
     border: 1px solid var(--slategray_20);
     border-radius: 2px;
     padding: 20px;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 16px;
+    line-height: 25px;
     font-weight: 400;
     box-sizing: border-box;
     max-width: 100%;
@@ -104,8 +105,8 @@
     & * {
       padding: 0;
       margin: 0;
-      font-size: 14px;
-      line-height: 22px;
+      font-size: 16px;
+      line-height: 25px;
       font-weight: 400;
     }
   }
@@ -135,22 +136,22 @@
     & li {
       counter-increment: article-order-list;
       &::before {
-        top: 7px;
+        top: 8px;
         left: 0;
         width: 28px;
         height: 28px;
-        line-height: 1.75;
+        line-height: 1.8em;
         font-style: normal;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 16px;
         text-align: center;
-        letter-spacing: -0.3px;
+        letter-spacing: -0.2px;
         color: var(--slategray_90);
         content: counter(article-order-list);
       }
       &:first-child {
         &::before {
-          top: 0;
+          top: 1px;
         }
       }
     }
@@ -161,7 +162,7 @@
       &::before {
         width: 6px;
         height: 6px;
-        top: 16px;
+        top: 19px;
         left: 11px;
         background: var(--slategray_90);
         content: '';
@@ -169,7 +170,7 @@
       }
       &:first-child {
         &::before {
-          top: 9px;
+          top: 12px;
         }
       }
     }
@@ -182,8 +183,8 @@
     margin: 30px 0;
 
     & * {
-      font-size: 16px;
-      line-height: 28px;
+      font-size: 18px;
+      line-height: 1.8em;
       color: var(--slategray_60);
       padding: 0;
       margin: 0;
@@ -192,7 +193,7 @@
     &.annotation {
       border: none;
       padding: 0;
-      line-height: 1.75;
+      line-height: 1.8em;
       & * {
         color: var(--slategray_50);
       }
@@ -207,8 +208,8 @@
     padding-top: 35.5px;
 
     & * {
-      font-size: 16px;
-      line-height: 28px;
+      font-size: 18px;
+      line-height: 1.8em;
       margin: 0;
       padding: 0;
       color: var(--slategray_60);
@@ -252,10 +253,10 @@
 
   & figcaption {
     color: var(--slategray_50);
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
     padding-top: 10px;
-    line-height: 17px;
+    line-height: 1.45em;
   }
 
   & .circle {
