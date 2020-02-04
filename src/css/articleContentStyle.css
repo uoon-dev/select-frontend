@@ -76,6 +76,9 @@
     font-weight: 700;
     line-height: 1.56;
     letter-spacing: -.34px;
+    & strong {
+      font-weight: 700;
+    }
   }
 
   & h1 {
@@ -256,7 +259,7 @@
     font-size: 14px;
     text-align: center;
     padding-top: 10px;
-    line-height: 1.45em;
+    line-height: 1.5em;
   }
 
   & .circle {
