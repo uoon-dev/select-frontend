@@ -37,6 +37,8 @@
     line-height: 1.8em;
     letter-spacing: -0.2px;
     color: var(--slategray_90);
+    word-wrap: break-word;
+    word-break: break-all;
 
     & a,
     & a:hover,
