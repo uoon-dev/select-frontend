@@ -17,7 +17,7 @@ import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 
 function* loadFollowingChannelList() {
   try {
@@ -88,7 +88,7 @@ function* unFollowChannel({ payload }: ReturnType<typeof Actions.loadUnFollowCha
       return;
     }
     const response: ArticleChannelFollowingResponse = yield call(requestArticleChannelFollowing, channelId, method);
-    yield put(ArticleChannelActions.articleChannelFollowingActionSuccess({ channelName, response }));
+    yield put(ArticleChannelActions.articleChannelFollowingActionSuccess({ channelName, method, response }));
   } catch (e) {
     yield put(ArticleChannelActions.articleChannelFollowingActionFailure({ channelName }));
     return;
@@ -103,11 +103,11 @@ function* unFollowChannel({ payload }: ReturnType<typeof Actions.loadUnFollowCha
 }
 
 export function* watchFollowingChannelListRequest() {
-  yield takeEvery(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
+  yield takeLeading(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
 }
 
 export function* watchFollowingArticleListRequest() {
-  yield takeEvery(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
+  yield takeLeading(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
 }
 
 export function* watchLoadUnseenFollowingFeedsRequest() {
