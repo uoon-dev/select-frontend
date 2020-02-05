@@ -37,6 +37,8 @@
     line-height: 1.8em;
     letter-spacing: -0.2px;
     color: var(--slategray_90);
+    word-wrap: break-word;
+    word-break: break-all;
 
     & a,
     & a:hover,
@@ -59,6 +61,11 @@
     }
   }
 
+  & hr {
+    display: block;
+    border: 0.5px solid var(--slategray_20);
+  }
+
   &,
   & p,
   & span,
@@ -76,6 +83,9 @@
     font-weight: 700;
     line-height: 1.56;
     letter-spacing: -.34px;
+    & strong {
+      font-weight: 700;
+    }
   }
 
   & h1 {
@@ -256,7 +266,7 @@
     font-size: 14px;
     text-align: center;
     padding-top: 10px;
-    line-height: 1.45em;
+    line-height: 1.5em;
   }
 
   & .circle {
