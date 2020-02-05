@@ -14,22 +14,19 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   channelId: number;
   channelName: string;
 }> = (props) => {
-  const {
-    isChannelFollowing,
-    followFetchStatus,
-  } = useSelector((state: RidiSelectState) => {
+  const isChannelFollowing = useSelector((state: RidiSelectState) => {
     const channelById = state.articleChannelById[props.channelName];
-    return {
-      isChannelFollowing:
-        channelById && channelById.channelMeta && typeof channelById.channelMeta.isFollowing === 'boolean'
-          ? channelById.channelMeta.isFollowing
-          : undefined,
-      followFetchStatus: channelById.followFetchStatus,
-    };
+    return channelById && channelById.channelMeta && typeof channelById.channelMeta.isFollowing === 'boolean'
+      ? channelById.channelMeta.isFollowing
+      : undefined;
   });
+  const followFetchStatus = useSelector((state: RidiSelectState) => state.articleChannelById[props.channelName].followFetchStatus);
 
   const dispatch = useDispatch();
   const handleButtonClick = (method: Method) => {
+    if (followFetchStatus === FetchStatusFlag.FETCHING) {
+      return;
+    }
     dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
   };
 
@@ -43,6 +40,7 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
         isChannelFollowing && 'Channel_FollowButton-active',
       )}
       onClick={() => handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST')}
+      disabled={followFetchStatus === FetchStatusFlag.FETCHING}
       spinner={typeof isChannelFollowing !== 'boolean' || followFetchStatus === FetchStatusFlag.FETCHING}
     >
       {typeof isChannelFollowing === 'boolean' && followFetchStatus !== FetchStatusFlag.FETCHING
