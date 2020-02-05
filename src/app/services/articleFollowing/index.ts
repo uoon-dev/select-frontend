@@ -1,6 +1,6 @@
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { FollowingArticleListResponse, FollowingChannelListResponse, setAllFollowingFeedsToSeen, UnseenFollowingFeedsResponse } from 'app/services/articleFollowing/requests';
+import { FollowingArticleListResponse, FollowingChannelListResponse, SetAllFollowingFeedsToSeenResponse } from 'app/services/articleFollowing/requests';
 import { ArticleKey, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
 import { Method } from 'axios';
@@ -19,6 +19,7 @@ export const Actions = {
     response: FollowingArticleListResponse;
   }>('loadFollowingArticleListSuccess'),
   loadFollowingArticleListFailure: createAction<{ page: number; }>('loadFollowingArticleListFailure'),
+  clearFollowArticleList: createAction<{ page: number; }>('clearFollowArticleList'),
   loadUnFollowChannelRequest: createAction<{channelId: number, channelName: string, method: Method}>('loadUnFollowChannelRequest'),
   loadUnseenFollowingFeedsRequest: createAction('loadUnseenFollowingFeedsRequest'),
   loadUnseenFollowingFeedsSuccess: createAction<{
@@ -27,7 +28,7 @@ export const Actions = {
   loadUnseenFollowingFeedsFailure: createAction('loadUnseenFollowingFeedsFailure'),
   setUnseenFollowingFeedsToSeenRequest: createAction('setUnseenFollowingFeedsToSeenRequest'),
   setUnseenFollowingFeedsToSeenSuccess: createAction<
-  setAllFollowingFeedsToSeen
+  SetAllFollowingFeedsToSeenResponse
   >('setUnseenFollowingFeedsToSeenSuccess'),
   setUnseenFollowingFeedsToSeenFailure: createAction('setUnseenFollowingFeedsToSeenFailure'),
 };
@@ -111,7 +112,24 @@ articleFollowReducer.on(Actions.loadFollowingArticleListFailure, (state, { page 
     itemListByPage: {
       ...(state.followingArticleList && state.followingArticleList.itemListByPage),
       [page]: {
+        ...(state.followingArticleList && state.followingArticleList.itemListByPage && state.followingArticleList.itemListByPage[page]),
         fetchStatus: FetchStatusFlag.FETCH_ERROR,
+        isFetched: false,
+      },
+    },
+  },
+}));
+
+articleFollowReducer.on(Actions.clearFollowArticleList, (state, { page }) => ({
+  ...state,
+  followingChannelList: [],
+  fetchStatus: FetchStatusFlag.IDLE,
+  followingArticleList: {
+    ...state.followingArticleList,
+    itemListByPage: {
+      ...(state.followingArticleList && state.followingArticleList.itemListByPage),
+      [page]: {
+        ...(state.followingArticleList && state.followingArticleList.itemListByPage && state.followingArticleList.itemListByPage[page]),
         itemList: [],
         isFetched: false,
       },

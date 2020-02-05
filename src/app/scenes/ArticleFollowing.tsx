@@ -1,52 +1,41 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
+import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { HelmetWithTitle, Pagination } from 'app/components';
+import { RidiSelectState } from 'app/store';
+import { checkCorrectPath } from 'app/utils/utils';
+import { Actions } from 'app/services/articleFollowing';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
+import { HelmetWithTitle, Pagination } from 'app/components';
+import { getPageQuery } from 'app/services/routing/selectors';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SlideChannelList } from 'app/components/SlideChannelList';
 import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
-import { Actions } from 'app/services/articleFollowing';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { RidiSelectState } from 'app/store';
-import { checkCorrectPath } from 'app/utils/utils';
-import MediaQuery from 'react-responsive';
-import { Link, LinkProps } from 'react-router-dom';
 
 export const ArticleFollowing: React.FunctionComponent = () => {
   const itemCountPerPage = 12;
 
   const dispatch = useDispatch();
-  const {
-    page,
-    channelFetchStatus,
-    articleFetchStatus,
-    itemCount,
-    channelItems,
-    articleItems,
-    hasAvailableTicket,
-  } = useSelector((state: RidiSelectState) => {
-    const pageFromQuery = getPageQuery(state);
-    const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
-      ? state.articleFollowing.followingArticleList.itemListByPage[pageFromQuery]
+  const page = useSelector(getPageQuery);
+  const channelFetchStatus = useSelector((state: RidiSelectState) => state.articleFollowing.fetchStatus);
+  const articleFetchStatus = useSelector((state: RidiSelectState) => {
+    const followingArticleListByPage = state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemListByPage[page]
+      ? state.articleFollowing.followingArticleList.itemListByPage[page]
       : null;
-    const followingArticleListFetchStatus = followingArticleListByPage ? followingArticleListByPage.fetchStatus : FetchStatusFlag.IDLE;
-
-    return {
-      page: pageFromQuery,
-      itemCount: state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemCount ?
-        state.articleFollowing.followingArticleList.itemCount : 1,
-      channelFetchStatus: state.articleFollowing.fetchStatus,
-      articleFetchStatus: followingArticleListFetchStatus,
-      channelItems: getChannelItems(state),
-      articleItems: getArticleItems(state),
-      hasAvailableTicket: state.user.hasAvailableTicket,
-    };
+    return followingArticleListByPage ? followingArticleListByPage.fetchStatus : FetchStatusFlag.IDLE;
   });
+  const itemCount = useSelector((state: RidiSelectState) => state.articleFollowing.followingArticleList && state.articleFollowing.followingArticleList.itemCount
+    ? state.articleFollowing.followingArticleList.itemCount
+    : 1
+  );
+  const channelItems = useSelector(getChannelItems);
+  const articleItems = useSelector(getArticleItems);
+  const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
 
   React.useEffect(() => {
     if (channelFetchStatus === FetchStatusFlag.IDLE) {
@@ -56,6 +45,10 @@ export const ArticleFollowing: React.FunctionComponent = () => {
       dispatch(Actions.loadFollowingArticleListRequest({ page }));
     }
   }, [page]);
+
+  React.useEffect(() => () => {
+    dispatch(Actions.clearFollowArticleList({ page }));
+  }, [])
 
   React.useEffect(() => {
     if (hasAvailableTicket) {

@@ -17,7 +17,7 @@ import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
 
 function* loadFollowingChannelList() {
   try {
@@ -103,11 +103,11 @@ function* unFollowChannel({ payload }: ReturnType<typeof Actions.loadUnFollowCha
 }
 
 export function* watchFollowingChannelListRequest() {
-  yield takeLeading(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
+  yield takeEvery(Actions.loadFollowingChannelListRequest.getType(), loadFollowingChannelList);
 }
 
 export function* watchFollowingArticleListRequest() {
-  yield takeLeading(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
+  yield takeEvery(Actions.loadFollowingArticleListRequest.getType(), loadFollowingArticleList);
 }
 
 export function* watchLoadUnseenFollowingFeedsRequest() {
