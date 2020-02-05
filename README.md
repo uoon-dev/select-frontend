@@ -55,10 +55,8 @@ $ docker-compose up --build [--force-recreate]
 ---
 ## Serverless
 
-serverless 디렉토리에서 별도로 관리합니다.
+[serverless](./serverless) 디렉토리에서 별도로 관리합니다.
 배포는 Circle-ci 에서 Approval job 으로 실행할 수 있습니다.
 
-### test
-```sh
-$ yarn serverless invoke local -f server -d '{"httpMethod": "GET", "path": "/"}'
+[더보기](./serverless/README.md)
 ```
