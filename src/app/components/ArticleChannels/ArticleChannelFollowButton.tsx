@@ -14,21 +14,23 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   className?: string;
   channelId: number;
   channelName: string;
-}> = (props) => {
-  const isChannelFollowing = useSelector((state: RidiSelectState) => {
-    const channelById = state.articleChannelById[props.channelName];
-    return channelById && channelById.channelMeta && typeof channelById.channelMeta.isFollowing === 'boolean'
-      ? channelById.channelMeta.isFollowing
-      : undefined;
-  });
-  const followFetchStatus = useSelector((state: RidiSelectState) => state.articleChannelById[props.channelName].followFetchStatus);
+}> = ({
+  channelName,
+  channelId,
+  className
+}) => {
+
+  const isChannelFollowing = useSelector((state: RidiSelectState) => state.articleChannelById[channelName]?.channelMeta?.isFollowing);
+  const followFetchStatus = useSelector((state: RidiSelectState) => state.articleChannelById[channelName].followFetchStatus);
+
+  const checkIsFetching = () => followFetchStatus === FetchStatusFlag.FETCHING;
 
   const dispatch = useDispatch();
   const handleButtonClick = (method: Method) => {
     if (followFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
+    dispatch(Actions.articleChannelFollowingActionRequest({ channelId, channelName, method }));
   };
 
   return (
@@ -43,10 +45,10 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
       onClick={debounce(() => {
         handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST');
       }, 100)}
-      disabled={followFetchStatus === FetchStatusFlag.FETCHING}
-      spinner={typeof isChannelFollowing !== 'boolean' || followFetchStatus === FetchStatusFlag.FETCHING}
+      disabled={checkIsFetching()}
+      spinner={typeof isChannelFollowing !== 'boolean' || checkIsFetching()}
     >
-      {typeof isChannelFollowing === 'boolean' && followFetchStatus !== FetchStatusFlag.FETCHING
+      {typeof isChannelFollowing === 'boolean' && !checkIsFetching()
         ? isChannelFollowing
           ?  '팔로잉'
           : (
