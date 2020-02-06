@@ -15,7 +15,7 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.7",
     "@emotion/babel-preset-css-prop": "^10.0.27",
-    "@ridi/tslint-config": "^0.1.0",
+    "@ridi/eslint-config": "^4.2.1",
     "@sentry/cli": "^1.49.0",
     "@svgr/webpack": "^5.0.1",
     "@testing-library/react": "^9.4.0",
@@ -52,8 +52,11 @@
     "dotenv-webpack": "^1.6.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-plugin-emotion": "^10.0.27",
+    "eslint-plugin-immer-reducer": "^0.1.1",
     "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
@@ -66,6 +69,7 @@
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "modernizr-loader": "^1.0.1",
+    "onchange": "^6.1.0",
     "path-to-regexp": "^3.0.0",
     "postcss": "^7.0.26",
     "postcss-base64": "^0.7.1",
@@ -84,7 +88,8 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "webpackbar": "^4.0.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -102,6 +107,7 @@
     "detect-it": "^3.0.5",
     "history": "^4.7.2",
     "immer": "^1.12.1",
+    "immer-reducer": "^0.7.10",
     "lodash-es": "^4.17.14",
     "modernizr": "^3.8.0",
     "node-vibrant": "^3.1.5",
@@ -135,9 +141,9 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json,css}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
     "build": "webpack --mode production",
-    "lint": "eslint --ext=jsx,ts,tsx src",
+    "lint": "eslint src --ext js,ts,tsx",
     "test": "jest --collectCoverage --no-cache"
   },
   "browserslist": [
