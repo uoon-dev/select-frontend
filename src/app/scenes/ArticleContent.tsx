@@ -6,11 +6,11 @@ import { ArticleContentBottomButtons } from 'app/components/ArticleContent/Botto
 import { ArticleContentComponent } from 'app/components/ArticleContent/ContentComponent';
 import { ArticleContentGetTicketToRead } from 'app/components/ArticleContent/GetTicketToRead';
 import { ArticleContentHeader } from 'app/components/ArticleContent/Header';
+import { HelmetWithTitle } from 'app/components';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
-import { HelmetWithTitle } from 'app/components';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -24,6 +24,7 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
   const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
+  const articleTitle = articleState?.article?.title;
 
   React.useEffect(() => {
     if (
@@ -50,7 +51,13 @@ export  const ArticleContent: React.FunctionComponent<OwnProps> = (props) => {
   return (
     <main className="SceneWrapper PageArticleContent">
       <HelmetWithTitle
-        titleName={articleState && articleState.article ? articleState.article.title : ''}
+        titleName={articleTitle}
+        meta={[
+          {
+            property: 'og:title',
+            content: articleTitle,
+          },
+        ]}
       />
       <ArticleContentHeader
         contentKey={contentKey}
