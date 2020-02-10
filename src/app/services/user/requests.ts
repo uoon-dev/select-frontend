@@ -48,6 +48,7 @@ export interface PurchasesResponse {
   totalCount: number;
   size: number;
   tickets: Ticket[];
+  latestPurchasedTicket: Ticket;
 }
 
 export interface MySelectHistoryResponse {

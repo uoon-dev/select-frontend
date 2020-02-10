@@ -19,7 +19,7 @@ interface SubscriptionInfoStateProps {
   hasSubscribedBefore: boolean;
   hasAvailableTicket: boolean;
   subscriptionState?: SubscriptionState | null;
-  latestPurchaseTicket: Ticket;
+  latestPurchasedTicket: Ticket | null;
   isPurchaseCancelFetching: boolean;
 }
 
@@ -69,18 +69,18 @@ class SubscriptionInfo extends React.PureComponent<SubscriptionInfoProps> {
   }
 
   private renderLatestBillDateInfo() {
-    const { isPurchaseCancelFetching, latestPurchaseTicket } = this.props;
-    const isPurchaseCancellable = !!latestPurchaseTicket && latestPurchaseTicket.isCancellable;
-    const latestPurchaseId = latestPurchaseTicket && latestPurchaseTicket.id;
-    const latestPurchaseDate = latestPurchaseTicket && latestPurchaseTicket.purchaseDate;
+    const { isPurchaseCancelFetching, latestPurchasedTicket } = this.props;
 
     if (
-      !latestPurchaseTicket ||
-      latestPurchaseTicket.isCanceled ||
-      latestPurchaseTicket.price === 0
+      !latestPurchasedTicket ||
+      latestPurchasedTicket.isCanceled ||
+      latestPurchasedTicket.price === 0
     ) {
       return null;
     }
+    const latestPurchaseId = latestPurchasedTicket.id;
+    const latestPurchaseDate = latestPurchasedTicket.purchaseDate;
+    const isPurchaseCancellable = latestPurchasedTicket.isCancellable;
 
     return (
       <li className="LatestBillDateInfo" key="latest-bill-date-info">
@@ -192,9 +192,7 @@ const mapStateToProps = (state: RidiSelectState): SubscriptionInfoStateProps => 
   hasAvailableTicket: state.user.hasAvailableTicket,
   subscriptionState: state.user.subscription,
   hasSubscribedBefore: state.user.hasSubscribedBefore,
-  latestPurchaseTicket:
-    !!state.user.purchaseHistory.itemListByPage[1] &&
-    state.user.purchaseHistory.itemListByPage[1].itemList[0],
+  latestPurchasedTicket: state.user.purchaseHistory.latestPurchasedTicket,
   isPurchaseCancelFetching: state.user.purchaseHistory.isCancelFetching,
 });
 

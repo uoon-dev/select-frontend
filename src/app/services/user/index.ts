@@ -178,6 +178,7 @@ export interface SubscriptionState {
 export interface PurchaseHistory extends Paginated<Ticket> {
   isCancelFetching: boolean;
   isCashReceiptIssueFetching: boolean;
+  latestPurchasedTicket: Ticket | null;
 }
 
 export interface UserState {
@@ -218,6 +219,7 @@ export const INITIAL_STATE: UserState = {
     itemListByPage: {},
     isCancelFetching: false,
     isCashReceiptIssueFetching: false,
+    latestPurchasedTicket: null,
   },
 };
 
