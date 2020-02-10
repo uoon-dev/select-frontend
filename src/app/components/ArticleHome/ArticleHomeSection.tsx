@@ -24,26 +24,25 @@ interface ArticleSectionHeaderProps {
   title: string;
 }
 
-export const ArticleSectionHeader: React.FunctionComponent<ArticleSectionHeaderProps> = (props) => {
+export const ArticleSectionHeader: React.FunctionComponent<ArticleSectionHeaderProps> = props => {
   const { title } = props;
 
   return (
     <div className="ArticleSection_Header">
-      <h2 className="ArticleSection_Title reset-heading">
-        {title}
-      </h2>
+      <h2 className="ArticleSection_Title reset-heading">{title}</h2>
     </div>
   );
 };
 
-export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps> = (props) => {
+export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps> = props => {
   const { title, type, order, articleHomeSectionType } = props;
   const dispatch = useDispatch();
   const { sectionData, articles } = useSelector((state: RidiSelectState) => ({
     sectionData: state.articleHome[articleHomeSectionType],
     articles: state.articlesById,
   }));
-  const ArticleCount = articleHomeSectionType && articleHomeSectionType === ArticleHomeSectionType.RECENT ? 8 : 4;
+  const ArticleCount =
+    articleHomeSectionType && articleHomeSectionType === ArticleHomeSectionType.RECENT ? 8 : 4;
 
   React.useEffect(() => {
     if (
@@ -67,11 +66,13 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
           <>
             <ArticleSectionHeader title={title} />
             <ArticleSectionChartList
-              articleList={sectionData.articles && sectionData.articles.map((id) => articles[id].article!)}
+              articleList={
+                sectionData.articles && sectionData.articles.map(id => articles[id].article!)
+              }
               serviceTitleForTracking="select-article"
               pageTitleForTracking="home"
               uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
-              miscTracking={JSON.stringify({sect_order: order})}
+              miscTracking={JSON.stringify({ sect_order: order })}
             />
           </>
         )}
@@ -92,9 +93,12 @@ export const ArticleHomeSection: React.FunctionComponent<ArticleHomeSectionProps
             serviceTitleForTracking="select-article"
             pageTitleForTracking="home"
             uiPartTitleForTracking={`${articleHomeSectionType.replace('ArticleList', '')}`}
-            miscTracking={JSON.stringify({sect_order: order})}
-            renderChannelMeta={true}
-            articles={sectionData.articles && sectionData.articles.slice(0, ArticleCount).map((id) => articles[id].article!)}
+            miscTracking={JSON.stringify({ sect_order: order })}
+            renderChannelMeta
+            articles={
+              sectionData.articles &&
+              sectionData.articles.slice(0, ArticleCount).map(id => articles[id].article!)
+            }
           />
         </>
       )}

@@ -9,7 +9,6 @@
   font-weight: 700;
   letter-spacing: -0.26px;
   color: #808991;
-
 }
 
 .SettingMenu {
@@ -34,7 +33,7 @@
   display: block;
   position: relative;
   padding: 15px 0 15px 39px;
-  transition: color .2s;
+  transition: color 0.2s;
   &,
   &:visited,
   &:active,
