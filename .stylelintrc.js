@@ -15,7 +15,7 @@ module.exports = {
     'font-family-name-quotes': 'always-where-required',
     'font-weight-notation': 'numeric',
     'function-url-quotes': 'never',
-    'number-leading-zero': 'never',
+    'number-leading-zero': 'always',
     'max-nesting-depth': 5,
     'max-empty-lines': 2,
     'comment-empty-line-before': [
