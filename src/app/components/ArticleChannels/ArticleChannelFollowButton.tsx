@@ -25,11 +25,17 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   ]);
 
   const dispatch = useDispatch();
-  const handleButtonClick = (method: Method) => {
+  const handleButtonClick = () => {
     if (followFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId, channelName, method }));
+    dispatch(
+      Actions.articleChannelFollowingActionRequest({
+        channelId,
+        channelName,
+        method: isChannelFollowing ? 'DELETE' : 'POST',
+      }),
+    );
   };
 
   return (
@@ -41,7 +47,7 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
         'Channel_FollowButton',
         isChannelFollowing && 'Channel_FollowButton-active',
       )}
-      onClick={() => handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST')}
+      onClick={handleButtonClick}
       disabled={isFetching}
       spinner={typeof isChannelFollowing !== 'boolean' || isFetching}
     >
