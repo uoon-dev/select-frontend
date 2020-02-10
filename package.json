@@ -143,7 +143,7 @@
   "scripts": {
     "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json,css}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
     "build": "webpack --mode production",
-    "lint": "eslint src --ext js,ts,tsx",
+    "lint": "eslint src --ext ts,tsx",
     "test": "jest --collectCoverage --no-cache"
   },
   "browserslist": [

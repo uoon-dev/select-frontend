@@ -1,7 +1,6 @@
 @import '@ridi/rsg/colors/colors.css';
-@import "normalize.css";
+@import 'normalize.css';
 @import 'base/customProperties.css';
-
 
 .RidiselectArticle {
   max-width: 100%;
@@ -82,7 +81,7 @@
     font-size: 18px;
     font-weight: 700;
     line-height: 1.56;
-    letter-spacing: -.34px;
+    letter-spacing: -0.34px;
     & strong {
       font-weight: 700;
     }
