@@ -191,7 +191,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                       }}
                       outline
                     >
-                      결제 수단 변경
+                      구독 해지 예약 취소
                     </Button>
                   )
                 ) : (
@@ -236,7 +236,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   <br />
                   {subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' ||
                   subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE'
-                    ? '계속 구독하기 원하시면 결제 수단을 변경해주세요.'
+                    ? '카드 재등록 시 구독 해지 예약을 취소할 수 있습니다.'
                     : '이용 기간 만료 후 다시 구독해주세요.'}
                 </p>
               )}
