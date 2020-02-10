@@ -10,27 +10,32 @@ import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 
 export const ArticleChannelFollowButton: React.FunctionComponent<{
-  className?: string;
   channelId: number;
   channelName: string;
-}> = (props) => {
-  const {
-    isChannelFollowing,
+}> = ({ channelName, channelId }) => {
+  const isChannelFollowing = useSelector(
+    (state: RidiSelectState) => state.articleChannelById[channelName]?.channelMeta?.isFollowing,
+  );
+  const followFetchStatus = useSelector(
+    (state: RidiSelectState) => state.articleChannelById[channelName].followFetchStatus,
+  );
+
+  const isFetching = React.useMemo(() => followFetchStatus === FetchStatusFlag.FETCHING, [
     followFetchStatus,
-  } = useSelector((state: RidiSelectState) => {
-    const channelById = state.articleChannelById[props.channelName];
-    return {
-      isChannelFollowing:
-        channelById && channelById.channelMeta && typeof channelById.channelMeta.isFollowing === 'boolean'
-          ? channelById.channelMeta.isFollowing
-          : undefined,
-      followFetchStatus: channelById.followFetchStatus,
-    };
-  });
+  ]);
 
   const dispatch = useDispatch();
-  const handleButtonClick = (method: Method) => {
-    dispatch(Actions.articleChannelFollowingActionRequest({ channelId: props.channelId, channelName: props.channelName, method }));
+  const handleButtonClick = () => {
+    if (followFetchStatus === FetchStatusFlag.FETCHING) {
+      return;
+    }
+    dispatch(
+      Actions.articleChannelFollowingActionRequest({
+        channelId,
+        channelName,
+        method: isChannelFollowing ? 'DELETE' : 'POST',
+      }),
+    );
   };
 
   return (
@@ -42,19 +47,20 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
         'Channel_FollowButton',
         isChannelFollowing && 'Channel_FollowButton-active',
       )}
-      onClick={() => handleButtonClick(isChannelFollowing ? 'DELETE' : 'POST')}
-      spinner={typeof isChannelFollowing !== 'boolean' || followFetchStatus === FetchStatusFlag.FETCHING}
+      onClick={handleButtonClick}
+      disabled={isFetching}
+      spinner={typeof isChannelFollowing !== 'boolean' || isFetching}
     >
-      {typeof isChannelFollowing === 'boolean' && followFetchStatus !== FetchStatusFlag.FETCHING
-        ? isChannelFollowing
-          ?  '팔로잉'
-          : (
-            <>
-              <Icon name="plus_1" className="Channel_FollowButton_Icon" />
-              팔로우
-            </>
-          )
-        : null}
+      {typeof isChannelFollowing === 'boolean' && !isFetching ? (
+        isChannelFollowing ? (
+          '팔로잉'
+        ) : (
+          <>
+            <Icon name="plus_1" className="Channel_FollowButton_Icon" />
+            팔로우
+          </>
+        )
+      ) : null}
     </Button>
   );
 };
