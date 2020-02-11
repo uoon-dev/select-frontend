@@ -36,6 +36,7 @@ export interface Ticket {
   cashReceiptUrl?: string;
   pgReceiptUrl?: string;
   isCashReceiptIssuable?: boolean;
+  isOptoutCancellableWithPaymentMethodChange: boolean;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
@@ -48,6 +49,7 @@ export interface PurchasesResponse {
   totalCount: number;
   size: number;
   tickets: Ticket[];
+  latestPurchasedTicket: Ticket;
 }
 
 export interface MySelectHistoryResponse {

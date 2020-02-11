@@ -173,11 +173,13 @@ export interface SubscriptionState {
   cardSubscription: string[];
   pgType: string;
   isSubscribedWithOldPrice: boolean;
+  isOptoutCancellableWithPaymentMethodChange: boolean;
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
   isCancelFetching: boolean;
   isCashReceiptIssueFetching: boolean;
+  latestPurchasedTicket: Ticket | null;
 }
 
 export interface UserState {
@@ -218,6 +220,7 @@ export const INITIAL_STATE: UserState = {
     itemListByPage: {},
     isCancelFetching: false,
     isCashReceiptIssueFetching: false,
+    latestPurchasedTicket: null,
   },
 };
 
@@ -412,6 +415,7 @@ userReducer.on(Actions.loadPurchasesSuccess, (state = INITIAL_STATE, payload) =>
   purchaseHistory: {
     ...state.purchaseHistory,
     itemCount: payload.response.totalCount,
+    latestPurchasedTicket: payload.response.latestPurchasedTicket,
     itemListByPage: {
       ...state.purchaseHistory.itemListByPage,
       [payload.page]: {
@@ -441,6 +445,7 @@ userReducer.on(Actions.loadPurchasesFailure, (state = INITIAL_STATE, payload) =>
 userReducer.on(Actions.clearPurchases, (state = INITIAL_STATE) => ({
   ...state,
   purchaseHistory: {
+    ...state.purchaseHistory,
     itemListByPage: {},
     isCancelFetching: false,
     isCashReceiptIssueFetching: false,
