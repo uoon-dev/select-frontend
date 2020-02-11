@@ -12,7 +12,6 @@ import {
 } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
 import { AxiosError, Method } from 'axios';
-import { PurchaseHistory } from './index';
 
 export const Actions = {
   fetchUserInfo: createAction<{
