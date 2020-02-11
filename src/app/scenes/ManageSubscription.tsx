@@ -1,19 +1,19 @@
 import React from 'react';
+import classNames from 'classnames';
+import * as dateFns from 'date-fns';
 import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { FetchStatusFlag, PageTitleText } from 'app/constants';
-import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
-import { Actions as CommonUIActions } from 'app/services/commonUI';
-import { EnvironmentState } from 'app/services/environment';
-import { getIsIosInApp } from 'app/services/environment/selectors';
-import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
+import { EnvironmentState } from 'app/services/environment';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
+import { getIsIosInApp } from 'app/services/environment/selectors';
+import { Actions as CommonUIActions } from 'app/services/commonUI';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { Actions, SubscriptionState, UserState } from 'app/services/user';
 import { buildDateAndTimeFormat, buildOnlyDateFormat } from 'app/utils/formatDate';
-import classNames from 'classnames';
-import * as dateFns from 'date-fns';
+import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
 interface ManageSubscriptionStateProps {
   userState: UserState;
@@ -233,8 +233,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
                   <Icon className="ReasonForNonCancellable_Icon" name="exclamation_3" />
                   <strong>{subscriptionState.optoutReasonKor}</strong>
                   <br />
-                  {subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' ||
-                  subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE'
+                  {subscriptionState.isOptoutCancellableWithPaymentMethodChange
                     ? '카드 재등록 시 구독 해지 예약을 취소할 수 있습니다.'
                     : '이용 기간 만료 후 다시 구독해주세요.'}
                 </p>
