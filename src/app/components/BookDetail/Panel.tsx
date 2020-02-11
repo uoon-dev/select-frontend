@@ -48,9 +48,9 @@ export const BookDetailPanel: React.FunctionComponent<BookDetailPanelProps> = pr
       <div className="PageBookDetail_PanelContent">
         {useTruncate ? (
           <TextTruncate
-            lines={9}
+            lines={isMobile ? 7 : 8}
             text={`${imageUrl ? `<img src="${imageUrl}" /><br /><br />` : ''}${children}`}
-            lineHeight={isMobile ? 23 : 25}
+            lineHeight={29}
             renderExpander={({ expand, isExpanded, isTruncated }) =>
               !isTruncated || isExpanded ? null : (
                 <div className="BookDetail_ContentTruncWrapper">

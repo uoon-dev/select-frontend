@@ -198,29 +198,22 @@
 
 .PageBookDetail_PanelTitle {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-
-  @media (--pc-screen) {
-    font-size: 17px;
-  }
+  line-height: 1.4em;
 }
 
 .PageBookDetail_PanelContent {
   margin: 20px 0 0;
   color: #303538;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 17px;
+  line-height: 1.7em;
   & > p {
     margin: 0;
   }
   & img:not(.RSGBookThumbnail_CoverImage) {
     width: auto;
     max-width: 100%;
-  }
-  @media (--pc-screen) {
-    font-size: 15px;
-    line-height: 25px;
   }
 }
 
