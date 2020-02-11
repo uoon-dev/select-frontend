@@ -1,11 +1,8 @@
 .ExpandableBookList_Title {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-
-  @media (--pc-screen) {
-    font-size: 17px;
-  }
+  line-height: 1.4em;
 }
 
 .ExpandableBookList_ExpandButton_Wrapper {
