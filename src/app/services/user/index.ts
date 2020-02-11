@@ -415,6 +415,7 @@ userReducer.on(Actions.loadPurchasesSuccess, (state = INITIAL_STATE, payload) =>
   purchaseHistory: {
     ...state.purchaseHistory,
     itemCount: payload.response.totalCount,
+    latestPurchasedTicket: payload.response.latestPurchasedTicket,
     itemListByPage: {
       ...state.purchaseHistory.itemListByPage,
       [payload.page]: {
