@@ -181,8 +181,7 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
             </ul>
             <div className="ToggleSubscriptionButton_Wrapper">
               {subscriptionState.isOptout ? (
-                subscriptionState.optoutReason === 'OPTOUT_BY_RIDI_PAY' ||
-                subscriptionState.optoutReason === 'OPTOUT_BY_RECUR_PAYMENT_FAILURE' ? (
+                subscriptionState.isOptoutCancellableWithPaymentMethodChange ? (
                   !isIosInApp && (
                     <Button
                       className="ToggleSubscriptionButton"

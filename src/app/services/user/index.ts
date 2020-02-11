@@ -12,6 +12,7 @@ import {
 } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
 import { AxiosError, Method } from 'axios';
+import { PurchaseHistory } from './index';
 
 export const Actions = {
   fetchUserInfo: createAction<{
@@ -173,6 +174,7 @@ export interface SubscriptionState {
   cardSubscription: string[];
   pgType: string;
   isSubscribedWithOldPrice: boolean;
+  isOptoutCancellableWithPaymentMethodChange: boolean;
 }
 
 export interface PurchaseHistory extends Paginated<Ticket> {
@@ -443,6 +445,7 @@ userReducer.on(Actions.loadPurchasesFailure, (state = INITIAL_STATE, payload) =>
 userReducer.on(Actions.clearPurchases, (state = INITIAL_STATE) => ({
   ...state,
   purchaseHistory: {
+    ...state.purchaseHistory,
     itemListByPage: {},
     isCancelFetching: false,
     isCashReceiptIssueFetching: false,

@@ -36,6 +36,7 @@ export interface Ticket {
   cashReceiptUrl?: string;
   pgReceiptUrl?: string;
   isCashReceiptIssuable?: boolean;
+  isOptoutCancellableWithPaymentMethodChange: boolean;
 }
 
 // export interface SubscriptionResponse extends SubscriptionState {
