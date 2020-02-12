@@ -62,7 +62,22 @@
 
   & hr {
     display: block;
-    border: 0.5px solid var(--slategray_20);
+    position: relative;
+    border: 0;
+    padding: 30px 0;
+    margin: 0;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      width: calc(100vw - 40px);
+      height: 1px;
+      background: var(--slategray_20);
+    }
   }
 
   &,
@@ -305,6 +320,10 @@
     & > blockquote {
       margin-left: 20px;
       margin-right: 20px;
+    }
+    & hr {
+      padding-left: 20px;
+      padding-right: 20px;
     }
     & iframe {
       width: 100vw;
