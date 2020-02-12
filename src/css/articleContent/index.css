@@ -128,7 +128,7 @@
   line-height: 48px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .ArticleContent_Title {
     padding: 30px 20px 0;
   }
