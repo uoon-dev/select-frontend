@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
-import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
+import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
@@ -112,6 +112,11 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
+                imageSize={
+                  isFullWidthAvailable
+                    ? ArticleThumbnailImageSize.WIDTH_900
+                    : ArticleThumbnailImageSize.WIDTH_600
+                }
                 onLinkClick={() =>
                   trackingClick(
                     idx,
