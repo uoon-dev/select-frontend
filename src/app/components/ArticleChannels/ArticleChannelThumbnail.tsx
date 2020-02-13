@@ -11,9 +11,14 @@ interface ArticleChannelThumbnailProps {
   imageClassName?: string;
   linkUrl: string;
   imageUrl?: string;
+  imageSize?: ArticleChannelThumbnailImageSize;
   channelName: string;
   isEnabled?: boolean;
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
+}
+
+export enum ArticleChannelThumbnailImageSize {
+  WIDTH_100 = 'w=100',
 }
 
 export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = props => {
@@ -26,6 +31,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     isEnabled = true,
+    imageSize = ArticleChannelThumbnailImageSize.WIDTH_100,
   } = props;
 
   const [isWrongImage, setIsWrongImage] = React.useState(false);
@@ -47,7 +53,7 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       <>
         <img
           className={classNames('ArticleChannelThumbnail_CoverImage', imageClassName)}
-          src={imageUrl}
+          src={`${imageUrl}?${imageSize}`}
           alt={channelName}
           onError={() => setIsWrongImage(true)}
         />
