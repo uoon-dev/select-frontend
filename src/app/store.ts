@@ -1,5 +1,5 @@
 import { connectRouter, routerMiddleware, RouterState } from 'connected-react-router';
-import { isEmpty } from 'lodash-es';
+import isEmpty from 'lodash-es/isEmpty';
 import * as qs from 'qs';
 import { Dispatch, applyMiddleware, combineReducers, compose, createStore } from 'redux';
 

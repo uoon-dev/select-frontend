@@ -1,12 +1,10 @@
-import {
-  addMonths,
-  differenceInDays,
-  differenceInMinutes,
-  endOfMonth,
-  isWithinInterval,
-  parseISO,
-  startOfMonth,
-} from 'date-fns';
+import addMonths from 'date-fns/addMonths';
+import differenceInDays from 'date-fns/differenceInDays';
+import differenceInMinutes from 'date-fns/differenceInMinutes';
+import endOfMonth from 'date-fns/endOfMonth';
+import isWithinInterval from 'date-fns/isWithinInterval';
+import parseISO from 'date-fns/parseISO';
+import startOfMonth from 'date-fns/startOfMonth';
 
 export function getNotAvailableConvertDateDiff(BookEndDate: string, NextBillDate?: string) {
   const currentDate = new Date();

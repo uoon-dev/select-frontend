@@ -1,4 +1,4 @@
-import { flatMap, get } from 'lodash-es';
+import flatMap from 'lodash-es/flatMap';
 import { createSelector } from 'reselect';
 
 import { FetchStatusFlag } from 'app/constants';

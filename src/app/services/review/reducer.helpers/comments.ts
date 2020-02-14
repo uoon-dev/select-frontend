@@ -1,4 +1,9 @@
-import { findIndex, findKey, flow, keyBy, mapValues, range } from 'lodash-es';
+import findIndex from 'lodash-es/findIndex';
+import findKey from 'lodash-es/findKey';
+import flow from 'lodash-es/flow';
+import keyBy from 'lodash-es/keyBy';
+import mapValues from 'lodash-es/mapValues';
+import range from 'lodash-es/range';
 import Immutable from 'object-path-immutable';
 
 import { FetchStatusFlag } from 'app/constants';

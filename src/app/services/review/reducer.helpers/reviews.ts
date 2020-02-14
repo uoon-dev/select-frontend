@@ -1,4 +1,7 @@
-import { flow, keyBy, mapValues, omit } from 'lodash-es';
+import flow from 'lodash-es/flow';
+import keyBy from 'lodash-es/keyBy';
+import mapValues from 'lodash-es/mapValues';
+import omit from 'lodash-es/omit';
 import Immutable from 'object-path-immutable';
 
 import { FetchStatusFlag } from 'app/constants';

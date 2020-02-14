@@ -4,7 +4,8 @@ import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selector
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
-import { assignIn, flow, omit } from 'lodash-es';
+import assignIn from 'lodash-es/assignIn';
+import flow from 'lodash-es/flow';
 import * as qs from 'qs';
 import React from 'react';
 import { connect, useSelector } from 'react-redux';

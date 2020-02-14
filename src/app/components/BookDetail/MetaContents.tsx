@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { some } from 'lodash-es';
+import some from 'lodash-es/some';
 import React from 'react';
 import { connect } from 'react-redux';
 

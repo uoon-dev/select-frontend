@@ -1,4 +1,4 @@
-import { get } from 'lodash-es';
+import get from 'lodash-es/get';
 // eslint-disable-next-line import/named
 import { createSelector, OutputSelector } from 'reselect';
 

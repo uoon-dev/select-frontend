@@ -1,4 +1,4 @@
-import { isWithinInterval } from 'date-fns';
+import isWithinInterval from 'date-fns/isWithinInterval';
 import React from 'react';
 import { connect } from 'react-redux';
 
