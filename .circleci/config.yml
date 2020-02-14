@@ -126,12 +126,16 @@ jobs:
       - aws-s3/sync:
           from: dist
           to: s3://${<< parameters.s3-bucket >>}
+          aws-access-key-id: << parameters.aws-access-key-id >>
+          aws-secret-access-key: << parameters.aws-secret-access-key >>
           arguments: |
             ${S3_ASSETS_PARAMS} \
             << parameters.arguments >>
       - aws-s3/copy:
           from: s3://${<< parameters.s3-bucket >>}/<< parameters.entry-file >>
           to: s3://${<< parameters.s3-bucket >>}/<< parameters.entry-file >>
+          aws-access-key-id: << parameters.aws-access-key-id >>
+          aws-secret-access-key: << parameters.aws-secret-access-key >>
           arguments: ${S3_RELEASE_PARAMS}
   serverless:
     docker:
