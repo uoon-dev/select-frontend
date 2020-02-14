@@ -1,43 +1,22 @@
 version: 2.1
 orbs:
-  aws-s3: circleci/aws-s3@1.0.9
-  slack: circleci/slack@2.5.1
-develop_aws_key: &develop_aws_key
-  aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
-  aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
-production_aws_key: &production_aws_key
-  aws-access-key-id: PROD_AWS_ACCESS_KEY_ID
-  aws-secret-access-key: PROD_AWS_SECRET_ACCESS_KEY
+  aws-s3: circleci/aws-s3@1.0.15
+  slack: circleci/slack@3.4.2
 commands:
   install:
     parameters:
       key:
         type: string
         default: 'select-frontend'
-      service_build:
-        type: boolean
-        default: false
-      serverless_build:
-        type: boolean
-        default: false
     steps:
       - restore_cache:
           keys:
             - <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - <<parameters.key>>-{{ .Branch }}-
             - <<parameters.key>>-
-      - when:
-          condition: << parameters.service_build >>
-          steps:
-            - run:
-                name: Install yarn packages
-                command: yarn install --frozen-lockfile
-      - when:
-          condition: << parameters.serverless_build >>
-          steps:
-            - run:
-                name: Install yarn packages
-                command: cd serverless && yarn install --frozen-lockfile
+      - run:
+          name: Install yarn packages
+          command: yarn install --frozen-lockfile
       - save_cache:
           key: <<parameters.key>>-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths: ~/.cache/yarn
@@ -52,6 +31,29 @@ commands:
             sentry-cli releases finalize ${CIRCLE_SHA1}
           environment:
             SENTRY_LOG_LEVEL: debug
+  notify:
+    parameters:
+      channel:
+        type: string
+        default: deploy-select
+      prefix:
+        type: string
+        default: ''
+    steps:
+      - run:
+          command: |
+            export TITLE="`git show -s --format=%s -n1 $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            export MESSAGE="[Rollback]: `git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            echo "export TITLE=$'$(echo "$TITLE")'" >> $BASH_ENV
+            echo "export MESSAGE=$'$(echo "$MESSAGE")'" >> $BASH_ENV
+      - slack/notify:
+          color: good
+          title: << parameters.prefix >> $TITLE
+          title_link: https://github.com/ridi/select-frontend/commit/$CIRCLE_SHA1
+          message: $MESSAGE
+          channel: << parameters.channel >>
+          include_project_field: false
+          include_job_number_field: false
 jobs:
   build:
     docker:
@@ -63,8 +65,7 @@ jobs:
         default: false
     steps:
       - checkout
-      - install:
-          service_build: true
+      - install
       - when:
           condition: << parameters.dev >>
           steps:
@@ -97,97 +98,45 @@ jobs:
       - image: circleci/python:3.7
     working_directory: ~/select-frontend
     parameters:
-      dev:
-        type: boolean
-        default: false
-      stage:
-        type: boolean
-        default: false
-      prod:
-        type: boolean
-        default: false
+      aws-access-key-id:
+        type: env_var_name
+        default: PROD_AWS_ACCESS_KEY_ID
+      aws-secret-access-key:
+        type: env_var_name
+        default: PROD_AWS_SECRET_ACCESS_KEY
+      s3-bucket:
+        type: env_var_name
+        default: PROD_S3_BUCKET
+      entry-file:
+        type: string
+        default: index.html
+      arguments:
+        type: string
+        default: ''
+      after-scripts:
+        type: steps
+        default: []
     environment:
       S3_RELEASE_PARAMS: '--metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate'
       S3_ASSETS_PARAMS: '--cache-control public,max-age=31536000'
     steps:
       - checkout
-      - run:
-          name: Set environment variables
-          command: |
-            export SUBJECT="`git show -s --format=%s -n1 $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
-            export MESSAGE="`git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
-            echo "export GIT_COMMIT_SUBJECT=$'$(echo "$SUBJECT")'" >> $BASH_ENV
-            echo "export GIT_COMMIT_MESSAGE=$'$(echo "$MESSAGE")'" >> $BASH_ENV
-            echo "export GITHUB_COMMIT_URL=\"https://github.com/ridi/select-frontend/commit/$CIRCLE_SHA1\"" >> $BASH_ENV
       - attach_workspace:
           at: .
-      - when:
-          condition: << parameters.dev >>
-          steps:
-            - aws-s3/sync:
-                from: dist
-                to: s3://${DEV_S3_BUCKET}
-                <<: *develop_aws_key
-                arguments: |
-                  --exclude "staging.html" \
-                  ${S3_ASSETS_PARAMS}
-            - aws-s3/copy:
-                from: s3://${DEV_S3_BUCKET}/index.html
-                to: s3://${DEV_S3_BUCKET}/index.html
-                <<: *develop_aws_key
-                arguments: ${S3_RELEASE_PARAMS}
-            - slack/notify:
-                color: good
-                message: $GIT_COMMIT_MESSAGE
-                title: $GIT_COMMIT_SUBJECT
-                title_link: $GITHUB_COMMIT_URL
-                include_project_field: false
-                include_job_number_field: false
-                webhook: $SLACK_WEBHOOK_DEV
-      - when:
-          condition: << parameters.stage >>
-          steps:
-            - aws-s3/sync:
-                from: dist
-                to: s3://${PROD_S3_BUCKET}
-                <<: *production_aws_key
-                arguments: |
-                  --exclude "index.html" \
-                  --exclude "*.map" \
-                  ${S3_ASSETS_PARAMS}
-            - aws-s3/copy:
-                from: s3://${PROD_S3_BUCKET}/staging.html
-                to: s3://${PROD_S3_BUCKET}/staging.html
-                <<: *production_aws_key
-                arguments: ${S3_RELEASE_PARAMS}
-      - when:
-          condition: << parameters.prod >>
-          steps:
-            - aws-s3/sync:
-                from: dist
-                to: s3://${PROD_S3_BUCKET}
-                <<: *production_aws_key
-                arguments: |
-                  --exclude "staging.html" \
-                  --exclude "*.map" \
-                  ${S3_ASSETS_PARAMS}
-            - aws-s3/copy:
-                from: s3://${PROD_S3_BUCKET}/index.html
-                to: s3://${PROD_S3_BUCKET}/index.html
-                <<: *production_aws_key
-                arguments: ${S3_RELEASE_PARAMS}
-            - sentry_upload
-            - slack/notify:
-                color: good
-                message: $GIT_COMMIT_MESSAGE
-                title: $GIT_COMMIT_SUBJECT
-                title_link: $GITHUB_COMMIT_URL
-                include_project_field: false
-                include_job_number_field: false
+      - aws-s3/sync:
+          from: dist
+          to: s3://${<< parameters.s3-bucket >>}
+          arguments: |
+            ${S3_ASSETS_PARAMS} \
+            << parameters.arguments >>
+      - aws-s3/copy:
+          from: s3://${<< parameters.s3-bucket >>}/<< parameters.entry-file >>
+          to: s3://${<< parameters.s3-bucket >>}/<< parameters.entry-file >>
+          arguments: ${S3_RELEASE_PARAMS}
   serverless:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/select-frontend
+    working_directory: ~/select-frontend/serverless
     parameters:
       aws-access-key-id:
          type: env_var_name
@@ -202,7 +151,6 @@ jobs:
       - checkout
       - install:
           key: select-serverless
-          serverless_build: true
       - deploy:
           command: cd serverless && yarn serverless deploy --stage production -v
 workflows:
@@ -215,14 +163,18 @@ workflows:
             branches:
               only:
                 - master
-                - feature/circle-ci
           dev: true
       - deploy:
           name: deploy-dev
           requires:
             - build-dev
-          filters: *master_only
-          dev: true
+          aws-access-key-id: DEV_AWS_ACCESS_KEY_ID
+          aws-secret-access-key: DEV_AWS_SECRET_ACCESS_KEY
+          s3-bucket: DEV_S3_BUCKET
+          arguments: --exclude "staging.html"
+          after-scripts:
+            - notify:
+                channel: deploy-select-dev
   deploy-stage:
     jobs:
       - build:
@@ -232,8 +184,13 @@ workflows:
           name: deploy-stage
           requires:
             - build-stage
-          filters: *master_only
-          stage: true
+          entry-file: staging.html
+          arguments: |
+            --exclude "index.html" \
+            --exclude "*.map"
+          after-scripts:
+            - notify:
+                prefix: '[PRE-RELEASE]'
   deploy-prod:
     jobs:
       - build:
@@ -246,8 +203,12 @@ workflows:
           name: deploy-prod
           requires:
             - build-prod
-          filters: *releases_only
-          prod: true
+          arguments: |
+            --exclude "staging.html" \
+            --exclude "*.map"
+          after-scripts:
+            - sentry_upload
+            - notify
       - wait-serverless-approval:
           type: approval
           filters: *releases_only
