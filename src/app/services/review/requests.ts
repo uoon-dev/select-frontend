@@ -1,6 +1,6 @@
 import { camelize, CamelizeOpts, decamelize } from '@ridi/object-case-converter';
 import { AxiosResponse } from 'axios';
-import { snakeCase } from 'lodash-es';
+import snakeCase from 'lodash-es/snakeCase';
 
 import request from 'app/config/axios';
 import { Omit, TextWithLF } from 'app/types';

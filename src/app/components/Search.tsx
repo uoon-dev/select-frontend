@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import classNames from 'classnames';
-import { isString, take } from 'lodash-es';
+import isString from 'lodash-es/isString';
+import take from 'lodash-es/take';
 import * as qs from 'qs';
 import React from 'react';
 import { connect } from 'react-redux';

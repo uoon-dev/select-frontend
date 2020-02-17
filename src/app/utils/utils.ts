@@ -1,5 +1,5 @@
 import { Article } from 'app/types/ridi-prosemirror-editor.d';
-import { flatMap } from 'lodash-es';
+import flatMap from 'lodash-es/flatMap';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
 import { ArticleContent } from 'app/services/article';

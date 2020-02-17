@@ -10,7 +10,7 @@ import { Actions, SearchResultArticle, SearchResultBook } from 'app/services/sea
 
 import { requestArticles } from 'app/services/article/requests';
 import { requestBooks } from 'app/services/book/requests';
-import { keyBy } from 'lodash-es';
+import keyBy from 'lodash-es/keyBy';
 
 import {
   PublicSearchResultReponse,

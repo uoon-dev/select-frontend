@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash-es';
+import mapValues from 'lodash-es/mapValues';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';

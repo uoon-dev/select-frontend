@@ -5,7 +5,7 @@ import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
-import { throttle } from 'lodash-es';
+import throttle from 'lodash-es/throttle';
 import { Link } from 'react-router-dom';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{

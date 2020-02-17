@@ -1,4 +1,5 @@
-import { flatMap, range } from 'lodash-es';
+import flatMap from 'lodash-es/flatMap';
+import range from 'lodash-es/range';
 import { createSelector } from 'reselect';
 
 import { RidiSelectState } from 'app/store';

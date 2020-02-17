@@ -1,4 +1,4 @@
-import { keyBy } from 'lodash-es';
+import keyBy from 'lodash-es/keyBy';
 import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import history from 'app/config/history';

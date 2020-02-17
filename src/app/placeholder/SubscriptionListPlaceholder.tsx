@@ -1,4 +1,4 @@
-import { range } from 'lodash-es';
+import range from 'lodash-es/range';
 import React from 'react';
 
 export const SubscriptionListPlaceholder: React.SFC = () => (

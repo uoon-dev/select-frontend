@@ -29,7 +29,7 @@ import {
 } from 'app/utils/request';
 import toast from 'app/utils/toast';
 import { AxiosResponse } from 'axios';
-import { keyBy } from 'lodash-es';
+import keyBy from 'lodash-es/keyBy';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 

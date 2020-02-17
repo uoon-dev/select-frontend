@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import * as dateFns from 'date-fns';
+import dateFnsFormat from 'date-fns/format';
 import { connect } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
@@ -57,8 +57,8 @@ export class ManageSubscription extends React.PureComponent<ManageSubscriptionPr
 
     if (subscriptionState) {
       const { nextBillDate } = subscriptionState;
-      const today = dateFns.format(new Date(), 'yyyyMMdd');
-      const billDate = dateFns.format(new Date(nextBillDate), 'yyyyMMdd');
+      const today = dateFnsFormat(new Date(), 'yyyyMMdd');
+      const billDate = dateFnsFormat(new Date(nextBillDate), 'yyyyMMdd');
       const currentHour = new Date().getHours();
       // 결제일이랑 오늘날짜가 같고, 현재 시간이 23시~23시59분 사이라면 결제 불가 알림메시지
       if (today === billDate && currentHour === 23) {
