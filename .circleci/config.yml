@@ -43,9 +43,9 @@ commands:
       - run:
           command: |
             export TITLE="`git show -s --format=%s -n1 $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
-            export MESSAGE="[Rollback]: `git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
-            echo "export TITLE=$'$(echo "$TITLE")'" >> $BASH_ENV
-            echo "export MESSAGE=$'$(echo "$MESSAGE")'" >> $BASH_ENV
+            export MESSAGE="`git show -s --format=%b $CIRCLE_SHA1 | sed "s/'/\\\\\'/g"`"
+            echo "export TITLE='$(echo "$TITLE")'" >> $BASH_ENV
+            echo "export MESSAGE='$(echo "$MESSAGE")'" >> $BASH_ENV
       - slack/notify:
           color: good
           title: << parameters.prefix >> $TITLE
@@ -137,6 +137,7 @@ jobs:
           aws-access-key-id: << parameters.aws-access-key-id >>
           aws-secret-access-key: << parameters.aws-secret-access-key >>
           arguments: ${S3_RELEASE_PARAMS}
+      - steps: << parameters.after-scripts >>
   serverless:
     docker:
       - image: circleci/node:lts
