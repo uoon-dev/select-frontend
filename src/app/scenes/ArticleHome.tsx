@@ -15,7 +15,7 @@ import { Actions as ArticleFollowingActions } from 'app/services/articleFollowin
 import { ArticleHomeListSection } from 'app/components/ArticleHome/ArticleHomeListSection';
 import { ArticleHomeChartSection } from 'app/components/ArticleHome/ArticleHomeChartSection';
 
-export const ArticleHome: React.FunctionComponent = () => {
+const ArticleHome: React.FunctionComponent = () => {
   const { fetchedAt, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(
     (state: RidiSelectState) => ({
       fetchedAt: state.articleHome.fetchedAt,
@@ -76,3 +76,5 @@ export const ArticleHome: React.FunctionComponent = () => {
     </main>
   );
 };
+
+export default ArticleHome;
