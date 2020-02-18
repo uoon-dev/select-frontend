@@ -124,6 +124,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
             </span>
           )}
         </Lazyload>
+        <span className="a11y">{articleTitle} 상세 바로가기</span>
       </Link>
     </div>
   );

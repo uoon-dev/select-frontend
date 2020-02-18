@@ -179,6 +179,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                             · {buildDateDistanceFormat(article.publishDate)} 전
                           </span>
                         ) : null}
+                        <span className="a11y">{article.title} 상세 바로가기</span>
                       </Link>
                     </>
                   ) : (
@@ -212,6 +213,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                           article.isFavorite && 'GridArticleItem_FavoriteButton-active',
                         )}
                       />
+                      <span className="a11y">좋아요</span>
                     </button>
                   </div>
                 ) : null}
