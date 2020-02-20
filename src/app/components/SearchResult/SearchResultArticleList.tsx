@@ -1,13 +1,16 @@
-import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { ImageSize } from 'app/constants';
 import { SearchResultArticle } from 'app/services/searchResult';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { ThumbnailShape } from '../ArticleThumbnail/types';
 
 interface Props {
@@ -46,7 +49,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = props => 
                 thumbnailShape={ThumbnailShape.SQUARE}
                 thumbnailClassName="SearchResultArticleList_Thumbnail"
                 articleTitle={article.title}
-                imageSize={ArticleThumbnailImageSize.HEIGHT_200}
+                imageSize={ImageSize.HEIGHT_100}
                 onLinkClick={() =>
                   trackingClick(
                     idx,

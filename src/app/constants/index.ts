@@ -1,3 +1,5 @@
+export * from './imageSize';
+
 export const MAX_WIDTH = 834;
 export const MIN_WIDTH = 835;
 

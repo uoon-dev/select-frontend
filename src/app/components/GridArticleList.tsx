@@ -1,13 +1,14 @@
+import { Icon } from '@ridi/rsg';
 import { Method } from 'axios';
 import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Icon } from '@ridi/rsg';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
-import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
+import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { ImageSize } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -112,11 +113,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
                 imageUrl={article.thumbnailUrl}
                 articleTitle={article.title}
                 isEnabled={article.isEnabled}
-                imageSize={
-                  isFullWidthAvailable
-                    ? ArticleThumbnailImageSize.WIDTH_900
-                    : ArticleThumbnailImageSize.WIDTH_600
-                }
+                imageSize={isFullWidthAvailable ? ImageSize.WIDTH_450 : ImageSize.WIDTH_300}
                 onLinkClick={() =>
                   trackingClick(
                     idx,

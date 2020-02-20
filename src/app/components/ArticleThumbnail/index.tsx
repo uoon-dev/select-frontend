@@ -5,12 +5,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
-
-export enum ArticleThumbnailImageSize {
-  WIDTH_600 = 'w=600',
-  WIDTH_900 = 'w=900',
-  HEIGHT_200 = 'h=200',
-}
+import { ImageSize } from 'app/constants';
+import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -20,7 +16,7 @@ interface ArticleThumbnailProps {
   imageUrl?: string;
   articleTitle: string;
   isEnabled?: boolean;
-  imageSize?: ArticleThumbnailImageSize;
+  imageSize?: ImageSize;
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
@@ -37,7 +33,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
-    imageSize = ArticleThumbnailImageSize.WIDTH_600,
+    imageSize = ImageSize.WIDTH_300,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     thumbnailShape = ThumbnailShape.RECTANGLE,
@@ -52,6 +48,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       setIsWrongImage(true);
     }
   }, []);
+
+  const imageSrc = imageUrl ? getImageSrc(imageUrl, imageSize) : null;
 
   const renderThumbnailImage = () => {
     if (!Modernizr.objectfit) {
@@ -70,9 +68,9 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
       <>
         <img
           className={classNames('ArticleThumbnail_CoverImage', imageClassName)}
-          src={`${imageUrl}?${imageSize}`}
           alt={articleTitle}
           onError={() => setIsWrongImage(true)}
+          {...imageSrc}
         />
         <span className="ArticleThumbnail_CoverShadow" />
       </>
