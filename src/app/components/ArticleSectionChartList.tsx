@@ -1,14 +1,17 @@
-import { ArticleThumbnail, ArticleThumbnailImageSize } from 'app/components/ArticleThumbnail';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { ImageSize } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking, mixedMiscTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { ThumbnailShape } from './ArticleThumbnail/types';
 
 const CHART_GROUPING_COUNT = 5;
@@ -98,7 +101,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                       imageUrl={article.thumbnailUrl}
                       articleTitle={article.title}
                       thumbnailShape={ThumbnailShape.SQUARE}
-                      imageSize={ArticleThumbnailImageSize.HEIGHT_200}
+                      imageSize={ImageSize.HEIGHT_100}
                       onLinkClick={() =>
                         trackingClick(
                           index,

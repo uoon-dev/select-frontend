@@ -5,20 +5,18 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
+import { ImageSize } from 'app/constants';
+import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 
 interface ArticleChannelThumbnailProps {
   thumbnailClassName?: string;
   imageClassName?: string;
   linkUrl: string;
   imageUrl?: string;
-  imageSize?: ArticleChannelThumbnailImageSize;
+  imageSize?: ImageSize;
   channelName: string;
   isEnabled?: boolean;
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
-}
-
-export enum ArticleChannelThumbnailImageSize {
-  HEIGHT_200 = 'h=200',
 }
 
 export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = props => {
@@ -31,10 +29,11 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
     isEnabled = true,
-    imageSize = ArticleChannelThumbnailImageSize.HEIGHT_200,
+    imageSize = ImageSize.HEIGHT_100,
   } = props;
 
   const [isWrongImage, setIsWrongImage] = React.useState(false);
+  const imageSrc = imageUrl ? getImageSrc(imageUrl, imageSize) : null;
 
   const renderThumbnailImage = () => {
     if (!Modernizr.objectfit) {
@@ -53,9 +52,9 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
       <>
         <img
           className={classNames('ArticleChannelThumbnail_CoverImage', imageClassName)}
-          src={`${imageUrl}?${imageSize}`}
           alt={channelName}
           onError={() => setIsWrongImage(true)}
+          {...imageSrc}
         />
         <span className="ArticleChannelThumbnail_CoverShadow" />
       </>
