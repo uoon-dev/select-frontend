@@ -1,4 +1,5 @@
 export enum CoverSize {
+  SIZE_50 = '/small',
   SIZE_90 = '/small',
   SIZE_120 = '/small?dpi=xhdpi',
   SIZE_165 = '/large',

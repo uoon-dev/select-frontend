@@ -44,6 +44,9 @@ const getResponsiveCoverImageSrc = (url: string, size: CoverSize): CoverImageSrc
     case CoverSize.SIZE_90:
       doubleSize = CoverSize.SIZE_180;
       break;
+    case CoverSize.SIZE_50:
+      doubleSize = CoverSize.SIZE_90;
+      break;
     default:
       doubleSize = size;
       break;

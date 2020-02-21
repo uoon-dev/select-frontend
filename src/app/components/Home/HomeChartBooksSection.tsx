@@ -51,7 +51,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       <DTOBookThumbnail
                         book={book}
                         width={50}
-                        coverSize={CoverSize.SIZE_90}
+                        coverSize={CoverSize.SIZE_50}
                         linkUrl={`/book/${book.id}`}
                         linkType="Link"
                         onLinkClick={() =>
