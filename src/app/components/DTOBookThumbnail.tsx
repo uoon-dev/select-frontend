@@ -1,23 +1,22 @@
 import React from 'react';
 
-import { Book, BookThumbnailUrlMap } from 'app/services/book';
+import { Book } from 'app/services/book';
 import { Omit } from 'app/types';
-import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
+import { CoverSize } from 'app/constants';
+import getResponsiveCoverImageSrc from 'app/utils/getResponsiveCoverImageSrc';
+
 import { BookThumbnail, BookThumbnailProps } from './BookThumbnail';
 
-export interface DTOBookThumbnailProps extends Omit<BookThumbnailProps, 'bookTitle' | 'imageUrl'> {
+export interface DTOBookThumbnailProps
+  extends Omit<BookThumbnailProps, 'bookTitle' | 'imageUrl' | 'coverImageSrc'> {
   book: Book;
-  imageSize?: keyof BookThumbnailUrlMap;
+  coverSize?: CoverSize;
 }
 
 export const DTOBookThumbnail: React.SFC<DTOBookThumbnailProps> = props => {
-  const { book, imageSize = 'large', ...restProps } = props;
+  const { book, coverSize = CoverSize.SIZE_120, ...restProps } = props;
+  const coverImageUrl = book.thumbnail.large ? book.thumbnail.large.split('/large')[0] : '';
+  const coverImageSrc = getResponsiveCoverImageSrc(coverImageUrl, coverSize);
 
-  return (
-    <BookThumbnail
-      imageUrl={withThumbnailQuery(book.thumbnail[imageSize]!)}
-      bookTitle={book.title.main}
-      {...restProps}
-    />
-  );
+  return <BookThumbnail coverImageSrc={coverImageSrc} bookTitle={book.title.main} {...restProps} />;
 };

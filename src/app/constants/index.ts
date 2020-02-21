@@ -1,3 +1,4 @@
+export * from './coverSize';
 export * from './imageSize';
 
 export const MAX_WIDTH = 834;

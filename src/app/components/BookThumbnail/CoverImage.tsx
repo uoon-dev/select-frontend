@@ -2,10 +2,11 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ThumbnailSize } from 'app/components/BookThumbnail/types';
+import { CoverImageSrc } from 'app/utils/getResponsiveCoverImageSrc';
 
 export interface CoverImageProps {
   className?: string;
-  src: string;
+  coverImageSrc: CoverImageSrc;
   alt: string;
   width: ThumbnailSize;
   shadow: boolean;
@@ -30,15 +31,15 @@ const NotAvailableComponent = (props: any) => {
 
 export class CoverImage extends React.Component<CoverImageProps, CoverImageState> {
   public render() {
-    const { className, src, alt, shadow, expired } = this.props;
+    const { className, coverImageSrc, alt, shadow, expired } = this.props;
 
     return (
       <>
         <img
           className={classNames('RSGBookThumbnail_CoverImage', className)}
-          src={src}
           alt={alt}
           onLoad={() => this.setState({ isLoaded: true })}
+          {...coverImageSrc}
         />
         {shadow && <span className="RSGBookThumbnail_CoverImage_Shadow" />}
         {expired && (
