@@ -6,7 +6,7 @@ import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
 import { DTOBookThumbnail } from 'app/components';
-import { MAX_WIDTH, CoverSize } from 'app/constants';
+import { MAX_WIDTH, CoverSizes } from 'app/constants';
 import { Book } from 'app/services/book';
 import { CollectionId } from 'app/services/collection';
 import { groupChartBooks } from 'app/services/home/uitls';
@@ -51,7 +51,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       <DTOBookThumbnail
                         book={book}
                         width={50}
-                        coverSize={CoverSize.SIZE_50}
+                        coverSize={CoverSizes.SIZE_50}
                         linkUrl={`/book/${book.id}`}
                         linkType="Link"
                         onLinkClick={() =>

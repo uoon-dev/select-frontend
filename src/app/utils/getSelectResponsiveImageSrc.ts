@@ -2,15 +2,17 @@ import { ImageSize } from 'app/constants';
 
 interface ImageSrc {
   src: string;
-  srcset: string;
+  sizes: string;
+  srcSet: string;
 }
 
 const getSelectResponsiveImageSrc = (url: string, size: ImageSize): ImageSrc => {
-  const [sizeTarget, sizeNumber] = size.split('=');
-  const doubleSize = `${sizeTarget}=${parseInt(sizeNumber, 10) * 2}`;
+  const [axis, value] = size.split('=');
+  const doubleSize = `${axis}=${parseInt(value, 10) * 2}`;
   return {
     src: `${url}?${size}`,
-    srcset: `${url}?${size} 1x, ${url}?${doubleSize} 2x`,
+    sizes: `${value}px`,
+    srcSet: `${url}?${size} 1x, ${url}?${doubleSize} 2x`,
   };
 };
 
