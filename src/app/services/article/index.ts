@@ -1,6 +1,6 @@
 import { createAction, createReducer } from 'redux-act';
 
-import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor';
+import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor/dist/esm/article';
 
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';

@@ -1382,10 +1382,10 @@
   dependencies:
     lodash "^4.17.10"
 
-"@ridi/ridi-prosemirror-editor@0.0.3-rc.1":
-  version "0.0.3-rc.1"
-  resolved "https://registry.yarnpkg.com/@ridi/ridi-prosemirror-editor/-/ridi-prosemirror-editor-0.0.3-rc.1.tgz#652fb75559e895c2eae1b119ef3784e836aecbc5"
-  integrity sha512-l6aiK7rp/N6FEeSutJRXGoRvx1Zu0w2umNpnUeB9YP96v+tmCkcCnwz749ZFqi9l1QuIVRlX8Vkn+Cbtp8TrLw==
+"@ridi/ridi-prosemirror-editor@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ridi/ridi-prosemirror-editor/-/ridi-prosemirror-editor-0.0.3.tgz#fad1bd1df439aec61ef15416d4f90c1fbee35ea7"
+  integrity sha512-S0unxY+beBBfrxcoQwovBTDqU+fxkOYp/IyJmDaAqkG/cmB4tCDgI1OOXMEWV4JzCZJVJaFRXrfnjgl0YE6cyQ==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@material-ui/core" "^4.3.2"

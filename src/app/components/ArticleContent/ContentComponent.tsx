@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Article } from '@ridi/ridi-prosemirror-editor';
+import Article from '@ridi/ridi-prosemirror-editor/dist/esm/article';
 
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { FetchStatusFlag } from 'app/constants';
