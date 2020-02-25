@@ -1,4 +1,4 @@
-declare module '@ridi/ridi-prosemirror-editor' {
+declare module '@ridi/ridi-prosemirror-editor/dist/esm/article' {
   import { FunctionComponent } from 'react';
 
   export interface TextContent {
