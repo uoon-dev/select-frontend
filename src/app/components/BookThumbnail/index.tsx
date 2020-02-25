@@ -5,12 +5,13 @@ import { LazyloadWrapper } from 'app/components/BookThumbnail/LazyloadWrapper';
 import { LinkWrapper } from 'app/components/BookThumbnail/LinkWrapper';
 import { SizeWrapper } from 'app/components/BookThumbnail/SizeWrapper';
 import { DEFAULT_THUMBNAIL_SIZE, ThumbnailSize } from 'app/components/BookThumbnail/types';
+import { CoverImageSrc } from 'app/utils/getResponsiveCoverImageSrc';
 
 export interface BookThumbnailProps {
   sizeWrapperClassName?: string;
   linkWrapperClassName?: string;
   imageClassName?: string;
-  imageUrl: string;
+  coverImageSrc: CoverImageSrc;
   width?: ThumbnailSize;
   bookTitle: string;
   linkUrl?: string;
@@ -28,7 +29,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = props => {
     sizeWrapperClassName,
     linkWrapperClassName,
     imageClassName,
-    imageUrl,
+    coverImageSrc,
     width = DEFAULT_THUMBNAIL_SIZE,
     bookTitle,
     linkUrl,
@@ -59,7 +60,7 @@ export const BookThumbnail: React.SFC<BookThumbnailProps> = props => {
         >
           <CoverImage
             className={imageClassName}
-            src={imageUrl}
+            coverImageSrc={coverImageSrc}
             alt={bookTitle}
             width={width}
             shadow={shadow}

@@ -1,17 +1,21 @@
-import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
-import { Actions as ArticleBannerActions } from 'app/services/articleHome';
-import { selectIsInApp } from 'app/services/environment/selectors';
-import { Actions as BookBannerActions, BigBanner } from 'app/services/home';
-import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import debounce from 'lodash-es/debounce';
 import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
 import Slider from 'react-slick';
+
+import { ImageSize } from 'app/constants';
+import { BigBannerPlaceholder } from 'app/placeholder/BigBannerPlaceholder';
 import { AppStatus } from 'app/services/app/index';
+import { Actions as ArticleBannerActions } from 'app/services/articleHome';
+import { selectIsInApp } from 'app/services/environment/selectors';
+import { Actions as BookBannerActions, BigBanner } from 'app/services/home';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
+import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { RidiSelectState } from 'app/store';
+import getSelectResponsiveImageSrc from 'app/utils/getSelectResponsiveImageSrc';
+
 import { BigBannerItem } from './BigBannerItem';
 import { SliderControls } from './SliderControls';
 
@@ -162,30 +166,33 @@ export class BigBannerCarousel extends React.Component<Props, State> {
               touchThreshold={BigBannerCarousel.touchThereshold}
               dotsClass="BigBanner_Dots"
             >
-              {bigBannerList.map((item, index) => (
-                <BigBannerItem
-                  linkUrl={item.linkUrl}
-                  onClick={() =>
-                    trackClick({
-                      section,
-                      index,
-                      id: item.id,
-                    })
-                  }
-                  key={index}
-                  isInApp={isInApp}
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    style={{
-                      width: isMobile ? '100%' : PC_BANNER_WIDTH,
-                      height: isMobile ? document.body.clientWidth : PC_BANNER_HEIGHT,
-                    }}
-                  />
-                  <span className="a11y">배너 링크</span>
-                </BigBannerItem>
-              ))}
+              {bigBannerList.map((item, index) => {
+                const imageSrc = getSelectResponsiveImageSrc(item.imageUrl, ImageSize.WIDTH_450);
+                return (
+                  <BigBannerItem
+                    linkUrl={item.linkUrl}
+                    onClick={() =>
+                      trackClick({
+                        section,
+                        index,
+                        id: item.id,
+                      })
+                    }
+                    key={index}
+                    isInApp={isInApp}
+                  >
+                    <img
+                      alt={item.title}
+                      style={{
+                        width: isMobile ? '100%' : PC_BANNER_WIDTH,
+                        height: isMobile ? document.body.clientWidth : PC_BANNER_HEIGHT,
+                      }}
+                      {...imageSrc}
+                    />
+                    <span className="a11y">배너 링크</span>
+                  </BigBannerItem>
+                );
+              })}
             </Slider>
             <div className="BigBanner-Count">
               {this.state.currentIdx + 1} / {this.state.totalIdx}

@@ -106,6 +106,7 @@ export interface BookReviewSummary {
   totalReviewCount: number;
 }
 
+// TODO 도서들 coverImageSrc로 전환 마치면 제거
 export interface BookThumbnailUrlMap {
   small?: string;
   large?: string;
