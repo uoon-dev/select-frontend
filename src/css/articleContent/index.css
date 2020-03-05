@@ -142,6 +142,11 @@
   }
   .ArticleContent_GetTicketToReadButtonWrapper {
     padding: 120px 20px 0;
+    &.ArticleContent_GetTicketToReadButtonWrapper-publicContent {
+      &.ArticleContent_GetTicketToReadButtonWrapper-sticky {
+        padding: 10px 20px 0 10px;
+      }
+    }
   }
 }
 
