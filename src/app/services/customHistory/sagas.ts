@@ -1,6 +1,6 @@
 import { Actions } from 'app/services/customHistory';
 import { RidiSelectState } from 'app/store';
-import { go, LOCATION_CHANGE } from 'connected-react-router';
+import { replace, go, LOCATION_CHANGE } from 'connected-react-router';
 import { all, call, put, select, take } from 'redux-saga/effects';
 import { findUpperPathDiff, historyStackSessionStorageHelper } from './historyStack.helpers';
 
@@ -37,7 +37,13 @@ export function* watchNavigateUp() {
   while (true) {
     yield take(Actions.navigateUp.getType());
     const state: RidiSelectState = yield select(s => s);
-    yield put(go(findUpperPathDiff(state.customHistory.historyStack)));
+    const { historyStack } = state.customHistory;
+    const upperPathDiff = findUpperPathDiff(historyStack);
+    if (upperPathDiff === -1 && historyStack.length === 1) {
+      yield put(replace('/'));
+    } else {
+      yield put(go(upperPathDiff));
+    }
   }
 }
 
