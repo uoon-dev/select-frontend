@@ -15,16 +15,29 @@ import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { refineArticleJSON } from 'app/utils/utils';
+import { Actions as UserActions } from 'app/services/user';
+import { fetchUserInfo } from 'app/services/user/helper';
 
 export function* loadArticle({ payload }: ReturnType<typeof Actions.loadArticleRequest>) {
   const { channelName, contentIndex, requestQueries } = payload;
   try {
-    const response: ArticleResponse = yield call(
+    const userInfo = yield select((state: RidiSelectState) => state.user);
+    const { isLoggedIn, hasAvailableTicket } = userInfo;
+
+    let response: ArticleResponse = yield call(
       requestSingleArticle,
       channelName,
       contentIndex,
       requestQueries,
     );
+    if (response.isTeaser && isLoggedIn && hasAvailableTicket) {
+      const user = yield call(fetchUserInfo);
+      yield put(UserActions.initializeUser({ userDTO: user }));
+      if (user.isLoggedIn && user.hasAvailableTicket) {
+        response = yield call(requestSingleArticle, channelName, contentIndex, requestQueries);
+      }
+    }
+
     yield put(
       Actions.updateArticleContent({
         channelName,
