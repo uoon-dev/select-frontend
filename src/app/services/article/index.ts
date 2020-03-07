@@ -57,6 +57,7 @@ export interface Article {
   contentId: number;
   url: string;
   thumbnailUrl: string;
+  isTeaser?: boolean;
   authorId?: number;
   authors?: AuthorResponse[];
   isFavorite?: boolean;
