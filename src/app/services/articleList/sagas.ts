@@ -22,17 +22,16 @@ function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArti
 
     if (type === ArticleListType.POPULAR) {
       response = yield call(requestPopularArticleList, { page, countPerPage: size });
-      articles = response.articles;
+      articles = response.articles.filter(article => article.id);
       totalCount = response.totalCount;
     } else {
       response = yield call(requestArticles, {
         type: type === ArticleListType.RECOMMEND ? ArticleRequestType.RECOMMEND : undefined,
         exceptRidiChannel: type === ArticleListType.RECENT,
       });
-      articles = response.results;
+      articles = response.results.filter(article => article.id);
       totalCount = response.totalCount;
     }
-
     yield put(
       ArticleActions.updateArticles({
         articles,
