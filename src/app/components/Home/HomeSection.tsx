@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
 import { FetchStatusFlag } from 'app/constants';
 
@@ -16,8 +15,9 @@ import {
 import { getIsMobile } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
-import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
-import { ConnectedHomeSpotlightSection } from './HomeSpotlightSection';
+import { SectionHeader } from 'app/components/HomeSectionHeader';
+import { ConnectedHomeSpotlightSection } from 'app/components/Home/HomeSpotlightSection';
+import { ConnectedHomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
 
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
@@ -30,27 +30,6 @@ interface SectionHeaderProps {
   link: string;
   isMobile: boolean;
 }
-
-export const SectionHeader: React.SFC<SectionHeaderProps> = props => (
-  <div className="HomeSection_Header">
-    {props.isMobile ? (
-      <Link to={props.link}>
-        <h2 className="Section_Title reset-heading">
-          {props.title}
-          <Icon name="arrow_5_right" className="Section_TitleArrowIcon" />
-        </h2>
-      </Link>
-    ) : (
-      <div className="Section_Title">
-        <h2 className="reset-heading">{props.title}</h2>
-        <Link to={props.link} className="Section_TitleLink">
-          전체 보기
-          <Icon name="arrow_5_right" className="Section_TitleArrowIcon" />
-        </Link>
-      </div>
-    )}
-  </div>
-);
 
 export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);

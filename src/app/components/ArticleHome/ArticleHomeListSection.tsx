@@ -2,11 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { GridArticleList } from 'app/components/GridArticleList';
+import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { Actions, ArticleListType } from 'app/services/articleList';
-import { ArticleSectionHeader } from 'app/components/ArticleHome/ArticleSectionHeader';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
 
@@ -46,7 +46,12 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
         </>
       ) : (
         <>
-          <ArticleSectionHeader title={title} />
+          <SectionHeader
+            title={title}
+            link={
+              articleListType === ArticleListType.RECENT ? RoutePaths.ARTICLE_RECENT : undefined
+            }
+          />
           <GridArticleList
             serviceTitleForTracking="select-article"
             pageTitleForTracking="home"

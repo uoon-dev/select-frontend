@@ -2,8 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
-import { FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
+import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
 import { ArticleSectionHeader } from 'app/components/ArticleHome/ArticleSectionHeader';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
@@ -49,7 +50,7 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
 
   return popularArticle?.itemList ? (
     <section className="ArticleHomeSection">
-      <ArticleSectionHeader title={title} />
+      <SectionHeader title={title} link={RoutePaths.ARTICLE_POPULAR} />
       <ArticleSectionChartList
         articleList={popularArticle?.itemList.map(id => articles[id].article!)}
         serviceTitleForTracking="select-article"
