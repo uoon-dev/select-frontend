@@ -50,3 +50,5 @@ export const getGNBType = createSelector(
       ? GNBColorLevel.TRANSPARENT
       : gnbColorLevel,
 );
+
+export const getIsMobile = (state: RidiSelectState): boolean => state.commonUI.isMobile;

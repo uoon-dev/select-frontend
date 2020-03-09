@@ -23,6 +23,9 @@ export const Actions = {
   updateGNBTabExpose: createAction<{
     isGnbTab: boolean;
   }>('updateGNBTabExpose'),
+  updateIsMobile: createAction<{
+    isMobile: boolean;
+  }>('updateIsMobile'),
 };
 
 export const GNB_DEFAULT_COLOR: RGB = {
@@ -65,6 +68,7 @@ export interface CommonUIState {
   gnbTransparentType: GNBTransparentType;
   isGnbTab: boolean;
   footerTheme: FooterTheme;
+  isMobile: boolean;
 }
 
 export const INITIAL_STATE: CommonUIState = {
@@ -74,6 +78,7 @@ export const INITIAL_STATE: CommonUIState = {
   gnbTransparentType: GNBTransparentType.default,
   isGnbTab: true,
   footerTheme: FooterTheme.default,
+  isMobile: true,
 };
 
 export const commonUIReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
@@ -112,4 +117,9 @@ commonUIReducer.on(Actions.updateFooterTheme, (state, action) => ({
 commonUIReducer.on(Actions.updateGNBTabExpose, (state, action) => ({
   ...state,
   isGnbTab: action.isGnbTab,
+}));
+
+commonUIReducer.on(Actions.updateIsMobile, (state, action) => ({
+  ...state,
+  isMobile: action.isMobile,
 }));

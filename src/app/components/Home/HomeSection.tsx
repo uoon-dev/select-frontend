@@ -1,11 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book } from 'app/services/book';
@@ -14,6 +13,7 @@ import {
   SpotlightCollectionState,
   CollectionType,
 } from 'app/services/collection';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
@@ -26,7 +26,7 @@ interface HomeSectionProps {
 }
 
 export const SectionHeader: React.SFC<{ title: string; link: string }> = props => {
-  const isMobile = useMediaQuery({ maxWidth: MAX_WIDTH });
+  const isMobile = useSelector(getIsMobile);
   return (
     <div className="HomeSection_Header">
       {isMobile ? (
@@ -50,7 +50,7 @@ export const SectionHeader: React.SFC<{ title: string; link: string }> = props =
 };
 
 export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = props => {
-  const isMobile = useMediaQuery({ maxWidth: MAX_WIDTH });
+  const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;
