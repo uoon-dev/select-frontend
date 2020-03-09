@@ -16,8 +16,7 @@
     margin: 0 auto;
     width: 840px;
   }
-}
-
-.ArticleSection_Header {
-  padding: 0 20px;
+  & .HomeSection_Header {
+    padding: 0 20px;
+  }
 }
