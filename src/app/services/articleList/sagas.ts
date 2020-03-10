@@ -1,3 +1,4 @@
+import { COUNT_PER_PAGE } from 'app/services/collection';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import { ArticleRequestType } from 'app/types';
@@ -14,21 +15,28 @@ import {
 } from 'app/services/articleList/requests';
 
 function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArticleListRequest>) {
-  const { type, page, size = 20 } = payload;
+  const { type, page, size } = payload;
   try {
     let response: ArticleListResponse & PopularArticleListResponse;
     let articles: Article[];
     let totalCount: number;
 
     if (type === ArticleListType.POPULAR) {
-      response = yield call(requestPopularArticleList, { page, countPerPage: size });
+      response = yield call(requestPopularArticleList, { page, countPerPage: size || 20 });
       articles = response.articles.filter(article => article.id);
       totalCount = response.totalCount;
     } else {
-      response = yield call(requestArticles, {
-        type: type === ArticleListType.RECOMMEND ? ArticleRequestType.RECOMMEND : undefined,
-        exceptRidiChannel: type === ArticleListType.RECENT,
-      });
+      response = yield call(
+        requestArticles,
+        {
+          type: type === ArticleListType.RECOMMEND ? ArticleRequestType.RECOMMEND : undefined,
+          exceptRidiChannel: type === ArticleListType.RECENT,
+        },
+        {
+          page,
+          size: size || COUNT_PER_PAGE,
+        },
+      );
       articles = response.results.filter(article => article.id);
       totalCount = response.totalCount;
     }

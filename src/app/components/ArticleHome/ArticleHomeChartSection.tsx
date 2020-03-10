@@ -6,10 +6,10 @@ import { FetchStatusFlag, RoutePaths } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
-import { ArticleSectionHeader } from 'app/components/ArticleHome/ArticleSectionHeader';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
-import { ArticleSectionChartListPlaceholder } from 'app/placeholder/ArticleSectionChartListPlaceholder';
 import { Actions as PopularArticleActions, ArticleListType } from 'app/services/articleList';
+import { ArticleSectionChartListContainerPlaceholder } from 'app/placeholder/ArticleSectionChartListPlaceholder';
+import { articleListToPath } from 'app/utils/toPath';
 
 interface ArticleHomeSectionProps {
   title: string;
@@ -43,14 +43,14 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
     return (
       <section className="ArticleHomeSection">
         <ArticleSectionHeaderPlaceholder />
-        <ArticleSectionChartListPlaceholder />
+        <ArticleSectionChartListContainerPlaceholder />
       </section>
     );
   }
 
   return popularArticle?.itemList ? (
     <section className="ArticleHomeSection">
-      <SectionHeader title={title} link={RoutePaths.ARTICLE_POPULAR} />
+      <SectionHeader title={title} link={articleListToPath({ listType: 'popular' })} />
       <ArticleSectionChartList
         articleList={popularArticle?.itemList.map(id => articles[id].article!)}
         serviceTitleForTracking="select-article"

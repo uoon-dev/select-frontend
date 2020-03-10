@@ -1,43 +1,57 @@
-import qs from 'qs';
-import { Link, LinkProps } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { useSelector, useDispatch } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 
+import { PageTitleText, FetchStatusFlag } from 'app/constants';
+import { ArticleListType, Actions } from 'app/services/articleList';
+import ArticleGridList from 'app/components/ArticleList/GridList';
+import ArticleChartList from 'app/components/ArticleList/ChartList';
+import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
+import { useSelector, useDispatch } from 'react-redux';
+import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { COUNT_PER_PAGE } from 'app/services/collection';
-import { ArticleEmpty } from 'app/components/ArticleEmpty';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { GridArticleList } from 'app/components/GridArticleList';
-import { ArticleListType, Actions } from 'app/services/articleList';
-import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
-import { PageTitleText, MAX_WIDTH, RoutePaths, FetchStatusFlag } from 'app/constants';
-import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
+import { ArticleKey } from 'app/types';
 
-const ArticleList: React.FunctionComponent = () => {
-  const itemCountPerPage = COUNT_PER_PAGE;
-  const articleListType = useSelector((state: RidiSelectState) => {
-    const parsedQuery = qs.parse(state.router.location.search, {
-      ignoreQueryPrefix: true,
-    });
-    return `${parsedQuery.listType}ArticleList` as ArticleListType;
-  });
+type RouteProps = RouteComponentProps<{ listType: string }>;
+
+type OwnProps = RouteProps & {};
+
+const ArticleList: React.FunctionComponent<OwnProps> = props => {
+  const { listType } = props.match.params;
   const page = useSelector(getPageQuery);
+  const articleListType = `${listType}ArticleList` as ArticleListType;
+  const itemCountPerPage = articleListType === ArticleListType.POPULAR ? 100 : COUNT_PER_PAGE;
+  let pageTitle: string;
+  switch (articleListType) {
+    case ArticleListType.POPULAR:
+      pageTitle = PageTitleText.ARTICLE_POPULAR;
+      break;
+    case ArticleListType.RECENT:
+      pageTitle = PageTitleText.ARTICLE_RECENT;
+      break;
+    default:
+      pageTitle = '아티클 리스트';
+  }
   const articleList = useSelector(
-    (state: RidiSelectState) => state.articleList[articleListType].itemListByPage[page],
+    (state: RidiSelectState) => state.articleList[articleListType]?.itemListByPage[page],
+  );
+  const fetchStatus = useSelector(
+    (state: RidiSelectState) =>
+      state.articleList[articleListType]?.itemListByPage[page]?.fetchStatus || FetchStatusFlag.IDLE,
   );
   const itemCount = useSelector(
-    (state: RidiSelectState) => state.articleList[articleListType].itemCount || 0,
+    (state: RidiSelectState) => state.articleList[articleListType]?.itemCount,
   );
-  const articles = useSelector((state: RidiSelectState) => state.articlesById);
-  const isMobile = useMediaQuery({ query: `(max-device-width: ${MAX_WIDTH})` });
+  const articles = useSelector((state: RidiSelectState) =>
+    articleList?.itemList?.map((key: ArticleKey) => state.articlesById[key].article!),
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (
       !articleList ||
-      (!articleList?.itemList && articleList.fetchStatus !== FetchStatusFlag.FETCHING)
+      (!articles && fetchStatus !== FetchStatusFlag.FETCHING) ||
+      articles.length < itemCountPerPage
     ) {
       dispatch(
         Actions.loadArticleListRequest({
@@ -47,47 +61,24 @@ const ArticleList: React.FunctionComponent = () => {
         }),
       );
     }
-  }, []);
+  }, [page]);
 
   return (
-    <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB PageArticleList">
-      <HelmetWithTitle titleName={PageTitleText.ARTICLE_RECENT} />
-      <ConnectedPageHeader pageTitle={PageTitleText.ARTICLE_RECENT} />
-      <div className="ArticleList">
-        {!articleList || articleList.fetchStatus === FetchStatusFlag.FETCHING ? (
-          <GridArticleListPlaceholder gridSize="large" />
-        ) : articleList?.itemList?.length > 0 ? (
-          <>
-            <GridArticleList
-              serviceTitleForTracking="select-article"
-              pageTitleForTracking="favorite"
-              uiPartTitleForTracking="article-list"
-              miscTracking={JSON.stringify({ sect_page: page })}
-              articles={articleList.itemList.map(id => articles[id].article!)}
-              renderChannelThumbnail
-              renderChannelMeta
-              renderAuthor={false}
-              renderPublishDate
-              renderFavoriteButton
-              isFullWidthAvailable
-              gridListSizeClassNames="GridArticleList-large"
-            />
-            <Pagination
-              currentPage={page}
-              totalPages={Math.ceil(itemCount / itemCountPerPage)}
-              isMobile={isMobile}
-              item={{
-                el: Link,
-                getProps: (p): LinkProps => ({
-                  to: `${RoutePaths.ARTICLE_RECENT}?page=${p}`,
-                }),
-              }}
-            />
-          </>
-        ) : (
-          <ArticleEmpty iconName="document" description="아티클이 없습니다." />
-        )}
-      </div>
+    <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
+      <HelmetWithTitle titleName={pageTitle} />
+      <ConnectedPageHeader pageTitle={pageTitle} />
+      {listType === 'popular' ? (
+        <ArticleChartList fetchStatus={fetchStatus} popularArticles={articles} />
+      ) : (
+        <ArticleGridList
+          page={page}
+          itemCount={itemCount}
+          articleListType={articleListType}
+          itemCountPerPage={itemCountPerPage}
+          fetchStatus={fetchStatus}
+          articleList={articles}
+        />
+      )}
     </main>
   );
 };

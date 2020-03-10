@@ -9,6 +9,7 @@ import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { Actions, ArticleListType } from 'app/services/articleList';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
+import { articleListToPath } from 'app/utils/toPath';
 
 interface ArticleHomeSectionProps {
   title: string;
@@ -20,26 +21,29 @@ interface ArticleHomeSectionProps {
 
 export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionProps> = props => {
   const { title, order, articleListType } = props;
-  const articles = useSelector((state: RidiSelectState) => state.articlesById);
-  const sectionData = useSelector(
-    (state: RidiSelectState) => state.articleList[articleListType].itemListByPage[1],
-  );
   const ArticleCount = articleListType && articleListType === ArticleListType.RECENT ? 8 : 4;
+  const articles = useSelector((state: RidiSelectState) => state.articlesById);
+  const sectionItemList = useSelector((state: RidiSelectState) => {
+    const itemList = state.articleList[articleListType].itemListByPage[1]?.itemList;
+    return itemList?.length > ArticleCount ? itemList.slice(0, ArticleCount) : itemList;
+  });
+  const sectionDataFetchStatus = useSelector(
+    (state: RidiSelectState) => state.articleList[articleListType].itemListByPage[1]?.fetchStatus,
+  );
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (
-      sectionData?.itemList !== undefined ||
-      sectionData?.fetchStatus === FetchStatusFlag.FETCHING
-    ) {
+    if (sectionItemList !== undefined || sectionDataFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
-    dispatch(Actions.loadArticleListRequest({ type: articleListType, page: 1 }));
+    dispatch(
+      Actions.loadArticleListRequest({ type: articleListType, page: 1, size: ArticleCount }),
+    );
   }, []);
 
   return (
     <section className="ArticleHomeSection">
-      {!sectionData?.itemList ? (
+      {!sectionItemList ? (
         <>
           <ArticleSectionHeaderPlaceholder />
           <GridArticleListPlaceholder />
@@ -49,7 +53,9 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
           <SectionHeader
             title={title}
             link={
-              articleListType === ArticleListType.RECENT ? RoutePaths.ARTICLE_RECENT : undefined
+              articleListType === ArticleListType.RECENT
+                ? articleListToPath({ listType: 'recent' })
+                : undefined
             }
           />
           <GridArticleList
@@ -58,7 +64,7 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
             uiPartTitleForTracking={`${articleListType.replace('ArticleList', '')}`}
             miscTracking={JSON.stringify({ sect_order: order })}
             renderChannelMeta
-            articles={sectionData.itemList.slice(0, ArticleCount).map(id => articles[id].article!)}
+            articles={sectionItemList.map(id => articles[id].article!)}
           />
         </>
       )}

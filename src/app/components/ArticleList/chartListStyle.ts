@@ -3,16 +3,13 @@ import { css } from '@emotion/core';
 import Colors from 'app/styles/colors';
 import { resetLayout, resetFontUnlimited, customMedia } from 'app/styles/customProperties';
 
-export const pageArticlePopular = css`
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-`;
-
 export const popularArticleList = css`
   ${resetLayout}
 
   list-style: none;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 export const popularArticleElement = css`

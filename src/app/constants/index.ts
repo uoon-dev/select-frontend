@@ -82,6 +82,5 @@ export enum RoutePaths {
   ARTICLE_CHANNEL_DETAIL = '/article/channel/@:channelName',
   ARTICLE_FAVORITE = '/article/favorite',
   ARTICLE_CONTENT = '/article/@:channelName/:contentIndex',
-  ARTICLE_POPULAR = '/article/popular',
-  ARTICLE_RECENT = '/article/recent',
+  ARTICLE_LIST = '/article/list/:listType',
 }

@@ -1,3 +1,4 @@
+import { COUNT_PER_PAGE } from 'app/services/collection';
 import qs from 'qs';
 import { AxiosResponse } from 'axios';
 import request from 'app/config/axios';
@@ -27,17 +28,19 @@ export interface PopularArticleListResponse {
 
 export const requestArticles = (
   requestQueries?: ArticleRequestQueries,
-  articleIds?: number[],
-  size?: number,
+  etcParams?: {
+    articleIds?: number[];
+    page?: number;
+    size?: number;
+  },
 ): Promise<ArticleListResponse> => {
-  let requestUrl = `/article/articles${buildArticleRequestQueriesToString(requestQueries)}`;
-  if (articleIds) {
-    requestUrl = `/article/articles${buildArticleRequestQueriesToString(
-      requestQueries,
-    )}&ids=${articleIds}&size=${size || 24}`;
-  }
+  const etcParameters = qs.stringify({
+    page: etcParams?.page || 1,
+    size: etcParams?.size || COUNT_PER_PAGE,
+    ids: etcParams?.articleIds || undefined,
+  });
   return request({
-    url: requestUrl,
+    url: `/article/articles${buildArticleRequestQueriesToString(requestQueries)}&${etcParameters}`,
     method: 'GET',
   }).then(
     response => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data,

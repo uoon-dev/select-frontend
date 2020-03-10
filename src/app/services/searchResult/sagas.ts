@@ -49,8 +49,12 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
     } else {
       const articlesResponse = yield call(
         requestArticles,
-        { includes: [ArticleRequestIncludableData.AUTHORS] },
-        response.articles.map(article => article.id),
+        {
+          includes: [ArticleRequestIncludableData.AUTHORS],
+        },
+        {
+          articleIds: response.articles.map(article => article.id),
+        },
       );
       const articles: Article[] = articlesResponse.results;
       const articlesMap = keyBy(articles, 'id');
