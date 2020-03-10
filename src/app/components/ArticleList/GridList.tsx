@@ -23,7 +23,7 @@ interface ArticleGridListProps {
 const ArticleGridList: React.FunctionComponent<ArticleGridListProps> = props => {
   const { page, articleList, fetchStatus, articleListType, itemCountPerPage, itemCount } = props;
 
-  const isMobile = useMediaQuery({ query: `(max-device-width: ${MAX_WIDTH})` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${MAX_WIDTH}px)` });
 
   return (
     <div

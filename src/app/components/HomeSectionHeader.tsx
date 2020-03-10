@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 import { MAX_WIDTH } from 'app/constants';
 
 export const SectionHeader: React.SFC<{ title: string; link?: string }> = props => {
-  const isMobile = useMediaQuery({ query: `(max-device-width: ${MAX_WIDTH})` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${MAX_WIDTH}px)` });
   if (!props.link) {
     return (
       <div className="HomeSection_Header">

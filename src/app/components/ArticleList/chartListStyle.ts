@@ -90,6 +90,7 @@ export const popularArticleElementTitle = css`
   font-weight: 500;
   line-height: 20px;
   word-wrap: break-word;
+  text-decoration: none;
 
   &.Skeleton {
     max-width: 500px;
