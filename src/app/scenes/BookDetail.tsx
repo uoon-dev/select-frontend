@@ -54,13 +54,13 @@ export class BookDetail extends React.Component<Props> {
     }
     if (
       props.isLoggedIn &&
-      props.ownershipFetchStatus !== FetchStatusFlag.FETCHING &&
+      props.ownershipFetchStatus === FetchStatusFlag.IDLE &&
       !props.ownershipStatus
     ) {
       props.dispatchLoadBookOwnershipRequest(props.bookId);
     }
     if (
-      props.bookToBookRecommendationFetchStatus !== FetchStatusFlag.FETCHING &&
+      props.bookToBookRecommendationFetchStatus === FetchStatusFlag.IDLE &&
       !props.recommendedBooks
     ) {
       props.dispatchLoadBookToBookRecommendation(props.bookId);
@@ -140,7 +140,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
     bookEndDateTime: bookDetail ? bookDetail.endDatetime : '',
     env: state.environment,
     solidBackgroundColorRGBString: getSolidBackgroundColorRGBString(state),
-    bookToBookRecommendationFetchStatus: bookDetail
+    bookToBookRecommendationFetchStatus: bookState?.bookToBookRecommendationFetchStatus
       ? bookState.bookToBookRecommendationFetchStatus
       : FetchStatusFlag.IDLE,
     recommendedBooks:

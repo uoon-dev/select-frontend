@@ -1,3 +1,5 @@
+import filter from 'lodash-es/filter';
+
 import { Actions as BookActions, Book } from 'app/services/book';
 
 import { Actions as CollectionActions } from 'app/services/collection';
@@ -7,23 +9,31 @@ import { HomeResponse, requestHome } from 'app/services/home/requests';
 import { RidiSelectState } from 'app/store';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { all, call, put, select, take } from 'redux-saga/effects';
-import { getIsIosInApp } from '../environment/selectors';
-import { ErrorStatus } from '../../constants/index';
+import { getIsIosInApp } from 'app/services/environment/selectors';
+import { ErrorStatus } from 'app/constants/index';
 
 export function* watchLoadHome() {
   while (true) {
     yield take(Actions.loadHomeRequest.getType());
     try {
       const response: HomeResponse = yield call(requestHome);
+      const collectionsWithoutPopular = filter(
+        response.collections,
+        collection => collection.collectionId !== 0,
+      );
+      const responseWithoutPopular = {
+        ...response,
+        collections: collectionsWithoutPopular,
+      };
       const state: RidiSelectState = yield select(s => s);
 
       // This array might have duplicated book item
-      const books = response.collections.reduce(
+      const books = collectionsWithoutPopular.reduce(
         (concatedBooks: Book[], section) => concatedBooks.concat(section.books),
         [],
       );
       yield put(BookActions.updateBooks({ books }));
-      const collections = response.collections.map(
+      const collections = collectionsWithoutPopular.map(
         (section): CollectionResponse => ({
           type: section.type,
           collectionId: section.collectionId,
@@ -35,7 +45,7 @@ export function* watchLoadHome() {
       yield put(CollectionActions.updateCollections({ collections }));
       yield put(
         Actions.loadHomeSuccess({
-          response,
+          response: responseWithoutPopular,
           fetchedAt: Date.now(),
           isIosInApp: getIsIosInApp(state),
         }),

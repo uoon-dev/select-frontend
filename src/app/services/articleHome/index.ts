@@ -1,7 +1,8 @@
+import { createAction, createReducer } from 'redux-act';
+
 import { FetchStatusFlag } from 'app/constants';
 import { BigBanner } from 'app/services/home';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
-import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
   loadArticleBannerRequest: createAction('loadArticleBannerRequest'),
@@ -25,11 +26,6 @@ export const Actions = {
     currentIdx: number;
   }>('updateBannerIndex'),
 };
-
-export enum ArticleSectionType {
-  'CHART' = 'CHART',
-  'LIST' = 'LIST',
-}
 
 export enum ArticleHomeSectionType {
   RECENT = 'recentArticleList',

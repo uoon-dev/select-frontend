@@ -9,8 +9,11 @@ import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book, BookState } from 'app/services/book';
-import { DefaultCollectionState, SpotlightCollectionState } from 'app/services/collection';
-import { CollectionType } from 'app/services/home';
+import {
+  DefaultCollectionState,
+  SpotlightCollectionState,
+  CollectionType,
+} from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
@@ -57,8 +60,9 @@ export class HomeSection extends React.Component<Props> {
   public render() {
     const { collection, onScreen, books, order } = this.props;
     const { type, title, id, itemListByPage } = collection;
-    const collectionBooks: Book[] = itemListByPage[1].itemList.map(
-      (bookId: number) => books[bookId].book!,
+    const collectionBooks: Book[] = itemListByPage[1]?.itemList?.map(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (bookId: number) => books[bookId]?.book!,
     );
 
     if (
@@ -77,7 +81,7 @@ export class HomeSection extends React.Component<Props> {
       return (
         <ConnectedHomeSpotlightSection
           books={collectionBooks}
-          title={title!}
+          title={title}
           collectionId={collection.id}
         />
       );
@@ -87,7 +91,7 @@ export class HomeSection extends React.Component<Props> {
       return (
         <ConnectedHomeChartBooksSection
           books={collectionBooks}
-          title={title!}
+          title={title}
           collectionId={id}
           order={order}
         />
@@ -96,7 +100,7 @@ export class HomeSection extends React.Component<Props> {
 
     return (
       <section className="HomeSection">
-        <SectionHeader title={title!} link={collectionToPath({ collectionId: id })} />
+        <SectionHeader title={title || ''} link={collectionToPath({ collectionId: id })} />
         <MediaQuery maxWidth={MAX_WIDTH}>
           {isMobile => (
             <ConnectedInlineHorizontalBookList
@@ -114,11 +118,8 @@ export class HomeSection extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (
-  state: RidiSelectState,
-  ownProps: HomeSectionProps,
-): HomeCollectionStateProps => ({
+const mapStateToProps = (state: RidiSelectState): HomeCollectionStateProps => ({
   books: state.booksById,
 });
 
-export const ConnectedHomeSection = connect(mapStateToProps, null)(HomeSection);
+export const ConnectedHomeSection = connect(mapStateToProps, {})(HomeSection);

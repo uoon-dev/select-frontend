@@ -1,16 +1,23 @@
-import { all, call, put, take, takeEvery } from 'redux-saga/effects';
+import { all, call, put, take, takeEvery, select } from 'redux-saga/effects';
 
 import history from 'app/config/history';
-import { FetchErrorFlag } from 'app/constants';
+import { Actions, ReservedCollectionIds } from 'app/services/collection';
 import { Actions as BookActions } from 'app/services/book';
-import { Actions } from 'app/services/collection';
-import { CollectionResponse, requestCollection } from 'app/services/collection/requests';
+import { Actions as UserActions } from 'app/services/user';
+import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
+import { requestUserGroup } from 'app/services/user/requests';
+import {
+  CollectionResponse,
+  requestCollection,
+  requestPopularBooks,
+} from 'app/services/collection/requests';
 import {
   fixWrongPaginationScope,
   isValidPaginationParameter,
   updateQueryStringParam,
 } from 'app/utils/request';
 import toast from 'app/utils/toast';
+import { RidiSelectState } from 'app/store';
 
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {
   const { page, collectionId } = payload;
@@ -20,7 +27,7 @@ export function* loadCollection({ payload }: ReturnType<typeof Actions.loadColle
     }
     const response: CollectionResponse = yield call(requestCollection, collectionId, page);
     yield put(BookActions.updateBooks({ books: response.books }));
-    if (collectionId === 'spotlight') {
+    if (collectionId === ReservedCollectionIds.SPOTLIGHT) {
       yield put(Actions.updateSpotlight({ spotlight: response }));
     } else {
       yield put(Actions.loadCollectionSuccess({ collectionId, page, response }));
@@ -45,7 +52,7 @@ export function* watchCollectionFailure() {
     }: ReturnType<typeof Actions.loadCollectionFailure> = yield take(
       Actions.loadCollectionFailure.getType(),
     );
-    if (collectionId === 'spotlight') {
+    if (collectionId === ReservedCollectionIds.SPOTLIGHT) {
       // spotlight의 경우 홈 화면에서만 섹션이 노출되고 아직 전체보기 페이지가 없어서 페이지네이션의 개념이 없음
       return;
     }
@@ -57,6 +64,39 @@ export function* watchCollectionFailure() {
   }
 }
 
+export function* loadPopularBooksRequest({
+  payload,
+}: ReturnType<typeof Actions.loadPopularBooksRequest>) {
+  const { page } = payload;
+  let userGroup = yield select((state: RidiSelectState) => state.user.userGroup);
+  try {
+    if (!userGroup) {
+      const userGroupResponse = yield call(requestUserGroup);
+      userGroup = userGroupResponse.userGroup;
+      yield put(UserActions.fetchUserGroupInfo({ userGroup }));
+    }
+  } catch {
+    // userGroup fetch failure
+  }
+  try {
+    const popularBooksResponse = yield call(requestPopularBooks, { userGroup, page });
+    yield put(BookActions.updateBooks({ books: popularBooksResponse.books }));
+    yield put(
+      Actions.afterLoadPopularBooks({
+        page,
+        books: popularBooksResponse.books,
+        totalCount: popularBooksResponse.totalCount,
+      }),
+    );
+  } catch {
+    yield put(Actions.afterLoadPopularBooks({ page }));
+  }
+}
+
+export function* watchLoadPopularBooks() {
+  yield takeEvery(Actions.loadPopularBooksRequest, loadPopularBooksRequest);
+}
+
 export function* collectionsRootSaga() {
-  yield all([watchLoadCollection(), watchCollectionFailure()]);
+  yield all([watchLoadCollection(), watchCollectionFailure(), watchLoadPopularBooks()]);
 }

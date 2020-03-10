@@ -1,18 +1,19 @@
-import Arrow from 'app/components/Arrow';
-import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
-import { BlockIconComponent } from 'app/components/ArticleThumbnail';
-import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import React from 'react';
+import { Method } from 'axios';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import toast from 'app/utils/toast';
+import SlideArrow from 'app/components/SlideArrow';
+import { articleChannelToPath } from 'app/utils/toPath';
+import { Actions } from 'app/services/articleFollowing';
 import { useScrollSlider } from 'app/hooks/useScrollSlider';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { Actions } from 'app/services/articleFollowing';
-import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
+import { BlockIconComponent } from 'app/components/ArticleThumbnail';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
-import toast from 'app/utils/toast';
-import { articleChannelToPath } from 'app/utils/toPath';
-import { Method } from 'axios';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
+import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
 
 interface SlideChannelListProps {
   channels: ArticleChannel[];
@@ -98,21 +99,19 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
           </li>
         ))}
       </ul>
-      <Arrow
+      <SlideArrow
         label="이전"
         side="left"
+        renderGradient
         onClickHandler={moveLeft}
-        arrowClass="SlideArrowButton_Left"
-        arrowGradient="ArrowButtonGradient_Left"
-        arrowTransition={!isOnTheLeft && 'arrowTransition'}
+        isHidden={!isOnTheLeft}
       />
-      <Arrow
+      <SlideArrow
         label="다음"
         side="right"
+        renderGradient
         onClickHandler={moveRight}
-        arrowClass="SlideArrowButton_Right"
-        arrowGradient="ArrowButtonGradient_Right"
-        arrowTransition={!isOnTheRight && 'arrowTransition'}
+        isHidden={!isOnTheRight}
       />
     </section>
   );

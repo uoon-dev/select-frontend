@@ -8,13 +8,19 @@ import { HelmetWithTitle } from 'app/components';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
 import { PageTitleText } from 'app/constants';
-import { Actions as CollectionActions, CollectionId } from 'app/services/collection';
+import {
+  Actions as CollectionActions,
+  CollectionId,
+  CollectionsState,
+  ReservedCollectionIds,
+} from 'app/services/collection';
 import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 interface HomeStateProps {
   fetchedAt: number | null;
+  collections: CollectionsState;
 }
 interface State {
   isInitialized: boolean;
@@ -32,12 +38,23 @@ export class Home extends React.PureComponent<
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { fetchedAt, dispatchLoadHomeRequest, dispatchLoadCollectionRequest } = this.props;
+      const {
+        fetchedAt,
+        collections,
+        dispatchLoadHomeRequest,
+        dispatchLoadCollectionRequest,
+        dispatchLoadPopularBooksRequest,
+      } = this.props;
+
       sendPostRobotInitialRendered();
       if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
         dispatchLoadHomeRequest();
-        dispatchLoadCollectionRequest('spotlight');
+        dispatchLoadCollectionRequest(ReservedCollectionIds.SPOTLIGHT);
       }
+      if (!collections.popular?.itemListByPage[1]?.itemList) {
+        dispatchLoadPopularBooksRequest();
+      }
+
       this.initialDispatchTimeout = null;
       this.setState({ isInitialized: true });
       forceCheck();
@@ -75,12 +92,15 @@ export class Home extends React.PureComponent<
 
 const mapStateToProps = (state: RidiSelectState): HomeStateProps => ({
   fetchedAt: state.home.fetchedAt,
+  collections: state.collectionsById,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
   dispatchLoadCollectionRequest: (collectionId: CollectionId) =>
     dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
+  dispatchLoadPopularBooksRequest: () =>
+    dispatch(CollectionActions.loadPopularBooksRequest({ page: 1 })),
 });
 
 export const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);

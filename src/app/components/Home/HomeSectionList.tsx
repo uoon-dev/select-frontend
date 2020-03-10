@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import { ConnectedHomeSection } from 'app/components/Home/HomeSection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { CollectionsState } from 'app/services/collection';
-import { CollectionType } from 'app/services/home';
+import { CollectionsState, CollectionType, ReservedCollectionIds } from 'app/services/collection';
 import { groupCollections } from 'app/services/home/uitls';
 import { RidiSelectState } from 'app/store';
 
@@ -96,7 +95,10 @@ export class HomeSectionList extends React.Component<
           <ConnectedHomeSection key={spotlight.id} collection={spotlight} onScreen />
         </div>
         {collectionIdList
-          .map(collectionId => collections[collectionId])
+          .map(
+            collectionId =>
+              collections[collectionId === 0 ? ReservedCollectionIds.POPULAR : collectionId],
+          )
           .reduce(groupCollections, [])
           .map((collectionGroup, idx) => (
             <div
@@ -130,4 +132,4 @@ const mapStateToProps = (state: RidiSelectState): HomeCollectionListStateProps =
   collections: state.collectionsById,
 });
 
-export const ConnectedHomeSectionList = connect(mapStateToProps, null)(HomeSectionList);
+export const ConnectedHomeSectionList = connect(mapStateToProps, {})(HomeSectionList);

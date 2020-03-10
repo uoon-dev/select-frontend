@@ -17,11 +17,13 @@ export const Actions = {
   fetchUserInfo: createAction<{
     isFetching: boolean;
   }>('fetchUserInfo'),
+  fetchUserGroupInfo: createAction<{
+    userGroup: number;
+  }>('fetchUserGroupInfo'),
 
   initializeUser: createAction<{
     userDTO: UserDTO;
   }>('initializeUser'),
-
   loadSubscriptionRequest: createAction('loadSubscriptionRequest'),
 
   loadSubscriptionSuccess: createAction<{
@@ -198,6 +200,7 @@ export interface UserState {
   subscription?: SubscriptionState | null;
   mySelectHistory: MySelectHistroyState;
   purchaseHistory: PurchaseHistory;
+  userGroup?: number;
 }
 
 export const INITIAL_STATE: UserState = {
@@ -227,6 +230,11 @@ export const INITIAL_STATE: UserState = {
 export const userReducer = createReducer<UserState>({}, INITIAL_STATE);
 
 userReducer.on(Actions.fetchUserInfo, (state = INITIAL_STATE, payload) => ({
+  ...state,
+  ...payload,
+}));
+
+userReducer.on(Actions.fetchUserGroupInfo, (state = INITIAL_STATE, payload) => ({
   ...state,
   ...payload,
 }));

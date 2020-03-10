@@ -11,11 +11,11 @@ import {
   HelmetWithTitle,
   Pagination,
 } from 'app/components';
-import { MAX_WIDTH, PageTitleText } from 'app/constants';
+import { MAX_WIDTH, PageTitleText, FetchStatusFlag } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { BookState } from 'app/services/book';
-import { Actions, ChartCollectionState } from 'app/services/collection';
+import { Actions, ChartCollectionState, COUNT_PER_PAGE } from 'app/services/collection';
 import { getPageQuery } from 'app/services/routing/selectors';
 
 import { RidiSelectState } from 'app/store';
@@ -27,7 +27,10 @@ interface CollectionStateProps {
 }
 
 interface CollectionDispatchProps {
-  dispatchLoadNewReleases: (page: number) => ReturnType<typeof Actions.loadCollectionRequest>;
+  dispatchLoadCharts: (
+    page: number,
+    userGroup?: number,
+  ) => ReturnType<typeof Actions.loadCollectionRequest>;
 }
 interface State {
   isInitialized: boolean;
@@ -52,9 +55,9 @@ export class Charts extends React.Component<Props> {
 
   public componentDidMount() {
     this.initialDispatchTimeout = window.setTimeout(() => {
-      const { dispatchLoadNewReleases, page } = this.props;
+      const { dispatchLoadCharts, page } = this.props;
       if (!this.isFetched(page)) {
-        dispatchLoadNewReleases(page);
+        dispatchLoadCharts(page);
       }
 
       this.initialDispatchTimeout = null;
@@ -64,10 +67,10 @@ export class Charts extends React.Component<Props> {
 
   public shouldComponentUpdate(nextProps: Props) {
     if (nextProps.page !== this.props.page) {
-      const { dispatchLoadNewReleases, page } = nextProps;
+      const { dispatchLoadCharts, page } = nextProps;
 
       if (!this.isFetched(page)) {
-        dispatchLoadNewReleases(page);
+        dispatchLoadCharts(page);
       }
     }
 
@@ -85,7 +88,7 @@ export class Charts extends React.Component<Props> {
   public render() {
     const { collection, books, page } = this.props;
     const itemCount: number = collection.itemCount ? collection.itemCount : 0;
-    const itemCountPerPage = 24;
+
     return (
       <main className="SceneWrapper">
         <HelmetWithTitle titleName={PageTitleText.CHARTS} />
@@ -108,7 +111,7 @@ export class Charts extends React.Component<Props> {
                 {isMobile => (
                   <Pagination
                     currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                    totalPages={Math.ceil(itemCount / COUNT_PER_PAGE)}
                     isMobile={isMobile}
                     item={{
                       el: Link,
@@ -132,9 +135,10 @@ const mapStateToProps = (rootState: RidiSelectState): CollectionStateProps => ({
   books: rootState.booksById,
   page: getPageQuery(rootState),
 });
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dispatchLoadNewReleases: (page: number) =>
-    dispatch(Actions.loadCollectionRequest({ collectionId: 'popular', page })),
+  dispatchLoadCharts: (page: number, userGroup?: number) =>
+    dispatch(Actions.loadPopularBooksRequest({ userGroup, page })),
 });
 export const ConnectedCharts = withRouter(connect(mapStateToProps, mapDispatchToProps)(Charts));
 

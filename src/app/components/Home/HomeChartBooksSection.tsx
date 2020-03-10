@@ -1,4 +1,3 @@
-import { RidiSelectState } from 'app/store';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -8,7 +7,7 @@ import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { DTOBookThumbnail } from 'app/components';
 import { MAX_WIDTH, CoverSizes } from 'app/constants';
 import { Book } from 'app/services/book';
-import { CollectionId } from 'app/services/collection';
+import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
 import { groupChartBooks } from 'app/services/home/uitls';
 import { StarRating } from 'app/services/review';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
@@ -19,7 +18,7 @@ import { SectionHeader } from './HomeSection';
 
 interface HomeChartBooksSectionProps {
   books: Book[];
-  title: string;
+  title?: string;
   collectionId: CollectionId;
   order?: number;
 }
@@ -29,7 +28,11 @@ type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
 export class HomeChartBooksSection extends React.Component<Props> {
   public renderCharts(contentsCount: number) {
     const { books, trackClick, order } = this.props;
-    const section = getSectionStringForTracking('select-book', 'home', 'popular');
+    const section = getSectionStringForTracking(
+      'select-book',
+      'home',
+      ReservedCollectionIds.POPULAR,
+    );
     return (
       <div className="HomeSection_Chart">
         {books
@@ -77,12 +80,14 @@ export class HomeChartBooksSection extends React.Component<Props> {
                       >
                         <div className="HomeSection_ChartBookMeta">
                           <span className="HomeSection_ChartBookTitle">{book.title.main}</span>
-                          <span className="HomeSection_ChartBookRating">
-                            <StarRating rating={book.reviewSummary!.buyerRatingAverage} />
-                            <span className="HomeSection_ChartBookRatingCount">
-                              {thousandsSeperator(book.reviewSummary!.buyerRatingCount)}
+                          {book.reviewSummary ? (
+                            <span className="HomeSection_ChartBookRating">
+                              <StarRating rating={book.reviewSummary.buyerRatingAverage} />
+                              <span className="HomeSection_ChartBookRatingCount">
+                                {thousandsSeperator(book.reviewSummary.buyerRatingCount)}
+                              </span>
                             </span>
-                          </span>
+                          ) : null}
                         </div>
                       </Link>
                     </ConnectedTrackImpression>
@@ -100,7 +105,7 @@ export class HomeChartBooksSection extends React.Component<Props> {
 
     return (
       <div className="HomeSection HomeSection-horizontal-pad">
-        <SectionHeader title={title} link="/charts" />
+        <SectionHeader title={title || '인기 도서'} link="/charts" />
         <MediaQuery maxWidth={MAX_WIDTH}>
           {isMobile => (isMobile ? this.renderCharts(24) : this.renderCharts(12))}
         </MediaQuery>

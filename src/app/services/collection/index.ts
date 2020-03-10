@@ -2,11 +2,24 @@ import { createAction, createReducer } from 'redux-act';
 
 import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { CollectionResponse } from 'app/services/collection/requests';
-import { CollectionType } from 'app/services/home';
 import { BookId, Paginated } from 'app/types';
 import { AxiosError } from 'axios';
+import { Book } from 'app/services/book';
 
-export type ReservedCollectionIds = 'popular' | 'recent' | 'spotlight';
+export enum CollectionType {
+  'SELECTION' = 'SELECTION',
+  'CHART' = 'CHART',
+  'SPOTLIGHT' = 'SPOTLIGHT',
+}
+
+export const COUNT_PER_PAGE = 24;
+
+export enum ReservedCollectionIds {
+  POPULAR = 'popular',
+  RECENT = 'recent',
+  SPOTLIGHT = 'spotlight',
+}
+
 export type CollectionId = number | ReservedCollectionIds;
 
 export enum ChartSortingCrietria {
@@ -67,19 +80,29 @@ export const Actions = {
     page: number;
     error: AxiosError;
   }>('loadCollectionSuccess'),
+
+  loadPopularBooksRequest: createAction<{
+    page: number;
+  }>('loadPopularBooksRequest'),
+
+  afterLoadPopularBooks: createAction<{
+    books?: Book[];
+    page?: number;
+    totalCount?: number;
+  }>('afterLoadPopularBooks'),
 };
 
 export const INITIAL_STATE: CollectionsState = {
   popular: {
-    id: 'popular',
+    id: ReservedCollectionIds.POPULAR,
     itemListByPage: {},
   },
   recent: {
-    id: 'recent',
+    id: ReservedCollectionIds.RECENT,
     itemListByPage: {},
   },
   spotlight: {
-    id: 'spotlight',
+    id: ReservedCollectionIds.SPOTLIGHT,
     itemListByPage: {},
   },
 };
@@ -186,6 +209,44 @@ collectionReducer.on(
           isFetched: false,
         },
       },
+    },
+  }),
+);
+
+collectionReducer.on(Actions.loadPopularBooksRequest, (state = INITIAL_STATE, { page = 1 }) => ({
+  ...state,
+  popular: {
+    ...state.popular,
+    id: ReservedCollectionIds.POPULAR,
+    itemListByPage: {
+      ...(state.popular && state.popular.itemListByPage),
+      [page]: {
+        fetchStatus: FetchStatusFlag.FETCHING,
+        itemList: [],
+        isFetched: false,
+      },
+    },
+  },
+}));
+
+collectionReducer.on(
+  Actions.afterLoadPopularBooks,
+  (state = INITIAL_STATE, { page = 1, books, totalCount = 0 }) => ({
+    ...state,
+    popular: {
+      ...state.popular,
+      itemListByPage: {
+        ...state.popular.itemListByPage,
+        [page]: {
+          fetchStatus: books ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
+          itemList: books ? books.map(book => book.id) : [],
+          isFetched: !!books,
+        },
+      },
+      title: '인기 도서',
+      id: ReservedCollectionIds.POPULAR,
+      itemCount: totalCount,
+      type: CollectionType.CHART,
     },
   }),
 );
