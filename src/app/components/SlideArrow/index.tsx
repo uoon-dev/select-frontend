@@ -35,6 +35,7 @@ const SlideArrow: React.FunctionComponent<ArrowProps> = props => {
       {isButtonVisible && !isHidden && (
         <button
           type="button"
+          className="SlideArrowButton"
           onClick={handleClick}
           css={side === 'left' ? styles.SlideArrowButton_Left : styles.SlideArrowButton_Right}
         >

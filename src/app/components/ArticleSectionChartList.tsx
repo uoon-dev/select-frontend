@@ -80,7 +80,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
 
   return (
     <div className="ArticleChartList_Wrapper">
-      <div className="ArticleChartGroup_Container" ref={ref}>
+      <div className="ArticleChartGroup_Container scrollBarHidden" ref={ref}>
         {articleList &&
           groupChartActicles(articleList, CHART_GROUPING_COUNT).map((groupedArticles, groupIdx) => (
             <ol

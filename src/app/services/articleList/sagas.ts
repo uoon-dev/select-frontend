@@ -60,7 +60,10 @@ function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArti
         page,
       }),
     );
-    if (e && e.response && e.response.data && e.response.data.status === ErrorStatus.MAINTENANCE) {
+    if (
+      e?.response?.data?.status === ErrorStatus.MAINTENANCE ||
+      (type === ArticleListType.POPULAR && size === 20)
+    ) {
       return;
     }
     showMessageForRequestError(e);

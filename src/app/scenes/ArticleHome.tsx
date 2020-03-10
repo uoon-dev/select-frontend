@@ -53,14 +53,14 @@ export const ArticleHome: React.FunctionComponent = () => {
       <ConnectedBigBannerCarousel />
       <div className="ArticleHome_Panel">
         <ArticleHomeListSection
-          title="최근 추가된 아티클"
+          title={PageTitleText.ARTICLE_RECENT}
           articleListType={ArticleListType.RECENT}
           order={0}
         />
       </div>
       <div className="ArticleHome_Panel">
         <ArticleHomeChartSection
-          title="인기 아티클"
+          title={PageTitleText.ARTICLE_POPULAR}
           articleListType={ArticleListType.POPULAR}
           order={1}
         />

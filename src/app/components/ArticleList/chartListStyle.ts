@@ -10,6 +10,10 @@ export const popularArticleList = css`
   position: relative;
   max-width: 800px;
   margin: 0 auto;
+
+  @media ${customMedia.pcScreen} {
+    padding-bottom: 60px;
+  }
 `;
 
 export const popularArticleElement = css`
@@ -49,15 +53,15 @@ export const popularArticleElementLink = css`
 `;
 
 export const popularArticleElementRank = css`
-  width: 16px;
+  min-width: 27px;
+  margin-right: 15px;
   text-align: center;
   align-self: center;
   font-family: Roboto, Sans-serif;
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.64px;
-  color: var(--gray_100);
-  margin-right: 10px;
+  color: var(-slategray_90);
   flex: none;
 
   &.Skeleton {
@@ -66,9 +70,8 @@ export const popularArticleElementRank = css`
     margin: 0 17px;
   }
 
-  @media ${customMedia.mobileLayout} {
-    width: 50px;
-    margin: 0;
+  @media ${customMedia.mobileScreen} {
+    margin: 0 15px;
   }
 `;
 

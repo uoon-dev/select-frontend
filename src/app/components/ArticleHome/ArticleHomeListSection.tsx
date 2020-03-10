@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SectionHeader } from 'app/components/HomeSectionHeader';

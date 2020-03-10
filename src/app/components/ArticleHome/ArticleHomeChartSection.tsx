@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
@@ -22,16 +22,18 @@ interface ArticleHomeSectionProps {
 export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSectionProps> = props => {
   const { title, order, articleListType } = props;
   const articles = useSelector((state: RidiSelectState) => state.articlesById);
-  const popularArticle = useSelector(
-    (state: RidiSelectState) => state.articleList[ArticleListType.POPULAR].itemListByPage[1],
+  const popularArticle = useSelector((state: RidiSelectState) => {
+    const itemList = state.articleList[ArticleListType.POPULAR].itemListByPage[1]?.itemList;
+    return itemList?.length > 20 ? itemList.slice(0, 20) : itemList;
+  });
+  const articleFetchStatus = useSelector(
+    (state: RidiSelectState) =>
+      state.articleList[ArticleListType.POPULAR].itemListByPage[1]?.fetchStatus,
   );
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if (
-      popularArticle?.itemList !== undefined ||
-      popularArticle?.fetchStatus === FetchStatusFlag.FETCHING
-    ) {
+    if (popularArticle !== undefined || articleFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
     dispatch(
@@ -39,7 +41,7 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
     );
   }, []);
 
-  if (popularArticle?.fetchStatus === FetchStatusFlag.FETCHING) {
+  if (articleFetchStatus === FetchStatusFlag.FETCHING) {
     return (
       <section className="ArticleHomeSection">
         <ArticleSectionHeaderPlaceholder />
@@ -48,11 +50,11 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
     );
   }
 
-  return popularArticle?.itemList ? (
+  return popularArticle ? (
     <section className="ArticleHomeSection">
       <SectionHeader title={title} link={articleListToPath({ listType: 'popular' })} />
       <ArticleSectionChartList
-        articleList={popularArticle?.itemList.map(id => articles[id].article!)}
+        articleList={popularArticle.map(id => articles[id].article!)}
         serviceTitleForTracking="select-article"
         pageTitleForTracking="home"
         uiPartTitleForTracking={`${articleListType.replace('ArticleList', '')}`}

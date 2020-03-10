@@ -3,6 +3,9 @@
   @media (--pc-screen) {
     padding: 0 10px;
   }
+  & .SlideArrowButton {
+    margin-top: -50px;
+  }
 }
 
 .ArticleChartGroup_Container {
@@ -12,6 +15,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+
+  @media (--mobile-screen) {
+    padding: 0 10px;
+  }
 }
 
 .ArticleChartGroup {
@@ -32,7 +39,11 @@
   text-decoration: inherit;
   height: 70px;
   list-style: none;
-  margin-bottom: 30px;
+  margin-top: 30px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   & .ArticleThumbnail_Wrapper {
     width: 60px;

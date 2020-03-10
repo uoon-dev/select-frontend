@@ -64,7 +64,7 @@ const ArticleList: React.FunctionComponent<OwnProps> = props => {
   }, [page]);
 
   return (
-    <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
+    <main className="SceneWrapper">
       <HelmetWithTitle titleName={pageTitle} />
       <ConnectedPageHeader pageTitle={pageTitle} />
       {listType === 'popular' ? (
