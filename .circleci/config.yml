@@ -169,6 +169,7 @@ workflows:
             branches:
               only:
                 - master
+                - feature/article-list-page
           dev: true
       - deploy:
           name: deploy-dev
