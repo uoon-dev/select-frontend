@@ -25,29 +25,32 @@ interface HomeSectionProps {
   order?: number;
 }
 
-export const SectionHeader: React.SFC<{ title: string; link: string }> = props => {
-  const isMobile = useSelector(getIsMobile);
-  return (
-    <div className="HomeSection_Header">
-      {isMobile ? (
-        <Link to={props.link}>
-          <h2 className="HomeSection_Title reset-heading">
-            {props.title}
-            <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-          </h2>
+interface SectionHeaderProps {
+  title: string;
+  link: string;
+  isMobile: boolean;
+}
+
+export const SectionHeader: React.SFC<SectionHeaderProps> = props => (
+  <div className="HomeSection_Header">
+    {props.isMobile ? (
+      <Link to={props.link}>
+        <h2 className="HomeSection_Title reset-heading">
+          {props.title}
+          <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
+        </h2>
+      </Link>
+    ) : (
+      <div className="HomeSection_Title">
+        <h2 className="reset-heading">{props.title}</h2>
+        <Link to={props.link} className="HomeSection_TitleLink">
+          전체 보기
+          <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
         </Link>
-      ) : (
-        <div className="HomeSection_Title">
-          <h2 className="reset-heading">{props.title}</h2>
-          <Link to={props.link} className="HomeSection_TitleLink">
-            전체 보기
-            <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-          </Link>
-        </div>
-      )}
-    </div>
-  );
-};
+      </div>
+    )}
+  </div>
+);
 
 export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
@@ -94,7 +97,11 @@ export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = p
 
   return (
     <section className="HomeSection">
-      <SectionHeader title={title || ''} link={collectionToPath({ collectionId: id })} />
+      <SectionHeader
+        title={title || ''}
+        link={collectionToPath({ collectionId: id })}
+        isMobile={isMobile}
+      />
       <ConnectedInlineHorizontalBookList
         books={collectionBooks}
         serviceTitleForTracking="select-book"

@@ -1,18 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 
 import { DTOBookThumbnail } from 'app/components';
-import { MAX_WIDTH, CoverSizes } from 'app/constants';
+import { CoverSizes } from 'app/constants';
 import { Book } from 'app/services/book';
 import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import { groupChartBooks } from 'app/services/home/uitls';
 import { StarRating } from 'app/services/review';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import { SectionHeader } from './HomeSection';
 
@@ -23,11 +23,17 @@ interface HomeChartBooksSectionProps {
   order?: number;
 }
 
-type Props = HomeChartBooksSectionProps & ReturnType<typeof mapDispatchToProps>;
+export const ConnectedHomeChartBooksSection: React.FunctionComponent<HomeChartBooksSectionProps> = props => {
+  const { books, order, title } = props;
+  const isMobile = useSelector(getIsMobile);
+  const dispatch = useDispatch();
 
-export class HomeChartBooksSection extends React.Component<Props> {
-  public renderCharts(contentsCount: number) {
-    const { books, trackClick, order } = this.props;
+  const trackClick = (trackingParams: DefaultTrackingParams) => {
+    dispatch(Actions.trackClick({ trackingParams }));
+  };
+
+  const renderCharts = () => {
+    const contentsCount = isMobile ? 24 : 12;
     const section = getSectionStringForTracking(
       'select-book',
       'home',
@@ -98,28 +104,12 @@ export class HomeChartBooksSection extends React.Component<Props> {
           ))}
       </div>
     );
-  }
+  };
 
-  public render() {
-    const { title } = this.props;
-
-    return (
-      <div className="HomeSection HomeSection-horizontal-pad">
-        <SectionHeader title={title || '인기 도서'} link="/charts" />
-        <MediaQuery maxWidth={MAX_WIDTH}>
-          {isMobile => (isMobile ? this.renderCharts(24) : this.renderCharts(12))}
-        </MediaQuery>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) =>
-    dispatch(Actions.trackClick({ trackingParams })),
-});
-
-export const ConnectedHomeChartBooksSection = connect(
-  null,
-  mapDispatchToProps,
-)(HomeChartBooksSection);
+  return (
+    <div className="HomeSection HomeSection-horizontal-pad">
+      <SectionHeader title={title || '인기 도서'} link="/charts" isMobile={isMobile} />
+      {renderCharts()}
+    </div>
+  );
+};
