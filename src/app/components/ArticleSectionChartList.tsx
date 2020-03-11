@@ -148,20 +148,8 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
             </ol>
           ))}
       </div>
-      <SlideArrow
-        label="이전"
-        side="left"
-        onClickHandler={moveLeft}
-        renderGradient={false}
-        isHidden={!isOnTheLeft}
-      />
-      <SlideArrow
-        label="다음"
-        side="right"
-        onClickHandler={moveRight}
-        renderGradient={false}
-        isHidden={!isOnTheRight}
-      />
+      <SlideArrow label="이전" side="left" onClickHandler={moveLeft} isHidden={!isOnTheLeft} />
+      <SlideArrow label="다음" side="right" onClickHandler={moveRight} isHidden={!isOnTheRight} />
     </div>
   );
 };
