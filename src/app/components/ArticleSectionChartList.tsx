@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MediaQuery from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ImageSize } from 'app/constants';
@@ -149,26 +148,20 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
             </ol>
           ))}
       </div>
-      <MediaQuery maxWidth={899}>
-        {(isMobile: boolean) => (
-          <>
-            <SlideArrow
-              label="이전"
-              side="left"
-              onClickHandler={moveLeft}
-              renderGradient={isMobile}
-              isHidden={!isOnTheLeft}
-            />
-            <SlideArrow
-              label="다음"
-              side="right"
-              onClickHandler={moveRight}
-              renderGradient={isMobile}
-              isHidden={!isOnTheRight}
-            />
-          </>
-        )}
-      </MediaQuery>
+      <SlideArrow
+        label="이전"
+        side="left"
+        onClickHandler={moveLeft}
+        renderGradient={false}
+        isHidden={!isOnTheLeft}
+      />
+      <SlideArrow
+        label="다음"
+        side="right"
+        onClickHandler={moveRight}
+        renderGradient={false}
+        isHidden={!isOnTheRight}
+      />
     </div>
   );
 };
