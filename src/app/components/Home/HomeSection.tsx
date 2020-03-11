@@ -1,19 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Icon } from '@ridi/rsg';
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
-import { Book, BookState } from 'app/services/book';
+import { Book } from 'app/services/book';
 import {
   DefaultCollectionState,
   SpotlightCollectionState,
   CollectionType,
 } from 'app/services/collection';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { ConnectedHomeChartBooksSection } from './HomeChartBooksSection';
@@ -25,101 +25,91 @@ interface HomeSectionProps {
   order?: number;
 }
 
-interface HomeCollectionStateProps {
-  books: BookState;
+interface SectionHeaderProps {
+  title: string;
+  link: string;
+  isMobile: boolean;
 }
 
-type Props = HomeSectionProps & HomeCollectionStateProps;
-
-export const SectionHeader: React.SFC<{ title: string; link: string }> = props => (
+export const SectionHeader: React.SFC<SectionHeaderProps> = props => (
   <div className="HomeSection_Header">
-    <MediaQuery maxWidth={MAX_WIDTH}>
-      {isMobile =>
-        isMobile ? (
-          <Link to={props.link}>
-            <h2 className="HomeSection_Title reset-heading">
-              {props.title}
-              <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-            </h2>
-          </Link>
-        ) : (
-          <div className="HomeSection_Title">
-            <h2 className="reset-heading">{props.title}</h2>
-            <Link to={props.link} className="HomeSection_TitleLink">
-              전체 보기
-              <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
-            </Link>
-          </div>
-        )
-      }
-    </MediaQuery>
+    {props.isMobile ? (
+      <Link to={props.link}>
+        <h2 className="HomeSection_Title reset-heading">
+          {props.title}
+          <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
+        </h2>
+      </Link>
+    ) : (
+      <div className="HomeSection_Title">
+        <h2 className="reset-heading">{props.title}</h2>
+        <Link to={props.link} className="HomeSection_TitleLink">
+          전체 보기
+          <Icon name="arrow_5_right" className="HomeSection_TitleArrowIcon" />
+        </Link>
+      </div>
+    )}
   </div>
 );
 
-export class HomeSection extends React.Component<Props> {
-  public render() {
-    const { collection, onScreen, books, order } = this.props;
-    const { type, title, id, itemListByPage } = collection;
-    const collectionBooks: Book[] = itemListByPage[1]?.itemList?.map(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (bookId: number) => books[bookId]?.book!,
-    );
+export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = props => {
+  const isMobile = useSelector(getIsMobile);
+  const books = useSelector((state: RidiSelectState) => state.booksById);
+  const { collection, onScreen, order } = props;
+  const { type, title, id, itemListByPage } = collection;
+  const collectionBooks: Book[] = itemListByPage[1]?.itemList?.map(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    (bookId: number) => books[bookId]?.book!,
+  );
 
-    if (
-      (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
-        itemListByPage[1].itemList.length < 1) ||
-      itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
-    ) {
-      return null;
-    }
+  if (
+    (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
+      itemListByPage[1].itemList.length < 1) ||
+    itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
+  ) {
+    return null;
+  }
 
-    if (!onScreen || itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING) {
-      return <HomeSectionPlaceholder type={collection.type} key={`${collection.id}_skeleton`} />;
-    }
+  if (!onScreen || itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING) {
+    return <HomeSectionPlaceholder type={collection.type} key={`${collection.id}_skeleton`} />;
+  }
 
-    if (type === CollectionType.SPOTLIGHT) {
-      return (
-        <ConnectedHomeSpotlightSection
-          books={collectionBooks}
-          title={title}
-          collectionId={collection.id}
-        />
-      );
-    }
-
-    if (type === CollectionType.CHART) {
-      return (
-        <ConnectedHomeChartBooksSection
-          books={collectionBooks}
-          title={title}
-          collectionId={id}
-          order={order}
-        />
-      );
-    }
-
+  if (type === CollectionType.SPOTLIGHT) {
     return (
-      <section className="HomeSection">
-        <SectionHeader title={title || ''} link={collectionToPath({ collectionId: id })} />
-        <MediaQuery maxWidth={MAX_WIDTH}>
-          {isMobile => (
-            <ConnectedInlineHorizontalBookList
-              books={collectionBooks}
-              serviceTitleForTracking="select-book"
-              pageTitleForTracking="home"
-              uiPartTitleForTracking="collection-list"
-              miscTracking={JSON.stringify({ sect_collection_id: id, sect_order: order })}
-              bookThumbnailSize={isMobile ? 110 : 120}
-            />
-          )}
-        </MediaQuery>
-      </section>
+      <ConnectedHomeSpotlightSection
+        books={collectionBooks}
+        title={title}
+        collectionId={collection.id}
+      />
     );
   }
-}
 
-const mapStateToProps = (state: RidiSelectState): HomeCollectionStateProps => ({
-  books: state.booksById,
-});
+  if (type === CollectionType.CHART) {
+    return (
+      <ConnectedHomeChartBooksSection
+        books={collectionBooks}
+        title={title}
+        collectionId={id}
+        order={order}
+      />
+    );
+  }
 
-export const ConnectedHomeSection = connect(mapStateToProps, {})(HomeSection);
+  return (
+    <section className="HomeSection">
+      <SectionHeader
+        title={title || ''}
+        link={collectionToPath({ collectionId: id })}
+        isMobile={isMobile}
+      />
+      <ConnectedInlineHorizontalBookList
+        books={collectionBooks}
+        serviceTitleForTracking="select-book"
+        pageTitleForTracking="home"
+        uiPartTitleForTracking="collection-list"
+        miscTracking={JSON.stringify({ sect_collection_id: id, sect_order: order })}
+        bookThumbnailSize={isMobile ? 110 : 120}
+      />
+    </section>
+  );
+};

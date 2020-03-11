@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 import createCache from '@emotion/cache';
-import { css, CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/core';
 
 import { store } from 'app/store';
 import { Actions } from 'app/services/user';
@@ -16,6 +16,7 @@ import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { setInitializeInAppEvent } from 'app/utils/inAppMessageEvents';
 import { selectIsInApp } from './services/environment/selectors';
+import ResponsiveManager from './ResponsiveManager';
 
 // Show browser input focused outline when tab key is pressed
 setTabKeyFocus();
@@ -52,6 +53,7 @@ class App extends React.Component {
             },
           ]}
         />
+        <ResponsiveManager />
         <CacheProvider value={styleCache}>
           <ConnectedEnvBadge />
           <ConnectedRoutes />
