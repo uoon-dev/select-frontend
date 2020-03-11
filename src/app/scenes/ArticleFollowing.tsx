@@ -90,7 +90,6 @@ export const ArticleFollowing: React.FunctionComponent = () => {
                   articles={articleItems}
                   renderChannelThumbnail
                   renderChannelMeta
-                  renderAuthor={false}
                   renderPublishDate
                   renderFavoriteButton
                   isFullWidthAvailable

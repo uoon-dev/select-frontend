@@ -64,6 +64,7 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
             uiPartTitleForTracking={`${articleListType.replace('ArticleList', '')}`}
             miscTracking={JSON.stringify({ sect_order: order })}
             renderChannelMeta
+            renderAuthor
             articles={sectionItemList.map(id => articles[id].article!)}
           />
         </>

@@ -42,7 +42,6 @@ const ArticleGridList: React.FunctionComponent<ArticleGridListProps> = props => 
             uiPartTitleForTracking="article-list"
             renderChannelMeta
             miscTracking={JSON.stringify({ sect_page: page })}
-            renderAuthor={false}
             articles={articleList}
           />
           <Pagination
