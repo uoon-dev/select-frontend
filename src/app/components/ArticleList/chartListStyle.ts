@@ -61,7 +61,7 @@ export const popularArticleElementRank = css`
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.64px;
-  color: var(-slategray_90);
+  color: ${Colors.slategray_90};
   flex: none;
 
   &.Skeleton {
@@ -84,7 +84,7 @@ export const popularArticleElementMeta = css`
 `;
 
 export const popularArticleElementTitle = css`
-  @apply --reset-layout;
+  ${resetLayout}
 
   display: block;
   margin: 0;

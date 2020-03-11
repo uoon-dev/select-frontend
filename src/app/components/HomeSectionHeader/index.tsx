@@ -1,45 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { SerializedStyles } from '@emotion/core';
 
 import { Icon } from '@ridi/rsg';
-import { useMediaQuery } from 'react-responsive';
-import { MAX_WIDTH } from 'app/constants';
 
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import * as styles from 'app/components/HomeSectionHeader/styles';
 
 export const SectionHeader: React.SFC<{ title: string; link?: string }> = props => {
-  const isMobile = useMediaQuery({ query: `(max-width: ${MAX_WIDTH}px)` });
-  if (!props.link) {
-    return (
-      <div className="HomeSection_Header">
-        {isMobile ? (
-          <h2 css={styles.sectionTitle} className="reset-heading">
-            {props.title}
-          </h2>
-        ) : (
-          <div css={styles.sectionTitle}>
-            <h2 className="reset-heading">{props.title}</h2>
-          </div>
-        )}
-      </div>
+  const isMobile = useSelector(getIsMobile);
+  const { title, link } = props;
+
+  const Arrow: React.SFC = () => <Icon name="arrow_5_right" css={styles.sectionTitleArrowIcon} />;
+  const HeaderLink: React.SFC<{ style?: SerializedStyles }> = ({ children, style }) =>
+    link ? (
+      <Link to={link} css={style}>
+        {children}
+      </Link>
+    ) : (
+      <>{children}</>
     );
-  }
+
   return (
     <div className="HomeSection_Header">
       {isMobile ? (
-        <Link to={props.link}>
+        <HeaderLink>
           <h2 css={styles.sectionTitle} className="reset-heading">
-            {props.title}
-            <Icon name="arrow_5_right" css={styles.sectionTitleArrowIcon} />
+            {title}
+            {link && <Arrow />}
           </h2>
-        </Link>
+        </HeaderLink>
       ) : (
         <div css={styles.sectionTitle}>
-          <h2 className="reset-heading">{props.title}</h2>
-          <Link to={props.link} css={styles.sectionTitleLink}>
-            전체 보기
-            <Icon name="arrow_5_right" css={styles.sectionTitleArrowIcon} />
-          </Link>
+          <h2 className="reset-heading">{title}</h2>
+          <HeaderLink style={styles.sectionTitleLink}>
+            {link && (
+              <>
+                전체 보기
+                <Arrow />
+              </>
+            )}
+          </HeaderLink>
         </div>
       )}
     </div>

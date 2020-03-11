@@ -1,14 +1,16 @@
 import React from 'react';
-import { ArticleSectionChartPlaceholder } from './ArticleSectionChartPlaceholder';
 
-export const ArticleChartListPlaceholder: React.FunctionComponent = () => (
-  <ul>
-    <ArticleSectionChartPlaceholder />
-    <ArticleSectionChartPlaceholder />
-    <ArticleSectionChartPlaceholder />
-    <ArticleSectionChartPlaceholder />
-    <ArticleSectionChartPlaceholder />
-  </ul>
+export const ArticleSectionChartPlaceholder: React.FunctionComponent = () => (
+  <li className="ArticleChartList_Article">
+    <span className="ArticleChartList_Rank_Skeleton Skeleton" />
+    <div className="ArticleThumbnail_Wrapper">
+      <div className="ArticleChartThumbnail_Skeleton Skeleton" />
+    </div>
+    <div className="ArticleChartList_Meta">
+      <div className="ArticleChartList_Meta_Title_Skeleton Skeleton" />
+      <div className="ArticleChartList_Meta_Channel_Skeleton Skeleton" />
+    </div>
+  </li>
 );
 
 export const ArticleSectionChartListContainerPlaceholder: React.FunctionComponent = () => (

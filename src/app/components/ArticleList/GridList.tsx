@@ -1,15 +1,17 @@
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
 import { Pagination } from 'app/components';
 import { Article } from 'app/services/article';
+import { FetchStatusFlag } from 'app/constants';
 import { articleListToPath } from 'app/utils/toPath';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
-import { MAX_WIDTH, FetchStatusFlag } from 'app/constants';
 import { ArticleListType } from 'app/services/articleList';
 import { GridArticleList } from 'app/components/GridArticleList';
+import * as styles from 'app/components/ArticleList/gridListStyle.ts';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
+import { useSelector } from 'react-redux';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 interface ArticleGridListProps {
   page: number;
@@ -22,19 +24,19 @@ interface ArticleGridListProps {
 
 const ArticleGridList: React.FunctionComponent<ArticleGridListProps> = props => {
   const { page, articleList, fetchStatus, articleListType, itemCountPerPage, itemCount } = props;
+  const isMobile = useSelector(getIsMobile);
 
-  const isMobile = useMediaQuery({ query: `(max-width: ${MAX_WIDTH}px)` });
+  if (!articleList || !itemCount || fetchStatus === FetchStatusFlag.FETCHING) {
+    return (
+      <div css={styles.gridArticleListContainer}>
+        <GridArticleListPlaceholder />
+      </div>
+    );
+  }
 
   return (
-    <div
-      css={{
-        maxWidth: '840px',
-        margin: '0 auto',
-      }}
-    >
-      {!articleList || !itemCount || fetchStatus === FetchStatusFlag.FETCHING ? (
-        <GridArticleListPlaceholder />
-      ) : articleList?.length > 0 ? (
+    <div css={styles.gridArticleListContainer}>
+      {articleList?.length > 0 ? (
         <>
           <GridArticleList
             serviceTitleForTracking="select-article"

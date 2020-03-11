@@ -1,6 +1,6 @@
+import keyBy from 'lodash-es/keyBy';
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
-import keyBy from 'lodash-es/keyBy';
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
 import { requestBooks } from 'app/services/book/requests';

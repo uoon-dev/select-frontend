@@ -41,14 +41,24 @@ const ArticleChartList: React.FunctionComponent<ArticleChartListProps> = props =
     dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
-  return !popularArticles || fetchStatus === FetchStatusFlag.FETCHING ? (
-    <ArticleChartListPlaceholder />
-  ) : (
+  if (!popularArticles || fetchStatus === FetchStatusFlag.FETCHING) {
+    return <ArticleChartListPlaceholder />;
+  }
+
+  return (
     <ul css={styles.popularArticleList}>
       {popularArticles.length > 0 ? (
         popularArticles.map((article, idx) => {
           const articleUrl = `/article/${getArticleKeyFromData(article)}`;
           const channelMeta = articleChannelById[article.channelName]?.channelMeta;
+          const linkOnClickTrackingHandelr = () =>
+            trackingClick(
+              idx,
+              article.id,
+              JSON.stringify({
+                sect_ch: `ch:${channelMeta!.id}`,
+              }),
+            );
 
           return (
             <li key={`popular_article_${idx}`} css={styles.popularArticleElement}>
@@ -67,29 +77,13 @@ const ArticleChartList: React.FunctionComponent<ArticleChartListProps> = props =
                     thumbnailClassName="ArticleList_Thumbnail"
                     articleTitle={article.title}
                     imageSize={ImageSize.HEIGHT_100}
-                    onLinkClick={() =>
-                      trackingClick(
-                        idx,
-                        article.id,
-                        JSON.stringify({
-                          sect_ch: `ch:${channelMeta!.id}`,
-                        }),
-                      )
-                    }
+                    onLinkClick={linkOnClickTrackingHandelr}
                   />
                   <div css={styles.popularArticleElementMeta}>
                     <Link
                       to={articleUrl}
                       css={styles.popularArticleElementTitle}
-                      onClick={() =>
-                        trackingClick(
-                          idx,
-                          article.id,
-                          JSON.stringify({
-                            sect_ch: `ch:${channelMeta!.id}`,
-                          }),
-                        )
-                      }
+                      onClick={linkOnClickTrackingHandelr}
                     >
                       {article.title}
                     </Link>

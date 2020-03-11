@@ -1,21 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { Actions, DefaultTrackingParams } from 'app/services/tracking';
-
 import { Book } from 'app/services/book';
+import { CoverSizes } from 'app/constants';
 import { StarRating } from 'app/services/review';
 import { DTOBookThumbnail } from 'app/components';
-import { CoverSizes } from 'app/constants';
-import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
-import { getIsMobile } from 'app/services/commonUI/selectors';
-
 import { groupChartBooks } from 'app/services/home/uitls';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { Link } from 'react-router-dom';
+import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
 
 interface HomeChartBooksSectionProps {
   books: Book[];
