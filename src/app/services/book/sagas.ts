@@ -13,6 +13,7 @@ import {
 } from 'app/services/book';
 
 import {
+  RecommendedBook,
   BookDetailResponse,
   BookDetailResponseV1,
   BookDetailResponseV2,
@@ -137,12 +138,12 @@ export function* loadBookToBookRecommendation({
     if (isNaN(bookId)) {
       throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
     }
-    const response: Book[] = yield call(requestBookToBookRecommendation, bookId);
+    const response: RecommendedBook[] = yield call(requestBookToBookRecommendation, bookId);
     if (response && response.length >= 0) {
       yield put(
         Actions.loadBookToBookRecommendationSuccess({
           bookId,
-          recommendedBooks: response,
+          recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
         }),
       );
     }
