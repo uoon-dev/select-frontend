@@ -75,7 +75,7 @@ export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = p
     return (
       <ConnectedHomeSpotlightSection
         books={collectionBooks}
-        title={title!}
+        title={title}
         collectionId={collection.id}
       />
     );
