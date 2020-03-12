@@ -14,7 +14,7 @@ export const articleHomePanel = css`
 
 export const articleSection = css`
   padding: 30px 0;
-  background-color: #fff;
+  background-color: white;
 
   & .HomeSection_Header {
     padding: 0 20px;
