@@ -90,7 +90,6 @@ export const ArticleChannelDetail: React.FunctionComponent = () => {
             pageTitleForTracking="channel-detail"
             uiPartTitleForTracking="article-list"
             miscTracking={JSON.stringify({ sect_page: page })}
-            renderAuthor={false}
             articles={articleChannelData.itemListByPage[page].itemList.map(
               articleKey => articlesById[articleKey].article!,
             )}

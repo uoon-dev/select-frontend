@@ -4,6 +4,10 @@ const leftOfBegin = (elementRect: ClientRect) => elementRect.left + elementRect.
 const rightOfFold = (elementRect: ClientRect) => elementRect.left >= window.innerWidth;
 
 export function isInViewport(element: HTMLElement) {
+  if (!element) {
+    return false;
+  }
+
   const elementRect = element.getBoundingClientRect();
   return !(
     aboveTheTop(elementRect) ||

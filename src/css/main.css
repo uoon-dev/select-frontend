@@ -57,8 +57,6 @@
 @import 'base/GridArticleList.css';
 @import 'article/index.css';
 @import 'article/ArticleThumbnail.css';
-@import 'articleHome/ArticleHomeSection.css';
-@import 'articleHome/ArticleChartSection.css';
 @import 'articleContent/index.css';
 @import 'articleFollowing/index.css';
 @import 'articleChannel/ArticleChannelInfoHeader.css';

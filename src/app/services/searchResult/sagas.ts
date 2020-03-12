@@ -1,17 +1,13 @@
+import keyBy from 'lodash-es/keyBy';
 import { all, call, put, take, takeEvery } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
-import { Actions as ArticleActions, Article } from 'app/services/article';
-
-import { Actions as BookActions, Book } from 'app/services/book';
-
-import { Actions, SearchResultArticle, SearchResultBook } from 'app/services/searchResult';
-
-import { requestArticles } from 'app/services/article/requests';
 import { requestBooks } from 'app/services/book/requests';
-import keyBy from 'lodash-es/keyBy';
-
+import { Actions as BookActions, Book } from 'app/services/book';
+import { requestArticles } from 'app/services/articleList/requests';
+import { Actions as ArticleActions, Article } from 'app/services/article';
+import { Actions, SearchResultArticle, SearchResultBook } from 'app/services/searchResult';
 import {
   PublicSearchResultReponse,
   requestSearchResult,
@@ -53,8 +49,12 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
     } else {
       const articlesResponse = yield call(
         requestArticles,
-        { includes: [ArticleRequestIncludableData.AUTHORS] },
-        response.articles.map(article => article.id),
+        {
+          includes: [ArticleRequestIncludableData.AUTHORS],
+        },
+        {
+          articleIds: response.articles.map(article => article.id),
+        },
       );
       const articles: Article[] = articlesResponse.results;
       const articlesMap = keyBy(articles, 'id');

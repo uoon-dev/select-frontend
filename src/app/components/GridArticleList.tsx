@@ -40,7 +40,7 @@ export const GridArticleList: React.FunctionComponent<Props> = props => {
     uiPartTitleForTracking,
     miscTracking,
     articles,
-    renderAuthor = true,
+    renderAuthor = false,
     renderChannelThumbnail = false,
     renderChannelMeta = false,
     renderPublishDate = false,

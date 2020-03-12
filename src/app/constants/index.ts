@@ -3,6 +3,11 @@ export * from './imageSize';
 
 export const MAX_WIDTH = 834;
 export const MIN_WIDTH = 835;
+export const COUNT_PER_PAGE = 24;
+export const ARTICLE_HOME_SECTION_COUNT = 4;
+export const ARTICLE_HOME_RECENT_SECTION_COUNT = 8;
+export const ARTICLE_HOME_CHART_SECTION_COUNT = 20;
+export const ARTICLE_CHART_COUNT = 100;
 
 export enum FetchStatusFlag {
   IDLE,
@@ -49,6 +54,8 @@ export enum PageTitleText {
   ARTICLE_FOLLOWING = '팔로잉',
   ARTICLE_CHANNEL = '전체 채널',
   ARTICLE_FAVORITE = '좋아한 아티클',
+  ARTICLE_POPULAR = '인기 아티클',
+  ARTICLE_RECENT = '최신 아티클',
 }
 
 export enum RoutePaths {
@@ -80,4 +87,5 @@ export enum RoutePaths {
   ARTICLE_CHANNEL_DETAIL = '/article/channel/@:channelName',
   ARTICLE_FAVORITE = '/article/favorite',
   ARTICLE_CONTENT = '/article/@:channelName/:contentIndex',
+  ARTICLE_LIST = '/article/list/:listType',
 }

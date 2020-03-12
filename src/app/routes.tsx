@@ -34,6 +34,7 @@ import {
   Voucher,
   WrongLocation,
 } from 'app/scenes';
+import ArticleList from 'app/scenes/ArticleList';
 
 import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
@@ -173,6 +174,7 @@ export const Routes: React.SFC<Props> = props => {
             routeBlockLevel={RouteBlockLevel.LOGGED_IN}
             {...props}
           />
+          <Route path={RoutePaths.ARTICLE_LIST} component={ArticleList} {...props} />
 
           <Route path={RoutePaths.INTRO} exact component={Intro} {...props} />
           <Route path={RoutePaths.VOUCHER} exact component={Voucher} {...props} />
