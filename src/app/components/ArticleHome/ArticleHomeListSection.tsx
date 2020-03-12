@@ -37,9 +37,7 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
     if (sectionItemList !== undefined || sectionDataFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
-    dispatch(
-      Actions.loadArticleListRequest({ type: articleListType, page: 1, size: ArticleCount }),
-    );
+    dispatch(Actions.loadArticleList({ type: articleListType, page: 1, size: ArticleCount }));
   }, []);
 
   return (

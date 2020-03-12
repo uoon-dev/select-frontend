@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { PageTitleText, FetchStatusFlag } from 'app/constants';
+import { PageTitleText, FetchStatusFlag, COUNT_PER_PAGE } from 'app/constants';
 import { ArticleListType, Actions } from 'app/services/articleList';
 import ArticleGridList from 'app/components/ArticleList/GridList';
 import ArticleChartList from 'app/components/ArticleList/ChartList';
@@ -9,7 +9,6 @@ import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import { COUNT_PER_PAGE } from 'app/services/collection';
 import { ArticleKey } from 'app/types';
 
 type RouteProps = RouteComponentProps<{ listType: string }>;
@@ -54,7 +53,7 @@ const ArticleList: React.FunctionComponent<OwnProps> = props => {
       articles.length < itemCountPerPage
     ) {
       dispatch(
-        Actions.loadArticleListRequest({
+        Actions.loadArticleList({
           type: articleListType,
           page,
           size: itemCountPerPage,

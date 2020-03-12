@@ -1,9 +1,9 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import {
   ConnectedGridBookList,
@@ -11,14 +11,12 @@ import {
   HelmetWithTitle,
   Pagination,
 } from 'app/components';
-import { MAX_WIDTH, PageTitleText, FetchStatusFlag } from 'app/constants';
-import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-
-import { BookState } from 'app/services/book';
-import { Actions, ChartCollectionState, COUNT_PER_PAGE } from 'app/services/collection';
-import { getPageQuery } from 'app/services/routing/selectors';
-
 import { RidiSelectState } from 'app/store';
+import { BookState } from 'app/services/book';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { Actions, ChartCollectionState } from 'app/services/collection';
+import { MAX_WIDTH, PageTitleText, COUNT_PER_PAGE } from 'app/constants';
+import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 interface CollectionStateProps {
   collection: ChartCollectionState;

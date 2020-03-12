@@ -12,8 +12,6 @@ export enum CollectionType {
   'SPOTLIGHT' = 'SPOTLIGHT',
 }
 
-export const COUNT_PER_PAGE = 24;
-
 export enum ReservedCollectionIds {
   POPULAR = 'popular',
   RECENT = 'recent',

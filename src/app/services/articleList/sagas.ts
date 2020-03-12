@@ -1,9 +1,8 @@
-import { COUNT_PER_PAGE } from 'app/services/collection';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import { ArticleRequestType } from 'app/types';
-import { ErrorStatus } from 'app/constants/index';
 import { getArticleKeyFromData } from 'app/utils/utils';
+import { ErrorStatus, COUNT_PER_PAGE, ARTICLE_HOME_CHART_SECTION_COUNT } from 'app/constants';
 import showMessageForRequestError from 'app/utils/toastHelper';
 import { Actions, ArticleListType } from 'app/services/articleList';
 import { Actions as ArticleActions, Article } from 'app/services/article';
@@ -14,17 +13,18 @@ import {
   PopularArticleListResponse,
 } from 'app/services/articleList/requests';
 
-function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArticleListRequest>) {
+function* loadArticleList({ payload }: ReturnType<typeof Actions.loadArticleList>) {
   const { type, page, size } = payload;
   try {
     let response: ArticleListResponse & PopularArticleListResponse;
     let articles: Article[];
-    let totalCount: number;
 
     if (type === ArticleListType.POPULAR) {
-      response = yield call(requestPopularArticleList, { page, countPerPage: size || 20 });
+      response = yield call(requestPopularArticleList, {
+        page,
+        countPerPage: size || ARTICLE_HOME_CHART_SECTION_COUNT,
+      });
       articles = response.articles.filter(article => article.id);
-      totalCount = response.totalCount;
     } else {
       response = yield call(
         requestArticles,
@@ -38,21 +38,18 @@ function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArti
         },
       );
       articles = response.results.filter(article => article.id);
-      totalCount = response.totalCount;
     }
-    yield put(
-      ArticleActions.updateArticles({
-        articles,
-      }),
-    );
-    yield put(
-      Actions.afterLoadArticleList({
-        articles: articles.map(article => getArticleKeyFromData(article)),
-        totalCount,
-        page,
-        type,
-      }),
-    );
+    yield all([
+      put(ArticleActions.updateArticles({ articles })),
+      put(
+        Actions.afterLoadArticleList({
+          articles: articles.map(article => getArticleKeyFromData(article)),
+          totalCount: response.totalCount,
+          page,
+          type,
+        }),
+      ),
+    ]);
   } catch (e) {
     yield put(
       Actions.afterLoadArticleList({
@@ -62,17 +59,14 @@ function* loadArticleListRequest({ payload }: ReturnType<typeof Actions.loadArti
     );
     if (
       e?.response?.data?.status === ErrorStatus.MAINTENANCE ||
-      (type === ArticleListType.POPULAR && size === 20)
+      (type === ArticleListType.POPULAR && size === ARTICLE_HOME_CHART_SECTION_COUNT)
     ) {
       return;
     }
     showMessageForRequestError(e);
   }
 }
-export function* watchLoadArticleListRequest() {
-  yield takeEvery(Actions.loadArticleListRequest.getType(), loadArticleListRequest);
-}
 
 export function* articleListRootSaga() {
-  yield all([watchLoadArticleListRequest()]);
+  yield takeEvery(Actions.loadArticleList.getType(), loadArticleList);
 }

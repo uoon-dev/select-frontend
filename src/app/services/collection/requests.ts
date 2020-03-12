@@ -3,15 +3,11 @@ import * as qs from 'qs';
 
 import { camelize } from '@ridi/object-case-converter';
 
-import request from 'app/config/axios';
 import env from 'app/config/env';
+import request from 'app/config/axios';
 import { Book } from 'app/services/book';
-import {
-  CollectionType,
-  CollectionId,
-  COUNT_PER_PAGE,
-  ReservedCollectionIds,
-} from 'app/services/collection';
+import { COUNT_PER_PAGE } from 'app/constants';
+import { CollectionType, CollectionId, ReservedCollectionIds } from 'app/services/collection';
 
 export interface CollectionResponse {
   collectionId: number;

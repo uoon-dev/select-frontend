@@ -1,4 +1,3 @@
-import { COUNT_PER_PAGE } from 'app/services/collection';
 import qs from 'qs';
 import { AxiosResponse } from 'axios';
 import request from 'app/config/axios';
@@ -6,6 +5,7 @@ import request from 'app/config/axios';
 import { camelize } from '@ridi/object-case-converter';
 
 import env from 'app/config/env';
+import { COUNT_PER_PAGE } from 'app/constants';
 import { Article } from 'app/services/article';
 import { ArticleRequestQueries } from 'app/types';
 import { ArticleResponse } from 'app/services/article/requests';
@@ -22,7 +22,6 @@ export interface PopularArticleListResponse {
   totalPage: number;
   totalCount: number;
   size: number;
-
   articles: Article[];
 }
 
@@ -34,13 +33,15 @@ export const requestArticles = (
     size?: number;
   },
 ): Promise<ArticleListResponse> => {
-  const etcParameters = qs.stringify({
+  const additionalQueryString = qs.stringify({
     page: etcParams?.page || 1,
     size: etcParams?.size || COUNT_PER_PAGE,
     ids: etcParams?.articleIds || undefined,
   });
   return request({
-    url: `/article/articles${buildArticleRequestQueriesToString(requestQueries)}&${etcParameters}`,
+    url: `/article/articles${buildArticleRequestQueriesToString(
+      requestQueries,
+    )}&${additionalQueryString}`,
     method: 'GET',
   }).then(
     response => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data,
@@ -54,7 +55,7 @@ export const requestPopularArticleList = ({
   page?: number;
   countPerPage?: number;
 }): Promise<PopularArticleListResponse> => {
-  const parameters = qs.stringify({ page, size: countPerPage || 20 });
+  const parameters = qs.stringify({ page, size: countPerPage });
   return request({
     url: `${env.BESTSELLER_API}/select/popular/articles?${parameters}`,
     method: 'GET',

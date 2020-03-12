@@ -3,6 +3,8 @@ export * from './imageSize';
 
 export const MAX_WIDTH = 834;
 export const MIN_WIDTH = 835;
+export const COUNT_PER_PAGE = 24;
+export const ARTICLE_HOME_CHART_SECTION_COUNT = 20;
 
 export enum FetchStatusFlag {
   IDLE,

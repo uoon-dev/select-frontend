@@ -4,11 +4,11 @@ import { FetchStatusFlag } from 'app/constants';
 import { Paginated, ArticleKey } from 'app/types';
 
 export const Actions = {
-  loadArticleListRequest: createAction<{
+  loadArticleList: createAction<{
     type: ArticleListType;
     page: number;
     size?: number;
-  }>('loadArticleListRequest'),
+  }>('loadArticleList'),
   afterLoadArticleList: createAction<{
     type: ArticleListType;
     page: number;
@@ -43,7 +43,7 @@ export const INITIAL_STATE: ArticleListState = {
 
 export const articleListReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
 
-articleListReducer.on(Actions.loadArticleListRequest, (state, action) => {
+articleListReducer.on(Actions.loadArticleList, (state, action) => {
   const { type, page } = action;
   return {
     ...state,
