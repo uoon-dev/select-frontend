@@ -14,6 +14,8 @@ export default {
   SEARCH_API: getEnv('SEARCH_API', process.env.SEARCH_API) || 'https://search-api.ridibooks.com',
   BESTSELLER_API:
     getEnv('BESTSELLER_API', process.env.BESTSELLER_API) || 'https://bestseller-api.ridibooks.com',
+  RECOMMEND_API:
+    getEnv('RECOMMEND_API', process.env.RECOMMEND_API) || 'https://recommend-api-v2.ridibooks.com',
   OAUTH2_CLIENT_ID: process.env.OAUTH2_CLIENT_ID || '',
   FREE_PROMOTION_MONTHS: Number(process.env.FREE_PROMOTION_MONTHS) || 1,
 

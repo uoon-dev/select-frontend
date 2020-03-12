@@ -1,7 +1,7 @@
 import mapValues from 'lodash-es/mapValues';
 
 import history from 'app/config/history';
-import { FetchErrorFlag, RoutePaths } from 'app/constants';
+import { FetchErrorFlag, RoutePaths, COUNT_PER_PAGE } from 'app/constants';
 import {
   Actions,
   BookOwnershipStatus,
@@ -13,7 +13,6 @@ import {
 } from 'app/services/book';
 
 import {
-  RecommendedBook,
   BookDetailResponse,
   BookDetailResponseV1,
   BookDetailResponseV2,
@@ -138,12 +137,12 @@ export function* loadBookToBookRecommendation({
     if (isNaN(bookId)) {
       throw FetchErrorFlag.UNEXPECTED_BOOK_ID;
     }
-    const response: RecommendedBook[] = yield call(requestBookToBookRecommendation, bookId);
+    const response: Book[] = yield call(requestBookToBookRecommendation, bookId);
     if (response && response.length >= 0) {
       yield put(
         Actions.loadBookToBookRecommendationSuccess({
           bookId,
-          recommendedBooks: response.map((bookData: RecommendedBook) => bookData.bookSummary),
+          recommendedBooks: response.slice(0, COUNT_PER_PAGE),
         }),
       );
     }
