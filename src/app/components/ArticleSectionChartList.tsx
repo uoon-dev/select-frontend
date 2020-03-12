@@ -12,6 +12,7 @@ import { ArticleResponse } from 'app/services/article/requests';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import * as styles from 'app/components/ArticleHome/articleHomeChartSectionStyles';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking, mixedMiscTracking } from 'app/services/tracking/utils';
 
@@ -79,12 +80,12 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
   };
 
   return (
-    <div className="ArticleChartList_Wrapper">
-      <div className="ArticleChartGroup_Container scrollBarHidden" ref={ref}>
+    <div css={styles.articleChartListWrapper}>
+      <div css={styles.articleChartGroupContainer} className="scrollBarHidden" ref={ref}>
         {articleList &&
           groupChartActicles(articleList, CHART_GROUPING_COUNT).map((groupedArticles, groupIdx) => (
             <ol
-              className="ArticleChartGroup"
+              css={styles.articleChartGroup}
               start={groupIdx * CHART_GROUPING_COUNT + 1}
               key={groupIdx}
             >
@@ -93,14 +94,14 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                 const articleUrl = `/article/${getArticleKeyFromData(article)}`;
                 const channelMeta = articleChannelById[article.channelName]?.channelMeta;
                 return (
-                  <li key={idxInGroup} className="ArticleChartList_Article">
+                  <li key={idxInGroup} css={styles.articleChartListArticle}>
                     <ConnectedTrackImpression
                       section={section}
                       index={index}
                       id={article.id}
                       misc={miscTracking}
                     >
-                      <span className="ArticleChartList_Rank">{index + 1}</span>
+                      <span css={styles.articleChartListRank}>{index + 1}</span>
                       <ArticleThumbnail
                         linkUrl={articleUrl}
                         imageUrl={article.thumbnailUrl}
@@ -115,9 +116,9 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                           )
                         }
                       />
-                      <div className="ArticleChartList_Meta">
+                      <div css={styles.articleChartListMeta}>
                         <Link
-                          className="ArticleChartList_Meta_Link"
+                          css={styles.articleChartListMetaLink}
                           to={articleUrl}
                           onClick={() =>
                             trackingClick(
@@ -127,15 +128,15 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                             )
                           }
                         >
-                          <span className="ArticleChartList_Meta_Title">{article.title}</span>
+                          <span css={styles.articleChartListMetaTitle}>{article.title}</span>
                         </Link>
                         {channelMeta ? (
                           <Link
-                            className="ArticleChartList_Channel_Link"
+                            css={styles.articleChartListMetaLink}
                             to={articleChannelToPath({ channelName: channelMeta.name })}
                             onClick={() => trackingClick(index, `ch:${channelMeta.id}`)}
                           >
-                            <span className="ArticleChartList_Meta_Channel">
+                            <span css={styles.articleChartListMetaChannel}>
                               {channelMeta.displayName}
                             </span>
                           </Link>

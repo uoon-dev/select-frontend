@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { FetchStatusFlag } from 'app/constants';
+import { articleListToPath } from 'app/utils/toPath';
 import { ArticleResponse } from 'app/services/article/requests';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import { Actions, ArticleListType } from 'app/services/articleList';
+import * as styles from 'app/components/ArticleHome/articleHomeSectionStyles';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
-import { articleListToPath } from 'app/utils/toPath';
 
 interface ArticleHomeSectionProps {
   title: string;
@@ -42,7 +43,7 @@ export const ArticleHomeListSection: React.FunctionComponent<ArticleHomeSectionP
   }, []);
 
   return (
-    <section className="ArticleHomeSection">
+    <section css={styles.articleSection}>
       {!sectionItemList ? (
         <>
           <ArticleSectionHeaderPlaceholder />

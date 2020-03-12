@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { FetchStatusFlag } from 'app/constants';
+import { articleListToPath } from 'app/utils/toPath';
 import { ArticleResponse } from 'app/services/article/requests';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
+import * as styles from 'app/components/ArticleHome/articleHomeSectionStyles';
 import { ArticleSectionChartList } from 'app/components/ArticleSectionChartList';
-import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
 import { Actions as PopularArticleActions, ArticleListType } from 'app/services/articleList';
+import { ArticleSectionHeaderPlaceholder } from 'app/placeholder/ArticleSectionHeaderPlaceholder';
 import { ArticleSectionChartListContainerPlaceholder } from 'app/placeholder/ArticleSectionChartListPlaceholder';
-import { articleListToPath } from 'app/utils/toPath';
 
 interface ArticleHomeSectionProps {
   title: string;
@@ -43,7 +44,7 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
 
   if (articleFetchStatus === FetchStatusFlag.FETCHING) {
     return (
-      <section className="ArticleHomeSection">
+      <section css={styles.articleSection}>
         <ArticleSectionHeaderPlaceholder />
         <ArticleSectionChartListContainerPlaceholder />
       </section>
@@ -51,7 +52,7 @@ export const ArticleHomeChartSection: React.FunctionComponent<ArticleHomeSection
   }
 
   return popularArticle ? (
-    <section className="ArticleHomeSection">
+    <section css={styles.articleSection}>
       <SectionHeader title={title} link={articleListToPath({ listType: 'popular' })} />
       <ArticleSectionChartList
         articleList={popularArticle.map(id => articles[id].article!)}

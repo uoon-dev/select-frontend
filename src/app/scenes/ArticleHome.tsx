@@ -10,6 +10,7 @@ import { ArticleListType } from 'app/services/articleList';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ConnectedBigBannerCarousel } from 'app/components/Home/BigBanner';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
+import * as styles from 'app/components/ArticleHome/articleHomeSectionStyles';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { ArticleHomeListSection } from 'app/components/ArticleHome/ArticleHomeListSection';
 import { ArticleHomeChartSection } from 'app/components/ArticleHome/ArticleHomeChartSection';
@@ -51,21 +52,21 @@ export const ArticleHome: React.FunctionComponent = () => {
         <h1>리디셀렉트 아티클 홈</h1>
       </div>
       <ConnectedBigBannerCarousel />
-      <div className="ArticleHome_Panel">
+      <div css={styles.articleHomePanel}>
         <ArticleHomeListSection
           title={PageTitleText.ARTICLE_RECENT}
           articleListType={ArticleListType.RECENT}
           order={0}
         />
       </div>
-      <div className="ArticleHome_Panel">
+      <div css={styles.articleHomePanel}>
         <ArticleHomeChartSection
           title={PageTitleText.ARTICLE_POPULAR}
           articleListType={ArticleListType.POPULAR}
           order={1}
         />
       </div>
-      <div className="ArticleHome_Panel">
+      <div css={styles.articleHomePanel}>
         <ArticleHomeListSection
           title="추천 아티클"
           articleListType={ArticleListType.RECOMMEND}

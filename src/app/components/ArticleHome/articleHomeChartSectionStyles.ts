@@ -1,14 +1,19 @@
-.ArticleChartList_Wrapper {
+import { css } from '@emotion/core';
+
+import Colors from 'app/styles/colors';
+import { customMedia, defaultFontFamily } from 'app/styles/customProperties';
+
+export const articleChartListWrapper = css`
   position: relative;
-  @media (--pc-screen) {
-    padding: 0 10px;
-  }
   & .SlideArrowButton {
     margin-top: -50px;
   }
-}
+  @media ${customMedia.pcScreen} {
+    padding: 0 10px;
+  }
+`;
 
-.ArticleChartGroup_Container {
+export const articleChartGroupContainer = css`
   display: block;
   margin-top: 20px;
   white-space: nowrap;
@@ -16,23 +21,23 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
 
-  @media (--mobile-screen) {
+  @media ${customMedia.mobileScreen} {
     padding: 0 10px;
   }
-}
+`;
 
-.ArticleChartGroup {
+export const articleChartGroup = css`
   display: inline-block;
   vertical-align: top;
   margin: 0;
   padding: 0 10px;
-  @media (--pc-screen) {
+  @media ${customMedia.pcScreen} {
     margin: 0 10px;
     padding: 0;
   }
-}
+`;
 
-.ArticleChartList_Article {
+export const articleChartListArticle = css`
   display: flex;
   align-items: start;
   color: inherit;
@@ -49,9 +54,9 @@
     width: 60px;
     align-self: center;
   }
-}
+`;
 
-.ArticleChartList_Rank {
+export const articleChartListRank = css`
   width: 16px;
   text-align: center;
   align-self: center;
@@ -59,13 +64,13 @@
   font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.64px;
-  color: var(--gray_100);
+  color: ${Colors.gray_100};
   margin-right: 10px;
-}
+`;
 
-.ArticleChartList_Meta {
+export const articleChartListMeta = css`
   width: 182px;
-  color: #40474d;
+  color: ${Colors.slategray_80};
   padding-left: 10px;
   font-size: 13px;
   text-decoration: none;
@@ -75,17 +80,17 @@
   @media (min-width: 601px) {
     width: 304px;
   }
-}
+`;
 
-.ArticleChartList_Meta_Title {
+export const articleChartListMetaTitle = css`
   display: block;
   display: -webkit-box;
-  font-family: var(--defaultFontFamily);
+  font-family: ${defaultFontFamily};
   font-size: 15px;
   font-weight: 500;
   line-height: 1.53;
   letter-spacing: -0.5px;
-  color: var(--gray_100);
+  color: ${Colors.gray_100};
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -93,21 +98,17 @@
   word-wrap: break-word;
   word-break: break-all;
   white-space: normal;
-}
+`;
 
-.ArticleChartList_Meta_Link {
+export const articleChartListMetaLink = css`
   text-decoration: none;
-}
+`;
 
-.ArticleChartList_Meta_Channel {
+export const articleChartListMetaChannel = css`
   margin-top: 4px;
   display: block;
   font-family: var(--defaultFontFamily);
   font-size: 13px;
   letter-spacing: -0.3px;
-  color: var(--slategray_60);
-}
-
-.ArticleChartList_Channel_Link {
-  text-decoration: none;
-}
+  color: ${Colors.slategray_60};
+`;
