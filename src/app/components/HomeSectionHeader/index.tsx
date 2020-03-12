@@ -26,7 +26,7 @@ export const SectionHeader: React.SFC<{ title: string; link?: string }> = props 
     <div className="HomeSection_Header">
       {isMobile ? (
         <HeaderLink>
-          <h2 css={styles.sectionTitle} className="reset-heading">
+          <h2 css={styles.sectionTitle}>
             {title}
             {link && <Arrow />}
           </h2>

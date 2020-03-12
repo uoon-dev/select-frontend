@@ -1,15 +1,22 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { PageTitleText, FetchStatusFlag, COUNT_PER_PAGE } from 'app/constants';
+import { PageTitleText, FetchStatusFlag, COUNT_PER_PAGE, ARTICLE_CHART_COUNT } from 'app/constants';
 import { ArticleListType, Actions } from 'app/services/articleList';
 import ArticleGridList from 'app/components/ArticleList/GridList';
 import ArticleChartList from 'app/components/ArticleList/ChartList';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPageQuery } from 'app/services/routing/selectors';
-import { RidiSelectState } from 'app/store';
-import { ArticleKey } from 'app/types';
+import { Article } from 'app/services/article';
+import {
+  getPopularArticleListFetchStatus,
+  getRecentArticleList,
+  getPopularArticleList,
+  getRecentArticleListFetchStatus,
+  getPopularArticleListItemCount,
+  getRecentArticleListItemCount,
+} from 'app/services/articleList/selectors';
 
 type RouteProps = RouteComponentProps<{ listType: string }>;
 
@@ -19,37 +26,34 @@ const ArticleList: React.FunctionComponent<OwnProps> = props => {
   const { listType } = props.match.params;
   const page = useSelector(getPageQuery);
   const articleListType = `${listType}ArticleList` as ArticleListType;
-  const itemCountPerPage = articleListType === ArticleListType.POPULAR ? 100 : COUNT_PER_PAGE;
+  const itemCountPerPage =
+    articleListType === ArticleListType.POPULAR ? ARTICLE_CHART_COUNT : COUNT_PER_PAGE;
   let pageTitle: string;
+  let articles: Article[];
+  let fetchStatus: FetchStatusFlag;
+  let itemCount: number;
+
   switch (articleListType) {
     case ArticleListType.POPULAR:
       pageTitle = PageTitleText.ARTICLE_POPULAR;
+      articles = useSelector(getPopularArticleList);
+      itemCount = useSelector(getPopularArticleListItemCount);
+      fetchStatus = useSelector(getPopularArticleListFetchStatus);
       break;
     case ArticleListType.RECENT:
-      pageTitle = PageTitleText.ARTICLE_RECENT;
-      break;
     default:
-      pageTitle = '아티클 리스트';
+      pageTitle = PageTitleText.ARTICLE_RECENT;
+      articles = useSelector(getRecentArticleList);
+      itemCount = useSelector(getRecentArticleListItemCount);
+      fetchStatus = useSelector(getRecentArticleListFetchStatus);
   }
-  const articleList = useSelector(
-    (state: RidiSelectState) => state.articleList[articleListType]?.itemListByPage[page],
-  );
-  const fetchStatus = useSelector(
-    (state: RidiSelectState) =>
-      state.articleList[articleListType]?.itemListByPage[page]?.fetchStatus || FetchStatusFlag.IDLE,
-  );
-  const itemCount = useSelector(
-    (state: RidiSelectState) => state.articleList[articleListType]?.itemCount,
-  );
-  const articles = useSelector((state: RidiSelectState) =>
-    articleList?.itemList?.map((key: ArticleKey) => state.articlesById[key].article!),
-  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (
-      !articleList ||
-      (!articles && fetchStatus !== FetchStatusFlag.FETCHING) ||
+      !articles ||
+      fetchStatus !== FetchStatusFlag.FETCHING ||
       articles.length < itemCountPerPage
     ) {
       dispatch(
