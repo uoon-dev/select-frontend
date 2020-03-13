@@ -131,10 +131,34 @@ const BannerImageLink: React.FunctionComponent<BannerImageLinkProps> = props => 
   );
 };
 
+const BannerWidthSection = [320, 360, 375, 414, 450];
+const BannerWidthSet = [450, 720, 760, 828, 900];
+
 export default function CarouselItem(props: CarouselItemProps) {
   const { itemWidth, banner, active, invisible, index, section } = props;
   const [intersecting, setIntersecting] = React.useState(false);
   const ref = useViewportIntersection<HTMLLIElement>(setIntersecting);
+  const [imageSrcSet, setImageSrcSet] = React.useState({
+    src: '',
+    sizes: '',
+    srcSet: '',
+  });
+
+  const { main_image_url: imageUrl } = banner;
+  React.useEffect(() => {
+    const maxWidth = BannerWidthSection.find(sectionWidth => sectionWidth >= itemWidth);
+    const src = `${imageUrl}?w=${maxWidth}`;
+    const sizes = `${itemWidth}px`;
+    const srcSet = BannerWidthSet.map(
+      (bannerWidth: number) => `${imageUrl}?w=${bannerWidth} ${bannerWidth}w`,
+    ).join(',');
+    setImageSrcSet({
+      src,
+      sizes,
+      srcSet,
+    });
+  }, [itemWidth]);
+
   return (
     <CarouselItemContainer
       ref={ref}
@@ -150,9 +174,7 @@ export default function CarouselItem(props: CarouselItemProps) {
         tabIndex={active ? 0 : -1}
         section={section}
       >
-        {(!invisible || intersecting) && (
-          <BannerImage alt={banner.title} src={banner.main_image_url} />
-        )}
+        {(!invisible || intersecting) && <BannerImage alt={banner.title} {...imageSrcSet} />}
       </BannerImageLink>
     </CarouselItemContainer>
   );
