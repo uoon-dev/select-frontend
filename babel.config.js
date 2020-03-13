@@ -21,10 +21,7 @@ module.exports = {
     [
       'emotion',
       {
-        sourceMap: true,
-        autoLabel: process.env.NODE_ENV !== 'production',
         labelFormat: '[dirname]-[filename]--[local]',
-        cssPropOptimization: true,
       },
     ],
   ],
