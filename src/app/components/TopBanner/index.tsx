@@ -3,11 +3,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
-import BigBannerCarousel from 'app/components/BigBannerCarousel';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
 import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
 
+import BigBannerCarousel from './BigBannerCarousel';
 import CarouselItem from './CarouselItem';
 
 export const IMAGE_WIDTH = 432;
@@ -16,10 +16,11 @@ const SCROLL_DURATION = 5000;
 
 const CarouselWrapper = styled.div<{ itemWidth: number }>`
   width: 100%;
-  max-width: ${props => props.itemWidth * ((SLIDE_RADIUS + 1) * 2 + 1)}px;
+  max-width: ${props => props.itemWidth * (SLIDE_RADIUS * 2 + 1)}px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  background: #151829;
 `;
 
 const CarouselControllerWrapper = styled.div`

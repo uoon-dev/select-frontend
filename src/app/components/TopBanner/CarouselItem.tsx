@@ -2,11 +2,13 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { selectIsInApp } from 'app/services/environment/selectors';
+import { selectIsInApp, getSelectUrl } from 'app/services/environment/selectors';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { resetButton } from 'app/styles/customProperties';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
+import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { useViewportIntersection } from 'hooks/useViewportIntersection';
 
 const BannerImage = styled.img`
@@ -100,6 +102,7 @@ const BannerImageLink: React.FunctionComponent<BannerImageLinkProps> = props => 
   const { index, bannerId, landingUrl, tabIndex, children, section } = props;
   const dispatch = useDispatch();
   const isInApp = useSelector(selectIsInApp);
+  const SELECT_URL = useSelector(getSelectUrl);
 
   const handleLinkClick = () => {
     const trackingParams: DefaultTrackingParams = {
@@ -109,6 +112,19 @@ const BannerImageLink: React.FunctionComponent<BannerImageLinkProps> = props => 
     };
     dispatch(TrackingActions.trackClick({ trackingParams }));
   };
+
+  if (isRidiselectUrl(landingUrl)) {
+    return (
+      <Link
+        css={BannerImageLinkStyle}
+        to={landingUrl.replace(SELECT_URL, '')}
+        tabIndex={tabIndex}
+        onClick={handleLinkClick}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   if (isInApp) {
     return (
@@ -120,10 +136,10 @@ const BannerImageLink: React.FunctionComponent<BannerImageLinkProps> = props => 
         }}
       >
         {children}
-        {bannerId}
       </BannerImageButton>
     );
   }
+
   return (
     <BannerImageAnchor href={landingUrl} tabIndex={tabIndex} onClick={handleLinkClick}>
       {children}
