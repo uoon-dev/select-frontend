@@ -1,3 +1,4 @@
+import 'intersection-observer';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { render } from 'react-dom';

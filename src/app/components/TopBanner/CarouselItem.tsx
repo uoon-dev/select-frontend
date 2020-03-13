@@ -7,6 +7,7 @@ import { selectIsInApp } from 'app/services/environment/selectors';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { resetButton } from 'app/styles/customProperties';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
+import { useViewportIntersection } from 'hooks/useViewportIntersection';
 
 const BannerImage = styled.img`
   width: 100%;
@@ -132,10 +133,11 @@ const BannerImageLink: React.FunctionComponent<BannerImageLinkProps> = props => 
 
 export default function CarouselItem(props: CarouselItemProps) {
   const { itemWidth, banner, active, invisible, index, section } = props;
-  // const [intersecting, setIntersecting] = React.useState(false);
-  // const ref = useViewportIntersection<HTMLLIElement>(setIntersecting);
+  const [intersecting, setIntersecting] = React.useState(false);
+  const ref = useViewportIntersection<HTMLLIElement>(setIntersecting);
   return (
     <CarouselItemContainer
+      ref={ref}
       imageWidth={itemWidth}
       imageHeight={itemWidth}
       active={active}
@@ -148,7 +150,9 @@ export default function CarouselItem(props: CarouselItemProps) {
         tabIndex={active ? 0 : -1}
         section={section}
       >
-        <BannerImage alt={banner.title} src={banner.main_image_url} />
+        {(!invisible || intersecting) && (
+          <BannerImage alt={banner.title} src={banner.main_image_url} />
+        )}
       </BannerImageLink>
     </CarouselItemContainer>
   );
