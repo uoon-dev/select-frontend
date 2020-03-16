@@ -1,40 +1,24 @@
 import classNames from 'classnames';
-import differenceInHours from 'date-fns/differenceInHours';
-import React, { useState, useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import differenceInHours from 'date-fns/differenceInHours';
 
-import { HelmetWithTitle } from 'app/components';
-import BigBanner from 'app/components/Home/BigBanner';
-import { ConnectedHomeSectionList } from 'app/components/Home/HomeSectionList';
-import { PageTitleText } from 'app/constants';
-import {
-  Actions as CollectionActions,
-  CollectionId,
-  CollectionsState,
-  ReservedCollectionIds,
-} from 'app/services/collection';
 import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
+import { PageTitleText } from 'app/constants';
+import { HelmetWithTitle } from 'app/components';
+import HomeSectionList from 'app/components/Home/HomeSectionList';
+import BigBanner from 'app/components/Home/BigBanner';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
+import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
 
-interface HomeStateProps {
-  fetchedAt: number | null;
-  isUserFetching: boolean;
-  collections: CollectionsState;
-}
-interface State {
-  isInitialized: boolean;
-}
-
-export const Home: React.FunctionComponent<HomeStateProps> = props => {
+const Home: React.FunctionComponent = () => {
   let initialDispatchTimeout: number | null;
 
   const fetchedAt = useSelector((state: RidiSelectState) => state.home.fetchedAt);
   const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
   const collections = useSelector((state: RidiSelectState) => state.collectionsById);
-
-  const [isInitialized, setIsInitialized] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -52,14 +36,13 @@ export const Home: React.FunctionComponent<HomeStateProps> = props => {
       }
 
       initialDispatchTimeout = null;
-      setIsInitialized(true);
       forceCheck();
     });
+
     return () => {
       if (initialDispatchTimeout) {
         window.clearTimeout(initialDispatchTimeout);
         initialDispatchTimeout = null;
-        setIsInitialized(true);
       }
     };
   }, []);
@@ -87,7 +70,7 @@ export const Home: React.FunctionComponent<HomeStateProps> = props => {
         <h1>리디셀렉트 홈</h1>
       </div>
       <BigBanner />
-      <ConnectedHomeSectionList />
+      <HomeSectionList />
     </main>
   );
 };

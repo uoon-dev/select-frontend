@@ -151,7 +151,6 @@ export const Routes: React.SFC<Props> = props => {
               component={ClosingReservedBooks}
               {...props}
             />
-
             {/* 셀렉트 2.0 - Article */}
             <Route path={RoutePaths.ARTICLE_HOME} component={ArticleHome} {...props} />
             <Route path={RoutePaths.ARTICLE_CHANNELS} component={ArticleChannelList} {...props} />
