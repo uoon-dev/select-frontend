@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import differenceInHours from 'date-fns/differenceInHours';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 
 import { HelmetWithTitle } from 'app/components';
 import BigBanner from 'app/components/Home/BigBanner';
@@ -20,89 +20,76 @@ import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 
 interface HomeStateProps {
   fetchedAt: number | null;
+  isUserFetching: boolean;
   collections: CollectionsState;
 }
 interface State {
   isInitialized: boolean;
 }
 
-class Home extends React.PureComponent<
-  HomeStateProps & ReturnType<typeof mapDispatchToProps>,
-  State
-> {
-  private initialDispatchTimeout?: number | null;
+export const Home: React.FunctionComponent<HomeStateProps> = props => {
+  let initialDispatchTimeout: number | null;
 
-  public state: State = {
-    isInitialized: false,
-  };
+  const fetchedAt = useSelector((state: RidiSelectState) => state.home.fetchedAt);
+  const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
+  const collections = useSelector((state: RidiSelectState) => state.collectionsById);
 
-  public componentDidMount() {
-    this.initialDispatchTimeout = window.setTimeout(() => {
-      const {
-        fetchedAt,
-        collections,
-        dispatchLoadHomeRequest,
-        dispatchLoadCollectionRequest,
-        dispatchLoadPopularBooksRequest,
-      } = this.props;
+  const [isInitialized, setIsInitialized] = useState(false);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    initialDispatchTimeout = window.setTimeout(() => {
       sendPostRobotInitialRendered();
       if (!fetchedAt || Math.abs(differenceInHours(fetchedAt, Date.now())) >= 3) {
-        dispatchLoadHomeRequest();
-        dispatchLoadCollectionRequest(ReservedCollectionIds.SPOTLIGHT);
-      }
-      if (!collections.popular?.itemListByPage[1]?.itemList) {
-        dispatchLoadPopularBooksRequest();
+        dispatch(Actions.loadHomeRequest());
+        dispatch(
+          CollectionActions.loadCollectionRequest({
+            collectionId: ReservedCollectionIds.SPOTLIGHT,
+            page: 1,
+          }),
+        );
       }
 
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
+      initialDispatchTimeout = null;
+      setIsInitialized(true);
       forceCheck();
     });
-  }
+    return () => {
+      if (initialDispatchTimeout) {
+        window.clearTimeout(initialDispatchTimeout);
+        initialDispatchTimeout = null;
+        setIsInitialized(true);
+      }
+    };
+  }, []);
 
-  public componentWillUnmount() {
-    if (this.initialDispatchTimeout) {
-      window.clearTimeout(this.initialDispatchTimeout);
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
+  useEffect(() => {
+    if (isUserFetching) {
+      return;
     }
-  }
+    if (!collections.popular?.itemListByPage[1]?.itemList) {
+      dispatch(CollectionActions.loadPopularBooksRequest({ page: 1 }));
+    }
+  }, [isUserFetching]);
 
-  public render() {
-    return (
-      <main
-        className={classNames(
-          'PageHome',
-          'SceneWrapper',
-          'SceneWrapper_WithGNB',
-          'SceneWrapper_WithLNB',
-        )}
-      >
-        <HelmetWithTitle titleName={PageTitleText.HOME} />
-        <div className="a11y">
-          <h1>리디셀렉트 홈</h1>
-        </div>
-        <BigBanner />
-        <ConnectedHomeSectionList />
-      </main>
-    );
-  }
-}
+  return (
+    <main
+      className={classNames(
+        'PageHome',
+        'SceneWrapper',
+        'SceneWrapper_WithGNB',
+        'SceneWrapper_WithLNB',
+      )}
+    >
+      <HelmetWithTitle titleName={PageTitleText.HOME} />
+      <div className="a11y">
+        <h1>리디셀렉트 홈</h1>
+      </div>
+      <BigBanner />
+      <ConnectedHomeSectionList />
+    </main>
+  );
+};
 
-const mapStateToProps = (state: RidiSelectState): HomeStateProps => ({
-  fetchedAt: state.home.fetchedAt,
-  collections: state.collectionsById,
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  dispatchLoadHomeRequest: () => dispatch(Actions.loadHomeRequest()),
-  dispatchLoadCollectionRequest: (collectionId: CollectionId) =>
-    dispatch(CollectionActions.loadCollectionRequest({ collectionId, page: 1 })),
-  dispatchLoadPopularBooksRequest: () =>
-    dispatch(CollectionActions.loadPopularBooksRequest({ page: 1 })),
-});
-
-const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(Home);
-
-export default ConnectedHome;
+export default Home;
