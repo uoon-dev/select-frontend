@@ -60,6 +60,10 @@ const SlideBadge = styled.p`
   line-height: 22px;
   text-align: center;
   color: white;
+
+  strong {
+    font-family: inherit;
+  }
 `;
 
 const ArrowWrapper = styled.div`
