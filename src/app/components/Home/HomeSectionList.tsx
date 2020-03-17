@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 import { RidiSelectState } from 'app/store';
+import HomeSection from 'app/components/Home/HomeSection';
 import { groupCollections } from 'app/services/home/uitls';
-import { ConnectedHomeSection } from 'app/components/Home/HomeSection';
 import { CollectionType, ReservedCollectionIds } from 'app/services/collection';
 import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 
@@ -70,7 +70,7 @@ const HomeSectionList: React.FunctionComponent = () => {
   return (
     <div className="PageHome_Content">
       <div className="PageHome_Panel">
-        <ConnectedHomeSection key={spotlight.id} collection={spotlight} onScreen />
+        <HomeSection key={spotlight.id} collection={spotlight} onScreen />
       </div>
       {collectionIdList
         .map(
@@ -90,7 +90,7 @@ const HomeSectionList: React.FunctionComponent = () => {
             }}
           >
             {collectionGroup.map((collection, collectionIdx) => (
-              <ConnectedHomeSection
+              <HomeSection
                 key={`home_collection_${collection.id}`}
                 collection={collection}
                 onScreen={renderedLastGroupIdx >= idx}

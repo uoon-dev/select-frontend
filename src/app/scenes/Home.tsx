@@ -1,6 +1,6 @@
 import classNames from 'classnames';
+import React, { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload';
-import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import differenceInHours from 'date-fns/differenceInHours';
 

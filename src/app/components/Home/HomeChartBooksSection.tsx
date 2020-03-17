@@ -22,7 +22,7 @@ interface HomeChartBooksSectionProps {
   order?: number;
 }
 
-export const ConnectedHomeChartBooksSection: React.FunctionComponent<HomeChartBooksSectionProps> = props => {
+export const HomeChartBooksSection: React.FunctionComponent<HomeChartBooksSectionProps> = props => {
   const { books, order, title } = props;
   const isMobile = useSelector(getIsMobile);
   const dispatch = useDispatch();

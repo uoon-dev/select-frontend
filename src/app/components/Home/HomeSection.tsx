@@ -16,8 +16,8 @@ import { getIsMobile } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
-import { ConnectedHomeSpotlightSection } from 'app/components/Home/HomeSpotlightSection';
-import { ConnectedHomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
+import { HomeSpotlightSection } from 'app/components/Home/HomeSpotlightSection';
+import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
 
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
@@ -31,7 +31,7 @@ interface SectionHeaderProps {
   isMobile: boolean;
 }
 
-export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = props => {
+const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const { collection, onScreen, order } = props;
@@ -55,17 +55,13 @@ export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = p
 
   if (type === CollectionType.SPOTLIGHT) {
     return (
-      <ConnectedHomeSpotlightSection
-        books={collectionBooks}
-        title={title}
-        collectionId={collection.id}
-      />
+      <HomeSpotlightSection books={collectionBooks} title={title} collectionId={collection.id} />
     );
   }
 
   if (type === CollectionType.CHART) {
     return (
-      <ConnectedHomeChartBooksSection
+      <HomeChartBooksSection
         books={collectionBooks}
         title={title}
         collectionId={id}
@@ -76,11 +72,7 @@ export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = p
 
   return (
     <section className="HomeSection">
-      <SectionHeader
-        title={title || ''}
-        link={collectionToPath({ collectionId: id })}
-        isMobile={isMobile}
-      />
+      <SectionHeader title={title || ''} link={collectionToPath({ collectionId: id })} />
       <ConnectedInlineHorizontalBookList
         books={collectionBooks}
         serviceTitleForTracking="select-book"
@@ -92,3 +84,5 @@ export const ConnectedHomeSection: React.FunctionComponent<HomeSectionProps> = p
     </section>
   );
 };
+
+export default HomeSection;
