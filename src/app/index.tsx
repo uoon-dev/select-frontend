@@ -1,3 +1,4 @@
+import 'intersection-observer';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { render } from 'react-dom';
@@ -15,6 +16,8 @@ import { fetchUserInfo } from 'app/services/user/helper';
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
 import { initializeScrollEnd } from 'app/utils/onWindowScrollEnd';
 import { setInitializeInAppEvent } from 'app/utils/inAppMessageEvents';
+import { ViewportIntersectionProvider } from 'hooks/useViewportIntersection';
+
 import { selectIsInApp } from './services/environment/selectors';
 import ResponsiveManager from './ResponsiveManager';
 
@@ -55,8 +58,10 @@ class App extends React.Component {
         />
         <ResponsiveManager />
         <CacheProvider value={styleCache}>
-          <ConnectedEnvBadge />
-          <ConnectedRoutes />
+          <ViewportIntersectionProvider>
+            <ConnectedEnvBadge />
+            <ConnectedRoutes />
+          </ViewportIntersectionProvider>
         </CacheProvider>
       </Provider>
     );

@@ -23,3 +23,5 @@ export const getIsSimpleGNB = createSelector(
   [selectPathname],
   (pathname: string): boolean => pathname === RoutePaths.INTRO || pathname === RoutePaths.VOUCHER,
 );
+
+export const getSelectUrl = (state: RidiSelectState) => state.environment.SELECT_URL;
