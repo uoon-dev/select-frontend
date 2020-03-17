@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
 import { ConnectedGridBookList, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
-import { MAX_WIDTH, PageTitleText } from 'app/constants';
+import { PageTitleText } from 'app/constants';
 
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
@@ -99,21 +98,16 @@ export class NewReleases extends React.Component<Props> {
               books={newReleases.itemListByPage[page].itemList.map(id => books[id].book!)}
             />
             {itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/new-releases?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/new-releases?page=${p}`,
+                  }),
+                }}
+              />
             )}
           </>
         )}

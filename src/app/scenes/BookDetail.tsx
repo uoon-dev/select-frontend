@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React from 'react';
 import { forceCheck } from 'react-lazyload';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
@@ -12,10 +11,10 @@ import { ConnectedBookDetailMetaContents } from 'app/components/BookDetail/MetaC
 import { ConnectBookDetailMovieTrailer } from 'app/components/BookDetail/MovieTrailer';
 import { ConnectBookDetailNoticeList } from 'app/components/BookDetail/NoticeList';
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
-import { FetchStatusFlag, MAX_WIDTH } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { BookDetailPlaceholder } from 'app/placeholder/BookDetailPlaceholder';
 import { Actions as BookActions, Book, BookOwnershipStatus, BookTitle } from 'app/services/book';
-import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
+import { getSolidBackgroundColorRGBString, getIsMobile } from 'app/services/commonUI/selectors';
 import { EnvironmentState } from 'app/services/environment';
 import { Actions as MySelectActions } from 'app/services/mySelect';
 import { RidiSelectState } from 'app/store';
@@ -33,6 +32,7 @@ interface BookDetailStateProps {
   solidBackgroundColorRGBString: string;
   ownershipStatus?: BookOwnershipStatus;
   ownershipFetchStatus?: FetchStatusFlag;
+  isMobile: boolean;
 }
 
 type RouteProps = RouteComponentProps<{ bookId: string }>;
@@ -81,44 +81,40 @@ class BookDetail extends React.Component<Props> {
   }
 
   public render() {
-    const { bookId, title, env, solidBackgroundColorRGBString } = this.props;
+    const { bookId, title, env, solidBackgroundColorRGBString, isMobile } = this.props;
 
     if (!title || !title.main) {
       return <BookDetailPlaceholder />;
     }
     return (
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        {isMobile => (
-          <main className={classNames('SceneWrapper', 'PageBookDetail')}>
-            <HelmetWithTitle
-              titleName={title && title.main ? title.main : null}
-              meta={[
-                {
-                  name: 'theme-color',
-                  content: solidBackgroundColorRGBString,
-                },
-              ]}
-            />
-            {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
-            <ConnectedBookDetailHeader bookId={bookId}>
-              {!isMobile && <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />}
-            </ConnectedBookDetailHeader>
-            <BookDetailPanelWrapper renderCondition={isMobile}>
-              {isMobile ? (
-                <>
-                  <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
-                  <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
-                  <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
-                </>
-              ) : (
-                <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
-              )}
-            </BookDetailPanelWrapper>
-            {!isMobile && <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />}
-            <ConnectedBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
-          </main>
-        )}
-      </MediaQuery>
+      <main className={classNames('SceneWrapper', 'PageBookDetail')}>
+        <HelmetWithTitle
+          titleName={title && title.main ? title.main : null}
+          meta={[
+            {
+              name: 'theme-color',
+              content: solidBackgroundColorRGBString,
+            },
+          ]}
+        />
+        {env.platform.isRidibooks && <ConnectedPageHeader pageTitle={title.main} />}
+        <ConnectedBookDetailHeader bookId={bookId}>
+          {!isMobile && <ConnectedBookDetailMetaContents bookId={bookId} isMobile={false} />}
+        </ConnectedBookDetailHeader>
+        <BookDetailPanelWrapper renderCondition={isMobile}>
+          {isMobile ? (
+            <>
+              <ConnectedBookDetailMetaContents bookId={bookId} isMobile={isMobile} />
+              <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
+              <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />
+            </>
+          ) : (
+            <ConnectBookDetailNoticeList bookId={bookId} isMobile={isMobile} />
+          )}
+        </BookDetailPanelWrapper>
+        {!isMobile && <ConnectBookDetailMovieTrailer bookId={bookId} isMobile={isMobile} />}
+        <ConnectedBookDetailContentPanels bookId={bookId} isMobile={isMobile} />
+      </main>
     );
   }
 }
@@ -130,6 +126,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
   const book = stateExists ? bookState.book : undefined;
   const bookDetail = stateExists ? bookState.bookDetail : undefined;
   const fetchStatus = stateExists ? bookState.detailFetchStatus : FetchStatusFlag.IDLE;
+  const isMobile = getIsMobile(state);
 
   return {
     bookId,
@@ -147,6 +144,7 @@ const mapStateToProps = (state: RidiSelectState, ownProps: OwnProps): BookDetail
       !!bookDetail && bookState.recommendedBooks ? bookState.recommendedBooks : undefined,
     // Data that can be pre-fetched in home
     title: bookDetail ? bookDetail.title : book ? book.title : undefined,
+    isMobile,
   };
 };
 

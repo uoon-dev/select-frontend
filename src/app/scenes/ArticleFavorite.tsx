@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { ArticleEmpty } from 'app/components/ArticleEmpty';
 import { GridArticleList } from 'app/components/GridArticleList';
-import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
+import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleFavorite';
 import { getFavoriteArticleList } from 'app/services/articleFavorite/selectors';
@@ -97,21 +96,16 @@ const ArticleFavorite: React.FunctionComponent = () => {
                 isFullWidthAvailable
                 gridListSizeClassNames="GridArticleList-large"
               />
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `${RoutePaths.ARTICLE_FAVORITE}?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `${RoutePaths.ARTICLE_FAVORITE}?page=${p}`,
+                  }),
+                }}
+              />
             </>
           ) : (
             <ArticleEmpty iconName="document" description="좋아한 아티클이 없습니다." />

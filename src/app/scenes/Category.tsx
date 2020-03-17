@@ -1,6 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
 
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
@@ -19,8 +21,6 @@ import { RidiSelectState } from 'app/store';
 import { Pagination } from 'app/components/Pagination';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
-import classNames from 'classnames';
-import { Link, LinkProps } from 'react-router-dom';
 
 interface CategoryStateProps {
   isIosInApp: boolean;
@@ -159,21 +159,16 @@ class Category extends React.Component<Props, State> {
               books={category.itemListByPage[page].itemList.map(id => books[id].book!)}
             />
             {!isNaN(itemCount) && itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/categories?id=${categoryId}&page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/categories?id=${categoryId}&page=${p}`,
+                  }),
+                }}
+              />
             )}
           </>
         )}

@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +11,7 @@ import { HelmetWithTitle, Pagination } from 'app/components';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { GridArticleList } from 'app/components/GridArticleList';
 import { SlideChannelList } from 'app/components/SlideChannelList';
-import { FetchStatusFlag, MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
+import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
@@ -99,21 +98,16 @@ const ArticleFollowing: React.FunctionComponent = () => {
                 <GridArticleListPlaceholder gridSize="large" />
               )}
             </div>
-            <MediaQuery maxWidth={MAX_WIDTH}>
-              {isMobile => (
-                <Pagination
-                  currentPage={page}
-                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                  isMobile={isMobile}
-                  item={{
-                    el: Link,
-                    getProps: (p): LinkProps => ({
-                      to: `${RoutePaths.ARTICLE_FOLLOWING}?page=${p}`,
-                    }),
-                  }}
-                />
-              )}
-            </MediaQuery>
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(itemCount / itemCountPerPage)}
+              item={{
+                el: Link,
+                getProps: (p): LinkProps => ({
+                  to: `${RoutePaths.ARTICLE_FOLLOWING}?page=${p}`,
+                }),
+              }}
+            />
           </>
         ) : (
           <ArticleEmpty

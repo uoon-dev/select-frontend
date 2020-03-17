@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
 
@@ -15,7 +14,7 @@ import { RidiSelectState } from 'app/store';
 import { BookState } from 'app/services/book';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Actions, ChartCollectionState } from 'app/services/collection';
-import { MAX_WIDTH, PageTitleText, COUNT_PER_PAGE } from 'app/constants';
+import { PageTitleText, COUNT_PER_PAGE } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 interface CollectionStateProps {
@@ -105,21 +104,16 @@ export class Charts extends React.Component<Props> {
               page={page}
             />
             {itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / COUNT_PER_PAGE)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/charts?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / COUNT_PER_PAGE)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/charts?page=${p}`,
+                  }),
+                }}
+              />
             )}
           </>
         )}

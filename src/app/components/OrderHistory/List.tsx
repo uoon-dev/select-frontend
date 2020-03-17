@@ -1,14 +1,12 @@
+import { Empty } from '@ridi/rsg';
 import React from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import MediaQuery from 'react-responsive';
 
-import { Empty } from '@ridi/rsg';
-
-import { MAX_WIDTH } from 'app/constants';
 import { RidiSelectState } from 'app/store';
 import { OrderHistoryListInfo } from 'app/components/OrderHistory/Info';
 import { OrderHistoryListAmountInfo } from 'app/components/OrderHistory/AmountInfo';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 interface OrderHistoryListProps {
   page: number;
@@ -16,6 +14,7 @@ interface OrderHistoryListProps {
 
 export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = props => {
   const { page } = props;
+  const isMobile = useSelector(getIsMobile);
   const orderHistory = useSelector((state: RidiSelectState) => state.user.purchaseHistory);
   const { itemList } = orderHistory.itemListByPage[page];
 
@@ -24,35 +23,31 @@ export const OrderHistoryList: React.FunctionComponent<OrderHistoryListProps> = 
   }
   return (
     <ul className="OrderHistoryList">
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        {isMobile =>
-          itemList.map(item => (
-            <li
-              className={classNames({
-                OrderHistoryItem: true,
-                'OrderHistoryItem-canceled': item.isCanceled,
-              })}
-              key={item.id}
-            >
-              {isMobile ? (
-                <>
-                  <div className="OrderHistoryItem_Info">
-                    <OrderHistoryListInfo payment={item} />
-                  </div>
-                  <div className="OrderHistoryItem_AmountInfo">
-                    <OrderHistoryListAmountInfo payment={item} />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <OrderHistoryListInfo payment={item} />
-                  <OrderHistoryListAmountInfo payment={item} />
-                </>
-              )}
-            </li>
-          ))
-        }
-      </MediaQuery>
+      {itemList.map(item => (
+        <li
+          className={classNames({
+            OrderHistoryItem: true,
+            'OrderHistoryItem-canceled': item.isCanceled,
+          })}
+          key={item.id}
+        >
+          {isMobile ? (
+            <>
+              <div className="OrderHistoryItem_Info">
+                <OrderHistoryListInfo payment={item} />
+              </div>
+              <div className="OrderHistoryItem_AmountInfo">
+                <OrderHistoryListAmountInfo payment={item} />
+              </div>
+            </>
+          ) : (
+            <>
+              <OrderHistoryListInfo payment={item} />
+              <OrderHistoryListAmountInfo payment={item} />
+            </>
+          )}
+        </li>
+      ))}
     </ul>
   );
 };

@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
 
@@ -65,21 +64,16 @@ const OrderHistory: React.FunctionComponent = () => {
           <OrderHistoryList page={currentPage} />
           {itemCount > 0 && (
             <>
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/order-history?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/order-history?page=${p}`,
+                  }),
+                }}
+              />
               <ul className="NoticeList">
                 <li className="NoticeItem">
                   결제 취소는 결제일로부터 7일 이내 이용권 대상 도서를 1권 이상 다운로드하지 않는

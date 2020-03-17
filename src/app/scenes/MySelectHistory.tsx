@@ -1,12 +1,11 @@
+import { Button, CheckBox, Empty } from '@ridi/rsg';
+import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
-import { Button, CheckBox, Empty } from '@ridi/rsg';
-
 import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
-import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 
 import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
@@ -18,11 +17,12 @@ import { RidiSelectState } from 'app/store';
 import { getNotAvailableConvertDateDiff } from 'app/utils/expiredDate';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
-import classNames from 'classnames';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 interface StateProps {
   mySelectHistory: MySelectHistroyState;
   page: number;
+  isMobile: boolean;
 }
 
 type Props = StateProps & ReturnType<typeof mapDispatchToProps>;
@@ -118,6 +118,7 @@ class MySelectHistory extends React.Component<Props, State> {
   }
 
   public renderBooks(books: MySelectBook[]) {
+    const { isMobile } = this.props;
     return (
       <ul className="MySelectHistoryBookList">
         {books.map(book => (
@@ -136,19 +137,15 @@ class MySelectHistory extends React.Component<Props, State> {
                 getNotAvailableConvertDateDiff(book.endDatetime) < 0 ? 'not_available' : null,
               )}
             >
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <DTOBookThumbnail
-                    book={book}
-                    width={isMobile ? 50 : 80}
-                    linkUrl={`/book/${book.id}`}
-                    linkType="Link"
-                    imageClassName="MySelectHistoryBookList_Thumbnail"
-                    linkWrapperClassName="MySelectHistoryBookList_Link"
-                    expired={getNotAvailableConvertDateDiff(book.endDatetime) < 0}
-                  />
-                )}
-              </MediaQuery>
+              <DTOBookThumbnail
+                book={book}
+                width={isMobile ? 50 : 80}
+                linkUrl={`/book/${book.id}`}
+                linkType="Link"
+                imageClassName="MySelectHistoryBookList_Thumbnail"
+                linkWrapperClassName="MySelectHistoryBookList_Link"
+                expired={getNotAvailableConvertDateDiff(book.endDatetime) < 0}
+              />
               <Link to={`/book/${book.id}`} className="MySelectHistoryBookList_Link">
                 <div className="MySelectHistoryBookList_Meta">
                   <span className="MySelectHistoryBookList_RegisteredDate">
@@ -218,7 +215,6 @@ class MySelectHistory extends React.Component<Props, State> {
                       el: Link,
                       getProps: p => ({ to: `/my-select-history?page=${p}` } as LinkProps),
                     }}
-                    isMobile
                     totalPages={Math.ceil(mySelectHistory.itemCount / 10)}
                   />
                 )}
@@ -234,6 +230,7 @@ class MySelectHistory extends React.Component<Props, State> {
 const mapStateToProps = (state: RidiSelectState): StateProps => ({
   mySelectHistory: state.user.mySelectHistory,
   page: getPageQuery(state),
+  isMobile: getIsMobile(state),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

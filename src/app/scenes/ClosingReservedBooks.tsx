@@ -11,13 +11,12 @@ import {
   Pagination,
 } from 'app/components';
 import { Tab, Tabs } from 'app/components/Tabs';
-import { MAX_WIDTH, PageTitleText, RoutePaths } from 'app/constants';
+import { PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { Actions, ClosingReservedBooksState } from 'app/services/closingReservedBooks';
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
 import { getClosingReservedBooksTermQuery, getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 
@@ -153,21 +152,16 @@ class ClosingReservedBooks extends React.Component<Props> {
                   miscTracking={JSON.stringify({ sect_page: page })}
                   books={itemListByPage[page].itemList}
                 />
-                <MediaQuery maxWidth={MAX_WIDTH}>
-                  {isMobile => (
-                    <Pagination
-                      currentPage={page}
-                      totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                      isMobile={isMobile}
-                      item={{
-                        el: Link,
-                        getProps: (p): LinkProps => ({
-                          to: `${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=${currentTerm}&page=${p}`,
-                        }),
-                      }}
-                    />
-                  )}
-                </MediaQuery>
+                <Pagination
+                  currentPage={page}
+                  totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                  item={{
+                    el: Link,
+                    getProps: (p): LinkProps => ({
+                      to: `${RoutePaths.CLOSING_RESERVED_BOOKS}?termType=${currentTerm}&page=${p}`,
+                    }),
+                  }}
+                />
               </>
             )}
           </>

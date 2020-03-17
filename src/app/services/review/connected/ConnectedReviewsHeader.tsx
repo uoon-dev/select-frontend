@@ -1,4 +1,6 @@
-import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+import React from 'react';
+import { connect, useSelector } from 'react-redux';
+
 import { BuyerRatingSummaryBlock } from 'app/services/review/components';
 import { ConnectedCommentForm } from 'app/services/review/connected/ConnectedCommentForm';
 import { ConnectedCommentList } from 'app/services/review/connected/ConnectedCommentList';
@@ -8,9 +10,7 @@ import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getMyReview, getReviewSummary } from 'app/services/review/selectors';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-import React from 'react';
-import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 interface ReviewsHeaderProps {
   bookId: number;
@@ -33,36 +33,34 @@ function mapStateToProps(
 
 export const ReviewsHeader: React.SFC<ReviewsHeaderProps> = props => {
   const { bookId, myReviewId, reviewSummary, checkAuth } = props;
+  const isMobile = useSelector(getIsMobile);
 
-  return (
+  return isMobile ? (
     <>
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        <BuyerRatingSummaryBlock summary={reviewSummary} />
-        <div className="ReviewsHeader_Dark">
-          <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
-          <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
-            <div className="Comments">
-              <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
-              <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
-            </div>
-          </ConnectedMyReview>
-        </div>
-      </MediaQuery>
-      <MediaQuery minWidth={MIN_WIDTH}>
-        <div className="ReviewsHeader">
-          <BuyerRatingSummaryBlock summary={reviewSummary} />
-          <div className="ReviewsHeader_Right">
-            <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
-            <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
-              <div className="Comments">
-                <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
-                <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
-              </div>
-            </ConnectedMyReview>
+      <BuyerRatingSummaryBlock summary={reviewSummary} />
+      <div className="ReviewsHeader_Dark">
+        <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
+        <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
+          <div className="Comments">
+            <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
+            <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
           </div>
-        </div>
-      </MediaQuery>
+        </ConnectedMyReview>
+      </div>
     </>
+  ) : (
+    <div className="ReviewsHeader">
+      <BuyerRatingSummaryBlock summary={reviewSummary} />
+      <div className="ReviewsHeader_Right">
+        <ConnectedStarRatingForm bookId={bookId} checkAuth={checkAuth} />
+        <ConnectedMyReview bookId={bookId} checkAuth={checkAuth}>
+          <div className="Comments">
+            <ConnectedCommentList bookId={bookId} reviewId={myReviewId} />
+            <ConnectedCommentForm bookId={bookId} reviewId={myReviewId} checkAuth={checkAuth} />
+          </div>
+        </ConnectedMyReview>
+      </div>
+    </div>
   );
 };
 
