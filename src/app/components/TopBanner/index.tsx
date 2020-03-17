@@ -44,7 +44,7 @@ const CarouselController = styled.div<{ itemWidth: number }>`
   height: ${props => props.itemWidth}px;
 `;
 
-const SlideBadge = styled.div`
+const SlideBadge = styled.p`
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -55,6 +55,7 @@ const SlideBadge = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
 
+  font-family: Roboto, Sans-serif;
   font-size: 12px;
   line-height: 22px;
   text-align: center;
@@ -139,8 +140,9 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
 
   // 반응형 너비 조정
+  const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
   const isResponsive = useMediaQuery({ maxWidth: `${IMAGE_WIDTH}px` });
-  const [width, setWidth] = React.useState(IMAGE_WIDTH);
+  const [width, setWidth] = React.useState(initialWidth);
   React.useEffect(() => {
     function handleResize() {
       setWidth(window.innerWidth);
@@ -283,7 +285,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
       >
         {({ index, activeIndex, itemWidth }) => (
           <CarouselItem
-            key={index}
+            key={`${section}_${index}`}
             index={index}
             itemWidth={itemWidth}
             banner={banners[index]}
