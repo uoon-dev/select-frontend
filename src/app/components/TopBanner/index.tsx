@@ -139,8 +139,9 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
 
   // 반응형 너비 조정
+  const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
   const isResponsive = useMediaQuery({ maxWidth: `${IMAGE_WIDTH}px` });
-  const [width, setWidth] = React.useState(IMAGE_WIDTH);
+  const [width, setWidth] = React.useState(initialWidth);
   React.useEffect(() => {
     function handleResize() {
       setWidth(window.innerWidth);
