@@ -283,7 +283,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
       >
         {({ index, activeIndex, itemWidth }) => (
           <CarouselItem
-            key={index}
+            key={`${section}_${index}`}
             index={index}
             itemWidth={itemWidth}
             banner={banners[index]}
