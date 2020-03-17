@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
@@ -16,7 +15,7 @@ import { getIsMobile } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { collectionToPath } from 'app/utils/toPath';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
-import { HomeSpotlightSection } from 'app/components/Home/HomeSpotlightSection';
+import HomeSpotlightSection from 'app/components/Home/HomeSpotlightSection';
 import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
 
 interface HomeSectionProps {
@@ -42,6 +41,7 @@ const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   );
 
   if (
+    !itemListByPage[1] ||
     (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
       itemListByPage[1].itemList.length < 1) ||
     itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR

@@ -1,4 +1,4 @@
-import { all, call, put, take, takeEvery, select } from 'redux-saga/effects';
+import { all, call, put, take, takeEvery, select, takeLatest } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { Actions, ReservedCollectionIds } from 'app/services/collection';
@@ -68,9 +68,12 @@ export function* loadPopularBooksRequest({
   payload,
 }: ReturnType<typeof Actions.loadPopularBooksRequest>) {
   const { page } = payload;
+
+  const isLoggedIn = yield select((state: RidiSelectState) => state.user.isLoggedIn);
   let userGroup = yield select((state: RidiSelectState) => state.user.userGroup);
+
   try {
-    if (!userGroup) {
+    if (isLoggedIn && !userGroup) {
       const userGroupResponse = yield call(requestUserGroup);
       userGroup = userGroupResponse.userGroup;
       yield put(UserActions.fetchUserGroupInfo({ userGroup }));
