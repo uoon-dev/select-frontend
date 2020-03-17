@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
@@ -33,15 +34,17 @@ interface SectionHeaderProps {
 const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
+  const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
   const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;
+
   const collectionBooks: Book[] = itemListByPage[1]?.itemList?.map(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     (bookId: number) => books[bookId]?.book!,
   );
 
   if (
-    !itemListByPage[1] ||
+    (type === CollectionType.CHART && isUserFetching) ||
     (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
       itemListByPage[1].itemList.length < 1) ||
     itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR

@@ -34,14 +34,7 @@ const HomeSectionList: React.FunctionComponent = () => {
       return true;
     });
   };
-  const scrollEvent: EventListener = throttle(() => checkSectionsOnViewport(), 500);
-
-  useEffect(() => {
-    window.addEventListener('scroll', scrollEvent);
-    return () => {
-      window.removeEventListener('scroll', scrollEvent);
-    };
-  }, []);
+  const scrollEvent: EventListener = throttle(checkSectionsOnViewport, 500);
 
   useEffect(() => {
     if (!fetchedAt) {
@@ -52,6 +45,15 @@ const HomeSectionList: React.FunctionComponent = () => {
       window.removeEventListener('scroll', scrollEvent);
     }
   }, [fetchedAt, renderedLastGroupIdx]);
+
+  useEffect(() => {
+    window.removeEventListener('scroll', scrollEvent);
+    window.addEventListener('scroll', scrollEvent);
+
+    return () => {
+      window.removeEventListener('scroll', scrollEvent);
+    };
+  }, [panels]);
 
   if (!fetchedAt) {
     return (
@@ -83,8 +85,11 @@ const HomeSectionList: React.FunctionComponent = () => {
             className="PageHome_Panel"
             key={`home_collection_group_${idx}`}
             ref={ref => {
+              if (!ref) {
+                return;
+              }
               if (panels[idx] !== ref) {
-                panels[idx] = ref!;
+                panels[idx] = ref;
                 checkSectionsOnViewport();
               }
             }}
