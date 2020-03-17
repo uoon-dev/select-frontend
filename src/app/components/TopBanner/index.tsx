@@ -44,7 +44,7 @@ const CarouselController = styled.div<{ itemWidth: number }>`
   height: ${props => props.itemWidth}px;
 `;
 
-const SlideBadge = styled.div`
+const SlideBadge = styled.p`
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -55,6 +55,7 @@ const SlideBadge = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
 
+  font-family: Roboto, Sans-serif;
   font-size: 12px;
   line-height: 22px;
   text-align: center;
