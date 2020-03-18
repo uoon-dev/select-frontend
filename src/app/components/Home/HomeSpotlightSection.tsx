@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MediaQuery from 'react-responsive';
 
-import NewBadge from 'svgs/NewBadge';
+import NewBadge from 'svgs/NewBadge.svg';
 import { Book } from 'app/services/book';
 import { stringifyAuthors } from 'app/utils/utils';
 import { SliderControls } from 'app/components/Home/SliderControls';

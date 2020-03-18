@@ -8,8 +8,8 @@ import { Actions } from 'app/services/home';
 import { RidiSelectState } from 'app/store';
 import { PageTitleText } from 'app/constants';
 import { HelmetWithTitle } from 'app/components';
-import HomeSectionList from 'app/components/Home/HomeSectionList';
 import BigBanner from 'app/components/Home/BigBanner';
+import HomeSectionList from 'app/components/Home/HomeSectionList';
 import { sendPostRobotInitialRendered } from 'app/utils/inAppMessageEvents';
 import { Actions as CollectionActions, ReservedCollectionIds } from 'app/services/collection';
 

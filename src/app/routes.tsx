@@ -1,19 +1,19 @@
-import { ConnectedRouter } from 'connected-react-router';
-import * as pathToRegexp from 'path-to-regexp';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
+import * as pathToRegexp from 'path-to-regexp';
+import { Redirect, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 
-import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
-import PageLoadingSpinner from 'app/components/PageLoadingSpinner';
 import history from 'app/config/history';
-import { ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
 import { AppStatus } from 'app/services/app';
 import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { ErrorResponseStatus } from 'app/services/serviceStatus';
+import PageLoadingSpinner from 'app/components/PageLoadingSpinner';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
 import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
 
 export interface Props {
