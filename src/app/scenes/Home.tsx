@@ -66,9 +66,7 @@ const Home: React.FunctionComponent = () => {
       )}
     >
       <HelmetWithTitle titleName={PageTitleText.HOME} />
-      <div className="a11y">
-        <h1>리디셀렉트 홈</h1>
-      </div>
+      <h1 className="a11y">리디셀렉트 홈</h1>
       <BigBanner />
       <HomeSectionList />
     </main>

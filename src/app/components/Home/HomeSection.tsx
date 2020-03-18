@@ -1,20 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
-import { FetchStatusFlag } from 'app/constants';
-
-import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
 import { Book } from 'app/services/book';
+import { RidiSelectState } from 'app/store';
+import { FetchStatusFlag } from 'app/constants';
+import { collectionToPath } from 'app/utils/toPath';
+import { HomeSectionPlaceholder } from 'app/placeholder/HomeSectionPlaceholder';
+import { ConnectedInlineHorizontalBookList } from 'app/components/InlineHorizontalBookList';
 import {
   DefaultCollectionState,
   SpotlightCollectionState,
   CollectionType,
 } from 'app/services/collection';
 import { getIsMobile } from 'app/services/commonUI/selectors';
-import { RidiSelectState } from 'app/store';
-import { collectionToPath } from 'app/utils/toPath';
 import { SectionHeader } from 'app/components/HomeSectionHeader';
 import HomeSpotlightSection from 'app/components/Home/HomeSpotlightSection';
 import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection';
@@ -23,12 +21,6 @@ interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
   order?: number;
-}
-
-interface SectionHeaderProps {
-  title: string;
-  link: string;
-  isMobile: boolean;
 }
 
 const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
