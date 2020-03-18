@@ -6,43 +6,15 @@ import { Redirect, Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import { ConnectedFooter, ConnectedGNB, ConnectedLNB } from 'app/components';
-import { ErrorResponseStatus } from 'app/services/serviceStatus';
-
+import PageLoadingSpinner from 'app/components/PageLoadingSpinner';
 import history from 'app/config/history';
-import {
-  ArticleChannelDetail,
-  ArticleChannelList,
-  ArticleFavorite,
-  ArticleFollowing,
-  ArticleHome,
-  ConnectedBookDetail,
-  ConnectedCategory,
-  ConnectedCharts,
-  ConnectedClosingReservedBooks,
-  ConnectedCollection,
-  ConnectedErrorPage,
-  ConnectedHome,
-  ConnectedManageSubscription,
-  ConnectedMySelect,
-  ConnectedMySelectHistory,
-  ConnectedNewReleases,
-  OrderHistory,
-  ConnectedSearchResult,
-  ConnectedSetting,
-  Intro,
-  NotAvailableBook,
-  Voucher,
-  WrongLocation,
-} from 'app/scenes';
-import ArticleList from 'app/scenes/ArticleList';
-
-import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
-import { FetchStatusFlag, RoutePaths } from 'app/constants';
-import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
-import { ArticleContent } from 'app/scenes/ArticleContent';
-import { AppStatus } from 'app/services/app';
-import { selectIsInApp } from 'app/services/environment/selectors';
+import { ErrorResponseStatus } from 'app/services/serviceStatus';
 import { RidiSelectState } from 'app/store';
+import { AppStatus } from 'app/services/app';
+import { FetchStatusFlag, RoutePaths } from 'app/constants';
+import { selectIsInApp } from 'app/services/environment/selectors';
+import { AlertForNonSubscriber } from 'app/components/AlertForNonSubscriber';
+import { ConnectedAppManager, ConnectedPrivateRoute, RouteBlockLevel } from 'app/hocs';
 
 export interface Props {
   isRidiApp: boolean;
@@ -94,6 +66,32 @@ export const CommonRoutes = [
 
 export const PrimaryRoutes = [RoutePaths.CHARTS, pathToRegexp.parse(RoutePaths.COLLECTION)[0]];
 
+const ArticleChannelDetail = React.lazy(() => import('app/scenes/ArticleChannelDetail'));
+const ArticleChannelList = React.lazy(() => import('app/scenes/ArticleChannelList'));
+const ArticleFavorite = React.lazy(() => import('app/scenes/ArticleFavorite'));
+const ArticleFollowing = React.lazy(() => import('app/scenes/ArticleFollowing'));
+const BookDetail = React.lazy(() => import('app/scenes/BookDetail'));
+const Category = React.lazy(() => import('app/scenes/Category'));
+const Charts = React.lazy(() => import('app/scenes/Charts'));
+const ClosingReservedBooks = React.lazy(() => import('app/scenes/ClosingReservedBooks'));
+const Collection = React.lazy(() => import('app/scenes/Collection'));
+const ErrorPage = React.lazy(() => import('app/scenes/ErrorPage'));
+const Home = React.lazy(() => import('app/scenes/Home'));
+const ManageSubscription = React.lazy(() => import('app/scenes/ManageSubscription'));
+const MySelect = React.lazy(() => import('app/scenes/MySelect'));
+const MySelectHistory = React.lazy(() => import('app/scenes/MySelectHistory'));
+const NewReleases = React.lazy(() => import('app/scenes/NewReleases'));
+const OrderHistory = React.lazy(() => import('app/scenes/OrderHistory'));
+const SearchResult = React.lazy(() => import('app/scenes/SearchResult'));
+const Settings = React.lazy(() => import('app/scenes/Settings'));
+const Intro = React.lazy(() => import('app/scenes/Intro'));
+const NotAvailableBook = React.lazy(() => import('app/scenes/NotAvailableBook'));
+const Voucher = React.lazy(() => import('app/scenes/Voucher'));
+const WrongLocation = React.lazy(() => import('app/scenes/WrongLocation'));
+const ArticleContent = React.lazy(() => import('app/scenes/ArticleContent'));
+const ArticleHome = React.lazy(() => import('app/scenes/ArticleHome'));
+const ArticleList = React.lazy(() => import('app/scenes/ArticleList'));
+
 export const Routes: React.SFC<Props> = props => {
   const { errorResponseState } = props;
   return !errorResponseState ? (
@@ -111,81 +109,83 @@ export const Routes: React.SFC<Props> = props => {
             LNBRoutes.includes(location.pathname as RoutePaths) && <ConnectedLNB />
           }
         />
-        <Switch>
-          <Route path={RoutePaths.ROOT} exact>
-            {props.appStatus !== AppStatus.Articles ? (
-              <Redirect to={RoutePaths.HOME} />
-            ) : (
-              <Redirect to={RoutePaths.ARTICLE_HOME} />
-            )}
-          </Route>
-          <Redirect exact from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
-          <Route path={RoutePaths.HOME} component={ConnectedHome} {...props} />
-          <Route path={RoutePaths.NEW_RELEASE} component={ConnectedNewReleases} {...props} />
-          <Route path={RoutePaths.CHARTS} component={ConnectedCharts} {...props} />
-          <Route path={RoutePaths.COLLECTION} component={ConnectedCollection} {...props} />
-          <Route path={RoutePaths.CATEGORY} component={ConnectedCategory} {...props} />
-          <Route path={RoutePaths.MY_SELECT} component={ConnectedMySelect} {...props} />
-          <Route path={RoutePaths.BOOK_DETAIL} component={ConnectedBookDetail} {...props} />
-          <ConnectedPrivateRoute
-            path={RoutePaths.SETTING}
-            component={ConnectedSetting}
-            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
-            {...props}
-          />
-          <ConnectedPrivateRoute
-            path={RoutePaths.ORDER_HISTORY}
-            component={OrderHistory}
-            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
-            {...props}
-          />
-          <ConnectedPrivateRoute
-            path={RoutePaths.MY_SELECT_HISTORY}
-            component={ConnectedMySelectHistory}
-            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
-            {...props}
-          />
-          <Route path={RoutePaths.SEARCH_RESULT} component={ConnectedSearchResult} {...props} />
-          <Route path={RoutePaths.NOT_AVAILABLE_BOOK} component={NotAvailableBook} {...props} />
-          <Route
-            path={RoutePaths.CLOSING_RESERVED_BOOKS}
-            component={ConnectedClosingReservedBooks}
-            {...props}
-          />
+        <React.Suspense fallback={<PageLoadingSpinner />}>
+          <Switch>
+            <Route path={RoutePaths.ROOT} exact>
+              {props.appStatus !== AppStatus.Articles ? (
+                <Redirect to={RoutePaths.HOME} />
+              ) : (
+                <Redirect to={RoutePaths.ARTICLE_HOME} />
+              )}
+            </Route>
+            <Redirect exact from={RoutePaths.ARTICLE_ROOTE} to={RoutePaths.ARTICLE_HOME} />
+            <Route path={RoutePaths.HOME} component={Home} {...props} />
+            <Route path={RoutePaths.NEW_RELEASE} component={NewReleases} {...props} />
+            <Route path={RoutePaths.CHARTS} component={Charts} {...props} />
+            <Route path={RoutePaths.COLLECTION} component={Collection} {...props} />
+            <Route path={RoutePaths.CATEGORY} component={Category} {...props} />
+            <Route path={RoutePaths.MY_SELECT} component={MySelect} {...props} />
+            <Route path={RoutePaths.BOOK_DETAIL} component={BookDetail} {...props} />
+            <ConnectedPrivateRoute
+              path={RoutePaths.SETTING}
+              component={Settings}
+              routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+              {...props}
+            />
+            <ConnectedPrivateRoute
+              path={RoutePaths.ORDER_HISTORY}
+              component={OrderHistory}
+              routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+              {...props}
+            />
+            <ConnectedPrivateRoute
+              path={RoutePaths.MY_SELECT_HISTORY}
+              component={MySelectHistory}
+              routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+              {...props}
+            />
+            <Route path={RoutePaths.SEARCH_RESULT} component={SearchResult} {...props} />
+            <Route path={RoutePaths.NOT_AVAILABLE_BOOK} component={NotAvailableBook} {...props} />
+            <Route
+              path={RoutePaths.CLOSING_RESERVED_BOOKS}
+              component={ClosingReservedBooks}
+              {...props}
+            />
 
-          {/* 셀렉트 2.0 - Article */}
-          <Route path={RoutePaths.ARTICLE_HOME} component={ArticleHome} {...props} />
-          <Route path={RoutePaths.ARTICLE_CHANNELS} component={ArticleChannelList} {...props} />
-          <Route
-            path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
-            component={ArticleChannelDetail}
-            {...props}
-          />
-          <Route path={RoutePaths.ARTICLE_CONTENT} component={ArticleContent} {...props} />
-          <ConnectedPrivateRoute
-            path={RoutePaths.ARTICLE_FOLLOWING}
-            component={ArticleFollowing}
-            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
-            {...props}
-          />
-          <ConnectedPrivateRoute
-            path={RoutePaths.ARTICLE_FAVORITE}
-            component={ArticleFavorite}
-            routeBlockLevel={RouteBlockLevel.LOGGED_IN}
-            {...props}
-          />
-          <Route path={RoutePaths.ARTICLE_LIST} component={ArticleList} {...props} />
+            {/* 셀렉트 2.0 - Article */}
+            <Route path={RoutePaths.ARTICLE_HOME} component={ArticleHome} {...props} />
+            <Route path={RoutePaths.ARTICLE_CHANNELS} component={ArticleChannelList} {...props} />
+            <Route
+              path={RoutePaths.ARTICLE_CHANNEL_DETAIL}
+              component={ArticleChannelDetail}
+              {...props}
+            />
+            <Route path={RoutePaths.ARTICLE_CONTENT} component={ArticleContent} {...props} />
+            <ConnectedPrivateRoute
+              path={RoutePaths.ARTICLE_FOLLOWING}
+              component={ArticleFollowing}
+              routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+              {...props}
+            />
+            <ConnectedPrivateRoute
+              path={RoutePaths.ARTICLE_FAVORITE}
+              component={ArticleFavorite}
+              routeBlockLevel={RouteBlockLevel.LOGGED_IN}
+              {...props}
+            />
+            <Route path={RoutePaths.ARTICLE_LIST} component={ArticleList} {...props} />
 
-          <Route path={RoutePaths.INTRO} exact component={Intro} {...props} />
-          <Route path={RoutePaths.VOUCHER} exact component={Voucher} {...props} />
-          <ConnectedPrivateRoute
-            path={RoutePaths.MANAGE_SUBSCRIPTION}
-            component={ConnectedManageSubscription}
-            routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
-            {...props}
-          />
-          <Route component={WrongLocation} {...props} />
-        </Switch>
+            <Route path={RoutePaths.INTRO} exact component={Intro} {...props} />
+            <Route path={RoutePaths.VOUCHER} exact component={Voucher} {...props} />
+            <ConnectedPrivateRoute
+              path={RoutePaths.MANAGE_SUBSCRIPTION}
+              component={ManageSubscription}
+              routeBlockLevel={RouteBlockLevel.HAS_AVAILABLE_TICKET}
+              {...props}
+            />
+            <Route component={WrongLocation} {...props} />
+          </Switch>
+        </React.Suspense>
         <Route
           render={({ location }) =>
             HomeRoutes.includes(location.pathname as RoutePaths) && <AlertForNonSubscriber />
@@ -195,7 +195,7 @@ export const Routes: React.SFC<Props> = props => {
       </ConnectedAppManager>
     </ConnectedRouter>
   ) : (
-    <ConnectedErrorPage />
+    <ErrorPage />
   );
 };
 
