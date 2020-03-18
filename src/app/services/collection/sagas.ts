@@ -1,11 +1,12 @@
 import { all, call, put, take, takeEvery, select } from 'redux-saga/effects';
 
 import history from 'app/config/history';
-import { Actions, ReservedCollectionIds } from 'app/services/collection';
+import { RidiSelectState } from 'app/store';
+import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions as UserActions } from 'app/services/user';
-import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
 import { requestUserGroup } from 'app/services/user/requests';
+import { Actions, ReservedCollectionIds } from 'app/services/collection';
 import {
   CollectionResponse,
   requestCollection,
@@ -17,7 +18,6 @@ import {
   updateQueryStringParam,
 } from 'app/utils/request';
 import toast from 'app/utils/toast';
-import { RidiSelectState } from 'app/store';
 
 export function* loadCollection({ payload }: ReturnType<typeof Actions.loadCollectionRequest>) {
   const { page, collectionId } = payload;
@@ -68,9 +68,12 @@ export function* loadPopularBooksRequest({
   payload,
 }: ReturnType<typeof Actions.loadPopularBooksRequest>) {
   const { page } = payload;
+
+  const isLoggedIn = yield select((state: RidiSelectState) => state.user.isLoggedIn);
   let userGroup = yield select((state: RidiSelectState) => state.user.userGroup);
+
   try {
-    if (!userGroup) {
+    if (isLoggedIn && !userGroup) {
       const userGroupResponse = yield call(requestUserGroup);
       userGroup = userGroupResponse.userGroup;
       yield put(UserActions.fetchUserGroupInfo({ userGroup }));
