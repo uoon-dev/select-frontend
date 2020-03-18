@@ -27,26 +27,32 @@ const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const isMobile = useSelector(getIsMobile);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
+
   const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;
 
-  const collectionBooks: Book[] = itemListByPage[1]?.itemList?.map(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    (bookId: number) => books[bookId]?.book!,
-  );
+  const fetchStatus = itemListByPage[1]?.fetchStatus || FetchStatusFlag.IDLE;
+  const itemList = itemListByPage[1]?.itemList || [];
 
   if (
+    !onScreen ||
     (type === CollectionType.CHART && isUserFetching) ||
-    (itemListByPage[1].fetchStatus === FetchStatusFlag.IDLE &&
-      itemListByPage[1].itemList.length < 1) ||
-    itemListByPage[1].fetchStatus === FetchStatusFlag.FETCH_ERROR
+    fetchStatus === FetchStatusFlag.FETCHING
+  ) {
+    return <HomeSectionPlaceholder type={collection.type} key={`${collection.id}_skeleton`} />;
+  }
+
+  if (
+    (fetchStatus === FetchStatusFlag.IDLE && itemList?.length < 1) ||
+    fetchStatus === FetchStatusFlag.FETCH_ERROR
   ) {
     return null;
   }
 
-  if (!onScreen || itemListByPage[1].fetchStatus === FetchStatusFlag.FETCHING) {
-    return <HomeSectionPlaceholder type={collection.type} key={`${collection.id}_skeleton`} />;
-  }
+  const collectionBooks: Book[] = itemList?.map(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    (bookId: number) => books[bookId]?.book!,
+  );
 
   if (type === CollectionType.SPOTLIGHT) {
     return (
