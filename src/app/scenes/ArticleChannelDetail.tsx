@@ -1,13 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps, useParams } from 'react-router-dom';
 
 import { HelmetWithTitle, Pagination, ConnectedPageHeader } from 'app/components';
 
 import { ArticleChannelMeta } from 'app/components/ArticleChannelDetail/ArticleChannelMeta';
 import { GridArticleList } from 'app/components/GridArticleList';
-import { MAX_WIDTH } from 'app/constants';
 import { ArticleChannelDetailPlaceholder } from 'app/placeholder/ArticleChannelDetailPlaceholder';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { Actions } from 'app/services/articleChannel';
@@ -98,21 +96,16 @@ const ArticleChannelDetail: React.FunctionComponent = () => {
           <GridArticleListPlaceholder />
         )}
         {articleChannelData && articleChannelData.itemCount! > 0 && (
-          <MediaQuery maxWidth={MAX_WIDTH}>
-            {isMobile => (
-              <Pagination
-                currentPage={page}
-                totalPages={Math.ceil(articleChannelData.itemCount! / itemCountPerPage)}
-                isMobile={isMobile}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: `${articleChannelToPath({ channelName })}?page=${p}`,
-                  }),
-                }}
-              />
-            )}
-          </MediaQuery>
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(articleChannelData.itemCount! / itemCountPerPage)}
+            item={{
+              el: Link,
+              getProps: (p): LinkProps => ({
+                to: `${articleChannelToPath({ channelName })}?page=${p}`,
+              }),
+            }}
+          />
         )}
       </div>
     </main>

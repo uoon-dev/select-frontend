@@ -1,10 +1,11 @@
+import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
+import { Link, LinkProps } from 'react-router-dom';
 
 import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
-import { MAX_WIDTH, PageTitleText } from 'app/constants';
+import { PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import {
@@ -19,8 +20,7 @@ import { RidiSelectState } from 'app/store';
 import { Pagination } from 'app/components/Pagination';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
-import classNames from 'classnames';
-import { Link, LinkProps } from 'react-router-dom';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 interface CategoryStateProps {
   isIosInApp: boolean;
@@ -30,6 +30,7 @@ interface CategoryStateProps {
   category: CategoryCollectionState;
   books: BookState;
   page: number;
+  isMobile: boolean;
 }
 
 type Props = CategoryStateProps & ReturnType<typeof mapDispatchToProps>;
@@ -131,7 +132,7 @@ class Category extends React.Component<Props, State> {
   }
 
   public render() {
-    const { books, category, categoryId, isCategoryListFetched, page } = this.props;
+    const { books, category, categoryId, isCategoryListFetched, page, isMobile } = this.props;
     const itemCount: any = category ? category.itemCount : 0;
     const itemCountPerPage = 24;
 
@@ -142,11 +143,7 @@ class Category extends React.Component<Props, State> {
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
         </PCPageHeader>
-        <MediaQuery maxWidth={MAX_WIDTH + 1}>
-          {isMobile =>
-            isMobile && <div className="Category_Header GridBookList">{selectBoxTemplate}</div>
-          }
-        </MediaQuery>
+        {isMobile && <div className="Category_Header GridBookList">{selectBoxTemplate}</div>}
         {!isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page) ? (
           <GridBookListSkeleton />
         ) : (
@@ -159,21 +156,16 @@ class Category extends React.Component<Props, State> {
               books={category.itemListByPage[page].itemList.map(id => books[id].book!)}
             />
             {!isNaN(itemCount) && itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/categories?id=${categoryId}&page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/categories?id=${categoryId}&page=${p}`,
+                  }),
+                }}
+              />
             )}
           </>
         )}
@@ -191,6 +183,7 @@ const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => ({
     rootState.categoriesById[Number(getIdFromLocationSearch(rootState.router.location.search))],
   books: rootState.booksById,
   page: getPageQuery(rootState),
+  isMobile: getIsMobile(rootState),
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

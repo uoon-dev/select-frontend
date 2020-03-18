@@ -1,8 +1,15 @@
 import { Button, Icon } from '@ridi/rsg';
+import classNames from 'classnames';
+import * as qs from 'qs';
+import React from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
+import { Dispatch } from 'redux';
+
 import { HelmetWithTitle, Pagination } from 'app/components';
 import { SearchResultArticleList } from 'app/components/SearchResult/SearchResultArticleList';
 import { ConnectedSearchResultBookList } from 'app/components/SearchResult/SearchResultBookList';
-import { MAX_WIDTH } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { AppStatus } from 'app/services/app';
 import { ArticlesState } from 'app/services/article';
@@ -17,14 +24,6 @@ import {
   SearchResultState,
 } from 'app/services/searchResult';
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
-import * as qs from 'qs';
-import React from 'react';
-import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { Link, LinkProps } from 'react-router-dom';
-import { Dispatch } from 'redux';
 
 interface SearchResultStateProps {
   books: BookState;
@@ -196,21 +195,16 @@ class SearchResult extends React.Component<Props, State> {
               </>
             )}
             {!isNaN(itemCount) && itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/search?q=${query}&page=${p}&type=${appStatus}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/search?q=${query}&page=${p}&type=${appStatus}`,
+                  }),
+                }}
+              />
             )}
           </>
         ) : (

@@ -1,10 +1,11 @@
 import { Button, Group, Icon } from '@ridi/rsg';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  isMobile: boolean;
   item: {
     el?: React.ReactType;
     getProps?: (page: number) => any;
@@ -13,7 +14,8 @@ export interface PaginationProps {
 
 // TODO: 추후 Ridi Web UI 업데이트 되고 반영하게 되면 아래 페이지네이션 코드는 Ridi Web UI로 대체되어야 함.
 export const Pagination: React.SFC<PaginationProps> = props => {
-  const { currentPage, totalPages, isMobile, item } = props;
+  const isMobile = useSelector(getIsMobile);
+  const { currentPage, totalPages, item } = props;
   const { el = 'a', getProps = (page?: number) => ({}) } = item;
 
   const { max, min, floor } = Math;

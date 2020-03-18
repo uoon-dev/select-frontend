@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
@@ -11,7 +10,6 @@ import {
   HelmetWithTitle,
   Pagination,
 } from 'app/components';
-import { MAX_WIDTH } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, DefaultCollectionState } from 'app/services/collection';
@@ -111,21 +109,16 @@ class Collection extends React.Component<Props> {
               books={collection.itemListByPage[page].itemList.map(id => books[id].book!)}
             />
             {!isNaN(itemCount) && itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `${collectionToPath({ collectionId })}?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `${collectionToPath({ collectionId })}?page=${p}`,
+                  }),
+                }}
+              />
             )}
           </>
         )}

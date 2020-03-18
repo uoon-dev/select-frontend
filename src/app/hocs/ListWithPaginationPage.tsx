@@ -1,10 +1,8 @@
 import { Pagination } from 'app/components/Pagination';
-import { MAX_WIDTH } from 'app/constants';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 
 interface OwnProps {
@@ -78,21 +76,16 @@ export class ListWithPaginationPage extends React.Component<Props> {
               {renderItems(page)}
             </section>
             {itemCount > 0 && (
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    isMobile={isMobile}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: buildPaginationURL(p),
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: buildPaginationURL(p),
+                  }),
+                }}
+              />
             )}
             {children}
           </>

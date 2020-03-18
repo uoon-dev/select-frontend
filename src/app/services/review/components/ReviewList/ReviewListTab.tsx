@@ -1,21 +1,18 @@
-import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
-import { RSGTab, ScopedTab, ScopedTabProps } from 'app/services/review/components';
 import React from 'react';
-import MediaQuery from 'react-responsive';
+import { useSelector } from 'react-redux';
+
+import { RSGTab, ScopedTab, ScopedTabProps } from 'app/services/review/components';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 
 export type ReviewListTabProps = ScopedTabProps;
 
 export const ReviewListTab: React.SFC<ReviewListTabProps> = props => {
   const { tabList, selectedTabName, onClick } = props;
+  const isMobile = useSelector(getIsMobile);
 
-  return (
-    <>
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        <ScopedTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
-      </MediaQuery>
-      <MediaQuery minWidth={MIN_WIDTH}>
-        <RSGTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
-      </MediaQuery>
-    </>
+  return isMobile ? (
+    <ScopedTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
+  ) : (
+    <RSGTab tabList={tabList} selectedTabName={selectedTabName} onClick={onClick} />
   );
 };

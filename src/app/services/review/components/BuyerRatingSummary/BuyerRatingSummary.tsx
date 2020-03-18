@@ -1,9 +1,9 @@
-import React from 'react';
-import MediaQuery from 'react-responsive';
-
 import { Icon } from '@ridi/rsg';
-import { MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 import { ReviewSummary } from 'app/services/review/reducer.state';
+import { getIsMobile } from 'app/services/commonUI/selectors';
 import { StarRating } from '../StarRating/StarRating';
 import { RatingBarGraph } from './RatingBarGraph';
 
@@ -109,15 +109,10 @@ export class BuyerRatingSummaryDefault extends React.Component<
 
 export const BuyerRatingSummaryBlock: React.SFC<BuyerRatingSummaryProps> = props => {
   const { summary } = props;
-
-  return (
-    <>
-      <MediaQuery maxWidth={MAX_WIDTH}>
-        <BuyerRatingSummaryDefault summary={summary} />
-      </MediaQuery>
-      <MediaQuery minWidth={MIN_WIDTH}>
-        <BuyerRatingSummaryVertical summary={summary} />
-      </MediaQuery>
-    </>
+  const isMobile = useSelector(getIsMobile);
+  return isMobile ? (
+    <BuyerRatingSummaryDefault summary={summary} />
+  ) : (
+    <BuyerRatingSummaryVertical summary={summary} />
   );
 };

@@ -1,13 +1,13 @@
+import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
+import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { Button, CheckBox, Empty, Icon } from '@ridi/rsg';
 import { DTOBookThumbnail, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
-import { FetchStatusFlag, MAX_WIDTH, PageTitleText } from 'app/constants';
+import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { getIsAndroidInApp } from 'app/services/environment/selectors';
 import { Actions, MySelectBook, PaginatedMySelectBooks } from 'app/services/mySelect';
@@ -19,7 +19,6 @@ import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect } from 'app/utils/downloadUserBook';
 import toast from 'app/utils/toast';
 import { stringifyAuthors } from 'app/utils/utils';
-import classNames from 'classnames';
 
 interface StateProps {
   isAndroidInApp: boolean;
@@ -341,21 +340,16 @@ class MySelect extends React.Component<Props, State> {
                 </div>
                 {this.renderBooks(mySelectBooks.itemListByPage[page].itemList)}
               </div>
-              <MediaQuery maxWidth={MAX_WIDTH}>
-                {isMobile => (
-                  <Pagination
-                    currentPage={page}
-                    totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                    isMobile={isMobile}
-                    item={{
-                      el: Link,
-                      getProps: (p): LinkProps => ({
-                        to: `/my-select?page=${p}`,
-                      }),
-                    }}
-                  />
-                )}
-              </MediaQuery>
+              <Pagination
+                currentPage={page}
+                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                item={{
+                  el: Link,
+                  getProps: (p): LinkProps => ({
+                    to: `/my-select?page=${p}`,
+                  }),
+                }}
+              />
             </>
           ) : !isUserFetching && isLoggedIn && hasAvailableTicket && isReSubscribed ? (
             <>
