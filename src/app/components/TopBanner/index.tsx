@@ -3,6 +3,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
+import { AppStatus } from 'app/services/app';
+import { Actions as ArticleActions } from 'app/services/articleHome';
+import { Actions as HomeActions } from 'app/services/home';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
 import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
@@ -129,19 +132,26 @@ interface TopBanner {
 export interface TopBannerCarouselProps {
   banners: TopBanner[];
   section: string;
+  appStatus: string;
+  savedIdx: number;
 }
 
 export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const dispatch = useDispatch();
-  const { banners, section } = props;
+  const { banners, section, appStatus, savedIdx } = props;
   const len = banners.length;
-  const [currentIdx, setCurrentIdx] = React.useState(0);
+  const [currentIdx, setCurrentIdx] = React.useState(savedIdx);
   const [touchDiff, setTouchDiff] = React.useState<number>();
 
   const handleLeftClick = React.useCallback(() => setCurrentIdx(idx => (idx - 1 + len) % len), [
     len,
   ]);
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
+
+  // 저장된 배너 idx 업데이트
+  React.useEffect(() => {
+    setCurrentIdx(savedIdx);
+  }, [appStatus]);
 
   // 반응형 너비 조정
   const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
@@ -261,8 +271,11 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
     return () => window.clearTimeout(handle);
   }, [handleRightClick, currentIdx, touchDiff, focused]);
 
-  // 트래킹
+  // currentIdx 저장 및 트래킹
   React.useEffect(() => {
+    appStatus === AppStatus.Books
+      ? dispatch(HomeActions.updateBannerIndex({ currentIdx }))
+      : dispatch(ArticleActions.updateBannerIndex({ currentIdx }));
     const trackingParams: DefaultTrackingParams = {
       section,
       index: currentIdx,
@@ -289,7 +302,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
       >
         {({ index, activeIndex, itemWidth }) => (
           <CarouselItem
-            key={`${section}_${index}`}
+            key={`${appStatus}_${index}`}
             index={index}
             itemWidth={itemWidth}
             banner={banners[index]}
