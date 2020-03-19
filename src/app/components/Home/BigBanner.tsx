@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RidiSelectState } from 'app/store';
 import { AppStatus } from 'app/services/app';
 import { getBooksBannerCurrentIdx, getArticlesBannerCurrentIdx } from 'app/services/home/selectors';
-import TopBannerCarousel, { IMAGE_WIDTH } from 'app/components/TopBanner';
+import TopBannerCarousel, { IMAGE_WIDTH, TopBannerCarouselProps } from 'app/components/TopBanner';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 
 const TopBannerSkeleton = styled.div`
@@ -15,13 +15,18 @@ const TopBannerSkeleton = styled.div`
   background: #eee;
 `;
 
+const BookCarousel: React.FunctionComponent<TopBannerCarouselProps> = props => (
+  <TopBannerCarousel {...props} />
+);
+
+const ArticlesCarousel: React.FunctionComponent<TopBannerCarouselProps> = props => (
+  <TopBannerCarousel {...props} />
+);
+
 const BigBanner: React.FunctionComponent = () => {
   const { appStatus } = useSelector((state: RidiSelectState) => state.app);
   const fetchedAt = useSelector((state: RidiSelectState) =>
     appStatus === AppStatus.Books ? state.home.fetchedAt : state.articleHome.fetchedAt,
-  );
-  const bigBannerList = useSelector((state: RidiSelectState) =>
-    appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
   );
   const savedIdx =
     appStatus === AppStatus.Books
@@ -29,22 +34,27 @@ const BigBanner: React.FunctionComponent = () => {
       : useSelector(getArticlesBannerCurrentIdx);
   const service = appStatus === AppStatus.Books ? 'select-book' : 'select-article';
   const section = getSectionStringForTracking(service, 'home', 'big-banner');
+  const bigBannerList = useSelector((state: RidiSelectState) =>
+    appStatus === AppStatus.Books ? state.home.bigBannerList : state.articleHome.bigBannerList,
+  );
   const banners = bigBannerList.map(bannerItem => ({
     id: bannerItem.id,
     landing_url: bannerItem.linkUrl,
     main_image_url: bannerItem.imageUrl,
     title: bannerItem.title,
   }));
-
-  return fetchedAt ? (
-    <TopBannerCarousel
+  if (!fetchedAt) {
+    return <TopBannerSkeleton />;
+  }
+  return appStatus === AppStatus.Books ? (
+    <BookCarousel banners={banners} appStatus={appStatus} section={section} savedIdx={savedIdx} />
+  ) : (
+    <ArticlesCarousel
       banners={banners}
       appStatus={appStatus}
       section={section}
       savedIdx={savedIdx}
     />
-  ) : (
-    <TopBannerSkeleton />
   );
 };
 

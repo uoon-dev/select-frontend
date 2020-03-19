@@ -129,7 +129,7 @@ interface TopBanner {
 export interface TopBannerCarouselProps {
   banners: TopBanner[];
   section: string;
-  appStatus: string;
+  appStatus: AppStatus;
   savedIdx: number;
 }
 
@@ -144,11 +144,6 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
     len,
   ]);
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
-
-  // 저장된 배너 idx 업데이트
-  React.useEffect(() => {
-    setCurrentIdx(savedIdx);
-  }, [appStatus]);
 
   // 반응형 너비 조정
   const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
