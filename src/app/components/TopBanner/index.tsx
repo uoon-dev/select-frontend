@@ -52,7 +52,8 @@ const SlideBadge = styled.p`
   right: 10px;
   bottom: 10px;
   width: 54px;
-  height: 24px;
+  height: 12px;
+  padding: 5px 0;
 
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -60,13 +61,9 @@ const SlideBadge = styled.p`
 
   font-family: Roboto, Sans-serif;
   font-size: 12px;
-  line-height: 22px;
+  line-height: 1em;
   text-align: center;
   color: white;
-
-  strong {
-    font-family: inherit;
-  }
 `;
 
 const ArrowWrapper = styled.div`
@@ -320,10 +317,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
       </BigBannerCarousel>
       <CarouselControllerWrapper>
         <CarouselController itemWidth={width}>
-          <SlideBadge>
-            <strong>{currentIdx + 1}</strong>
-            {` / ${len}`}
-          </SlideBadge>
+          <SlideBadge>{`${currentIdx + 1} / ${len}`}</SlideBadge>
         </CarouselController>
       </CarouselControllerWrapper>
       {!isResponsive && (
