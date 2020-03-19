@@ -1,12 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import throttle from 'lodash-es/throttle';
 
 import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
-import throttle from 'lodash-es/throttle';
-import { Link } from 'react-router-dom';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{
   contentKey: string;
@@ -50,7 +50,7 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{
     };
   }, []);
 
-  if (!articleState || !articleState.article) {
+  if (!articleState || !articleState.article || !articleState.article.isTeaser) {
     return null;
   }
 
@@ -58,8 +58,6 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{
     <div
       className={classNames(
         'ArticleContent_GetTicketToReadButtonWrapper',
-        !articleState.article.isTeaser &&
-          'ArticleContent_GetTicketToReadButtonWrapper-publicContent',
         isSticky && 'ArticleContent_GetTicketToReadButtonWrapper-sticky',
       )}
       ref={getTicketToReadButtonWrapper}
