@@ -182,7 +182,6 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   // passive: false 때문에 useEffect
   React.useEffect(() => {
     function handleTouchMove(e: TouchEvent) {
-      e.preventDefault();
       if (touchRef.current == null) {
         return;
       }
