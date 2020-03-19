@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
 import { AppStatus } from 'app/services/app';
-import { Actions as ArticleActions } from 'app/services/articleHome';
-import { Actions as HomeActions } from 'app/services/home';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
 import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
@@ -131,11 +129,12 @@ export interface TopBannerCarouselProps {
   section: string;
   appStatus: AppStatus;
   savedIdx: number;
+  onChangeCurrentIdx: (currentIdx: number) => void;
 }
 
 export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const dispatch = useDispatch();
-  const { banners, section, appStatus, savedIdx } = props;
+  const { banners, section, appStatus, savedIdx, onChangeCurrentIdx } = props;
   const len = banners.length;
   const [currentIdx, setCurrentIdx] = React.useState(savedIdx);
   const [touchDiff, setTouchDiff] = React.useState<number>();
@@ -265,9 +264,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
 
   // currentIdx 저장 및 트래킹
   React.useEffect(() => {
-    appStatus === AppStatus.Books
-      ? dispatch(HomeActions.updateBannerIndex({ currentIdx }))
-      : dispatch(ArticleActions.updateBannerIndex({ currentIdx }));
+    onChangeCurrentIdx(currentIdx);
     const trackingParams: DefaultTrackingParams = {
       section,
       index: currentIdx,
