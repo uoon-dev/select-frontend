@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
 import { AppStatus } from 'app/services/app';
-import { Actions as ArticleActions } from 'app/services/articleHome';
-import { Actions as HomeActions } from 'app/services/home';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
 import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
@@ -52,7 +50,8 @@ const SlideBadge = styled.p`
   right: 10px;
   bottom: 10px;
   width: 54px;
-  height: 24px;
+  height: 12px;
+  padding: 5px 0;
 
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -60,13 +59,9 @@ const SlideBadge = styled.p`
 
   font-family: Roboto, Sans-serif;
   font-size: 12px;
-  line-height: 22px;
+  line-height: 1em;
   text-align: center;
   color: white;
-
-  strong {
-    font-family: inherit;
-  }
 `;
 
 const ArrowWrapper = styled.div`
@@ -132,13 +127,14 @@ interface TopBanner {
 export interface TopBannerCarouselProps {
   banners: TopBanner[];
   section: string;
-  appStatus: string;
+  appStatus: AppStatus;
   savedIdx: number;
+  onChangeCurrentIdx: (currentIdx: number) => void;
 }
 
 export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const dispatch = useDispatch();
-  const { banners, section, appStatus, savedIdx } = props;
+  const { banners, section, appStatus, savedIdx, onChangeCurrentIdx } = props;
   const len = banners.length;
   const [currentIdx, setCurrentIdx] = React.useState(savedIdx);
   const [touchDiff, setTouchDiff] = React.useState<number>();
@@ -147,11 +143,6 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
     len,
   ]);
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
-
-  // 저장된 배너 idx 업데이트
-  React.useEffect(() => {
-    setCurrentIdx(savedIdx);
-  }, [appStatus]);
 
   // 반응형 너비 조정
   const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
@@ -273,9 +264,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
 
   // currentIdx 저장 및 트래킹
   React.useEffect(() => {
-    appStatus === AppStatus.Books
-      ? dispatch(HomeActions.updateBannerIndex({ currentIdx }))
-      : dispatch(ArticleActions.updateBannerIndex({ currentIdx }));
+    onChangeCurrentIdx(currentIdx);
     const trackingParams: DefaultTrackingParams = {
       section,
       index: currentIdx,
@@ -320,10 +309,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
       </BigBannerCarousel>
       <CarouselControllerWrapper>
         <CarouselController itemWidth={width}>
-          <SlideBadge>
-            <strong>{currentIdx + 1}</strong>
-            {` / ${len}`}
-          </SlideBadge>
+          <SlideBadge>{`${currentIdx + 1} / ${len}`}</SlideBadge>
         </CarouselController>
       </CarouselControllerWrapper>
       {!isResponsive && (
