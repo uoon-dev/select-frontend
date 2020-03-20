@@ -2,7 +2,6 @@ import React from 'react';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import MediaQuery from 'react-responsive';
 
 import NewBadge from 'svgs/NewBadge.svg';
 import { Book } from 'app/services/book';
@@ -17,11 +16,12 @@ interface HomeSpotlightSectionProps {
   books: Book[];
   collectionId: CollectionId;
   title?: string;
+  isScrollList: boolean;
 }
 
 const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> = props => {
-  let sliderRef: Slider;
-  const { books, collectionId, title } = props;
+  const sliderRef = React.useRef<Slider>(null);
+  const { books, collectionId, title, isScrollList } = props;
   const section = getSectionStringForTracking(
     'select-book',
     'home',
@@ -56,89 +56,91 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
           {title || '한 주간 별점 베스트'}
           <NewBadge className="HomeSection_Spotlight_NewBadge" />
         </div>
-        <MediaQuery maxWidth={900}>
-          {isMobile =>
-            isMobile ? (
-              <ConnectedInlineHorizontalBookList
-                books={books}
-                serviceTitleForTracking="select-book"
-                pageTitleForTracking="home"
-                uiPartTitleForTracking="spotlight"
-                miscTracking={JSON.stringify({ sect_collection_id: collectionId })}
-                renderAuthor
-                bookThumbnailSize={140}
-              />
-            ) : (
-              <div className="HomeSection_Spotlight_Slider">
-                <Slider
-                  ref={slider => {
-                    sliderRef = slider!;
+        {isScrollList ? (
+          <ConnectedInlineHorizontalBookList
+            books={books}
+            serviceTitleForTracking="select-book"
+            pageTitleForTracking="home"
+            uiPartTitleForTracking="spotlight"
+            miscTracking={JSON.stringify({ sect_collection_id: collectionId })}
+            renderAuthor
+            bookThumbnailSize={140}
+          />
+        ) : (
+          <div className="HomeSection_Spotlight_Slider">
+            <Slider
+              ref={sliderRef}
+              dots
+              infinite={books.length > 5}
+              adaptiveHeight={false}
+              arrows={false}
+              speed={200}
+              slidesToShow={5}
+              slidesToScroll={5}
+              dotsClass="Spotlight_Navigator"
+              onInit={() => setSliderImpression(0)}
+              afterChange={currentIdx => setSliderImpression(currentIdx)}
+            >
+              {books.map((book: Book, idx: number) => (
+                <div
+                  className="HomeSection_Spotlight_Book"
+                  style={{
+                    width: '165px',
                   }}
-                  dots
-                  infinite={books.length > 5}
-                  adaptiveHeight={false}
-                  arrows={false}
-                  speed={200}
-                  slidesToShow={5}
-                  slidesToScroll={5}
-                  dotsClass="Spotlight_Navigator"
-                  onInit={() => setSliderImpression(0)}
-                  afterChange={currentIdx => setSliderImpression(currentIdx)}
+                  key={`spotlight-book-${idx}`}
                 >
-                  {books.map((book: Book, idx: number) => (
-                    <div
-                      className="HomeSection_Spotlight_Book"
-                      style={{
-                        width: '165px',
-                      }}
-                      key={`spotlight-book-${idx}`}
-                    >
-                      <DTOBookThumbnail
-                        book={book}
-                        width={140}
-                        linkUrl={`/book/${book.id}`}
-                        linkType="Link"
-                        onLinkClick={() =>
-                          section &&
-                          trackClick({
-                            section,
-                            index: idx,
-                            id: book.id,
-                          })
-                        }
-                        imageClassName="InlineHorizontalBookList_Thumbnail"
-                        lazyload
-                      />
-                      <Link
-                        to={`/book/${book.id}`}
-                        className="HomeSection_Spotlight_Book_Link"
-                        onClick={() =>
-                          section &&
-                          trackClick({
-                            section,
-                            index: idx,
-                            id: book.id,
-                          })
-                        }
-                      >
-                        <span className="HomeSection_Spotlight_Book_Title">{book.title.main}</span>
-                        <span className="HomeSection_Spotlight_Book_Author">
-                          {stringifyAuthors(book.authors, 2)}
-                        </span>
-                      </Link>
-                    </div>
-                  ))}
-                </Slider>
-                {sliderRef && books.length > 5 && (
-                  <SliderControls
-                    onPrevClick={() => sliderRef.slickPrev()}
-                    onNextClick={() => sliderRef.slickNext()}
+                  <DTOBookThumbnail
+                    book={book}
+                    width={140}
+                    linkUrl={`/book/${book.id}`}
+                    linkType="Link"
+                    onLinkClick={() =>
+                      section &&
+                      trackClick({
+                        section,
+                        index: idx,
+                        id: book.id,
+                      })
+                    }
+                    imageClassName="InlineHorizontalBookList_Thumbnail"
+                    lazyload
                   />
-                )}
-              </div>
-            )
-          }
-        </MediaQuery>
+                  <Link
+                    to={`/book/${book.id}`}
+                    className="HomeSection_Spotlight_Book_Link"
+                    onClick={() =>
+                      section &&
+                      trackClick({
+                        section,
+                        index: idx,
+                        id: book.id,
+                      })
+                    }
+                  >
+                    <span className="HomeSection_Spotlight_Book_Title">{book.title.main}</span>
+                    <span className="HomeSection_Spotlight_Book_Author">
+                      {stringifyAuthors(book.authors, 2)}
+                    </span>
+                  </Link>
+                </div>
+              ))}
+            </Slider>
+            {sliderRef && books.length > 5 && (
+              <SliderControls
+                onPrevClick={() => {
+                  if (sliderRef.current) {
+                    sliderRef.current.slickPrev();
+                  }
+                }}
+                onNextClick={() => {
+                  if (sliderRef.current) {
+                    sliderRef.current.slickNext();
+                  }
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
