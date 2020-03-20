@@ -1,6 +1,6 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
 import env from 'app/config/env';
-import { MAX_WIDTH } from 'app/constants';
+import { MOBILE_MAX_WIDTH } from 'app/constants';
 import { Actions } from 'app/services/tracking';
 import {
   hasCompletedPayletterSubscription,
@@ -16,7 +16,7 @@ let tracker: Tracker;
 
 const initializeTracker = (state: RidiSelectState) => {
   let deviceType: DeviceType;
-  if (document.body.clientWidth < MAX_WIDTH) {
+  if (document.body.clientWidth < MOBILE_MAX_WIDTH) {
     deviceType = DeviceType.Mobile;
   } else {
     deviceType = DeviceType.PC;
