@@ -1,6 +1,7 @@
 import throttle from 'lodash-es/throttle';
-import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
 import { RidiSelectState } from 'app/store';
 import HomeSection from 'app/components/Home/HomeSection';
@@ -55,6 +56,8 @@ const HomeSectionList: React.FunctionComponent = () => {
     };
   }, [panels]);
 
+  const isScrollList = useMediaQuery({ maxWidth: 900 });
+
   if (!fetchedAt) {
     return (
       <div className="PageHome_Content Skeleton_Wrapper">
@@ -72,7 +75,12 @@ const HomeSectionList: React.FunctionComponent = () => {
   return (
     <div className="PageHome_Content">
       <div className="PageHome_Panel">
-        <HomeSection key={spotlight.id} collection={spotlight} onScreen />
+        <HomeSection
+          key={spotlight.id}
+          collection={spotlight}
+          onScreen
+          isScrollList={isScrollList}
+        />
       </div>
       {collectionIdList
         .map(
@@ -100,6 +108,7 @@ const HomeSectionList: React.FunctionComponent = () => {
                 collection={collection}
                 onScreen={renderedLastGroupIdx >= idx}
                 order={idx === 0 ? collectionIdx : idx + collectionIdx + 1}
+                isScrollList={isScrollList}
               />
             ))}
           </div>
