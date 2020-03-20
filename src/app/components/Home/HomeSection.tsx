@@ -20,7 +20,6 @@ import { HomeChartBooksSection } from 'app/components/Home/HomeChartBooksSection
 interface HomeSectionProps {
   collection: DefaultCollectionState | SpotlightCollectionState;
   onScreen: boolean;
-  isScrollList: boolean;
   order?: number;
 }
 
@@ -29,7 +28,7 @@ const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const isUserFetching = useSelector((state: RidiSelectState) => state.user.isFetching);
 
-  const { collection, onScreen, order, isScrollList } = props;
+  const { collection, onScreen, order } = props;
   const { type, title, id, itemListByPage } = collection;
 
   const fetchStatus = itemListByPage[1]?.fetchStatus || FetchStatusFlag.IDLE;
@@ -57,12 +56,7 @@ const HomeSection: React.FunctionComponent<HomeSectionProps> = props => {
 
   if (type === CollectionType.SPOTLIGHT) {
     return (
-      <HomeSpotlightSection
-        books={collectionBooks}
-        title={title}
-        collectionId={collection.id}
-        isScrollList={isScrollList}
-      />
+      <HomeSpotlightSection books={collectionBooks} title={title} collectionId={collection.id} />
     );
   }
 
