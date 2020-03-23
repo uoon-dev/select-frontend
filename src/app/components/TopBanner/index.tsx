@@ -146,7 +146,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
 
   // 반응형 너비 조정
   const isResponsive = useMediaQuery({ maxWidth: `${IMAGE_WIDTH}px` });
-  const initialWidth = isResponsive ? window.innerWidth : IMAGE_WIDTH;
+  const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
 
   const [width, setWidth] = React.useState(initialWidth);
   React.useEffect(() => {
