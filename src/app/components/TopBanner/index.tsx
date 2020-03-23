@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getIsResponsiveBanner } from 'app/services/commonUI/selectors';
-import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH, TOP_BANNER_IMAGE_WIDTH } from 'app/constants';
+import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
 import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
@@ -68,7 +68,7 @@ const ArrowWrapper = styled.div`
   margin: 0 10px;
   pointer-events: auto;
 
-  @media (max-width: ${TOP_BANNER_IMAGE_WIDTH}px) {
+  @media (max-width: ${IMAGE_WIDTH}px) {
     display: none;
   }
 `;
@@ -150,7 +150,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
 
   // 반응형 너비 조정
   const isResponsive = useSelector(getIsResponsiveBanner);
-  const initialWidth = isResponsive ? window.innerWidth : IMAGE_WIDTH;
+  const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
 
   const [width, setWidth] = React.useState(initialWidth);
   React.useEffect(() => {

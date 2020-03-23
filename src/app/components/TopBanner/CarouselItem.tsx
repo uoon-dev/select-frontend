@@ -21,8 +21,6 @@ const BannerImage = styled.img`
 `;
 
 interface CarouselItemContainerProps {
-  imageWidth: number;
-  imageHeight: number;
   active?: boolean;
   invisible?: boolean;
 }
@@ -179,13 +177,7 @@ export default function CarouselItem(props: CarouselItemProps) {
   }, [itemWidth]);
 
   return (
-    <CarouselItemContainer
-      ref={ref}
-      imageWidth={itemWidth}
-      imageHeight={itemWidth}
-      active={active}
-      invisible={invisible}
-    >
+    <CarouselItemContainer ref={ref} active={active} invisible={invisible}>
       <BannerImageLink
         index={index}
         bannerId={banner.id}
