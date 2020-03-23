@@ -10,6 +10,7 @@ import { resetButton } from 'app/styles/customProperties';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
 import { useViewportIntersection } from 'hooks/useViewportIntersection';
+import { TOP_BANNER_IMAGE_WIDTH } from 'app/constants';
 
 const BannerImage = styled.img`
   width: 100%;
@@ -29,8 +30,10 @@ interface CarouselItemContainerProps {
 const CarouselItemContainer = styled.li<CarouselItemContainerProps>`
   flex: none;
   position: relative;
-  width: ${props => props.imageWidth}px;
-  height: ${props => props.imageHeight}px;
+  width: 100vw;
+  height: 100vw;
+  max-width: ${TOP_BANNER_IMAGE_WIDTH}px;
+  max-height: ${TOP_BANNER_IMAGE_WIDTH}px;
 
   overflow: hidden;
   line-height: 0;

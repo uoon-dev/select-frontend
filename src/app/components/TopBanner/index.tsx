@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getIsResponsiveBanner } from 'app/services/commonUI/selectors';
-import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
+import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH, TOP_BANNER_IMAGE_WIDTH } from 'app/constants';
 import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
@@ -67,6 +67,10 @@ const SlideBadge = styled.p`
 const ArrowWrapper = styled.div`
   margin: 0 10px;
   pointer-events: auto;
+
+  @media (max-width: ${TOP_BANNER_IMAGE_WIDTH}px) {
+    display: none;
+  }
 `;
 
 const Arrow = styled.button`
