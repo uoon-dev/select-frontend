@@ -54,3 +54,6 @@ export const getGNBType = createSelector(
 export const getIsMobile = (state: RidiSelectState): boolean => state.commonUI.isMobile;
 
 export const getIsCarousel = (state: RidiSelectState): boolean => state.commonUI.isCarousel;
+
+export const getIsResponsiveBanner = (state: RidiSelectState): boolean =>
+  state.commonUI.isResponsiveBanner;

@@ -29,6 +29,9 @@ export const Actions = {
   updateIsCarousel: createAction<{
     isCarousel: boolean;
   }>('updateIsCarousel'),
+  updateIsResponsiveBanner: createAction<{
+    isResponsiveBanner: boolean;
+  }>('updateIsResponsiveBanner'),
 };
 
 export const GNB_DEFAULT_COLOR: RGB = {
@@ -73,6 +76,7 @@ export interface CommonUIState {
   footerTheme: FooterTheme;
   isMobile: boolean;
   isCarousel: boolean;
+  isResponsiveBanner: boolean;
 }
 
 export const INITIAL_STATE: CommonUIState = {
@@ -84,6 +88,7 @@ export const INITIAL_STATE: CommonUIState = {
   footerTheme: FooterTheme.default,
   isMobile: true,
   isCarousel: false,
+  isResponsiveBanner: true,
 };
 
 export const commonUIReducer = createReducer<typeof INITIAL_STATE>({}, INITIAL_STATE);
@@ -132,4 +137,9 @@ commonUIReducer.on(Actions.updateIsMobile, (state, action) => ({
 commonUIReducer.on(Actions.updateIsCarousel, (state, action) => ({
   ...state,
   isCarousel: action.isCarousel,
+}));
+
+commonUIReducer.on(Actions.updateIsResponsiveBanner, (state, action) => ({
+  ...state,
+  isResponsiveBanner: action.isResponsiveBanner,
 }));
