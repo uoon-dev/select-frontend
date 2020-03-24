@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { TOP_BANNER_IMAGE_WIDTH } from 'app/constants';
 
 interface TransformOptions {
   slideToMove: number;
@@ -26,12 +27,13 @@ const CarouselView = styled.div`
   align-items: center;
 `;
 
-const CarouselList = styled.ul<{ height: number; slideMargin: number }>`
+const CarouselList = styled.ul<{ slideMargin: number }>`
   flex: none;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  height: ${props => props.height}px;
+  height: 100vw;
+  max-height: ${TOP_BANNER_IMAGE_WIDTH}px;
   padding: 0px;
   margin: 0px;
 
@@ -64,7 +66,6 @@ export default function BigBannerCarousel(props: BigBannerCarouselProps) {
   const [activeIdx, setActiveIdx] = React.useState(currentIdx);
   const [activeDiff, setActiveDiff] = React.useState(touchDiff);
   const [isMoving, setMoving] = React.useState(false);
-  const itemHeight = itemWidth;
 
   const handleTransitionDone = React.useCallback(
     (e: React.TransitionEvent<HTMLUListElement>) => {
@@ -108,7 +109,6 @@ export default function BigBannerCarousel(props: BigBannerCarouselProps) {
   return (
     <CarouselView>
       <CarouselList
-        height={itemHeight}
         slideMargin={itemMargin}
         style={{
           transition: isMoving ? 'transform 0.2s' : undefined,

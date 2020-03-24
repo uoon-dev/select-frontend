@@ -34,7 +34,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
       },
       label: '팔로잉 취소',
     };
-    toast.failureMessage('이용할 수 없는 채널입니다. 팔로잉을 취소하시겠습니까?', {
+    toast.failureMessage('이용할 수 없는 채널입니다. 팔로잉을 취소하시겠습니까?', {
       button: {
         showArrowIcon: true,
         ...toastButton,

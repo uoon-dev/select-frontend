@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { getIsResponsiveBanner } from 'app/services/commonUI/selectors';
+import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
 import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import ArrowRight from 'svgs/ArrowHeadRight.svg';
@@ -11,7 +12,6 @@ import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
 import BigBannerCarousel from './BigBannerCarousel';
 import CarouselItem from './CarouselItem';
 
-export const IMAGE_WIDTH = 432;
 const SLIDE_RADIUS = 1;
 const SCROLL_DURATION = 5000;
 
@@ -67,6 +67,10 @@ const SlideBadge = styled.p`
 const ArrowWrapper = styled.div`
   margin: 0 10px;
   pointer-events: auto;
+
+  @media (max-width: ${IMAGE_WIDTH}px) {
+    display: none;
+  }
 `;
 
 const Arrow = styled.button`
@@ -145,8 +149,9 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
 
   // 반응형 너비 조정
+  const isResponsive = useSelector(getIsResponsiveBanner);
   const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
-  const isResponsive = useMediaQuery({ maxWidth: `${IMAGE_WIDTH}px` });
+
   const [width, setWidth] = React.useState(initialWidth);
   React.useEffect(() => {
     function handleResize() {

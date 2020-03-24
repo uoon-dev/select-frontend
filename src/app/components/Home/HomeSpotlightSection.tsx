@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import NewBadge from 'svgs/NewBadge.svg';
 import { Book } from 'app/services/book';
@@ -11,17 +11,17 @@ import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
 import { ConnectedInlineHorizontalBookList, DTOBookThumbnail } from 'app/components';
+import { getIsCarousel } from 'app/services/commonUI/selectors';
 
 interface HomeSpotlightSectionProps {
   books: Book[];
   collectionId: CollectionId;
   title?: string;
-  isScrollList: boolean;
 }
 
 const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> = props => {
   const sliderRef = React.useRef<Slider>(null);
-  const { books, collectionId, title, isScrollList } = props;
+  const { books, collectionId, title } = props;
   const section = getSectionStringForTracking(
     'select-book',
     'home',
@@ -49,6 +49,7 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
   const trackImpression = (trackingParams: DefaultTrackingParams) =>
     dispatch(Actions.trackImpression({ trackingParams }));
 
+  const isCarousel = useSelector(getIsCarousel);
   return (
     <div className="HomeSection_Spotlight">
       <div className="HomeSection_Spotlight_Contents">
@@ -56,17 +57,7 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
           {title || '한 주간 별점 베스트'}
           <NewBadge className="HomeSection_Spotlight_NewBadge" />
         </div>
-        {isScrollList ? (
-          <ConnectedInlineHorizontalBookList
-            books={books}
-            serviceTitleForTracking="select-book"
-            pageTitleForTracking="home"
-            uiPartTitleForTracking="spotlight"
-            miscTracking={JSON.stringify({ sect_collection_id: collectionId })}
-            renderAuthor
-            bookThumbnailSize={140}
-          />
-        ) : (
+        {isCarousel ? (
           <div className="HomeSection_Spotlight_Slider">
             <Slider
               ref={sliderRef}
@@ -140,6 +131,16 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
               />
             )}
           </div>
+        ) : (
+          <ConnectedInlineHorizontalBookList
+            books={books}
+            serviceTitleForTracking="select-book"
+            pageTitleForTracking="home"
+            uiPartTitleForTracking="spotlight"
+            miscTracking={JSON.stringify({ sect_collection_id: collectionId })}
+            renderAuthor
+            bookThumbnailSize={140}
+          />
         )}
       </div>
     </div>

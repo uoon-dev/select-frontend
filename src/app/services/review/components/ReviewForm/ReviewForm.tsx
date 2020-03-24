@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { FetchStatusFlag, MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+import { FetchStatusFlag, MOBILE_MAX_WIDTH, MIN_WIDTH } from 'app/constants';
 import {
   CancelButton,
   SpoilerCheckbox,
@@ -87,7 +87,7 @@ export class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState
           onChange={this.onChangeReviewContent}
           isDisabled={isDisabled}
         />
-        <MediaQuery maxWidth={MAX_WIDTH}>
+        <MediaQuery maxWidth={MOBILE_MAX_WIDTH}>
           <div className="ReviewForm_SubInputs">
             <SpoilerCheckbox isChecked={hasSpoiler} onChange={this.onChangeSpoilerCheckbox} />
             {!initialReviewContent && (
