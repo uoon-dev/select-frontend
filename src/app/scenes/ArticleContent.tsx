@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useEffect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { ArticleContentBottomButtons } from 'app/components/ArticleContent/BottomButtons';
@@ -22,12 +22,19 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   const dispatch = useDispatch();
 
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
+  const relatedArticles = useSelector(
+    (state: RidiSelectState) => state.articlesById[contentKey]?.relatedArticles,
+  );
   const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
+  const relatedArticleFetchStatus = useSelector(
+    (state: RidiSelectState) =>
+      state.articlesById[contentKey]?.relatedArticles?.fetchStatus || FetchStatusFlag.IDLE,
+  );
   const articleTitle = articleState?.article?.title;
 
-  React.useEffect(() => {
-    if (articleState && articleState.contentFetchStatus === FetchStatusFlag.FETCHING) {
+  useEffect(() => {
+    if (articleState?.contentFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
 
@@ -46,6 +53,18 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
       }),
     );
   }, [hasAvailableTicket]);
+
+  useEffect(() => {
+    const articleId = articleState?.article?.id;
+    if (
+      !articleId ||
+      relatedArticles?.articles ||
+      relatedArticleFetchStatus !== FetchStatusFlag.IDLE
+    ) {
+      return;
+    }
+    dispatch(Actions.loadRelatedArticles({ contentKey, articleId }));
+  }, [articleState]);
 
   return (
     <main className="SceneWrapper PageArticleContent">

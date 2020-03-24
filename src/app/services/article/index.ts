@@ -1,12 +1,13 @@
+import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor/dist/esm/article';
 
 import { FetchStatusFlag } from 'app/constants';
-import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';
-import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import { Method } from 'axios';
+import { ArticleRequestQueries, DateDTO, ArticleKey } from 'app/types';
+import { ArticleListResponse } from 'app/services/articleList/requests';
+import { ArticleResponse, AuthorResponse } from 'app/services/article/requests';
 
 export const Actions = {
   loadArticleRequest: createAction<{
@@ -40,6 +41,14 @@ export const Actions = {
     articleId: number;
     method: Method;
   }>('favoriteArticleActionRequest'),
+  loadRelatedArticles: createAction<{
+    contentKey: string;
+    articleId: number;
+  }>('loadRelatedArticles'),
+  afterLoadRelatedArticles: createAction<{
+    contentKey: string;
+    response?: ArticleListResponse;
+  }>('afterLoadRelatedArticles'),
 };
 
 export interface ArticleContent {
@@ -70,6 +79,10 @@ export interface ArticleItemState {
   content?: ArticleContent;
   recommendedArticles?: Article[];
   contentFetchStatus: FetchStatusFlag;
+  relatedArticles?: {
+    fetchStatus: FetchStatusFlag;
+    articles?: ArticleKey[];
+  };
 }
 
 export interface ArticlesState {
@@ -172,6 +185,40 @@ articleReducer.on(Actions.updateFavoriteArticleStatus, (state, action) => {
         ...state[contentKey].article!,
         isFavorite,
         favoritesCount,
+      },
+    },
+  };
+});
+
+articleReducer.on(Actions.loadRelatedArticles, (state, action) => {
+  const { contentKey } = action;
+
+  return {
+    ...state,
+    [contentKey]: {
+      ...state[contentKey],
+      relatedArticles: {
+        fetchStatus: FetchStatusFlag.FETCHING,
+      },
+    },
+  };
+});
+
+articleReducer.on(Actions.afterLoadRelatedArticles, (state, action) => {
+  const { contentKey, response } = action;
+  const articlesResponse = response
+    ? {
+        articles: response.results.map(article => getArticleKeyFromData(article)),
+      }
+    : undefined;
+
+  return {
+    ...state,
+    [contentKey]: {
+      ...state[contentKey],
+      relatedArticles: {
+        ...articlesResponse,
+        fetchStatus: response ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
       },
     },
   };

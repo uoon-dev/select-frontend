@@ -8,6 +8,7 @@ import {
   FavoriteArticleActionResponse,
   requestFavoriteArticleAction,
   requestSingleArticle,
+  requestRelatedArticles,
 } from 'app/services/article/requests';
 import { Actions as ChannelActions } from 'app/services/articleChannel';
 import { Actions as TrackingActions } from 'app/services/tracking';
@@ -138,6 +139,25 @@ function* favoriteArticleAction({
   }
 }
 
+function* loadRelatedArticles({ payload }: ReturnType<typeof Actions.loadRelatedArticles>) {
+  const { contentKey, articleId } = payload;
+  try {
+    const response = yield call(requestRelatedArticles, articleId);
+    yield all([
+      put(Actions.updateArticles({ articles: response.results })),
+      put(
+        Actions.afterLoadRelatedArticles({
+          response,
+          contentKey,
+        }),
+      ),
+    ]);
+  } catch (e) {
+    // error
+    yield put(Actions.afterLoadRelatedArticles({ contentKey }));
+  }
+}
+
 export function* watchLoadArticle() {
   yield takeLatest(Actions.loadArticleRequest.getType(), loadArticle);
 }
@@ -150,6 +170,15 @@ export function* watchFavoriteArticleActionRequest() {
   yield takeLatest(Actions.favoriteArticleActionRequest.getType(), favoriteArticleAction);
 }
 
+export function* watchLoadRelatedArticles() {
+  yield takeLatest(Actions.loadRelatedArticles.getType(), loadRelatedArticles);
+}
+
 export function* articleRootSaga() {
-  yield all([watchLoadArticle(), watchLoadUpdateArticles(), watchFavoriteArticleActionRequest()]);
+  yield all([
+    watchLoadArticle(),
+    watchLoadUpdateArticles(),
+    watchFavoriteArticleActionRequest(),
+    watchLoadRelatedArticles(),
+  ]);
 }
