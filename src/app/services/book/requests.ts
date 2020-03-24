@@ -13,6 +13,8 @@ import {
 } from 'app/services/book';
 import { Category } from 'app/services/category';
 import { BookId, DateDTO, Omit, TextWithLF } from 'app/types';
+import { COUNT_PER_PAGE } from 'app/constants';
+import qs from 'qs';
 
 export interface RedirectionRequiredResponse {
   location: string;
@@ -104,9 +106,12 @@ export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatu
     response => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data,
   );
 
-export const requestBookToBookRecommendation = (bookId: number): Promise<Book[]> =>
-  request({
-    url: `${env.RECOMMEND_API}/select/books/${bookId}/similar`,
+export const requestBookToBookRecommendation = (bookId: number, size?: number): Promise<Book[]> => {
+  const parameters = qs.stringify({ size: size || COUNT_PER_PAGE });
+
+  return request({
+    url: `${env.RECOMMEND_API}/select/books/${bookId}/similar?${parameters}`,
     method: 'GET',
     withCredentials: true,
   }).then(response => camelize<Book[]>(response.data, { recursive: true }));
+};

@@ -1,7 +1,7 @@
 import mapValues from 'lodash-es/mapValues';
 
 import history from 'app/config/history';
-import { FetchErrorFlag, RoutePaths, COUNT_PER_PAGE } from 'app/constants';
+import { FetchErrorFlag, RoutePaths } from 'app/constants';
 import {
   Actions,
   BookOwnershipStatus,
@@ -142,7 +142,7 @@ export function* loadBookToBookRecommendation({
       yield put(
         Actions.loadBookToBookRecommendationSuccess({
           bookId,
-          recommendedBooks: response.slice(0, COUNT_PER_PAGE),
+          recommendedBooks: response,
         }),
       );
     }
