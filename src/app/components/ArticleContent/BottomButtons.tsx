@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Icon } from '@ridi/rsg';
 
-import { Actions } from 'app/services/article';
-import { Actions as TrackingActions } from 'app/services/tracking';
-import { RidiSelectState } from 'app/store';
-import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import toast from 'app/utils/toast';
+import { RidiSelectState } from 'app/store';
+import { Actions } from 'app/services/article';
+import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import { Actions as TrackingActions } from 'app/services/tracking';
+import * as styles from 'app/scenes/ArticleContent/styles';
 
 export const ShareSVG = (props: { className?: string }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" className={props.className}>
@@ -52,18 +53,14 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
   };
 
   return (
-    <ul className="ArticleContent_ButtonsWrapper">
-      <li className="ArticleContent_ButtonElement">
+    <ul css={styles.ArticleContent_ButtonsWrapper}>
+      <li css={styles.ArticleContent_ButtonElement}>
         <Button
           color="gray"
           size="medium"
           outline
           type="button"
-          className={classNames(
-            'ArticleContent_Button',
-            'ArticleContent_LikeButton',
-            articleState.article.isFavorite && 'ArticleContent_LikeButton-active',
-          )}
+          css={styles.ArticleContent_Button}
           onClick={() =>
             dispatch(
               Actions.favoriteArticleActionRequest({
@@ -73,22 +70,26 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
             )
           }
         >
-          <Icon name="heart_1" className="ArticleContent_LikeButton_Icon" />
+          <Icon
+            css={styles.ArticleContent_LikeButton_Icon}
+            name="heart_1"
+            className={articleState.article.isFavorite ? 'active' : ''}
+          />
           {typeof articleState.article.favoritesCount === 'number'
             ? thousandsSeperator(articleState.article.favoritesCount)
             : ''}
         </Button>
       </li>
-      <li className="ArticleContent_ButtonElement">
+      <li css={styles.ArticleContent_ButtonElement}>
         <Button
           color="gray"
           size="medium"
           outline
           type="button"
-          className="ArticleContent_Button ArticleContent_ShareButton"
+          css={styles.ArticleContent_Button}
           onClick={copyUrl}
         >
-          <ShareSVG className="ArticleContent_ShareButton_Icon" />
+          <ShareSVG css={styles.ArticleContent_ShareButton_Icon} />
           링크 복사하기
         </Button>
       </li>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch, useSelector, useEffect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { ArticleContentBottomButtons } from 'app/components/ArticleContent/BottomButtons';
@@ -11,6 +11,8 @@ import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
 import { ArticleRequestIncludableData } from 'app/types';
+import RelatedArticleSection from 'app/components/ArticleContent/RelatedArticleSection';
+import * as styles from 'app/scenes/ArticleContent/styles';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -67,7 +69,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   }, [articleState]);
 
   return (
-    <main className="SceneWrapper PageArticleContent">
+    <main className="SceneWrapper" css={styles.PageArticleContent}>
       <HelmetWithTitle
         titleName={articleTitle}
         meta={[
@@ -78,12 +80,15 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
         ]}
       />
       <ArticleContentHeader contentKey={contentKey} />
-      <div className="ArticleContent_ContentWrapper">
+      <div css={styles.ArticleContent_ContentWrapper}>
         <ArticleContentComponent contentKey={contentKey} />
         {!articleState ||
         !articleState.content ||
         ticketFetchStatus === FetchStatusFlag.FETCHING ? null : hasAvailableTicket ? (
-          <ArticleContentBottomButtons contentKey={contentKey} />
+          <>
+            <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
+            <ArticleContentBottomButtons contentKey={contentKey} />
+          </>
         ) : (
           <ArticleContentGetTicketToRead contentKey={contentKey} />
         )}

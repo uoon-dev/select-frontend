@@ -1,4 +1,8 @@
-.PageArticleContent {
+import { css } from '@emotion/core';
+import Colors from 'app/styles/colors';
+import { resetLayout, customMedia, resetList } from 'app/styles/customProperties';
+
+export const PageArticleContent = css`
   display: block;
   width: 100%;
   max-width: 700px;
@@ -7,10 +11,16 @@
   & .ChannelInfoHeader_Wrapper {
     padding: 10px 0 30px;
   }
-}
 
-.ArticleContent_Title {
-  @apply --reset-layout;
+  @media (max-width: 700px) {
+    & .ChannelInfoHeader_Wrapper {
+      padding: 10px 20px 30px;
+    }
+  }
+`;
+
+export const ArticleContent_Title = css`
+  ${resetLayout}
 
   padding-top: 60px;
   font-family: Noto Sans KR, NotoSansKR, sans-serif;
@@ -18,46 +28,59 @@
   font-weight: 700;
   line-height: 1.33;
   letter-spacing: -0.68px;
-  color: var(--gray_100);
-}
+  color: ${Colors.gray_100};
 
-.ArticleContent_ContentWrapper {
+  @media (max-width: 700px) {
+    padding: 30px 20px 0;
+  }
+`;
+
+export const ArticleContent_ContentWrapper = css`
   position: relative;
 
   & .RidiselectArticle {
     position: relative;
     padding-bottom: 60px;
     z-index: 10;
-    @media (--pc-screen) {
+
+    @media (${customMedia.pcLayout}) {
       min-height: 660px;
     }
   }
-}
+`;
 
-.ArticleContent_ButtonsWrapper {
-  @apply --reset-list;
+export const ArticleContent_ButtonsWrapper = css`
+  ${resetList}
 
   padding: 0 0 60px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-}
 
-.ArticleContent_ButtonElement {
+  @media (max-width: 700px) {
+    padding: 0 12px 60px;
+  }
+
+  @media (${customMedia.mobileLayout}) {
+    padding: 0 12px 30px;
+  }
+`;
+
+export const ArticleContent_ButtonElement = css`
   width: 50%;
   padding: 0 4px;
   box-sizing: border-box;
-}
+`;
 
-.ArticleContent_Button {
+export const ArticleContent_Button = css`
   display: block;
   width: 100%;
   height: 40px;
   line-height: 38px;
   vertical-align: top;
-}
+`;
 
-.ArticleContent_LikeButton_Icon {
+export const ArticleContent_LikeButton_Icon = css`
   width: 12px;
   height: 10px;
   margin-right: 4px;
@@ -65,21 +88,21 @@
   vertical-align: top;
   margin-top: 14px;
 
-  @nest .ArticleContent_LikeButton-active & {
-    fill: var(--red_40);
+  &.active {
+    fill: ${Colors.red_40};
   }
-}
+`;
 
-.ArticleContent_ShareButton_Icon {
+export const ArticleContent_ShareButton_Icon = css`
   width: 14px;
   height: 14px;
   margin-right: 3px;
-  fill: var(--slategray_60);
+  fill: ${Colors.slategray_60};
   vertical-align: top;
   margin-top: 13px;
-}
+`;
 
-.ArticleContent_GetTicketToReadButtonWrapper {
+export const ArticleContent_GetTicketToReadButtonWrapper = css`
   position: fixed;
   display: block;
   bottom: 0;
@@ -105,12 +128,17 @@
     rgba(255, 255, 255, 0) 0%,
     rgba(255, 255, 255, 1) 68%
   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  &.ArticleContent_GetTicketToReadButtonWrapper-sticky {
+
+  &.sticky {
     position: absolute;
   }
-}
 
-.ArticleContent_GetTicketToReadButton {
+  @media (max-width: 700px) {
+    padding: 120px 20px 0;
+  }
+`;
+
+export const ArticleContent_GetTicketToReadButton = css`
   display: block;
   margin: 0 auto;
   width: 100%;
@@ -118,27 +146,4 @@
   font-size: 16px;
   height: 50px;
   line-height: 48px;
-}
-
-@media (max-width: 700px) {
-  .ArticleContent_Title {
-    padding: 30px 20px 0;
-  }
-  .PageArticleContent {
-    & .ChannelInfoHeader_Wrapper {
-      padding: 10px 20px 30px;
-    }
-  }
-  .ArticleContent_ButtonsWrapper {
-    padding: 0 12px 60px;
-  }
-  .ArticleContent_GetTicketToReadButtonWrapper {
-    padding: 120px 20px 0;
-  }
-}
-
-@media (--mobile-layout) {
-  .ArticleContent_ButtonsWrapper {
-    padding: 0 12px 30px;
-  }
-}
+`;

@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import throttle from 'lodash-es/throttle';
@@ -7,6 +6,7 @@ import throttle from 'lodash-es/throttle';
 import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
+import * as styles from 'app/scenes/ArticleContent/styles';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{
   contentKey: string;
@@ -56,17 +56,15 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{
 
   return (
     <div
-      className={classNames(
-        'ArticleContent_GetTicketToReadButtonWrapper',
-        isSticky && 'ArticleContent_GetTicketToReadButtonWrapper-sticky',
-      )}
+      css={styles.ArticleContent_GetTicketToReadButtonWrapper}
+      className={isSticky ? 'sticky' : ''}
       ref={getTicketToReadButtonWrapper}
     >
       <Button
         size="large"
         color="blue"
         component={Link}
-        className="ArticleContent_GetTicketToReadButton"
+        css={styles.ArticleContent_GetTicketToReadButton}
         to="/intro"
       >
         {`리디셀렉트 구독하고 ${isLoggedIn && hasSubscribedBefore ? '바로' : '무료로'} 보기`}
