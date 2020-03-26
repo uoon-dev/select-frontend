@@ -1,5 +1,7 @@
 import { DeviceType, Tracker } from '@ridi/event-tracker';
-import env from 'app/config/env';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
+import { all, put, select, take, takeLatest } from 'redux-saga/effects';
+
 import { MOBILE_MAX_WIDTH } from 'app/constants';
 import { Actions } from 'app/services/tracking';
 import {
@@ -8,8 +10,6 @@ import {
   RidiSelectState,
 } from 'app/store';
 import { clearScrollEndHandlers } from 'app/utils/onWindowScrollEnd';
-import { LOCATION_CHANGE, replace } from 'connected-react-router';
-import { all, put, select, take, takeLatest } from 'redux-saga/effects';
 
 export const PIXEL_ID = '417351945420295';
 let tracker: Tracker;
@@ -23,7 +23,6 @@ const initializeTracker = (state: RidiSelectState) => {
   }
 
   tracker = new Tracker({
-    debug: !env.production,
     deviceType,
     userId: state.user.uId,
     tagManagerOptions: {

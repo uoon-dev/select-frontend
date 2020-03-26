@@ -2,9 +2,6 @@ import { connectRouter, routerMiddleware, RouterState } from 'connected-react-ro
 import isEmpty from 'lodash-es/isEmpty';
 import * as qs from 'qs';
 import { Dispatch, applyMiddleware, combineReducers, compose, createStore } from 'redux';
-
-import { loggers } from 'redux-act';
-import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
@@ -17,19 +14,14 @@ import { commonUIReducer, CommonUIState } from 'app/services/commonUI';
 import { homeReducer, HomeState } from 'app/services/home';
 import { homeRootSaga } from 'app/services/home/sagas';
 import { userRootSaga } from 'app/services/user/sagas';
-
 import { channelRootSaga } from 'app/services/articleChannel/sagas';
 import { articleHomeRootSaga } from 'app/services/articleHome/sagas';
-
 import { favoriteArticleListReducer, FavoriteArticleListState } from 'app/services/articleFavorite';
 import { articleFavoriteRootSaga } from 'app/services/articleFavorite/sagas';
-
 import { articleReducer, ArticlesState } from 'app/services/article';
 import { articleRootSaga } from 'app/services/article/sagas';
-
 import { ArticleFollowingState, articleFollowReducer } from 'app/services/articleFollowing';
 import { articleFollowingRootSaga } from 'app/services/articleFollowing/sagas';
-
 import {
   categoryBooksReducer,
   CategoryBooksState,
@@ -46,18 +38,15 @@ import { collectionReducer, CollectionsState } from 'app/services/collection';
 import { collectionsRootSaga } from 'app/services/collection/sagas';
 import { environmentReducer, EnvironmentState } from 'app/services/environment';
 import { MySelectState, mySelectReducer } from 'app/services/mySelect';
-
 import { mySelectRootSaga } from 'app/services/mySelect/sagas';
 import { reviewsReducer, ReviewsState } from 'app/services/review';
 import { reviewRootSaga } from 'app/services/review/sagas';
 import { searchResultReducer, SearchResultState } from 'app/services/searchResult';
-
 import { searchResultRootSaga } from 'app/services/searchResult/sagas';
 import { serviceStatusReducer, ServiceStatusState } from 'app/services/serviceStatus';
 import { serviceStatusSaga } from 'app/services/serviceStatus/sagas';
 import { trackingSaga } from 'app/services/tracking/sagas';
 import { voucherRootSaga } from 'app/services/voucher/sagas';
-
 import env from 'app/config/env';
 import {
   customHistoryReducer,
@@ -74,6 +63,7 @@ import {
   articleChannelReducer,
   ArticleChannelState,
 } from 'app/services/articleChannel';
+
 import { articleListRootSaga } from './services/articleList/sagas';
 import { articleListReducer, ArticleListState } from './services/articleList/index';
 
@@ -136,9 +126,6 @@ export interface RidiSelectState {
 }
 
 const sagaMiddleware = createSagaMiddleware();
-const logger = createLogger({
-  ...loggers.reduxLogger,
-});
 
 export const hasRefreshedForAppDownload = () =>
   !!qs.parse(location.search, { ignoreQueryPrefix: true }).to_app_store;
@@ -175,10 +162,6 @@ const reducers = combineReducers({
 });
 
 const middleware = [routerMiddleware(browserHistory), sagaMiddleware];
-
-if (!env.production) {
-  middleware.push(logger);
-}
 
 const enhancers = (!env.production
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
