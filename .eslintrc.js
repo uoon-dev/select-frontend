@@ -49,10 +49,20 @@ module.exports = {
     'global-require': 0,
     'consistent-return': 0,
     'lines-around-comment': 0,
+    'simple-import-sort/sort': 'error',
+    'sort-imports': 'off',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true,
+      },
+    ],
     'import/prefer-default-export': 0,
     'import/extensions': 0,
     'import/no-unresolved': 0,
-    'import/no-extraneous-dependencies': 0,
     'import/no-self-import': 0, // /src/app/services/review/actions/reviews.ts
     'react/prop-types': 0,
     'react/destructuring-assignment': 0,
@@ -87,4 +97,19 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
   },
+  overrides: [
+    {
+      files: 'src/**/*.{js,jsx,ts,tsx}',
+      rules: {
+        'simple-import-sort/sort': 'off',
+        'import/order': [
+          'error',
+          {
+            'newlines-between': 'always',
+            groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+          },
+        ],
+      },
+    },
+  ],
 };
