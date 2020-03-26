@@ -61,7 +61,7 @@ export const ArticleContent_ButtonsWrapper = css`
     padding: 0 12px 60px;
   }
 
-  @media (${customMedia.mobileLayout}) {
+  @media ${customMedia.mobileLayout} {
     padding: 0 12px 30px;
   }
 `;

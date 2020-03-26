@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ArticleKey } from 'app/types';
+import { RidiSelectState } from 'app/store';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import { SectionHeader } from 'app/components/HomeSectionHeader';
+import { ImageSize } from 'app/constants';
 import { ArticleThumbnail } from 'app/components/ArticleThumbnail';
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
+import * as styles from 'app/components/ArticleContent/relatedArticleSectionStyles';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
-import { RidiSelectState } from 'app/store';
-import { ImageSize, FetchStatusFlag } from 'app/constants';
 
 interface RelatedArticleSectionState {
   contentKey: ArticleKey;
@@ -28,10 +28,6 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
     }
     return articleKeys.map((key: string) => state.articlesById[key]?.article);
   });
-  const relatedArticleFetchStatus = useSelector(
-    (state: RidiSelectState) =>
-      state.articlesById[contentKey]?.relatedArticles?.fetchStatus || FetchStatusFlag.IDLE,
-  );
   const channelMeta = useSelector(
     (state: RidiSelectState) => state.articleChannelById[channelName]?.channelMeta,
   );
@@ -54,17 +50,19 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
 
   return relatedArticles ? (
     <section>
-      <SectionHeader title={`${channelMeta?.displayName || '이 채널'}의 다른 아티클`} />
-      <ul className="SearchResultArticleList">
+      <h3 css={styles.relatedArticleSectionHeader}>
+        {channelMeta?.displayName || '이 채널'}의 다른 아티클
+      </h3>
+      <ul css={styles.relatedArticleList}>
         {relatedArticles.map((article, idx) => (
-          <li className="SearchResultArticleList_Item" key={article!.id}>
+          <li css={styles.relatedArticleList_Item} key={article!.id}>
             <ConnectedTrackImpression section={section} index={idx} id={article!.id}>
-              <div className="SearchResultArticleList_Link">
+              <div css={styles.relatedArticleList_Link}>
                 <ArticleThumbnail
                   linkUrl={`/article/${getArticleKeyFromData(article)}`}
                   imageUrl={article!.thumbnailUrl}
                   thumbnailShape={ThumbnailShape.SQUARE}
-                  thumbnailClassName="SearchResultArticleList_Thumbnail"
+                  thumbnailClassName="relatedArticleList_Thumbnail"
                   articleTitle={article!.title}
                   imageSize={ImageSize.HEIGHT_100}
                   onLinkClick={() =>
@@ -79,7 +77,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
                 />
                 <Link
                   to={`/article/${getArticleKeyFromData(article)}`}
-                  className="SearchResultArticleList_Meta"
+                  css={styles.relatedArticleList_Meta}
                   onClick={() =>
                     trackingClick(
                       idx,
@@ -90,7 +88,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
                     )
                   }
                 >
-                  <h3 className="SearchResultArticleList_Title">{article!.title}</h3>
+                  <h3 css={styles.relatedArticleList_Title}>{article!.title}</h3>
                 </Link>
               </div>
             </ConnectedTrackImpression>
