@@ -86,8 +86,8 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
         !articleState.content ||
         ticketFetchStatus === FetchStatusFlag.FETCHING ? null : hasAvailableTicket ? (
           <>
-            <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
             <ArticleContentBottomButtons contentKey={contentKey} />
+            <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
           </>
         ) : (
           <ArticleContentGetTicketToRead contentKey={contentKey} />

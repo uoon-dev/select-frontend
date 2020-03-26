@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -71,8 +70,8 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
           }
         >
           <Icon
-            css={styles.ArticleContent_LikeButton_Icon}
             name="heart_1"
+            css={styles.ArticleContent_LikeButton_Icon}
             className={articleState.article.isFavorite ? 'active' : ''}
           />
           {typeof articleState.article.favoritesCount === 'number'

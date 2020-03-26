@@ -84,9 +84,8 @@ export const ArticleContent_LikeButton_Icon = css`
   width: 12px;
   height: 10px;
   margin-right: 4px;
-  fill: var(--slategray_30);
+  fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 14px;
 
   &.active {
     fill: ${Colors.red_40};
@@ -99,7 +98,6 @@ export const ArticleContent_ShareButton_Icon = css`
   margin-right: 3px;
   fill: ${Colors.slategray_60};
   vertical-align: top;
-  margin-top: 13px;
 `;
 
 export const ArticleContent_GetTicketToReadButtonWrapper = css`
