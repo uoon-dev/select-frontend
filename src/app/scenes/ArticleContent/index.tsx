@@ -54,7 +54,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
         },
       }),
     );
-  }, [hasAvailableTicket]);
+  }, [hasAvailableTicket, contentKey]);
 
   useEffect(() => {
     const articleId = articleState?.article?.id;
