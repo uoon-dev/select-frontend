@@ -1,8 +1,12 @@
+import qs from 'qs';
 import { AxiosResponse } from 'axios';
 
-import { camelize } from '@ridi/object-case-converter';
-import request from 'app/config/axios';
 import env from 'app/config/env';
+import request from 'app/config/axios';
+import { COUNT_PER_PAGE } from 'app/constants';
+import { Category } from 'app/services/category';
+import { camelize } from '@ridi/object-case-converter';
+import { BookId, DateDTO, Omit, TextWithLF } from 'app/types';
 import {
   Book,
   BookAuthors,
@@ -11,8 +15,6 @@ import {
   BookThumbnailUrlMap,
   BookTitle,
 } from 'app/services/book';
-import { Category } from 'app/services/category';
-import { BookId, DateDTO, Omit, TextWithLF } from 'app/types';
 
 export interface RedirectionRequiredResponse {
   location: string;
@@ -104,9 +106,12 @@ export const requestBookOwnership = (bookId: number): Promise<BookOwnershipStatu
     response => camelize<AxiosResponse<BookOwnershipStatus>>(response, { recursive: true }).data,
   );
 
-export const requestBookToBookRecommendation = (bookId: number): Promise<Book[]> =>
-  request({
-    url: `${env.RECOMMEND_API}/select/books/${bookId}/similar`,
+export const requestBookToBookRecommendation = (bookId: number, size?: number): Promise<Book[]> => {
+  const parameters = qs.stringify({ size: size || COUNT_PER_PAGE });
+
+  return request({
+    url: `${env.RECOMMEND_API}/select/books/${bookId}/similar?${parameters}`,
     method: 'GET',
     withCredentials: true,
   }).then(response => camelize<Book[]>(response.data, { recursive: true }));
+};
