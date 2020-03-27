@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
@@ -11,7 +12,6 @@ import { StarRating } from 'app/services/review/components';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { connect } from 'react-redux';
 
 interface Props {
   books: Book[];
@@ -26,7 +26,7 @@ interface Props {
   onLinkClick?: (event: React.SyntheticEvent<any>) => any;
 }
 
-export class GridBookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>> {
+export class BookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>> {
   public renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
     const {
       isChart = false,
@@ -140,4 +140,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(Actions.trackClick({ trackingParams })),
 });
 
-export const ConnectedGridBookList = connect(null, mapDispatchToProps)(GridBookList);
+export const GridBookList = connect(null, mapDispatchToProps)(BookList);

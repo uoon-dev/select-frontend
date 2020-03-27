@@ -4,16 +4,13 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { ConnectedGridBookList, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
+import { GridBookList, HelmetWithTitle, Pagination, PCPageHeader } from 'app/components';
 import { PageTitleText } from 'app/constants';
-
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, ReservedCollectionState, ReservedCollectionIds } from 'app/services/collection';
 import { RidiSelectState } from 'app/store';
-
 import { getPageQuery } from 'app/services/routing/selectors';
-import classNames from 'classnames';
 
 interface CollectionStateProps {
   newReleases: ReservedCollectionState;
@@ -83,14 +80,14 @@ export class NewReleases extends React.Component<Props> {
     const itemCount: number = newReleases.itemCount ? newReleases.itemCount : 0;
     const itemCountPerPage = 24;
     return (
-      <main className={classNames('SceneWrapper', 'SceneWrapper_WithGNB', 'SceneWrapper_WithLNB')}>
+      <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.NEW_RELEASE} />
         <PCPageHeader pageTitle={PageTitleText.NEW_RELEASE} />
         {!this.isFetched(page) || isNaN(page) ? (
           <GridBookListSkeleton />
         ) : (
           <>
-            <ConnectedGridBookList
+            <GridBookList
               serviceTitleForTracking="select-book"
               pageTitleForTracking="recent"
               uiPartTitleForTracking="book-list"

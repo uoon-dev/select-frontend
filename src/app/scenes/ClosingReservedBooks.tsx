@@ -1,15 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { Empty } from '@ridi/rsg';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Link, LinkProps } from 'react-router-dom';
 
-import {
-  ConnectedGridBookList,
-  ConnectedPageHeader,
-  HelmetWithTitle,
-  Pagination,
-} from 'app/components';
+import { GridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { Tab, Tabs } from 'app/components/Tabs';
 import { PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -17,9 +13,6 @@ import { Actions, ClosingReservedBooksState } from 'app/services/closingReserved
 import { closingReservedTermType } from 'app/services/closingReservedBooks/requests';
 import { getClosingReservedBooksTermQuery, getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { Link, LinkProps } from 'react-router-dom';
-
 import { Notice } from 'app/components/Notice';
 
 interface State {
@@ -145,7 +138,7 @@ class ClosingReservedBooks extends React.Component<Props> {
                 <div className="ClosingReservedBooks_NoticeWrapper">
                   <Notice mainText="각 도서의 서비스 종료 일정은 변경될 수 있습니다." />
                 </div>
-                <ConnectedGridBookList
+                <GridBookList
                   serviceTitleForTracking="select-book"
                   pageTitleForTracking="closing-reserved"
                   uiPartTitleForTracking="book-list"

@@ -4,12 +4,7 @@ import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import {
-  ConnectedGridBookList,
-  ConnectedPageHeader,
-  HelmetWithTitle,
-  Pagination,
-} from 'app/components';
+import { GridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { RidiSelectState } from 'app/store';
 import { BookState } from 'app/services/book';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -94,7 +89,7 @@ export class Charts extends React.Component<Props> {
           <GridBookListSkeleton displayRanking />
         ) : (
           <>
-            <ConnectedGridBookList
+            <GridBookList
               serviceTitleForTracking="select-book"
               pageTitleForTracking="popular"
               uiPartTitleForTracking="book-list"

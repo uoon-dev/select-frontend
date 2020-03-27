@@ -1,9 +1,8 @@
-import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
 
-import { ConnectedGridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
+import { GridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
 import history from 'app/config/history';
 import { PageTitleText } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
@@ -13,10 +12,8 @@ import {
   CategoryCollectionState,
   Actions as categoryActions,
 } from 'app/services/category';
-
 import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
-
 import { Pagination } from 'app/components/Pagination';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
@@ -138,7 +135,7 @@ class Category extends React.Component<Props, State> {
 
     const selectBoxTemplate = isValidNumber(categoryId) && this.renderSelectBox();
     return (
-      <main className={classNames('SceneWrapper', 'SceneWrapper_WithGNB', 'SceneWrapper_WithLNB')}>
+      <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
         <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
         <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
           {isValidNumber(categoryId) && this.renderSelectBox()}
@@ -148,7 +145,7 @@ class Category extends React.Component<Props, State> {
           <GridBookListSkeleton />
         ) : (
           <>
-            <ConnectedGridBookList
+            <GridBookList
               serviceTitleForTracking="select-book"
               pageTitleForTracking="category"
               uiPartTitleForTracking="book-list"
