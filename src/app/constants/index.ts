@@ -1,5 +1,6 @@
 export * from './coverSize';
 export * from './imageSize';
+export * from './gridBookList';
 
 export const MOBILE_MAX_WIDTH = 834;
 export const CAROUSEL_MIN_WIDTH = 901;
