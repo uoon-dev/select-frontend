@@ -26,7 +26,7 @@ export const ArticleContent_Title = css`
   font-family: Noto Sans KR, NotoSansKR, sans-serif;
   font-size: 30px;
   font-weight: 700;
-  line-height: 1.33;
+  line-height: 1.33em;
   letter-spacing: -0.68px;
   color: ${Colors.gray_100};
 

@@ -206,19 +206,19 @@ articleReducer.on(Actions.loadRelatedArticles, (state, action) => {
 
 articleReducer.on(Actions.afterLoadRelatedArticles, (state, action) => {
   const { contentKey, response } = action;
-  const articlesResponse = response
-    ? {
-        articles: response.results.map(article => getArticleKeyFromData(article)),
-      }
-    : undefined;
+  const relatedArticles = response ? {
+    articles: response.results.map(article => getArticleKeyFromData(article)),
+    fetchStatus: FetchStatusFlag.IDLE,
+  } : {
+    fetchStatus: FetchStatusFlag.FETCH_ERROR,
+  };
 
   return {
     ...state,
     [contentKey]: {
       ...state[contentKey],
       relatedArticles: {
-        ...articlesResponse,
-        fetchStatus: response ? FetchStatusFlag.IDLE : FetchStatusFlag.FETCH_ERROR,
+        ...relatedArticles,
       },
     },
   };
