@@ -2,17 +2,15 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { ArticleContentBottomButtons } from 'app/components/ArticleContent/BottomButtons';
-import { ArticleContentComponent } from 'app/components/ArticleContent/ContentComponent';
-import { ArticleContentGetTicketToRead } from 'app/components/ArticleContent/GetTicketToRead';
-import { ArticleContentHeader } from 'app/components/ArticleContent/Header';
-import { HelmetWithTitle } from 'app/components';
-import { FetchStatusFlag } from 'app/constants';
-import { Actions } from 'app/services/article';
 import { RidiSelectState } from 'app/store';
+import { Actions } from 'app/services/article';
+import { FetchStatusFlag } from 'app/constants';
+import { HelmetWithTitle } from 'app/components';
 import { ArticleRequestIncludableData } from 'app/types';
-import RelatedArticleSection from 'app/components/ArticleContent/RelatedArticleSection';
 import * as styles from 'app/scenes/ArticleContent/styles';
+import { ArticleContentHeader } from 'app/components/ArticleContent/Header';
+import ContentsUnderArticle from 'app/components/ArticleContent/ContentsUnderArticle';
+import { ArticleContentComponent } from 'app/components/ArticleContent/ContentComponent';
 
 type RouteProps = RouteComponentProps<{ channelName: string; contentIndex: string }>;
 
@@ -28,7 +26,6 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
     (state: RidiSelectState) => state.articlesById[contentKey]?.relatedArticles,
   );
   const hasAvailableTicket = useSelector((state: RidiSelectState) => state.user.hasAvailableTicket);
-  const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
   const relatedArticleFetchStatus = useSelector(
     (state: RidiSelectState) =>
       state.articlesById[contentKey]?.relatedArticles?.fetchStatus || FetchStatusFlag.IDLE,
@@ -82,16 +79,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
       <ArticleContentHeader contentKey={contentKey} />
       <div css={styles.ArticleContent_ContentWrapper}>
         <ArticleContentComponent contentKey={contentKey} />
-        {!articleState ||
-        !articleState.content ||
-        ticketFetchStatus === FetchStatusFlag.FETCHING ? null : hasAvailableTicket ? (
-          <>
-            <ArticleContentBottomButtons contentKey={contentKey} />
-            <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
-          </>
-        ) : (
-          <ArticleContentGetTicketToRead contentKey={contentKey} />
-        )}
+        <ContentsUnderArticle channelName={channelName} contentKey={contentKey} />
       </div>
     </main>
   );
