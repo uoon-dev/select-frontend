@@ -48,14 +48,15 @@ export const relatedArticleList_Item = css`
   & > .relatedArticleList_Link {
     flex-direction: row;
   }
+`;
 
-  .relatedArticleList_Thumbnail {
-    height: auto !important;
-    min-height: 100px !important;
-    width: 100px !important;
-    align-items: center;
-    overflow: hidden;
-  }
+export const relatedArticleList_Thumbnail = css`
+  padding: 0;
+  margin: 0;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  overflow: hidden;
 `;
 
 export const relatedArticleList_Link = css`

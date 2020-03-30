@@ -1,12 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 import Lazyload from 'react-lazyload';
 import * as Modernizr from 'modernizr';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
+import { SerializedStyles } from '@emotion/css';
 
-import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
+import * as styles from 'app/components/ArticleThumbnail/styles';
+import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -18,6 +20,7 @@ interface ArticleThumbnailProps {
   isEnabled?: boolean;
   imageSize?: ImageSize;
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
+  thumbnailStyle?: SerializedStyles;
 }
 
 export const BlockIconComponent = (props: any) => (
@@ -33,6 +36,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
     imageUrl,
     articleTitle,
     imageClassName,
+    thumbnailStyle,
     imageSize = ImageSize.WIDTH_300,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLinkClick = () => {},
@@ -80,11 +84,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
   if (!isEnabled) {
     return (
       <div
-        className={classNames(
-          'ArticleThumbnail_Wrapper',
-          `ArticleThumbnail_Wrapper-${thumbnailShape}`,
-          thumbnailClassName,
-        )}
+        className={classNames(`ArticleThumbnail_Wrapper-${thumbnailShape}`, thumbnailClassName)}
+        css={[styles.ArticleThumbnail_Wrapper, thumbnailStyle]}
       >
         <div className="ArticleThumbnail_Block">
           <BlockIconComponent className="ArticleThumbnail_BlockImage" />
@@ -95,11 +96,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
   }
   return (
     <div
-      className={classNames(
-        'ArticleThumbnail_Wrapper',
-        `ArticleThumbnail_Wrapper-${thumbnailShape}`,
-        thumbnailClassName,
-      )}
+      className={classNames(`ArticleThumbnail_Wrapper-${thumbnailShape}`, thumbnailClassName)}
+      css={[styles.ArticleThumbnail_Wrapper, thumbnailStyle]}
     >
       <Link className="ArticleThumbnail_Link" to={linkUrl} onClick={onLinkClick}>
         <Lazyload

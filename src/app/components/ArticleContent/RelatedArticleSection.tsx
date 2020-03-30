@@ -62,9 +62,9 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
                   linkUrl={`/article/${getArticleKeyFromData(article)}`}
                   imageUrl={article!.thumbnailUrl}
                   thumbnailShape={ThumbnailShape.SQUARE}
-                  thumbnailClassName="relatedArticleList_Thumbnail"
                   articleTitle={article!.title}
                   imageSize={ImageSize.HEIGHT_100}
+                  thumbnailStyle={styles.relatedArticleList_Thumbnail}
                   onLinkClick={() =>
                     trackingClick(
                       idx,
