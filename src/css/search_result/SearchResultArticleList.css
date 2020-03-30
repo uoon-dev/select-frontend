@@ -38,11 +38,6 @@
   justify-content: center;
 }
 
-.SearchResultArticleList_Thumbnail {
-  align-items: center;
-  overflow: hidden;
-}
-
 .SearchResultArticleList_Title {
   @apply --reset-layout;
 
