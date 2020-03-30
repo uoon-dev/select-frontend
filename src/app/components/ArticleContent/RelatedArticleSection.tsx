@@ -32,7 +32,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
     (state: RidiSelectState) => state.articleChannelById[channelName]?.channelMeta,
   );
 
-  const section = getSectionStringForTracking('select-article', 'search-result', 'article-list');
+  const section = getSectionStringForTracking('select-article', 'related-article', 'article-list');
   const dispatch = useDispatch();
 
   const trackingClick = (index: number, id: number, misc?: string) => {
