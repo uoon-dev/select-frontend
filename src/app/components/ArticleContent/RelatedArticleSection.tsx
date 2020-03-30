@@ -18,6 +18,12 @@ interface RelatedArticleSectionState {
   channelName: string;
 }
 
+const sectionInfoForTracking = getSectionStringForTracking(
+  'select-article',
+  'related-article',
+  'article-list',
+);
+
 const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState> = props => {
   const { contentKey, channelName } = props;
 
@@ -31,16 +37,14 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
   const channelMeta = useSelector(
     (state: RidiSelectState) => state.articleChannelById[channelName]?.channelMeta,
   );
-
-  const section = getSectionStringForTracking('select-article', 'related-article', 'article-list');
   const dispatch = useDispatch();
 
   const trackingClick = (index: number, id: number, misc?: string) => {
-    if (!section) {
+    if (!sectionInfoForTracking) {
       return;
     }
     const trackingParams: DefaultTrackingParams = {
-      section,
+      section: sectionInfoForTracking,
       index,
       id,
       misc,
@@ -56,7 +60,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
       <ul css={styles.relatedArticleList}>
         {relatedArticles.map((article, idx) => (
           <li css={styles.relatedArticleList_Item} key={article!.id}>
-            <ConnectedTrackImpression section={section} index={idx} id={article!.id}>
+            <ConnectedTrackImpression section={sectionInfoForTracking} index={idx} id={article!.id}>
               <div css={styles.relatedArticleList_Link}>
                 <ArticleThumbnail
                   linkUrl={`/article/${getArticleKeyFromData(article)}`}
