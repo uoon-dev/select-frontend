@@ -13,7 +13,6 @@ export const relatedArticleSectionHeader = css`
   font-weight: 700;
   font-size: 16px;
   line-height: 22px;
-  text-decoration: unset;
   text-overflow: ellipsis;
   white-space: nowrap;
   border-top: 1px solid ${Colors.slategray_10};
@@ -72,7 +71,7 @@ export const relatedArticleList_Title = css`
 
   display: block;
   margin: 0;
-  color: #000;
+  color: black;
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;

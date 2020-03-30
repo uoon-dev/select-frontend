@@ -14,7 +14,7 @@ export const sectionTitle = css`
   overflow: hidden;
   color: #000;
   font-size: 16px;
-  text-decoration: unset;
+  text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
 
