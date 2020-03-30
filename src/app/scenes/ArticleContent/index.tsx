@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
@@ -35,7 +35,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   );
   const articleTitle = articleState?.article?.title;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (articleState?.contentFetchStatus === FetchStatusFlag.FETCHING) {
       return;
     }
@@ -56,7 +56,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
     );
   }, [hasAvailableTicket, contentKey]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const articleId = articleState?.article?.id;
     if (
       !articleId ||
