@@ -88,7 +88,7 @@ const Intro = React.lazy(() => import('app/scenes/Intro'));
 const NotAvailableBook = React.lazy(() => import('app/scenes/NotAvailableBook'));
 const Voucher = React.lazy(() => import('app/scenes/Voucher'));
 const WrongLocation = React.lazy(() => import('app/scenes/WrongLocation'));
-const ArticleContent = React.lazy(() => import('app/scenes/ArticleContent/index'));
+const ArticleContent = React.lazy(() => import('app/scenes/ArticleContent'));
 const ArticleHome = React.lazy(() => import('app/scenes/ArticleHome'));
 const ArticleList = React.lazy(() => import('app/scenes/ArticleList'));
 
