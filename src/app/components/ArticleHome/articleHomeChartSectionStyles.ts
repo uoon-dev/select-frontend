@@ -46,7 +46,7 @@ export const articleChartListArticle = css`
   list-style: none;
   margin-top: 30px;
 
-  &:first-child {
+  &:first-of-type {
     margin-top: 0;
   }
 `;
