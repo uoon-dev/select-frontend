@@ -116,15 +116,16 @@ export const GridBookList: React.FunctionComponent<Props> = (props: Props) => {
   const isFull = useMediaQuery({ minWidth: ResponsiveSection.VW_768 });
 
   const getBookWidth = () => {
-    let bookWidth = BookWidth.WIDTH_90;
     if (isNormal) {
-      bookWidth = BookWidth.WIDTH_100;
-    } else if (isLarge) {
-      bookWidth = BookWidth.WIDTH_116;
-    } else if (isFull) {
-      bookWidth = BookWidth.WIDTH_120;
+      return BookWidth.WIDTH_100;
     }
-    return bookWidth;
+    if (isLarge) {
+      return BookWidth.WIDTH_116;
+    }
+    if (isFull) {
+      return BookWidth.WIDTH_120;
+    }
+    return BookWidth.WIDTH_90;
   };
 
   const [bookWidth, setBookWidth] = React.useState(getBookWidth());
