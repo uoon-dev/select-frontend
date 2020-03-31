@@ -1,6 +1,5 @@
 import { Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
-
 import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor/dist/esm/article';
 
 import { FetchStatusFlag } from 'app/constants';
@@ -206,12 +205,14 @@ articleReducer.on(Actions.loadRelatedArticles, (state, action) => {
 
 articleReducer.on(Actions.afterLoadRelatedArticles, (state, action) => {
   const { contentKey, response } = action;
-  const relatedArticles = response ? {
-    articles: response.results.map(article => getArticleKeyFromData(article)),
-    fetchStatus: FetchStatusFlag.IDLE,
-  } : {
-    fetchStatus: FetchStatusFlag.FETCH_ERROR,
-  };
+  const relatedArticles = response
+    ? {
+        articles: response.results.map(article => getArticleKeyFromData(article)),
+        fetchStatus: FetchStatusFlag.IDLE,
+      }
+    : {
+        fetchStatus: FetchStatusFlag.FETCH_ERROR,
+      };
 
   return {
     ...state,

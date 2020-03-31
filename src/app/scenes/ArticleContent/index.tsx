@@ -79,7 +79,12 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
       <ArticleContentHeader contentKey={contentKey} />
       <div css={styles.ArticleContent_ContentWrapper}>
         <ArticleContentComponent contentKey={contentKey} />
-        <ContentsUnderArticle channelName={channelName} contentKey={contentKey} />
+        <ContentsUnderArticle
+          contentKey={contentKey}
+          channelName={channelName}
+          articleState={articleState}
+          hasAvailableTicket={hasAvailableTicket}
+        />
       </div>
     </main>
   );

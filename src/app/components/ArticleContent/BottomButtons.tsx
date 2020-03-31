@@ -1,11 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
 import { Button, Icon } from '@ridi/rsg';
 
 import toast from 'app/utils/toast';
-import { RidiSelectState } from 'app/store';
-import { Actions } from 'app/services/article';
+import { Actions, ArticleItemState } from 'app/services/article';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
 import { Actions as TrackingActions } from 'app/services/tracking';
 import * as styles from 'app/scenes/ArticleContent/styles';
@@ -19,11 +17,9 @@ export const ShareSVG = (props: { className?: string }) => (
 );
 
 export const ArticleContentBottomButtons: React.FunctionComponent<{
-  contentKey: string;
+  articleState: ArticleItemState;
 }> = props => {
-  const articleState = useSelector(
-    (state: RidiSelectState) => state.articlesById[props.contentKey],
-  );
+  const { articleState } = props;
   const dispatch = useDispatch();
 
   if (!articleState || !articleState.article) {

@@ -2,18 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import throttle from 'lodash-es/throttle';
-
 import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import * as styles from 'app/scenes/ArticleContent/styles';
+import { ArticleItemState } from 'app/services/article';
 
 export const ArticleContentGetTicketToRead: React.FunctionComponent<{
-  contentKey: string;
+  articleState: ArticleItemState;
 }> = props => {
-  const articleState = useSelector(
-    (state: RidiSelectState) => state.articlesById[props.contentKey],
-  );
+  const { articleState } = props;
+
   const isLoggedIn = useSelector((state: RidiSelectState) => state.user.isLoggedIn);
   const hasSubscribedBefore = useSelector(
     (state: RidiSelectState) => state.user.hasSubscribedBefore,
