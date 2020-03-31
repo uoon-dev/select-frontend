@@ -1,12 +1,14 @@
 import React from 'react';
 
+import * as styles from 'app/components/ArticleThumbnail/styles';
+
 interface GridArticlePlaceholderProps {
   gridSize?: string;
 }
 
 export const GridArticlePlaceholder: React.FunctionComponent<GridArticlePlaceholderProps> = props => (
   <li className="GridArticleItem">
-    <div className="ArticleThumbnail_Wrapper">
+    <div css={styles.ArticleThumbnail_Wrapper}>
       <div className="ArticleThumbnail_Skeleton Skeleton" />
     </div>
     <div className="GridArticleItem_Meta">

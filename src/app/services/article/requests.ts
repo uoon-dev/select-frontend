@@ -46,6 +46,17 @@ export const requestSingleArticle = (
   );
 };
 
+export const requestRelatedArticles = (articleId: number): Promise<ArticleListResponse> => {
+  const requestUrl = `/article/articles/?related=${articleId}`;
+
+  return request({
+    url: requestUrl,
+    method: 'GET',
+  }).then(
+    response => camelize<AxiosResponse<ArticleListResponse>>(response, { recursive: true }).data,
+  );
+};
+
 export const requestFavoriteArticleAction = (
   method: Method,
   articleId: number,

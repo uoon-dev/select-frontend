@@ -108,6 +108,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
                         articleTitle={article.title}
                         thumbnailShape={ThumbnailShape.SQUARE}
                         imageSize={ImageSize.HEIGHT_100}
+                        thumbnailStyle={styles.articleChartListThumbnail}
                         onLinkClick={() =>
                           trackingClick(
                             index,

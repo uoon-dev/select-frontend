@@ -49,11 +49,11 @@ export const articleChartListArticle = css`
   &:first-child {
     margin-top: 0;
   }
+`;
 
-  & .ArticleThumbnail_Wrapper {
-    width: 60px;
-    align-self: center;
-  }
+export const articleChartListThumbnail = css`
+  width: 60px;
+  align-self: center;
 `;
 
 export const articleChartListRank = css`

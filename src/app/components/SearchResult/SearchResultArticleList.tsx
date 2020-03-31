@@ -10,6 +10,7 @@ import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { getArticleKeyFromData } from 'app/utils/utils';
+import * as styles from 'app/components/SearchResult/searchResultArticleListStyles';
 
 import { ThumbnailShape } from '../ArticleThumbnail/types';
 
@@ -47,7 +48,7 @@ export const SearchResultArticleList: React.FunctionComponent<Props> = props => 
                 linkUrl={`/article/${getArticleKeyFromData(article)}`}
                 imageUrl={article.thumbnailUrl}
                 thumbnailShape={ThumbnailShape.SQUARE}
-                thumbnailClassName="SearchResultArticleList_Thumbnail"
+                thumbnailStyle={styles.searchResultArticleList_Thumbnail}
                 articleTitle={article.title}
                 imageSize={ImageSize.HEIGHT_100}
                 onLinkClick={() =>

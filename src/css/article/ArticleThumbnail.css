@@ -1,9 +1,3 @@
-.ArticleThumbnail_Wrapper {
-  @apply --reset-layout;
-
-  width: 100%;
-}
-
 .ArticleThumbnail_Link {
   position: relative;
   display: block;
