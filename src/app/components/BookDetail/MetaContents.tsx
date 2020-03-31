@@ -1,12 +1,10 @@
+import { Button, Icon } from '@ridi/rsg';
 import classNames from 'classnames';
 import some from 'lodash-es/some';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Icon } from '@ridi/rsg';
-
 import { ConnectedBookDetailDownloadButton } from 'app/components/BookDetail/DownloadButton';
-
 import { BookAuthor, BookTitle, formatFileCount, formatFileSize } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { GNBColorLevel } from 'app/services/commonUI';

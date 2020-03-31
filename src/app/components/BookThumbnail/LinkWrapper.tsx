@@ -1,7 +1,8 @@
-import { ThumbnailLinkType } from 'app/components/BookThumbnail/types';
 import classNames from 'classnames';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { ThumbnailLinkType } from 'app/components/BookThumbnail/types';
 
 export interface LinkWrapperProps {
   className?: string;

@@ -1,11 +1,11 @@
+import React from 'react';
 import { Icon } from '@ridi/rsg';
+import { connect } from 'react-redux';
+
 import { PrimaryRoutes } from 'app/routes';
 import { Actions } from 'app/services/customHistory';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
-import React from 'react';
-import { connect } from 'react-redux';
 
 interface UpButtonStateProps {
   isIosInApp: boolean;

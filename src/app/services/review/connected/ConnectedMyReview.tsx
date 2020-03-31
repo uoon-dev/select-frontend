@@ -1,7 +1,6 @@
 import { connect, Dispatch } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
-
 import { selectIsInApp } from 'app/services/environment/selectors';
 import {
   deleteReviewLikeRequest,
@@ -19,6 +18,7 @@ import {
   getReviewFetchStatusForMyReview,
 } from 'app/services/review/selectors';
 import { Omit } from 'app/types';
+
 import { MyReview, MyReviewProps } from '../components/MyReview';
 
 export type MyReviewStateProps = Pick<

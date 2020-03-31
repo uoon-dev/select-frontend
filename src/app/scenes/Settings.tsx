@@ -14,7 +14,6 @@ import { EnvironmentState } from 'app/services/environment';
 import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';
 import { RidiSelectState } from 'app/store';
-import { DateDTO } from 'app/types';
 
 interface SettingStateProps {
   isFetching: boolean;

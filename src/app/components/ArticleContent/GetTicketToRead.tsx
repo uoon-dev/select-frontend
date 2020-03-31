@@ -1,8 +1,8 @@
+import { Button } from '@ridi/rsg';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import throttle from 'lodash-es/throttle';
-import { Button } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import * as styles from 'app/scenes/ArticleContent/styles';

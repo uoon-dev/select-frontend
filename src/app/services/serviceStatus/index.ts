@@ -1,6 +1,7 @@
-import { FetchStatusFlag } from 'app/constants';
 import { produce } from 'immer';
 import { createAction, createReducer } from 'redux-act';
+
+import { FetchStatusFlag } from 'app/constants';
 
 export type ErrorResponseStatus = number;
 export interface ErrorResponseData {

@@ -1,7 +1,7 @@
+import { Button, Empty, Icon } from '@ridi/rsg';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Button, Empty, Icon } from '@ridi/rsg';
 import { HelmetWithTitle } from 'app/components';
 import { PageTitleText, RoutePaths } from 'app/constants';
 

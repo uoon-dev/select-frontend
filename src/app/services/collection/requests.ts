@@ -1,7 +1,6 @@
+import { camelize } from '@ridi/object-case-converter';
 import { AxiosResponse } from 'axios';
 import * as qs from 'qs';
-
-import { camelize } from '@ridi/object-case-converter';
 
 import env from 'app/config/env';
 import request from 'app/config/axios';

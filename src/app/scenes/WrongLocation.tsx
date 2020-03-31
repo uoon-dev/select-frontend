@@ -1,6 +1,6 @@
-import toast from 'app/utils/toast';
 import React from 'react';
 
+import toast from 'app/utils/toast';
 import history from 'app/config/history';
 import { RoutePaths } from 'app/constants';
 

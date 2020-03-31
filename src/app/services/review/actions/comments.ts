@@ -1,6 +1,5 @@
 import { Action } from 'app/services/review/types';
 import { TextWithLF } from 'app/types';
-
 import { ResponseComment } from 'app/services/review/requests';
 
 export const SHOW_MORE_COMMENTS = 'SHOW_MORE_COMMENTS';

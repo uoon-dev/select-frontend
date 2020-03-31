@@ -1,7 +1,9 @@
-import { Actions } from 'app/services/customHistory';
-import { RidiSelectState } from 'app/store';
 import { replace, go, LOCATION_CHANGE } from 'connected-react-router';
 import { all, call, put, select, take } from 'redux-saga/effects';
+
+import { Actions } from 'app/services/customHistory';
+import { RidiSelectState } from 'app/store';
+
 import { findUpperPathDiff, historyStackSessionStorageHelper } from './historyStack.helpers';
 
 export function* watchLocationChange() {

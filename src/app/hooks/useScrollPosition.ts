@@ -1,9 +1,10 @@
 /**
  * made by jeongsik@ridi.com
  */
-import horizontalAnimateScroll from 'app/utils/scrollTo';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDebouncedCallback as useDebounce } from 'use-debounce';
+
+import horizontalAnimateScroll from 'app/utils/scrollTo';
 
 export const useScrollPosition = (
   ref: React.RefObject<HTMLElement>,

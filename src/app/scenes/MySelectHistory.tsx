@@ -7,7 +7,6 @@ import { Link, LinkProps } from 'react-router-dom';
 import { ConnectedPageHeader, DTOBookThumbnail, HelmetWithTitle, Pagination } from 'app/components';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { LandscapeBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-
 import { ExpireRemaningTime } from 'app/components/ExpireRemainingTime';
 import { Actions as CommonUIActions } from 'app/services/commonUI';
 import { MySelectBook } from 'app/services/mySelect';

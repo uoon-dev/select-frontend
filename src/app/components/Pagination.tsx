@@ -1,6 +1,7 @@
 import { Button, Group, Icon } from '@ridi/rsg';
 import React from 'react';
 import { useSelector } from 'react-redux';
+
 import { getIsMobile } from 'app/services/commonUI/selectors';
 
 export interface PaginationProps {

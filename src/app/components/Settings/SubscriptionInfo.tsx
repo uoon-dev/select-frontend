@@ -1,7 +1,6 @@
+import { Button, Icon } from '@ridi/rsg';
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Button, Icon } from '@ridi/rsg';
 
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { Actions, SubscriptionState } from 'app/services/user';

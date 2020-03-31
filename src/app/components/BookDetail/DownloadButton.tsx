@@ -1,7 +1,7 @@
+import { Button, Icon } from '@ridi/rsg';
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Button, Icon } from '@ridi/rsg';
+import { Link } from 'react-router-dom';
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookOwnershipStatus } from 'app/services/book';
@@ -11,7 +11,6 @@ import { Actions as MySelectActions, MySelectState } from 'app/services/mySelect
 import { RidiSelectState } from 'app/store';
 import { BookId } from 'app/types';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
-import { Link } from 'react-router-dom';
 
 interface BookDetailDownloadButtonProps {
   bookId: number;

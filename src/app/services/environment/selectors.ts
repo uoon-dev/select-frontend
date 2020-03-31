@@ -1,6 +1,7 @@
+import { createSelector } from 'reselect';
+
 import { RoutePaths } from 'app/constants';
 import { RidiSelectState } from 'app/store';
-import { createSelector } from 'reselect';
 
 export const selectIsIos = (state: RidiSelectState): boolean => state.environment.platform.isIos;
 export const selectIsAndroid = (state: RidiSelectState): boolean =>

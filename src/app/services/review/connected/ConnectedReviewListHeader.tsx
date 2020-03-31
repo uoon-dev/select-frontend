@@ -3,7 +3,6 @@ import { connect, Dispatch } from 'react-redux';
 
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-
 import { changeSortBy, changeUserFilterTab } from 'app/services/review/actions';
 import { ReviewListTab, ReviewSortingOrder } from 'app/services/review/components';
 import { ReviewSortingCriteria, UserFilterType } from 'app/services/review/constants';

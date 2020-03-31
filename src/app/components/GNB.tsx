@@ -1,12 +1,12 @@
+import { Icon } from '@ridi/rsg';
 import classNames from 'classnames';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Icon } from '@ridi/rsg';
 import { ConnectedSearch } from 'app/components/Search';
 import { AppStatus } from 'app/services/app';
 import { GNBColorLevel } from 'app/services/commonUI';
-
 import { RoutePaths } from 'app/constants';
 import {
   getBackgroundColorRGBString,
@@ -21,7 +21,6 @@ import {
 } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
 import { moveToLogin } from 'app/utils/utils';
-import { connect } from 'react-redux';
 
 interface Props {
   gnbType: GNBColorLevel;

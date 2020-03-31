@@ -1,8 +1,9 @@
+import { AxiosError } from 'axios';
+
 import request from 'app/config/axios';
 import env from 'app/config/env';
 import { requestAccountsMe } from 'app/services/user/requests';
 import { DateDTO } from 'app/types';
-import axios, { AxiosError } from 'axios';
 
 interface RidiSelectTicketDTO {
   hasAvailableTicket: boolean;

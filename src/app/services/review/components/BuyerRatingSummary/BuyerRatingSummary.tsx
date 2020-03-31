@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getIsMobile } from 'app/services/commonUI/selectors';
+
 import { StarRating } from '../StarRating/StarRating';
 import { RatingBarGraph } from './RatingBarGraph';
 

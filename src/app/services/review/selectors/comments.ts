@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import { RidiSelectState } from 'app/store';
 import { TextWithLF } from 'app/types';
+
 import { Comment, CommentId, Review } from '../reducer.state';
 import { Paginated } from '../types';
 import { getReview } from './common';

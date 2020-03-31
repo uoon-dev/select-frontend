@@ -51,6 +51,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
     };
     dispatch(TrackingActions.trackClick({ trackingParams }));
   };
+  const trackingChannelInfo = channelMeta ? `ch:${channelMeta.id}` : 'undefined';
 
   return relatedArticles ? (
     <section>
@@ -58,46 +59,52 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
         '{channelMeta?.displayName || '이 채널'}'의 다른 아티클
       </h3>
       <ul css={styles.relatedArticleList}>
-        {relatedArticles.map((article, idx) => (
-          <li css={styles.relatedArticleList_Item} key={article!.id}>
-            <ConnectedTrackImpression section={sectionInfoForTracking} index={idx} id={article!.id}>
-              <div css={styles.relatedArticleList_Link}>
-                <ArticleThumbnail
-                  linkUrl={`/article/${getArticleKeyFromData(article)}`}
-                  imageUrl={article!.thumbnailUrl}
-                  thumbnailShape={ThumbnailShape.SQUARE}
-                  articleTitle={article!.title}
-                  imageSize={ImageSize.HEIGHT_100}
-                  thumbnailStyle={styles.relatedArticleList_Thumbnail}
-                  onLinkClick={() =>
-                    trackingClick(
-                      idx,
-                      article!.id,
-                      JSON.stringify({
-                        sect_ch: `ch:${channelMeta!.id}`,
-                      }),
-                    )
-                  }
-                />
-                <Link
-                  to={`/article/${getArticleKeyFromData(article)}`}
-                  css={styles.relatedArticleList_Meta}
-                  onClick={() =>
-                    trackingClick(
-                      idx,
-                      article!.id,
-                      JSON.stringify({
-                        sect_ch: `ch:${channelMeta!.id}`,
-                      }),
-                    )
-                  }
-                >
-                  <h3 css={styles.relatedArticleList_Title}>{article!.title}</h3>
-                </Link>
-              </div>
-            </ConnectedTrackImpression>
-          </li>
-        ))}
+        {relatedArticles.map((article, idx) =>
+          article ? (
+            <li css={styles.relatedArticleList_Item} key={article.id}>
+              <ConnectedTrackImpression
+                section={sectionInfoForTracking}
+                index={idx}
+                id={article.id}
+              >
+                <div css={styles.relatedArticleList_Link}>
+                  <ArticleThumbnail
+                    linkUrl={`/article/${getArticleKeyFromData(article)}`}
+                    imageUrl={article.thumbnailUrl}
+                    thumbnailShape={ThumbnailShape.SQUARE}
+                    articleTitle={article.title}
+                    imageSize={ImageSize.HEIGHT_100}
+                    thumbnailStyle={styles.relatedArticleList_Thumbnail}
+                    onLinkClick={() =>
+                      trackingClick(
+                        idx,
+                        article.id,
+                        JSON.stringify({
+                          sect_ch: trackingChannelInfo,
+                        }),
+                      )
+                    }
+                  />
+                  <Link
+                    to={`/article/${getArticleKeyFromData(article)}`}
+                    css={styles.relatedArticleList_Meta}
+                    onClick={() =>
+                      trackingClick(
+                        idx,
+                        article.id,
+                        JSON.stringify({
+                          sect_ch: trackingChannelInfo,
+                        }),
+                      )
+                    }
+                  >
+                    <h3 css={styles.relatedArticleList_Title}>{article.title}</h3>
+                  </Link>
+                </div>
+              </ConnectedTrackImpression>
+            </li>
+          ) : null,
+        )}
       </ul>
     </section>
   ) : null;

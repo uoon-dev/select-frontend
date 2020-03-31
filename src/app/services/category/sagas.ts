@@ -1,8 +1,8 @@
-import { FetchErrorFlag } from 'app/constants';
 import { replace } from 'connected-react-router';
 import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
+import { FetchErrorFlag } from 'app/constants';
 import history from 'app/config/history';
 import { Actions as BookActions } from 'app/services/book';
 import { Actions, Category } from 'app/services/category';

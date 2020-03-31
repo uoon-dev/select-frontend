@@ -1,4 +1,5 @@
 import mapValues from 'lodash-es/mapValues';
+import { all, call, fork, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import history from 'app/config/history';
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -11,7 +12,6 @@ import {
   StaticBookState,
   Book,
 } from 'app/services/book';
-
 import {
   BookDetailResponse,
   BookDetailResponseV1,
@@ -23,7 +23,6 @@ import {
 import { RidiSelectState } from 'app/store';
 import toast from 'app/utils/toast';
 import { bookDetailToPath } from 'app/utils/toPath';
-import { all, call, fork, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
 
 const KEY_LOCAL_STORAGE = 'rs.books';
 const booksLocalStorageManager = {

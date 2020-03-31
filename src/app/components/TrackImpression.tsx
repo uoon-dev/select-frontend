@@ -1,9 +1,10 @@
+import React from 'react';
+import { connect } from 'react-redux';
+
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { Omit } from 'app/types';
 import { isInViewport } from 'app/utils/isInViewport';
 import { subscribeToScrollEnd, unsubscribeFromScrollEnd } from 'app/utils/onWindowScrollEnd';
-import React from 'react';
-import { connect } from 'react-redux';
 
 export type TrackImpressionOwnProps = Omit<DefaultTrackingParams, 'section'> & {
   section?: string;

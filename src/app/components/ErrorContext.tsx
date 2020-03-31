@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Button } from '@ridi/rsg';
+import React from 'react';
 
 import { ConnectedCompactPageHeader } from 'app/components/CompactPageHeader';
 import history from 'app/config/history';

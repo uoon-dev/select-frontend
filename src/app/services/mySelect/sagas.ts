@@ -1,7 +1,10 @@
+import { AxiosResponse } from 'axios';
+import keyBy from 'lodash-es/keyBy';
+import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+
 import history from 'app/config/history';
 import { FetchErrorFlag } from 'app/constants';
 import { Actions as BookActions, Book } from 'app/services/book';
-
 import { requestBooks } from 'app/services/book/requests';
 import { Actions } from 'app/services/mySelect';
 import {
@@ -11,9 +14,7 @@ import {
   requestMySelectList,
   UserRidiSelectBookResponse,
 } from 'app/services/mySelect/requests';
-
 import { reqeustMySelectHistory } from 'app/services/user/requests';
-
 import { Actions as TrackingActions } from 'app/services/tracking';
 import { RidiSelectState } from 'app/store';
 import { downloadBooksInRidiselect, readBooksInRidiselect } from 'app/utils/downloadUserBook';
@@ -28,9 +29,7 @@ import {
   updateQueryStringParam,
 } from 'app/utils/request';
 import toast from 'app/utils/toast';
-import { AxiosResponse } from 'axios';
-import keyBy from 'lodash-es/keyBy';
-import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
+
 import { getIsIosInApp, selectIsInApp } from '../environment/selectors';
 
 export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMySelectRequest>) {

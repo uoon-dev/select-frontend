@@ -1,8 +1,7 @@
+import { Button, Icon } from '@ridi/rsg';
 import React from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Button, Icon } from '@ridi/rsg';
 
 import { HelmetWithTitle, TitleType } from 'app/components';
 import { PageTitleText } from 'app/constants';

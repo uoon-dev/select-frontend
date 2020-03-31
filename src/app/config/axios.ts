@@ -1,7 +1,7 @@
-import { store } from 'app/store';
 import axios, { AxiosError } from 'axios';
 import axiosRetry, { isNetworkOrIdempotentRequestError } from 'axios-retry';
 
+import { store } from 'app/store';
 import env from 'app/config/env';
 import { ErrorStatus } from 'app/constants';
 import { Actions as ServiceStatusActions } from 'app/services/serviceStatus';

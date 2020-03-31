@@ -1,6 +1,7 @@
 import { Icon } from '@ridi/rsg';
-import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 import React from 'react';
+
+import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 
 export interface NoticeProps {
   isInApp: boolean;

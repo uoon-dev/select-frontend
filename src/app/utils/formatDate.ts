@@ -1,7 +1,8 @@
-import { DateDTO } from 'app/types';
 import format from 'date-fns/format';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import ko from 'date-fns/locale/ko';
+
+import { DateDTO } from 'app/types';
 
 export const koreanDayOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
 

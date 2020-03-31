@@ -1,7 +1,6 @@
+import { Icon } from '@ridi/rsg';
 import classNames from 'classnames';
 import React from 'react';
-
-import { Icon } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { Review } from 'app/services/review';
@@ -26,6 +25,7 @@ export interface MyReviewProps {
   endEditing: (bookId: number) => void;
   checkAuth: () => boolean;
   isDisabled: boolean;
+  children?: React.ReactNode;
 }
 
 interface MyReviewState {

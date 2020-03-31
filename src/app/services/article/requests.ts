@@ -1,5 +1,4 @@
 import { AxiosResponse, Method } from 'axios';
-
 import { camelize } from '@ridi/object-case-converter';
 
 import request from 'app/config/axios';
@@ -7,6 +6,7 @@ import { Article } from 'app/services/article';
 import { ArticleChannel } from 'app/services/articleChannel';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { buildArticleRequestQueriesToString } from 'app/utils/request';
+import { ArticleListResponse } from 'app/services/articleList/requests';
 
 export interface AuthorResponse {
   id: number;

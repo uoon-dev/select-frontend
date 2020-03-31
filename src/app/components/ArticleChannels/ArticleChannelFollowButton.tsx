@@ -1,13 +1,11 @@
-import { Method } from 'axios';
+import { Button, Icon } from '@ridi/rsg';
+import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Button, Icon } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
 
 export const ArticleChannelFollowButton: React.FunctionComponent<{
   channelId: number;

@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FetchStatusFlag, PageTitleText } from 'app/constants';
 import { ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { SubscriptionListPlaceholder } from 'app/placeholder/SubscriptionListPlaceholder';
-
 import { RidiSelectState } from 'app/store';
 import { Actions } from 'app/services/user';
 import { getPageQuery } from 'app/services/routing/selectors';

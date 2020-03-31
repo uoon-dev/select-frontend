@@ -1,9 +1,10 @@
-import { Pagination } from 'app/components/Pagination';
-import { getPageQuery } from 'app/services/routing/selectors';
-import { RidiSelectState } from 'app/store';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
+
+import { Pagination } from 'app/components/Pagination';
+import { getPageQuery } from 'app/services/routing/selectors';
+import { RidiSelectState } from 'app/store';
 
 interface OwnProps {
   fetch: (page: number) => any;

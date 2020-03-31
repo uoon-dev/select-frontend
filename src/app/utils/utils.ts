@@ -1,7 +1,7 @@
-import { Article } from 'app/types/ridi-prosemirror-editor.d';
+import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor/dist/esm/article';
 import flatMap from 'lodash-es/flatMap';
 
-import { ArticleContentJSON } from '@ridi/ridi-prosemirror-editor/dist/esm/article';
+import { Article } from 'app/types/ridi-prosemirror-editor.d';
 import { ArticleContent } from 'app/services/article';
 import {
   authorKeys,

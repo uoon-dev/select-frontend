@@ -1,9 +1,8 @@
+import { Icon } from '@ridi/rsg';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { SerializedStyles } from '@emotion/core';
-
-import { Icon } from '@ridi/rsg';
 
 import { getIsMobile } from 'app/services/commonUI/selectors';
 import * as styles from 'app/components/HomeSectionHeader/styles';

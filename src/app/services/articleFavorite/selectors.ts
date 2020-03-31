@@ -1,6 +1,7 @@
+import { createSelector } from 'reselect';
+
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import { createSelector } from 'reselect';
 
 const favoriteArticleItemsSelector = (state: RidiSelectState) => state.favoriteArticle;
 const articleListSelector = (state: RidiSelectState) => state.articlesById;

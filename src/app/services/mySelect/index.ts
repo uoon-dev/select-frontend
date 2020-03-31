@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { produce } from 'immer';
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { Book } from 'app/services/book';
 import {
   BookIdsPair,

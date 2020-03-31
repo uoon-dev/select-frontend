@@ -1,7 +1,6 @@
+import { Icon } from '@ridi/rsg';
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Icon } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { BookThumbnailUrlMap, BookTitle } from 'app/services/book';
@@ -16,7 +15,7 @@ interface BookDetailOverlaysProps {
 interface BookDetailOverlaysStateProps {
   thumbnail?: BookThumbnailUrlMap;
   title?: BookTitle;
-  fetchStatus: FetchStatusFlag;
+  fetchStatus?: FetchStatusFlag;
 }
 
 type Props = BookDetailOverlaysProps & BookDetailOverlaysStateProps;

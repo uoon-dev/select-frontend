@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+
 import { TOP_BANNER_IMAGE_WIDTH } from 'app/constants';
 
 interface TransformOptions {

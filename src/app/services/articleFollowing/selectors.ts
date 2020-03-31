@@ -1,6 +1,7 @@
+import { createSelector } from 'reselect';
+
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
-import { createSelector } from 'reselect';
 
 const channelItemsSelector = (state: RidiSelectState) =>
   state.articleFollowing.followingChannelList;

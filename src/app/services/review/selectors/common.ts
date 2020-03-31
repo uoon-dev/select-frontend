@@ -14,7 +14,6 @@ import {
   ReviewFetchStatus,
 } from '../reducer.state';
 import { ReviewSortingCriteria, UserFilterType } from '../constants';
-
 import { Page, Paginated } from '../types';
 
 export const selectReviewsByBookId = (state: RidiSelectState, props: any): ReviewsSet =>

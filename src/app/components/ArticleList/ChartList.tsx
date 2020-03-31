@@ -14,7 +14,6 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { ArticleChartListPlaceholder } from 'app/placeholder/ArticleChartListPlaceholder';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
-
 import * as styles from 'app/components/ArticleList/chartListStyle';
 
 interface ArticleChartListProps {

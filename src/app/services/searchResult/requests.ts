@@ -1,4 +1,6 @@
+import { AxiosResponse } from 'axios';
 import { camelize } from '@ridi/object-case-converter';
+
 import request from 'app/config/axios';
 import env from 'app/config/env';
 import {
@@ -6,7 +8,6 @@ import {
   SearchResultBook,
   SearchResultHighlight,
 } from 'app/services/searchResult';
-import { AxiosResponse } from 'axios';
 
 export interface SearchBookResponse {
   bId: number;
