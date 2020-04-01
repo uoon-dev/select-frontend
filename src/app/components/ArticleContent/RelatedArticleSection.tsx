@@ -55,7 +55,7 @@ const RelatedArticleSection: React.FunctionComponent<RelatedArticleSectionState>
   return relatedArticles ? (
     <section>
       <h3 css={styles.relatedArticleSectionHeader}>
-        {channelMeta?.displayName || '이 채널'}의 다른 아티클
+        '{channelMeta?.displayName || '이 채널'}'의 다른 아티클
       </h3>
       <ul css={styles.relatedArticleList}>
         {relatedArticles.map((article, idx) => (

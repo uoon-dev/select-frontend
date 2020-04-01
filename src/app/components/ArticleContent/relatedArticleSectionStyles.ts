@@ -15,10 +15,12 @@ export const relatedArticleSectionHeader = css`
   line-height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-top: 1px solid ${Colors.slategray_10};
+  color: black;
+  border-top: 4px solid ${Colors.slategray_10};
 
   @media ${customMedia.pcScreen} {
     padding: 30px 0 15px;
+    border-top: 1px solid ${Colors.slategray_10};
   }
 `;
 
