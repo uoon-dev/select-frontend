@@ -3,7 +3,6 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
 
@@ -46,16 +45,17 @@ class App extends React.Component {
   public render() {
     return (
       <Provider store={store}>
-        <Helmet
-          meta={[
-            {
-              name: 'viewport',
-              content: `width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover${
-                selectIsInApp(store.getState()) ? ', maximum-scale=1, user-scalable=no' : ''
-              }`,
-            },
-          ]}
-        />
+        {selectIsInApp(store.getState()) && (
+          <Helmet
+            meta={[
+              {
+                name: 'viewport',
+                content:
+                  'width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no',
+              },
+            ]}
+          />
+        )}
         <ResponsiveManager />
         <CacheProvider value={styleCache}>
           <ViewportIntersectionProvider>
