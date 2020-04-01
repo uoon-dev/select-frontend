@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+
 import Colors from 'app/styles/colors';
 import { resetLayout, customMedia, resetList } from 'app/styles/customProperties';
 
@@ -73,11 +74,14 @@ export const ArticleContent_ButtonElement = css`
 `;
 
 export const ArticleContent_Button = css`
-  display: block;
-  width: 100%;
-  height: 40px;
-  line-height: 38px;
-  vertical-align: top;
+  &,
+  &.RUIButton {
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 38px;
+    vertical-align: top;
+  }
 `;
 
 export const ArticleContent_LikeButton_Icon = css`
@@ -86,6 +90,7 @@ export const ArticleContent_LikeButton_Icon = css`
   margin-right: 4px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
+  margin-top: 14px;
 
   &.active {
     fill: ${Colors.red_40};
@@ -98,6 +103,7 @@ export const ArticleContent_ShareButton_Icon = css`
   margin-right: 3px;
   fill: ${Colors.slategray_60};
   vertical-align: top;
+  margin-top: 13px;
 `;
 
 export const ArticleContent_GetTicketToReadButtonWrapper = css`
