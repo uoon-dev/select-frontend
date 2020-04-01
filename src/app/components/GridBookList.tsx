@@ -1,17 +1,17 @@
-import classNames from 'classnames';
 import React from 'react';
-import MediaQuery from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import { ThumbnailLinkType, ThumbnailSize } from 'app/components/BookThumbnail';
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
+import { ResponsiveSection, BookWidth } from 'app/constants';
 import { Book } from 'app/services/book';
 import { StarRating } from 'app/services/review/components';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { connect } from 'react-redux';
 
 interface Props {
   books: Book[];
@@ -26,17 +26,36 @@ interface Props {
   onLinkClick?: (event: React.SyntheticEvent<any>) => any;
 }
 
-export class GridBookList extends React.Component<Props & ReturnType<typeof mapDispatchToProps>> {
-  public renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
+export const GridBookList: React.FunctionComponent<Props> = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const { books, isChart = false, miscTracking } = props;
+  const getSection = () => {
+    const { serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking } = props;
+    return !!serviceTitleForTracking && !!pageTitleForTracking
+      ? getSectionStringForTracking(
+          serviceTitleForTracking,
+          pageTitleForTracking,
+          uiPartTitleForTracking,
+        )
+      : undefined;
+  };
+
+  const getRank = (current: number) => {
+    const { page = 1, itemCountPerPage = 24 } = props;
+    return current + 1 + (page - 1) * itemCountPerPage;
+  };
+
+  const renderItem = (width: ThumbnailSize, book: Book, rank: number, index: number) => {
     const {
-      isChart = false,
       thumbnailLinkType = 'Link',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       onLinkClick = () => {},
-      trackClick,
-    } = this.props;
+    } = props;
+    const trackClick = (trackingParams: DefaultTrackingParams) =>
+      dispatch(Actions.trackClick({ trackingParams }));
 
-    const section = this.getSection();
+    const section = getSection();
 
     return (
       <div style={{ width }}>
@@ -86,58 +105,48 @@ export class GridBookList extends React.Component<Props & ReturnType<typeof mapD
     );
   };
 
-  public getSection = () => {
-    const { serviceTitleForTracking, pageTitleForTracking, uiPartTitleForTracking } = this.props;
-    return !!serviceTitleForTracking && !!pageTitleForTracking
-      ? getSectionStringForTracking(
-          serviceTitleForTracking,
-          pageTitleForTracking,
-          uiPartTitleForTracking,
-        )
-      : undefined;
+  const isNormal = useMediaQuery({
+    minWidth: ResponsiveSection.VW_360,
+    maxWidth: ResponsiveSection.VW_414 - 1,
+  });
+  const isLarge = useMediaQuery({
+    minWidth: ResponsiveSection.VW_414,
+    maxWidth: ResponsiveSection.VW_768 - 1,
+  });
+  const isFull = useMediaQuery({ minWidth: ResponsiveSection.VW_768 });
+
+  const getBookWidth = () => {
+    if (isNormal) {
+      return BookWidth.WIDTH_100;
+    }
+    if (isLarge) {
+      return BookWidth.WIDTH_116;
+    }
+    if (isFull) {
+      return BookWidth.WIDTH_120;
+    }
+    return BookWidth.WIDTH_90;
   };
 
-  public getRank = (current: number) => {
-    const { page = 1, itemCountPerPage = 24 } = this.props;
-    return current + 1 + (page - 1) * itemCountPerPage;
-  };
+  const [bookWidth, setBookWidth] = React.useState(getBookWidth());
+  React.useEffect(() => {
+    setBookWidth(getBookWidth());
+  }, [isNormal, isLarge, isFull]);
 
-  public render() {
-    const { books, isChart = false, miscTracking } = this.props;
-
-    return (
-      <ul className={classNames(['GridBookList', isChart && 'GridBookList-isChart'])}>
-        {books.map((book, index) => (
-          <li className="GridBookList_Item" key={book.id}>
-            <ConnectedTrackImpression
-              section={this.getSection()}
-              index={index}
-              id={book.id}
-              misc={miscTracking}
-            >
-              <MediaQuery maxWidth={359}>
-                {this.renderItem(90, book, this.getRank(index), index)}
-              </MediaQuery>
-              <MediaQuery minWidth={360} maxWidth={413}>
-                {this.renderItem(100, book, this.getRank(index), index)}
-              </MediaQuery>
-              <MediaQuery minWidth={414} maxWidth={767}>
-                {this.renderItem(116, book, this.getRank(index), index)}
-              </MediaQuery>
-              <MediaQuery minWidth={768}>
-                {this.renderItem(120, book, this.getRank(index), index)}
-              </MediaQuery>
-            </ConnectedTrackImpression>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch: any) => ({
-  trackClick: (trackingParams: DefaultTrackingParams) =>
-    dispatch(Actions.trackClick({ trackingParams })),
-});
-
-export const ConnectedGridBookList = connect(null, mapDispatchToProps)(GridBookList);
+  return (
+    <ul className={`GridBookList ${isChart ? 'GridBookList-isChart' : ''}`}>
+      {books.map((book, index) => (
+        <li className="GridBookList_Item" key={book.id}>
+          <ConnectedTrackImpression
+            section={getSection()}
+            index={index}
+            id={book.id}
+            misc={miscTracking}
+          >
+            {renderItem(bookWidth, book, getRank(index), index)}
+          </ConnectedTrackImpression>
+        </li>
+      ))}
+    </ul>
+  );
+};

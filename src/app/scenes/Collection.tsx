@@ -4,12 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Link, LinkProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import {
-  ConnectedGridBookList,
-  ConnectedPageHeader,
-  HelmetWithTitle,
-  Pagination,
-} from 'app/components';
+import { GridBookList, ConnectedPageHeader, HelmetWithTitle, Pagination } from 'app/components';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
 import { BookState } from 'app/services/book';
 import { Actions, DefaultCollectionState } from 'app/services/collection';
@@ -101,7 +96,7 @@ class Collection extends React.Component<Props> {
           <GridBookListSkeleton />
         ) : (
           <>
-            <ConnectedGridBookList
+            <GridBookList
               serviceTitleForTracking="select-book"
               pageTitleForTracking="collection"
               uiPartTitleForTracking="book-list"
