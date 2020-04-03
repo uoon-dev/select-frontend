@@ -74,7 +74,8 @@
 
   margin-top: -4px;
   color: #212529;
-  font: 44px review_num;
+  font-size: 44px;
+  font-family: Roboto, sans-serif;
 }
 
 .BuyerRatingSummary_Right {

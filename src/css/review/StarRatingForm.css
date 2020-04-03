@@ -117,7 +117,9 @@
 .MyStarRatingStatus_Rating {
   padding: 0 0 0 8px;
   color: #fa722e;
-  font: 400 36px review_num;
+  font-weight: 400;
+  font-size: 36px;
+  font-family: Roboto, sans-serif;
   vertical-align: -2%;
 }
 
