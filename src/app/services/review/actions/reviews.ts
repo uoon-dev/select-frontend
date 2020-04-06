@@ -1,11 +1,11 @@
+import { AxiosError } from 'axios';
+
 import { Action } from 'app/services/review/types';
 import { TextWithLF } from 'app/types';
 
-import { AxiosError } from 'axios';
 import { ReviewSortingCriteria, UserFilterType } from '../constants';
 import { ReviewSummary } from '../reducer.state';
 import { RequestReviewsParameters, ResponseReview, ResponseReviews } from '../requests';
-import { ActionEndEditingReview, ActionStartEditingReview } from './reviews';
 
 export const GET_REVIEWS_REQUEST = 'GET_REVIEWS_REQUEST';
 export const GET_REVIEWS_SUCCESS = 'GET_REVIEWS_SUCCESS';

@@ -1,7 +1,6 @@
+import { Button } from '@ridi/rsg';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Button } from '@ridi/rsg';
 
 import { Actions, CashReceiptIssueType } from 'app/services/user';
 import { Modal } from 'app/components/Modal';

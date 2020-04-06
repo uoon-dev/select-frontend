@@ -1,9 +1,10 @@
+import { createAction, createReducer } from 'redux-act';
+
 import { FetchStatusFlag } from 'app/constants';
 import { Article } from 'app/services/article';
 import { FavoriteArticleListResponse } from 'app/services/articleFavorite/requests';
 import { ArticleKey, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
   loadFavoriteArticleListRequest: createAction<{

@@ -1,13 +1,13 @@
-import { setFixedScrollToTop } from 'app/utils/utils';
 import * as qs from 'qs';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
+import { setFixedScrollToTop } from 'app/utils/utils';
 import { RoutePaths } from 'app/constants';
 import { CommonRoutes } from 'app/routes';
 import { Actions as appActions, AppStatus } from 'app/services/app';
 import { RidiSelectState } from 'app/store';
-import { withRouter } from 'react-router-dom';
 
 interface AppManagerProps {
   appStatus: AppStatus;

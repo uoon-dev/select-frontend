@@ -1,8 +1,3 @@
-import { RoutePaths } from 'app/constants';
-import { AppStatus } from 'app/services/app';
-import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
-import { getIsAndroidInApp } from 'app/services/environment/selectors';
-import { RidiSelectState } from 'app/store';
 import classNames from 'classnames';
 import assignIn from 'lodash-es/assignIn';
 import flow from 'lodash-es/flow';
@@ -10,6 +5,12 @@ import * as qs from 'qs';
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import { RoutePaths } from 'app/constants';
+import { AppStatus } from 'app/services/app';
+import { getSolidBackgroundColorRGBString } from 'app/services/commonUI/selectors';
+import { getIsAndroidInApp } from 'app/services/environment/selectors';
+import { RidiSelectState } from 'app/store';
 
 interface MenuStateProps {
   appStatus: AppStatus;

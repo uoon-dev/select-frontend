@@ -3,6 +3,7 @@ import React from 'react';
 import MediaQuery from 'react-responsive';
 
 import { FetchStatusFlag, MOBILE_MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+
 import {
   CancelButton,
   SpoilerCheckbox,

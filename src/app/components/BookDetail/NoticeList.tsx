@@ -7,7 +7,6 @@ import { getIsIosInApp, selectIsInApp } from 'app/services/environment/selectors
 import { RidiSelectState } from 'app/store';
 import { isInNotAvailableConvertList } from 'app/utils/expiredDate';
 import { buildKoreanDayDateFormat } from 'app/utils/formatDate';
-
 import { BookDetailPanelWrapper } from 'app/components/BookDetail/Panel';
 import { Notice } from 'app/components/Notice';
 

@@ -9,6 +9,7 @@ import { Book } from 'app/services/book';
 import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { stringifyAuthors } from 'app/utils/utils';
+
 import { ThumbnailSize } from './BookThumbnail';
 
 interface Props {

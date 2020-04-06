@@ -1,7 +1,7 @@
+import { createAction, createReducer } from 'redux-act';
+
 import { FetchStatusFlag } from 'app/constants';
 import { isRidiselectUrl } from 'app/utils/regexHelper';
-import { createAction, createReducer } from 'redux-act';
-import { CollectionId } from 'app/services/collection';
 import { HomeResponse } from 'app/services/home/requests';
 
 export const Actions = {

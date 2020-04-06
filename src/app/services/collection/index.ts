@@ -1,9 +1,9 @@
+import { AxiosError } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { CollectionResponse } from 'app/services/collection/requests';
 import { BookId, Paginated } from 'app/types';
-import { AxiosError } from 'axios';
 import { Book } from 'app/services/book';
 
 export enum CollectionType {

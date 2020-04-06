@@ -1,3 +1,7 @@
+import classNames from 'classnames';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { HelmetWithTitle } from 'app/components';
 import { ArticleChannelMeta } from 'app/components/ArticleChannels/ArticleChannelMeta';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
@@ -8,9 +12,6 @@ import { getChannelList } from 'app/services/articleChannel/selectors';
 import { Actions as ArticleFollowingActions } from 'app/services/articleFollowing';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 const ArticleChannelList: React.FunctionComponent = () => {
   const { channelList, hasAvailableTicket, unseenFeedsFetchStatus } = useSelector(

@@ -1,14 +1,13 @@
 import { AxiosError } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
-import { FetchErrorFlag, FetchStatusFlag } from 'app/constants';
+import { FetchStatusFlag } from 'app/constants';
 import { Book } from 'app/services/book';
 import {
   ClosingReservedBooksResponse,
   closingReservedTermType,
 } from 'app/services/closingReservedBooks/requests';
 import { Paginated } from 'app/types';
-import { responseCommentsToCommentIdListByPage } from '../review/reducer.helpers';
 
 export type ClosingReservedBooksTermState = Paginated<Book>;
 export interface ClosingReservedBooksState {

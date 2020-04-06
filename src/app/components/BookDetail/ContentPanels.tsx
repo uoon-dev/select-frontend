@@ -12,6 +12,7 @@ import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import toast from 'app/utils/toast';
 import { moveToLogin } from 'app/utils/utils';
+
 import { ExpandableBookList } from '../ExpandableBookList';
 
 interface BookDetailContentPanelsProps {

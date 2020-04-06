@@ -1,7 +1,7 @@
+import { FetchRetryBlock } from '@ridi/rsg';
 import React from 'react';
 import { connect, Dispatch } from 'react-redux';
 
-import { FetchRetryBlock } from '@ridi/rsg';
 import { FetchStatusFlag } from 'app/constants';
 import { getReviewsRequest } from 'app/services/review/actions';
 import { AboutIndicatingBuyer } from 'app/services/review/components';

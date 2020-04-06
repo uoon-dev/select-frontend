@@ -1,7 +1,6 @@
+import { Button, CheckBox, Icon } from '@ridi/rsg';
 import classNames from 'classnames';
 import React from 'react';
-
-import { Button, CheckBox, Icon } from '@ridi/rsg';
 
 interface ToggleNoticeButtonProps {
   isPressed: boolean;

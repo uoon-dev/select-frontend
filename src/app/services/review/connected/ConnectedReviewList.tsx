@@ -1,14 +1,12 @@
+import { Button, FetchRetryBlock, Icon } from '@ridi/rsg';
 import classNames from 'classnames';
 import React from 'react';
 import { connect, Dispatch } from 'react-redux';
-
-import { Button, FetchRetryBlock, Icon } from '@ridi/rsg';
 
 import { FetchStatusFlag } from 'app/constants';
 import { Review } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { Omit } from 'app/types';
-
 import { getReviewsRequest } from 'app/services/review/actions';
 import { ReviewListEmpty } from 'app/services/review/components/ReviewList/ReviewEmpty';
 import { ReviewPlaceholder } from 'app/services/review/components/ReviewPlaceholder';
@@ -22,6 +20,7 @@ import {
   getReviewSortBy,
   getReviewUserFilterType,
 } from 'app/services/review/selectors';
+
 import { ConnectedReviewItem } from './ConnectedReviewItem';
 import { ConnectedCommentList } from './ConnectedCommentList';
 import { ConnectedCommentForm } from './ConnectedCommentForm';

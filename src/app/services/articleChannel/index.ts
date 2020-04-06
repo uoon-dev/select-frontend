@@ -1,3 +1,6 @@
+import { Method } from 'axios';
+import { createAction, createReducer } from 'redux-act';
+
 import { FetchStatusFlag } from 'app/constants';
 import { ArticleResponse } from 'app/services/article/requests';
 import {
@@ -7,8 +10,6 @@ import {
 } from 'app/services/articleChannel/requests';
 import { ArticleKey, DateDTO, Paginated } from 'app/types';
 import { getArticleKeyFromData } from 'app/utils/utils';
-import { Method } from 'axios';
-import { createAction, createReducer } from 'redux-act';
 
 export const Actions = {
   loadArticleChannelListRequest: createAction('loadArticleChannelListRequest'),

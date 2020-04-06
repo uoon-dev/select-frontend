@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { RoutePaths } from 'app/constants';
 import { FooterTheme } from 'app/services/commonUI';

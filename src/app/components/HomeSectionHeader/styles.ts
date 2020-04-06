@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
-import { customMedia } from 'app/styles/customProperties';
 
+import { customMedia } from 'app/styles/customProperties';
 import Colors from 'app/styles/colors';
 
 export const sectionTitle = css`

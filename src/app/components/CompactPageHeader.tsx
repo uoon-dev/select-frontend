@@ -1,12 +1,11 @@
+import { Icon } from '@ridi/rsg';
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Icon } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 
 interface CompactPageHeaderStateProps {
-  selectUrl: string;
+  selectUrl?: string;
 }
 
 export const CompactPageHeader: React.FunctionComponent<CompactPageHeaderStateProps> = props => (

@@ -1,8 +1,8 @@
+import { AxiosError } from 'axios';
 import { Dispatch } from 'react-redux';
 import { call, put, select, take } from 'redux-saga/effects';
 
 import { TextWithLF } from 'app/types';
-
 import {
   ActionChangeSortBy,
   ActionChangeUserFilterTab,
@@ -38,12 +38,10 @@ import {
   requestPostReview,
   RequestReviewsParameters,
 } from 'app/services/review/requests';
-
 import { ReviewSortingCriteria, ReviewsState } from 'app/services/review';
 import { UserFilterType } from 'app/services/review/constants';
 import { RidiSelectState } from 'app/store';
-import toast, { TOAST_DEFAULT_ERROR_MESSAGE } from 'app/utils/toast';
-import { AxiosError } from 'axios';
+import toast from 'app/utils/toast';
 
 export const selectors = {
   reviewsByBookId: (state: RidiSelectState) => state.reviewsByBookId,

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { StarRatingForm } from './StarRatingForm';
-
 export interface WrappedStarRatingFormProps {
   isTouchDevice: boolean;
   isRatingCancelable: boolean;
@@ -44,14 +42,6 @@ export class WrappedStarRatingForm extends React.Component<
   }
 
   public render() {
-    return (
-      // <StarRatingForm
-      //   isRatingCancelable={this.props.isRatingCancelable}
-      //   selectedRating={this.state.selectedRating}
-      //   onSubmitRating={this.onLabelClick}
-      //   onCancel={this.onCancel}
-      // />
-      <></>
-    );
+    return <></>;
   }
 }

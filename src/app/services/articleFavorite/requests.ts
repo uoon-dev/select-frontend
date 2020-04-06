@@ -1,7 +1,8 @@
 import { camelize } from '@ridi/object-case-converter';
+import { AxiosResponse } from 'axios';
+
 import request from 'app/config/axios';
 import { FavoriteArticle } from 'app/services/articleFavorite';
-import { AxiosResponse } from 'axios';
 
 export interface FavoriteArticleListResponse {
   totalCount: number;

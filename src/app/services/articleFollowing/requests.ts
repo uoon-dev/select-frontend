@@ -1,10 +1,11 @@
 import { camelize } from '@ridi/object-case-converter';
+import { AxiosResponse } from 'axios';
+
 import request from 'app/config/axios';
 import { Article } from 'app/services/article';
 import { FollowingChannel } from 'app/services/articleFollowing';
 import { ArticleRequestQueries, DateDTO } from 'app/types';
 import { buildArticleRequestQueriesToString } from 'app/utils/request';
-import { AxiosResponse } from 'axios';
 
 export interface FollowingChannelListResponse {
   totalCount: number;

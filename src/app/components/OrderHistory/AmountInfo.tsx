@@ -1,7 +1,6 @@
+import { Button } from '@ridi/rsg';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { Button } from '@ridi/rsg';
 
 import toast from 'app/utils/toast';
 import { RidiSelectState } from 'app/store';

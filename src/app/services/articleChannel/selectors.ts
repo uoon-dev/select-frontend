@@ -1,5 +1,6 @@
-import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
+
+import { RidiSelectState } from 'app/store';
 
 const channelListSelector = (state: RidiSelectState) => state.articleChannels;
 const channelByIdSelector = (state: RidiSelectState) => state.articleChannelById;

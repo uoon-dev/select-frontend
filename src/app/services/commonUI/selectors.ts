@@ -1,6 +1,6 @@
-import { RidiSelectState } from 'app/store';
 import { createSelector } from 'reselect';
 
+import { RidiSelectState } from 'app/store';
 import { GNBColorLevel, GNBTransparentType, RGB } from 'app/services/commonUI';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 

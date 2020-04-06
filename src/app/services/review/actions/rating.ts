@@ -1,6 +1,7 @@
+import { AxiosError } from 'axios';
+
 import { Action } from 'app/services/review/types';
 
-import { AxiosError } from 'axios';
 import { ReviewSummary } from '../reducer.state';
 import { ResponseReview } from '../requests';
 

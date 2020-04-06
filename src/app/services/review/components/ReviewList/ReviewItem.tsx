@@ -20,6 +20,7 @@ export interface ReviewItemProps {
   postLike: (bookId: number, reviewId: number) => void;
   deleteLike: (bookId: number, reviewId: number) => void;
   checkAuth: () => boolean;
+  children?: React.ReactNode;
 }
 
 export interface ReviewItemState {

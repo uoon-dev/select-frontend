@@ -1,3 +1,8 @@
+import classNames from 'classnames';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { ArticleChannelInfoHeaderPlaceholder } from 'app/placeholder/ArticleChannelInfoHeaderPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -5,10 +10,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { RidiSelectState } from 'app/store';
 import { buildOnlyDateFormat } from 'app/utils/formatDate';
 import { articleChannelToPath } from 'app/utils/toPath';
-import classNames from 'classnames';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
 

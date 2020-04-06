@@ -1,6 +1,6 @@
+import { Icon } from '@ridi/rsg';
 import React from 'react';
 
-import { Icon } from '@ridi/rsg';
 import { ReviewInvisibilityType } from 'app/services/review';
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
 

@@ -1,9 +1,8 @@
+import { Button, Icon } from '@ridi/rsg';
 import React from 'react';
 import classNames from 'classnames';
 import dateFnsFormat from 'date-fns/format';
 import { connect } from 'react-redux';
-
-import { Button, Icon } from '@ridi/rsg';
 
 import { RidiSelectState } from 'app/store';
 import { EnvironmentState } from 'app/services/environment';

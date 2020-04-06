@@ -1,8 +1,8 @@
+import { AxiosError, Method } from 'axios';
 import { createAction, createReducer } from 'redux-act';
 
 import { FetchStatusFlag } from 'app/constants';
 import { MySelectBook, userRidiSelectBookToMySelectBook } from 'app/services/mySelect';
-
 import { UserDTO } from 'app/services/user/helper';
 import {
   MySelectHistoryResponse,
@@ -11,7 +11,6 @@ import {
   Ticket,
 } from 'app/services/user/requests';
 import { DateDTO, ItemListByPage, Paginated } from 'app/types';
-import { AxiosError, Method } from 'axios';
 
 export const Actions = {
   fetchUserInfo: createAction<{

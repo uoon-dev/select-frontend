@@ -4,8 +4,8 @@ import snakeCase from 'lodash-es/snakeCase';
 
 import request from 'app/config/axios';
 import { Omit, TextWithLF } from 'app/types';
-
 import env from 'app/config/env';
+
 import { ReviewSortingCriteria, UserFilterType } from './constants';
 import { Comment, Review, ReviewSummary } from './reducer.state';
 

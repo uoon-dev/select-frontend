@@ -1,5 +1,6 @@
-import { RoutePaths } from 'app/constants';
 import * as pathToRegexp from 'path-to-regexp';
+
+import { RoutePaths } from 'app/constants';
 
 export const collectionToPath = pathToRegexp.compile(RoutePaths.COLLECTION);
 export const bookDetailToPath = pathToRegexp.compile(RoutePaths.BOOK_DETAIL);

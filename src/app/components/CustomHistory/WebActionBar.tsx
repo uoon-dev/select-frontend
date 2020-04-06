@@ -1,3 +1,7 @@
+import classNames from 'classnames';
+import React from 'react';
+import { connect } from 'react-redux';
+
 import { ConnectedUpButton } from 'app/components/CustomHistory/UpButtons';
 import { GNBColorLevel } from 'app/services/commonUI';
 import {
@@ -6,9 +10,6 @@ import {
 } from 'app/services/commonUI/selectors';
 import { getIsIosInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import classNames from 'classnames';
-import React from 'react';
-import { connect } from 'react-redux';
 
 const WINDOW_HAS_WEB_ACTION_BAR = 'hasWebActionBar';
 

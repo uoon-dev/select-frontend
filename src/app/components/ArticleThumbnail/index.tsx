@@ -1,10 +1,10 @@
+import { SerializedStyles } from '@emotion/core';
 import React from 'react';
 import classNames from 'classnames';
 import Lazyload from 'react-lazyload';
-import * as Modernizr from 'modernizr';
 import { Link } from 'react-router-dom';
-import { SerializedStyles } from '@emotion/css';
 
+import * as Modernizr from 'modernizr';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 import * as styles from 'app/components/ArticleThumbnail/styles';

@@ -1,5 +1,6 @@
-import { RidiSelectState } from 'app/store';
 import { DeepPartial } from 'redux';
+
+import { RidiSelectState } from 'app/store';
 
 const KEY_LOCALSTORAGE = 'rs.entireState';
 export const stateHydrator = {

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { PageTitleText, FetchStatusFlag, COUNT_PER_PAGE, ARTICLE_CHART_COUNT } from 'app/constants';
 import { ArticleListType, Actions } from 'app/services/articleList';
 import ArticleGridList from 'app/components/ArticleList/GridList';
 import ArticleChartList from 'app/components/ArticleList/ChartList';
 import { ConnectedPageHeader, HelmetWithTitle } from 'app/components';
-import { useSelector, useDispatch } from 'react-redux';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { Article } from 'app/services/article';
 import {

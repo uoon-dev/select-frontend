@@ -1,3 +1,7 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { DTOBookThumbnail } from 'app/components/DTOBookThumbnail';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { SearchResultBook } from 'app/services/searchResult';
@@ -5,9 +9,6 @@ import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { getSortedAuthorsHtmlString } from 'app/utils/search';
 import { getDTOAuthorsCount, stringifyAuthors } from 'app/utils/utils';
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 interface Props {
   keyword: string;

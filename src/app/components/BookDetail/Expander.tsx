@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Icon } from '@ridi/rsg';
+import React from 'react';
 
 interface Props {
   isExpanded: boolean;

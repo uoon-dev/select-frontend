@@ -1,11 +1,13 @@
+import { Location } from 'history';
+import React from 'react';
+import { connect } from 'react-redux';
+
 import { ConnectedWebActionBar } from 'app/components/CustomHistory/WebActionBar';
 import { RoutePaths } from 'app/constants';
 import { inAppGnbRoutes } from 'app/routes';
 import { selectIsInApp } from 'app/services/environment/selectors';
 import { RidiSelectState } from 'app/store';
-import { Location } from 'history';
-import React from 'react';
-import { connect } from 'react-redux';
+
 import { PageTitle } from './PageTitle';
 
 export interface PageHeaderStateProps {

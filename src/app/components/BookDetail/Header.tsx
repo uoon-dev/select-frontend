@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { Palette as VibrantPalette } from 'node-vibrant/lib/color';
 
 import { Actions as BookActions, BookThumbnailUrlMap, BookTitle } from 'app/services/book';
@@ -10,7 +9,6 @@ import {
   GNBColorLevel,
   RGB,
 } from 'app/services/commonUI';
-
 import { ConnectedBookDetailOverlays } from 'app/components/BookDetail/Overlays';
 import {
   getBackgroundColorGradientToLeft,
@@ -20,7 +18,6 @@ import {
 } from 'app/services/commonUI/selectors';
 import { RidiSelectState } from 'app/store';
 import { withThumbnailQuery } from 'app/utils/withThumbnailQuery';
-import { FetchStatusFlag } from 'app/constants';
 
 const Vibrant = require('node-vibrant');
 

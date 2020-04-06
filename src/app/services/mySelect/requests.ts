@@ -1,9 +1,10 @@
 import { camelize } from '@ridi/object-case-converter';
+import { AxiosResponse } from 'axios';
+
 import request from 'app/config/axios';
 import env from 'app/config/env';
 import { Book } from 'app/services/book';
 import { BookId, DateDTO } from 'app/types';
-import { AxiosResponse } from 'axios';
 
 export interface BookIdsPair {
   bookId: number;
