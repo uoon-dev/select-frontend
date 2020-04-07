@@ -36,6 +36,11 @@
   }
 }
 
+.CommentList_ShowMoreButton .MoreCount {
+  font-family: Roboto, sans-serif;
+}
+
+
 .CommentList_ShowMoreButton_Icon {
   width: 7px;
   height: 12px;

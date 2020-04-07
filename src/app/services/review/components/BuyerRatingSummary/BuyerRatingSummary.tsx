@@ -1,7 +1,6 @@
 import { Icon } from '@ridi/rsg';
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { ReviewSummary } from 'app/services/review/reducer.state';
 import { getIsMobile } from 'app/services/commonUI/selectors';
 
@@ -32,7 +31,7 @@ export const BuyerRatingSummaryVertical: React.SFC<BuyerRatingSummaryProps> = pr
         distribution={buyerRatingDistribution}
       />
       <p className="ParticipantCount">
-        <strong>{buyerRatingCount}</strong>명이 평가함
+        <strong className="ParticipantCount_Num">{buyerRatingCount}</strong>명이 평가함
       </p>
     </div>
   );
@@ -80,7 +79,7 @@ export class BuyerRatingSummaryDefault extends React.Component<
         </div>
         <div className="BuyerRatingSummary_Right">
           <p className="ParticipantCount">
-            <strong>{buyerRatingCount}</strong>명이 평가함
+            <strong className="ParticipantCount_Num">{buyerRatingCount}</strong>명이 평가함
           </p>
           <button
             type="button"
