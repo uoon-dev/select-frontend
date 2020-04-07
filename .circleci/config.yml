@@ -169,6 +169,7 @@ workflows:
             branches:
               only:
                 - master
+                - fix/web-font
           dev: true
       - deploy:
           name: deploy-dev
