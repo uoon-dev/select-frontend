@@ -1,9 +1,11 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
 import NewBadge from 'svgs/NewBadge.svg';
+import { CAROUSEL_MIN_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 import { stringifyAuthors } from 'app/utils/utils';
 import { SliderControls } from 'app/components/Home/SliderControls';
@@ -11,7 +13,6 @@ import { Actions, DefaultTrackingParams } from 'app/services/tracking';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { CollectionId, ReservedCollectionIds } from 'app/services/collection';
 import { ConnectedInlineHorizontalBookList, DTOBookThumbnail } from 'app/components';
-import { getIsCarousel } from 'app/services/commonUI/selectors';
 
 interface HomeSpotlightSectionProps {
   books: Book[];
@@ -49,7 +50,7 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
   const trackImpression = (trackingParams: DefaultTrackingParams) =>
     dispatch(Actions.trackImpression({ trackingParams }));
 
-  const isCarousel = useSelector(getIsCarousel);
+  const isCarousel = useMediaQuery({ minWidth: CAROUSEL_MIN_WIDTH });
   return (
     <div className="HomeSection_Spotlight">
       <div className="HomeSection_Spotlight_Contents">

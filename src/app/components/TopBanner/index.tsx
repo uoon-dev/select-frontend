@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
-import { getIsResponsiveBanner } from 'app/services/commonUI/selectors';
 import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
 import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -152,7 +152,7 @@ export default function TopBannerCarousel(props: TopBannerCarouselProps) {
   const handleRightClick = React.useCallback(() => setCurrentIdx(idx => (idx + 1) % len), [len]);
 
   // 반응형 너비 조정
-  const isResponsive = useSelector(getIsResponsiveBanner);
+  const isResponsive = useMediaQuery({ maxWidth: IMAGE_WIDTH });
   const initialWidth = window.innerWidth > IMAGE_WIDTH ? IMAGE_WIDTH : window.innerWidth;
 
   const [width, setWidth] = React.useState(initialWidth);
