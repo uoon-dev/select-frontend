@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { store } from 'app/store';
 import { Actions } from 'app/services/user';
 import { ConnectedRoutes } from 'app/routes';
-import { loadFonts } from 'app/config/fonts';
 import setTabKeyFocus from 'app/config/setTabKeyFocus';
 import { fetchUserInfo } from 'app/services/user/helper';
 import { ConnectedEnvBadge } from 'app/components/EnvBadge';
@@ -38,7 +37,6 @@ class App extends React.Component {
       .finally(() => {
         store.dispatch(Actions.fetchUserInfo({ isFetching: false }));
       });
-    loadFonts();
   }
 
   public render() {

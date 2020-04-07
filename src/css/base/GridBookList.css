@@ -175,8 +175,8 @@
   display: block;
   margin-bottom: 10px;
   color: #303538;
-  font-family: Minion Pro;
-  font-size: 19px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
   text-align: center;
   @media (--pc-screen) {
     margin-bottom: 15px;

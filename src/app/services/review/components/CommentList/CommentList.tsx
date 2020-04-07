@@ -33,7 +33,7 @@ export const CommentList: React.SFC<CommentListProps> = props => {
           className="CommentList_ShowMoreButton"
           onClick={() => showPageComments(bookId, reviewId, currentPage + 1)}
         >
-          댓글 {nextPageCount}개 더보기
+          댓글 <span className="MoreCount">{nextPageCount}</span>개 더보기
           <Icon name="arrow_1_down" className="CommentList_ShowMoreButton_Icon" />
         </button>
       )}

@@ -36,6 +36,7 @@
   color: #b8bfc4;
   font-weight: 500;
   transition: color 0.2s;
+  font-family: Roboto, sans-serif;
   @nest .active & {
     color: var(--slategray_80);
   }

@@ -146,6 +146,7 @@
   color: #808991;
   font-size: 11px;
   line-height: 12px;
+  font-family: Roboto, sans-serif;
 
   @media (--pc-screen) {
     font-size: 12px;
@@ -243,6 +244,11 @@
   padding-left: 3px;
   color: #808991;
   font-size: 11px;
+}
+
+.ReviewButtons_CommentCount,
+.ReviewButtons_LikeCount {
+  font-family: Roboto, sans-serif;
 }
 
 .ReviewButtons_CommentLabel,

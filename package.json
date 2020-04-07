@@ -40,7 +40,6 @@
     "@types/react-truncate": "^2.3.3",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.6",
-    "@types/webfontloader": "^1.6.29",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "babel-loader": "^8.0.5",
@@ -139,8 +138,7 @@
     "url-polyfill": "^1.1.7",
     "use-debounce": "^3.3.0",
     "vex-dialog": "^1.1.0",
-    "vex-js": "^4.1.0",
-    "webfontloader": "^1.6.28"
+    "vex-js": "^4.1.0"
   },
   "scripts": {
     "start": "webpack-dev-server & onchange '**/*.{js,jsx,ts,tsx,html,json,css}' -e 'dist/**/*.*' -- prettier --write {{changed}}",
