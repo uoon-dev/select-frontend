@@ -74,7 +74,8 @@
 
   margin-top: -4px;
   color: #212529;
-  font-size: 44px;
+  font-size: 35px;
+  font-weight: 700;
   line-height: 1em;
   font-family: Roboto, sans-serif;
 }
@@ -155,12 +156,12 @@
 
   .AverageRating_Score {
     display: block;
-    margin-top: 7px;
+    margin-top: 14px;
     margin-bottom: -7px;
   }
 
   .AverageRating_StarRating {
-    margin: 5px 0 15px;
+    margin: 15px 0 15px;
   }
 
   .ParticipantCount {
