@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-import { CAROUSEL_MIN_WIDTH } from 'app/constants';
+import { CONTENT_MAX_WIDTH } from 'app/constants';
 import * as styles from 'app/components/SlideArrow/styles';
 
 interface ArrowProps {
@@ -25,7 +25,7 @@ const SlideArrow: React.FunctionComponent<ArrowProps> = props => {
     onClickHandler(e);
   };
 
-  const isButtonVisible = useMediaQuery({ minWidth: CAROUSEL_MIN_WIDTH });
+  const isButtonVisible = useMediaQuery({ minWidth: CONTENT_MAX_WIDTH + 1 });
   return isHidden ? null : (
     <>
       {renderGradient && (

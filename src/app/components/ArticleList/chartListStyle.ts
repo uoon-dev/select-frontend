@@ -1,7 +1,8 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { resetLayout, resetFontUnlimited, customMedia } from 'app/styles/customProperties';
+import { resetLayout, resetFontUnlimited } from 'app/styles/customProperties';
 
 export const popularArticleList = css`
   ${resetLayout}
@@ -11,7 +12,7 @@ export const popularArticleList = css`
   max-width: 800px;
   margin: 0 auto;
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     padding-bottom: 60px;
   }
 `;
@@ -70,7 +71,7 @@ export const popularArticleElementRank = css`
     margin: 0 17px;
   }
 
-  @media ${customMedia.mobileScreen} {
+  @media ${Media.MOBILE} {
     margin: 0 15px;
   }
 `;

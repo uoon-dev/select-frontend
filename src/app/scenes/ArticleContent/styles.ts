@@ -1,7 +1,8 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { resetLayout, customMedia, resetList, resetButton } from 'app/styles/customProperties';
+import { resetLayout, resetList, resetButton } from 'app/styles/customProperties';
 
 export const PageArticleContent = css`
   display: block;
@@ -44,7 +45,7 @@ export const ArticleContent_ContentWrapper = css`
     padding-bottom: 60px;
     z-index: 10;
 
-    @media (${customMedia.pcLayout}) {
+    @media (${Media.PC}) {
       min-height: 660px;
     }
   }

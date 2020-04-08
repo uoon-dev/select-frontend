@@ -1,14 +1,15 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { customMedia, defaultFontFamily } from 'app/styles/customProperties';
+import { defaultFontFamily } from 'app/styles/customProperties';
 
 export const articleChartListWrapper = css`
   position: relative;
   & .SlideArrowButton {
     margin-top: -50px;
   }
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     padding: 0 10px;
   }
 `;
@@ -21,7 +22,7 @@ export const articleChartGroupContainer = css`
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
 
-  @media ${customMedia.mobileScreen} {
+  @media ${Media.MOBILE} {
     padding: 0 10px;
   }
 `;
@@ -31,7 +32,7 @@ export const articleChartGroup = css`
   vertical-align: top;
   margin: 0;
   padding: 0 10px;
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     margin: 0 10px;
     padding: 0;
   }

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
 import NewBadge from 'svgs/NewBadge.svg';
-import { CAROUSEL_MIN_WIDTH } from 'app/constants';
+import { CONTENT_MAX_WIDTH } from 'app/constants';
 import { Book } from 'app/services/book';
 import { stringifyAuthors } from 'app/utils/utils';
 import { SliderControls } from 'app/components/Home/SliderControls';
@@ -50,7 +50,7 @@ const HomeSpotlightSection: React.FunctionComponent<HomeSpotlightSectionProps> =
   const trackImpression = (trackingParams: DefaultTrackingParams) =>
     dispatch(Actions.trackImpression({ trackingParams }));
 
-  const isCarousel = useMediaQuery({ minWidth: CAROUSEL_MIN_WIDTH });
+  const isCarousel = useMediaQuery({ minWidth: CONTENT_MAX_WIDTH + 1 });
   return (
     <div className="HomeSection_Spotlight">
       <div className="HomeSection_Spotlight_Contents">

@@ -1,16 +1,8 @@
 export * from './coverSize';
 export * from './imageSize';
 export * from './gridBookList';
-
-export const MOBILE_MAX_WIDTH = 834;
-export const CAROUSEL_MIN_WIDTH = 901;
-export const PC_MIN_WIDTH = 835;
-export const TOP_BANNER_IMAGE_WIDTH = 432;
-export const COUNT_PER_PAGE = 24;
-export const ARTICLE_HOME_SECTION_COUNT = 4;
-export const ARTICLE_HOME_RECENT_SECTION_COUNT = 8;
-export const ARTICLE_HOME_CHART_SECTION_COUNT = 20;
-export const ARTICLE_CHART_COUNT = 100;
+export * from './screenSize';
+export * from './count';
 
 export enum FetchStatusFlag {
   IDLE,

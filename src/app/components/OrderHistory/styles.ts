@@ -1,15 +1,11 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import {
-  resetLayout,
-  resetAppearance,
-  resetInputFocus,
-  customMedia,
-} from 'app/styles/customProperties';
+import { resetLayout, resetAppearance, resetInputFocus } from 'app/styles/customProperties';
 
 export const cashReceiptIssueModalColumn = css`
-  @media ${customMedia.pcLayout} {
+  @media ${Media.PC} {
     display: table-cell;
     width: 0px;
     height: auto;
