@@ -4,7 +4,7 @@ export * from './gridBookList';
 
 export const MOBILE_MAX_WIDTH = 834;
 export const CAROUSEL_MIN_WIDTH = 901;
-export const MIN_WIDTH = 835;
+export const PC_MIN_WIDTH = 835;
 export const TOP_BANNER_IMAGE_WIDTH = 432;
 export const COUNT_PER_PAGE = 24;
 export const ARTICLE_HOME_SECTION_COUNT = 4;
