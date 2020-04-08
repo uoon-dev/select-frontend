@@ -3,12 +3,18 @@ import { Location } from 'history';
 export type HistoryStack = Location[];
 
 const BOOK_DETAIL_PATH = '/book/';
+const ARTICLE_CONTENT_PATH = '/article/@';
 
 export function isUpperPath(currentPath: string, formerPath: string) {
-  return (
-    currentPath !== formerPath &&
-    !(currentPath.includes(BOOK_DETAIL_PATH) && formerPath.includes(BOOK_DETAIL_PATH))
-  );
+  if (currentPath.includes(ARTICLE_CONTENT_PATH)) {
+    return currentPath !== formerPath && !formerPath.includes(ARTICLE_CONTENT_PATH);
+  }
+
+  if (currentPath.includes(BOOK_DETAIL_PATH)) {
+    return currentPath !== formerPath && !formerPath.includes(BOOK_DETAIL_PATH);
+  }
+
+  return true;
 }
 
 export function pushToList(list: any[], item: any) {
