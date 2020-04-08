@@ -61,3 +61,5 @@ export const getUnsubscriptionDate: OutputSelector<
   [user],
   (userState: UserState): DateDTO => get(userState, 'subscription.unsubscriptionDate'),
 );
+
+export const getIsLoggedIn = (state: RidiSelectState) => state.user?.isLoggedIn;

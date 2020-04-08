@@ -1,16 +1,14 @@
+import styled from '@emotion/styled';
 import React from 'react';
 import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 
-import * as Modernizr from 'modernizr';
-import { BlockIconComponent } from 'app/components/ArticleThumbnail/index';
+import { objectfit } from 'modernizr';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
+import DisabledIcon from 'svgs/disabled.svg';
 
 interface ArticleChannelThumbnailProps {
-  thumbnailClassName?: string;
-  imageClassName?: string;
   linkUrl: string;
   imageUrl?: string;
   imageSize?: ImageSize;
@@ -19,10 +17,86 @@ interface ArticleChannelThumbnailProps {
   onLinkClick?: (event: React.SyntheticEvent<any>) => void;
 }
 
+const Thumbnail = {
+  Wrapper: styled.div`
+    position: relative;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    overflow: hidden;
+  `,
+  CoverImage: styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+  `,
+  CoverBackgroundImage: styled.div`
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 999px;
+    box-sizing: border-box;
+    background-image: ${(props: { imageUrl: string }) => props.imageUrl};
+    background-size: cover;
+    background-position: center center;
+    z-index: 1;
+  `,
+  CoverShadow: styled.div`
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: block;
+    z-index: 1;
+  `,
+  Disabled: styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    overflow: hidden;
+    background-color: #b3b3b3;
+    line-height: 31px;
+    text-align: center;
+  `,
+  DisabledIcon: styled(DisabledIcon)`
+    fill: #e6e6e6;
+    vertical-align: middle;
+    margin-top: 4px;
+    width: 24px;
+    height: 24px;
+  `,
+  DefaultCoverImageWrapper: styled.div`
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #e6e8eb;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    border-radius: 999px;
+    box-sizing: border-box;
+  `,
+  DefaultCoverImage: styled.img`
+    display: block;
+    align-self: center;
+    width: 50%;
+    margin: 0 auto;
+  `,
+};
+
 export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThumbnailProps> = props => {
   const {
-    thumbnailClassName,
-    imageClassName,
     linkUrl,
     imageUrl,
     channelName,
@@ -35,31 +109,25 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
   const [isWrongImage, setIsWrongImage] = React.useState(false);
   const imageSrc = imageUrl ? getImageSrc(imageUrl, imageSize) : null;
 
-  const renderThumbnailImage = () => {
-    if (!Modernizr.objectfit) {
-      return (
+  const renderThumbnailImage = React.useCallback(
+    () =>
+      objectfit ? (
         <>
-          <div
-            className={classNames('ArticleChannelThumbnail_BackgroundImage', imageClassName)}
-            style={{ backgroundImage: `url(${imageUrl})` }}
+          <Thumbnail.CoverImage
+            alt={channelName}
+            onError={() => setIsWrongImage(true)}
+            {...imageSrc}
           />
-          <span className="ArticleChannelThumbnail_CoverShadow" />
+          <Thumbnail.CoverShadow />
         </>
-      );
-    }
-
-    return (
-      <>
-        <img
-          className={classNames('ArticleChannelThumbnail_CoverImage', imageClassName)}
-          alt={channelName}
-          onError={() => setIsWrongImage(true)}
-          {...imageSrc}
-        />
-        <span className="ArticleChannelThumbnail_CoverShadow" />
-      </>
-    );
-  };
+      ) : (
+        <>
+          <Thumbnail.CoverBackgroundImage imageUrl={imageUrl || ''} />
+          <Thumbnail.CoverShadow />
+        </>
+      ),
+    [channelName, imageSrc, imageUrl],
+  );
 
   React.useEffect(() => {
     if (!imageUrl) {
@@ -67,44 +135,39 @@ export const ArticleChannelThumbnail: React.FunctionComponent<ArticleChannelThum
     }
   }, []);
 
-  if (!isEnabled) {
+  if (isEnabled) {
     return (
-      <div className={classNames('ArticleChannelThumbnail_Wrapper', thumbnailClassName)}>
-        <div className="ArticleChannelThumbnail_Block">
-          <BlockIconComponent
-            width={24}
-            height={24}
-            className="ArticleChannelThumbnail_BlockImage"
-          />
-        </div>
-      </div>
+      <Thumbnail.Wrapper className="ArticleChannelThumbnail_Wrapper">
+        <Link to={linkUrl} onClick={onLinkClick}>
+          <Lazyload
+            offset={100}
+            once
+            throttle
+            resize
+            overflow={false}
+            placeholder={<div className="Skeleton" />}
+          >
+            {isWrongImage ? (
+              <Thumbnail.DefaultCoverImageWrapper>
+                <Thumbnail.DefaultCoverImage
+                  src={require('images/article_default_thumbnail_logo.png')}
+                  alt="리디셀렉트 채널 빈 썸네일"
+                />
+              </Thumbnail.DefaultCoverImageWrapper>
+            ) : (
+              renderThumbnailImage()
+            )}
+          </Lazyload>
+        </Link>
+      </Thumbnail.Wrapper>
     );
   }
 
   return (
-    <div className={classNames('ArticleChannelThumbnail_Wrapper', thumbnailClassName)}>
-      <Link className="ArticleChannelThumbnail_Link" to={linkUrl} onClick={onLinkClick}>
-        <Lazyload
-          offset={100}
-          once
-          throttle
-          resize
-          overflow={false}
-          placeholder={<div className="Skeleton" />}
-        >
-          {!isWrongImage ? (
-            renderThumbnailImage()
-          ) : (
-            <span className="ArticleChannelThumbnail_DefaultCoverImage">
-              <img
-                className="ArticleChannelThumbnail_DefaultCoverImage_Logo"
-                src={require('images/article_default_thumbnail_logo.png')}
-                alt="리디셀렉트 채널 빈 썸네일"
-              />
-            </span>
-          )}
-        </Lazyload>
-      </Link>
-    </div>
+    <Thumbnail.Wrapper className="ArticleChannelThumbnail_Wrapper">
+      <Thumbnail.Disabled>
+        <Thumbnail.DisabledIcon />
+      </Thumbnail.Disabled>
+    </Thumbnail.Wrapper>
   );
 };

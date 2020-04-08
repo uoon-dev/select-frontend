@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, LinkProps, useParams } from 'react-router-dom';
@@ -12,6 +13,22 @@ import { selectIsInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { articleChannelToPath } from 'app/utils/toPath';
+import Media from 'app/styles/mediaQuery';
+import { Scene } from 'app/styles/globals';
+
+const SceneWrapper = styled.main`
+  ${Scene.Wrapper}
+  margin-bottom: 40px;
+`;
+
+const ChannelArticleList = styled.div`
+  @media ${Media.PC} {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  margin-bottom: 30px;
+`;
 
 const ArticleChannelDetail: React.FunctionComponent = () => {
   const { channelName } = useParams<{ channelName: string }>();
@@ -55,7 +72,7 @@ const ArticleChannelDetail: React.FunctionComponent = () => {
   }, [page]);
 
   return (
-    <main className="SceneWrapper PageArticleChannelDetail">
+    <SceneWrapper>
       <HelmetWithTitle
         titleName={
           isFetchedChannelMeta() && articleChannelData
@@ -80,7 +97,7 @@ const ArticleChannelDetail: React.FunctionComponent = () => {
       ) : (
         <ArticleChannelDetailPlaceholder />
       )}
-      <div className="Channel_ArticleList">
+      <ChannelArticleList>
         {isFetchedChannelArticles() && articleChannelData ? (
           <GridArticleList
             serviceTitleForTracking="select-article"
@@ -106,8 +123,8 @@ const ArticleChannelDetail: React.FunctionComponent = () => {
             }}
           />
         )}
-      </div>
-    </main>
+      </ChannelArticleList>
+    </SceneWrapper>
   );
 };
 

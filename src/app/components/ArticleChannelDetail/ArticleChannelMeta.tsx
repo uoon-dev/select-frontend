@@ -1,8 +1,12 @@
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import React from 'react';
 
-import * as Modernizr from 'modernizr';
+import { objectfit } from 'modernizr';
 import { ArticleChannelFollowButton } from 'app/components/ArticleChannels/ArticleChannelFollowButton';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
+import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
 
 interface ArticleChannelMetaProps {
   id: number;
@@ -14,6 +18,109 @@ interface ArticleChannelMetaProps {
   followersCount?: number;
   isFollowing?: boolean;
 }
+
+export const MetaWrapper = styled.div`
+  padding: 30px 20px 10px;
+
+  @media ${Media.PC} {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 12px 40px;
+  }
+
+  @media (min-width: 600px) {
+    display: flex;
+  }
+`;
+
+const Thumbnail = styled.div`
+  position: relative;
+  margin-right: 18px;
+`;
+
+const ThumbnailCommonStyle = css`
+  width: 80px;
+  height: 80px;
+  box-sizing: border-box;
+  border-radius: 80px;
+  background-color: gray;
+`;
+
+const ThumbnailImage = styled.img`
+  ${ThumbnailCommonStyle}
+  object-fit: cover;
+`;
+
+const ThumbnailPolyFill = styled.div`
+  ${ThumbnailCommonStyle}
+  background-image: ${(props: { thumbnailUrl?: string }) =>
+    props.thumbnailUrl ? `url(${props.thumbnailUrl})` : ''}
+  background-size: cover;
+  background-position: center center;
+`;
+
+const ThumbnailShadow = styled.span`
+  position: absolute;
+  content: '';
+  width: 80px;
+  height: 80px;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 80px;
+  display: block;
+`;
+
+export const Meta = styled.div`
+  @media (max-width: 600px) {
+    margin-top: 10px;
+  }
+`;
+
+const MetaTitle = styled.h2`
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.55em;
+  letter-spacing: -0.5px;
+  color: ${Colors.gray_100};
+  margin: 0;
+  padding: 0;
+`;
+
+const MetaDesc = styled.p`
+  margin: 0;
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: ${Colors.slategray_90};
+  line-height: 1.5em;
+  white-space: pre-line;
+`;
+
+const MetaSerial = styled.span`
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: ${Colors.slategray_50};
+`;
+
+const MetaFollowing = styled.span`
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: -0.3px;
+  color: ${Colors.slategray_50};
+`;
+
+const MetaFollowingCount = styled.strong`
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: ${Colors.slategray_50};
+`;
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = props => {
   const {
@@ -28,31 +135,25 @@ export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps
 
   return (
     <section>
-      <div className="ArticleChannelMeta_Wrap">
-        <div className="ArticleChannel_Thumbnail">
-          {Modernizr.objectfit ? (
-            <img src={thumbnailUrl} className="ArticleChannel_Image" />
+      <MetaWrapper>
+        <Thumbnail>
+          {objectfit ? (
+            <ThumbnailImage src={thumbnailUrl} />
           ) : (
-            <div
-              className="ArticleChannel_BackgroundImage"
-              style={{ backgroundImage: `url(${thumbnailUrl})` }}
-            />
+            <ThumbnailPolyFill thumbnailUrl={thumbnailUrl} />
           )}
-          <span className="ArticleChannel_ImageShadow" />
-        </div>
-        <div className="ArticleChannel_Meta">
-          <h2 className="ArticleChannel_Meta_Title">{displayName}</h2>
-          <p className="ArticleChannel_Meta_Desc">{description}</p>
-          <span className="ArticleChannel_Meta_Serial">{subDescription}</span>
-          <span className="ArticleChannel_Meta_Following">
-            팔로잉{' '}
-            <strong className="ArticleChannel_Meta_FollowingNumber">
-              {thousandsSeperator(followersCount)}
-            </strong>
-          </span>
+          <ThumbnailShadow />
+        </Thumbnail>
+        <Meta>
+          <MetaTitle>{displayName}</MetaTitle>
+          <MetaDesc>{description}</MetaDesc>
+          <MetaSerial>{subDescription}</MetaSerial>
+          <MetaFollowing>
+            팔로잉 <MetaFollowingCount>{thousandsSeperator(followersCount)}</MetaFollowingCount>
+          </MetaFollowing>
           <ArticleChannelFollowButton channelId={id} channelName={name} />
-        </div>
-      </div>
+        </Meta>
+      </MetaWrapper>
     </section>
   );
 };

@@ -1,11 +1,65 @@
-import { Button, Icon } from '@ridi/rsg';
-import classNames from 'classnames';
+import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Colors from 'app/styles/colors';
+import PlusIcon from 'svgs/Plus.svg';
+import { Button, RSGButtonSize, RSGButtonColor } from 'app/components/RSG';
 import { FetchStatusFlag } from 'app/constants';
 import { Actions } from 'app/services/articleChannel';
 import { RidiSelectState } from 'app/store';
+
+const FollowButton = styled(Button)`
+  display: inline-block;
+  margin-left: auto;
+  margin-top: 10px;
+  min-width: 76px;
+  width: 100px;
+  height: 30px;
+  line-height: 28px;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  border: 1px solid ${Colors.dodgerblue_50};
+
+  @media (hover: hover) {
+    &:hover {
+      transition: background 0.2s, color 0.2s;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      transition: background 0.2s, color 0.2s;
+    }
+  }
+
+  &.active {
+    background: white;
+
+    @media (hover: hover) {
+      &:hover {
+        background: white;
+        border-color: ${Colors.dodgerblue_60};
+        transition: background 0.2s, color 0.2s;
+      }
+    }
+    @media (hover: none) {
+      &:active {
+        background: white;
+        border-color: ${Colors.dodgerblue_60};
+        transition: background 0.2s, color 0.2s;
+      }
+    }
+  }
+`;
+
+const ButtonIcon = styled(PlusIcon)`
+  width: 10px;
+  height: 10px;
+  fill: white;
+  margin-right: 4px;
+`;
 
 export const ArticleChannelFollowButton: React.FunctionComponent<{
   channelId: number;
@@ -37,14 +91,11 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
   };
 
   return (
-    <Button
-      size="small"
-      color="blue"
+    <FollowButton
+      size={RSGButtonSize.SMALL}
+      color={RSGButtonColor.BLUE}
       outline={isChannelFollowing}
-      className={classNames(
-        'Channel_FollowButton',
-        isChannelFollowing && 'Channel_FollowButton-active',
-      )}
+      className={isChannelFollowing ? 'active' : ''}
       onClick={handleButtonClick}
       disabled={isFetching}
       spinner={typeof isChannelFollowing !== 'boolean' || isFetching}
@@ -54,11 +105,11 @@ export const ArticleChannelFollowButton: React.FunctionComponent<{
           '팔로잉'
         ) : (
           <>
-            <Icon name="plus_1" className="Channel_FollowButton_Icon" />
+            <ButtonIcon />
             팔로우
           </>
         )
       ) : null}
-    </Button>
+    </FollowButton>
   );
 };
