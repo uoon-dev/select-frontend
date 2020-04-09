@@ -90,6 +90,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/anchor-has-content': 0,
     'jsx-a11y/iframe-has-title': 0,
+    'jsx-a11y/label-has-associated-control': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/unbound-method': 0,
