@@ -64,14 +64,6 @@ const ArticleContent_StickyWrapper = css`
   }
 `;
 
-export const ArticleContent_UnderArticleWrapper = css`
-  padding-top: 70px;
-
-  &.sticky {
-    padding-top: 0;
-  }
-`;
-
 export const ArticleContent_ButtonsContainer = css`
   ${ArticleContent_StickyWrapper}
 

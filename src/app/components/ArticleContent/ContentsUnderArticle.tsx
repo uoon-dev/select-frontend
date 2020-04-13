@@ -23,46 +23,53 @@ const ContentsUnderArticle: React.FunctionComponent<{
 
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
 
+  const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
+  const [targetOffsetTop, setTargetOffsetTop] = React.useState(0);
+  const [targetOffsetHeight, setTargetOffsetHeight] = React.useState(0);
   const [isSticky, setIsSticky] = React.useState(true);
+
   const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
   const getTicketToReadContainer = React.useRef<HTMLDivElement>(null);
 
-  let ContainerOffsetTop: number;
-  let ContainerOffsetHeight: number;
-  let ElementOffsetHeight: number;
-  let windowInnerHeight: number;
-  let targetRef: React.RefObject<HTMLDivElement>;
-
   const scrollFunction = () => {
-    if (!windowInnerHeight || !ContainerOffsetTop || !ElementOffsetHeight) {
+    if (!windowInnerHeight || !targetOffsetTop) {
       return;
     }
     const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (currentScrollTop + windowInnerHeight >= ContainerOffsetTop + ContainerOffsetHeight) {
+    if (currentScrollTop + windowInnerHeight >= targetOffsetTop + targetOffsetHeight) {
       setIsSticky(true);
     } else {
       setIsSticky(false);
     }
   };
+  const resizeFunction = () => {
+    setWindowInnerHeight(window.innerHeight);
+  };
   const throttledScrollFunction = throttle(scrollFunction, 100);
+  const throttledResizeFunction = throttle(resizeFunction, 100);
 
   React.useEffect(() => {
-    window.removeEventListener('scroll', throttledScrollFunction);
-    targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
+    window.addEventListener('resize', throttledResizeFunction);
+
+    return () => {
+      window.removeEventListener('resize', throttledResizeFunction);
+    };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    const targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
     if (!targetRef?.current?.parentElement) {
       return;
     }
-    const { current } = targetRef;
-    const { parentElement } = targetRef.current;
+    setTargetOffsetTop(targetRef.current.offsetTop + targetRef.current.parentElement.offsetTop);
+    setTargetOffsetHeight(targetRef.current.offsetHeight);
+  }, [hasAvailableTicket, articleState?.article]);
 
-    ContainerOffsetTop = parentElement.offsetTop;
-    ContainerOffsetHeight = parentElement.offsetHeight;
-    ElementOffsetHeight = current.offsetHeight;
-    windowInnerHeight = window.innerHeight;
+  React.useEffect(() => {
+    window.removeEventListener('scroll', throttledScrollFunction);
 
     if (
-      windowInnerHeight < ContainerOffsetTop + ContainerOffsetHeight ||
+      windowInnerHeight < targetOffsetTop + targetOffsetHeight ||
       (articleState?.content && ticketFetchStatus === FetchStatusFlag.IDLE)
     ) {
       window.addEventListener('scroll', throttledScrollFunction);
@@ -72,14 +79,14 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return () => {
       window.removeEventListener('scroll', throttledScrollFunction);
     };
-  }, [hasAvailableTicket, articleState?.article, window.innerHeight]);
+  }, [targetOffsetTop, targetOffsetHeight, windowInnerHeight]);
 
   if (!articleState || !articleState.content || ticketFetchStatus === FetchStatusFlag.FETCHING) {
     return null;
   }
 
   return hasAvailableTicket ? (
-    <div css={styles.ArticleContent_UnderArticleWrapper} className={isSticky ? 'sticky' : ''}>
+    <>
       <div
         css={styles.ArticleContent_ButtonsContainer}
         className={isSticky ? 'sticky' : ''}
@@ -95,7 +102,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
         />
       )}
       <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
-    </div>
+    </>
   ) : (
     <div
       css={styles.ArticleContent_GetTicketToReadButtonContainer}
