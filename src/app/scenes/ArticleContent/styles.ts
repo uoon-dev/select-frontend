@@ -50,19 +50,53 @@ export const ArticleContent_ContentWrapper = css`
   }
 `;
 
+const ArticleContent_StickyWrapper = css`
+  position: fixed;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 50;
+
+  &.sticky {
+    position: absolute;
+  }
+`;
+
+export const ArticleContent_UnderArticleWrapper = css`
+  padding-top: 70px;
+
+  &.sticky {
+    padding-top: 0;
+  }
+`;
+
+export const ArticleContent_ButtonsContainer = css`
+  ${ArticleContent_StickyWrapper}
+
+  padding: 0;
+
+  &.sticky {
+    position: relative;
+    bottom: initial;
+    left: initial;
+    padding: 0 0 20px;
+    @media (max-width: 700px) {
+      padding: 0 20px 20px;
+    }
+  }
+`;
+
 export const ArticleContent_ButtonsWrapper = css`
   ${resetList}
 
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  margin-bottom: 20px;
+  background: white;
   border-top: 1px solid ${Colors.slategray_10};
   border-bottom: 1px solid ${Colors.slategray_10};
-
-  @media (max-width: 700px) {
-    margin: 0 12px 20px;
-  }
 `;
 
 export const ArticleContent_ButtonElement = css`
@@ -122,22 +156,18 @@ export const ArticleContent_ShareButton_Icon = css`
   margin-top: 17px;
 `;
 
+export const ArticleContent_GetTicketToReadButtonContainer = css`
+  ${ArticleContent_StickyWrapper}
+`;
+
 export const ArticleContent_GetTicketToReadButtonWrapper = css`
-  position: fixed;
   display: block;
-  bottom: 0;
-  left: 0;
   width: 100%;
   height: 180px;
   text-align: center;
   padding: 120px 0 0;
   box-sizing: border-box;
-  z-index: 50;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 68%);
-
-  &.sticky {
-    position: absolute;
-  }
 
   @media (max-width: 700px) {
     padding: 120px 20px 0;
