@@ -8,14 +8,16 @@ import { ArticleItemState } from 'app/services/article';
 import RelatedArticleSection from 'app/components/ArticleContent/RelatedArticleSection';
 import { ArticleContentBottomButtons } from 'app/components/ArticleContent/BottomButtons';
 import { ArticleContentGetTicketToRead } from 'app/components/ArticleContent/GetTicketToRead';
+import { ArticleChannelInfoHeader } from 'app/components/ArticleChannels/ArticleChannelInfoHeader';
 
 const ContentsUnderArticle: React.FunctionComponent<{
   contentKey: ArticleKey;
+  channelId?: number;
   channelName: string;
   articleState: ArticleItemState;
   hasAvailableTicket: boolean;
 }> = props => {
-  const { contentKey, channelName, articleState, hasAvailableTicket } = props;
+  const { contentKey, channelId, channelName, articleState, hasAvailableTicket } = props;
 
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
 
@@ -23,9 +25,16 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return null;
   }
 
-  return hasAvailableTicket ? (
+  return !hasAvailableTicket ? (
     <>
       <ArticleContentBottomButtons articleState={articleState} />
+      {channelName && channelId && (
+        <ArticleChannelInfoHeader
+          channelId={channelId}
+          channelName={channelName}
+          contentKey={contentKey}
+        />
+      )}
       <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
     </>
   ) : (
