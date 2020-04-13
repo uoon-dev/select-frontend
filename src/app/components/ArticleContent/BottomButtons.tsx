@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Icon } from '@ridi/rsg';
+import { Icon } from '@ridi/rsg';
 
 import toast from 'app/utils/toast';
 import { Actions, ArticleItemState } from 'app/services/article';
@@ -50,10 +50,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
   return (
     <ul css={styles.ArticleContent_ButtonsWrapper}>
       <li css={styles.ArticleContent_ButtonElement}>
-        <Button
-          color="gray"
-          size="medium"
-          outline
+        <button
           type="button"
           css={styles.ArticleContent_Button}
           onClick={() =>
@@ -73,20 +70,13 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
           {typeof articleState.article.favoritesCount === 'number'
             ? thousandsSeperator(articleState.article.favoritesCount)
             : ''}
-        </Button>
+        </button>
       </li>
       <li css={styles.ArticleContent_ButtonElement}>
-        <Button
-          color="gray"
-          size="medium"
-          outline
-          type="button"
-          css={styles.ArticleContent_Button}
-          onClick={copyUrl}
-        >
+        <button type="button" css={styles.ArticleContent_Button} onClick={copyUrl}>
           <ShareSVG css={styles.ArticleContent_ShareButton_Icon} />
           링크 복사하기
-        </Button>
+        </button>
       </li>
     </ul>
   );

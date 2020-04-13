@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 
 import Colors from 'app/styles/colors';
-import { resetLayout, customMedia, resetList } from 'app/styles/customProperties';
+import { resetLayout, customMedia, resetList, resetButton } from 'app/styles/customProperties';
 
 export const PageArticleContent = css`
   display: block;
@@ -53,35 +53,51 @@ export const ArticleContent_ContentWrapper = css`
 export const ArticleContent_ButtonsWrapper = css`
   ${resetList}
 
-  padding: 0 0 60px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  margin-bottom: 20px;
+  border-top: 1px solid ${Colors.slategray_10};
+  border-bottom: 1px solid ${Colors.slategray_10};
 
   @media (max-width: 700px) {
-    padding: 0 12px 60px;
-  }
-
-  @media ${customMedia.mobileLayout} {
-    padding: 0 12px 30px;
+    margin: 0 12px 20px;
   }
 `;
 
 export const ArticleContent_ButtonElement = css`
+  position: relative;
   width: 50%;
   padding: 0 4px;
   box-sizing: border-box;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 1px;
+    height: 24px;
+    content: '';
+    background: ${Colors.slategray_10};
+  }
+
+  &:first-of-type {
+    &::before {
+      content: none;
+    }
+  }
 `;
 
 export const ArticleContent_Button = css`
-  &,
-  &.RUIButton {
-    display: block;
-    width: 100%;
-    height: 40px;
-    line-height: 38px;
-    vertical-align: top;
-  }
+  ${resetButton}
+
+  display: block;
+  width: 100%;
+  height: 48px;
+  font-size: 13px;
+  color: ${Colors.slategray_60};
+  line-height: 48px;
+  vertical-align: top;
 `;
 
 export const ArticleContent_LikeButton_Icon = css`
@@ -90,7 +106,7 @@ export const ArticleContent_LikeButton_Icon = css`
   margin-right: 4px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 14px;
+  margin-top: 19px;
 
   &.active {
     fill: ${Colors.red_40};
@@ -103,7 +119,7 @@ export const ArticleContent_ShareButton_Icon = css`
   margin-right: 3px;
   fill: ${Colors.slategray_60};
   vertical-align: top;
-  margin-top: 13px;
+  margin-top: 17px;
 `;
 
 export const ArticleContent_GetTicketToReadButtonWrapper = css`
