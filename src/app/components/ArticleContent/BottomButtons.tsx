@@ -47,20 +47,21 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
     dispatch(TrackingActions.trackingArticleActions({ trackingParams }));
   };
 
+  const favoriteArticleActionClick = () =>
+    dispatch(
+      Actions.favoriteArticleActionRequest({
+        articleId: articleState.article!.id,
+        method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
+      }),
+    );
+
   return (
     <ul css={styles.ArticleContent_ButtonsWrapper}>
       <li css={styles.ArticleContent_ButtonElement}>
         <button
           type="button"
           css={styles.ArticleContent_Button}
-          onClick={() =>
-            dispatch(
-              Actions.favoriteArticleActionRequest({
-                articleId: articleState.article!.id,
-                method: articleState.article!.isFavorite ? 'DELETE' : 'POST',
-              }),
-            )
-          }
+          onClick={favoriteArticleActionClick}
         >
           <Icon
             name="heart_1"
