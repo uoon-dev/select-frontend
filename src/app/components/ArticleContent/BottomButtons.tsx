@@ -67,6 +67,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
             css={styles.ArticleContent_LikeButton_Icon}
             className={articleState.article.isFavorite ? 'active' : ''}
           />
+          <span className="a11y">좋아요</span>
           {typeof articleState.article.favoritesCount === 'number'
             ? thousandsSeperator(articleState.article.favoritesCount)
             : ''}
