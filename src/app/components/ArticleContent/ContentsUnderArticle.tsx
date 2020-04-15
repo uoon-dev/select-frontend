@@ -25,7 +25,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
 
   const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
   const [targetPosY, setTargetPosY] = React.useState(0);
-  const [isSticky, setIsSticky] = React.useState(true);
+  const [isSticky, setIsSticky] = React.useState(false);
 
   let prevScrollTop = 0;
   let currentScrollTop = 0;
@@ -41,13 +41,13 @@ const ContentsUnderArticle: React.FunctionComponent<{
     }
     currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    isScrollUp = prevScrollTop > currentScrollTop;
+    isScrollUp = prevScrollTop >= currentScrollTop;
     isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
 
     if (isScrollUp && isTargetOutOfScreen) {
-      setIsSticky(false);
-    } else {
       setIsSticky(true);
+    } else {
+      setIsSticky(false);
     }
     prevScrollTop = currentScrollTop;
   };

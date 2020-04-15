@@ -51,32 +51,32 @@ export const ArticleContent_ContentWrapper = css`
 `;
 
 const ArticleContent_StickyWrapper = css`
-  position: fixed;
-  display: block;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 50;
+  position: absolute;
 
   &.sticky {
-    position: absolute;
+    position: fixed;
+    display: block;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 50;
   }
 `;
 
 export const ArticleContent_ButtonsContainer = css`
   ${ArticleContent_StickyWrapper}
 
-  padding: 0;
+  position: relative;
+  bottom: initial;
+  left: initial;
+  padding: 0 0 20px;
+  @media (max-width: 700px) {
+    padding: 0 20px 20px;
+  }
 
   &.sticky {
-    position: relative;
-    bottom: initial;
-    left: initial;
-    padding: 0 0 20px;
-    @media (max-width: 700px) {
-      padding: 0 20px 20px;
-    }
+    padding: 0;
   }
 `;
 
