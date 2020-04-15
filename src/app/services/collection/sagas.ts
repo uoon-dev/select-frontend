@@ -74,10 +74,7 @@ export function* loadPopularBooksRequest({
   let userGroup = yield select((state: RidiSelectState) => {
     // 운영그룹에서 테스트 목적으로 사용하는 test_group 쿼리파라메터가 있을 경우 기존에 사용하는 userGroup 데이터를 사용하지 않도록
     const query = qs.parse(state.router.location.search, { ignoreQueryPrefix: true });
-    if (query.test_group) {
-      return query.test_group;
-    }
-    return state.user.userGroup;
+    return query.test_group || state.user.userGroup;
   });
   try {
     if (isLoggedIn && !userGroup) {
