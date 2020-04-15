@@ -60,7 +60,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
   }, []);
 
   React.useLayoutEffect(() => {
-    const targetRef = !hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
+    const targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
     if (!targetRef?.current?.parentElement) {
       return;
     }
@@ -91,7 +91,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return null;
   }
 
-  return !hasAvailableTicket ? (
+  return hasAvailableTicket ? (
     <>
       <div
         css={styles.ArticleContent_ButtonsContainer}
