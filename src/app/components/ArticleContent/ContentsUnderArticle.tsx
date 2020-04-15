@@ -24,26 +24,32 @@ const ContentsUnderArticle: React.FunctionComponent<{
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
 
   const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
-  const [targetPos, setTargetPos] = React.useState(0);
+  const [targetPosY, setTargetPosY] = React.useState(0);
   const [isSticky, setIsSticky] = React.useState(true);
 
-  let prevScrollPos = 0;
+  let prevScrollTop = 0;
+  let currentScrollTop = 0;
+  let isScrollUp = false;
+  let isTargetOutOfScreen = false;
 
   const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
   const getTicketToReadContainer = React.useRef<HTMLDivElement>(null);
 
   const scrollFunction = () => {
-    if (!windowInnerHeight || !targetPos) {
+    if (!windowInnerHeight || !targetPosY) {
       return;
     }
-    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (prevScrollPos > currentScrollTop && currentScrollTop + windowInnerHeight < targetPos) {
+    isScrollUp = prevScrollTop > currentScrollTop;
+    isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
+
+    if (isScrollUp && isTargetOutOfScreen) {
       setIsSticky(false);
     } else {
       setIsSticky(true);
     }
-    prevScrollPos = currentScrollTop;
+    prevScrollTop = currentScrollTop;
   };
   const resizeFunction = () => {
     setWindowInnerHeight(window.innerHeight);
@@ -60,11 +66,11 @@ const ContentsUnderArticle: React.FunctionComponent<{
   }, []);
 
   React.useLayoutEffect(() => {
-    const targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
+    const targetRef = !hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
     if (!targetRef?.current?.parentElement) {
       return;
     }
-    setTargetPos(
+    setTargetPosY(
       targetRef.current.offsetTop +
         targetRef.current.parentElement.offsetTop +
         targetRef.current.offsetHeight,
@@ -75,7 +81,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
     window.removeEventListener('scroll', throttledScrollFunction);
 
     if (
-      windowInnerHeight < targetPos ||
+      windowInnerHeight < targetPosY ||
       (articleState?.content && ticketFetchStatus === FetchStatusFlag.IDLE)
     ) {
       window.addEventListener('scroll', throttledScrollFunction);
@@ -85,13 +91,13 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return () => {
       window.removeEventListener('scroll', throttledScrollFunction);
     };
-  }, [targetPos, windowInnerHeight]);
+  }, [targetPosY, windowInnerHeight]);
 
   if (!articleState || !articleState.content || ticketFetchStatus === FetchStatusFlag.FETCHING) {
     return null;
   }
 
-  return hasAvailableTicket ? (
+  return !hasAvailableTicket ? (
     <>
       <div
         css={styles.ArticleContent_ButtonsContainer}

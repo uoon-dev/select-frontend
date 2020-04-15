@@ -127,12 +127,11 @@ export const ArticleContent_Button = css`
 `;
 
 export const ArticleContent_LikeButton_Icon = css`
-  width: 12px;
-  height: 10px;
+  width: 13px;
   margin-right: 4px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 19px;
+  margin-top: 18px;
 
   &.active {
     fill: ${Colors.red_40};
