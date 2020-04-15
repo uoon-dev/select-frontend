@@ -22,7 +22,7 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{
   }
 
   return (
-    <div css={styles.ArticleContent_GetTicketToReadButtonWrapper}>
+    <div className="StickyElement" css={styles.ArticleContent_GetTicketToReadButtonWrapper}>
       <Button
         size="large"
         color="blue"

@@ -23,37 +23,44 @@ const ContentsUnderArticle: React.FunctionComponent<{
 
   const ticketFetchStatus = useSelector((state: RidiSelectState) => state.user.ticketFetchStatus);
 
+  const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
+  const getTicketToReadContainer = React.useRef<HTMLDivElement>(null);
+
   const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
-  const [targetPosY, setTargetPosY] = React.useState(0);
   const [isSticky, setIsSticky] = React.useState(false);
 
   let prevScrollTop = 0;
   let currentScrollTop = 0;
   let isScrollUp = false;
   let isTargetOutOfScreen = false;
+  let targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
 
-  const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
-  const getTicketToReadContainer = React.useRef<HTMLDivElement>(null);
+  const calculateTargetPosY = () => {
+    if (!targetRef?.current?.parentElement) {
+      return 0;
+    }
+    return (
+      targetRef.current.offsetTop +
+      targetRef.current.parentElement.offsetTop +
+      targetRef.current.offsetHeight
+    );
+  };
 
   const scrollFunction = () => {
-    if (!windowInnerHeight || !targetPosY) {
-      return;
-    }
     currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    isTargetOutOfScreen = currentScrollTop + windowInnerHeight < calculateTargetPosY();
 
-    isScrollUp = prevScrollTop >= currentScrollTop;
-    isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
-
-    if (isScrollUp && isTargetOutOfScreen) {
-      setIsSticky(true);
+    if (hasAvailableTicket) {
+      isScrollUp = prevScrollTop >= currentScrollTop;
+      setIsSticky(isScrollUp && isTargetOutOfScreen);
     } else {
-      setIsSticky(false);
+      setIsSticky(isTargetOutOfScreen);
     }
+
     prevScrollTop = currentScrollTop;
   };
-  const resizeFunction = () => {
-    setWindowInnerHeight(window.innerHeight);
-  };
+  const resizeFunction = () => setWindowInnerHeight(window.innerHeight);
+
   const throttledScrollFunction = throttle(scrollFunction, 100);
   const throttledResizeFunction = throttle(resizeFunction, 100);
 
@@ -65,25 +72,15 @@ const ContentsUnderArticle: React.FunctionComponent<{
     };
   }, []);
 
-  React.useLayoutEffect(() => {
-    const targetRef = !hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
-    if (!targetRef?.current?.parentElement) {
-      return;
-    }
-    setTargetPosY(
-      targetRef.current.offsetTop +
-        targetRef.current.parentElement.offsetTop +
-        targetRef.current.offsetHeight,
-    );
-  }, [hasAvailableTicket, articleState?.article]);
-
   React.useEffect(() => {
     window.removeEventListener('scroll', throttledScrollFunction);
 
-    if (
-      windowInnerHeight < targetPosY ||
-      (articleState?.content && ticketFetchStatus === FetchStatusFlag.IDLE)
-    ) {
+    if (!articleState?.content || ticketFetchStatus !== FetchStatusFlag.IDLE) {
+      return;
+    }
+
+    targetRef = hasAvailableTicket ? contentButtonsContainer : getTicketToReadContainer;
+    if (windowInnerHeight < calculateTargetPosY()) {
       window.addEventListener('scroll', throttledScrollFunction);
       scrollFunction();
     }
@@ -91,13 +88,13 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return () => {
       window.removeEventListener('scroll', throttledScrollFunction);
     };
-  }, [targetPosY, windowInnerHeight]);
+  }, [hasAvailableTicket, articleState, windowInnerHeight]);
 
   if (!articleState || !articleState.content || ticketFetchStatus === FetchStatusFlag.FETCHING) {
     return null;
   }
 
-  return !hasAvailableTicket ? (
+  return hasAvailableTicket ? (
     <>
       <div
         css={styles.ArticleContent_ButtonsContainer}

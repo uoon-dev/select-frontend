@@ -49,7 +49,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
     );
 
   return (
-    <ul css={styles.ArticleContent_ButtonsWrapper}>
+    <ul className="StickyElement" css={styles.ArticleContent_ButtonsWrapper}>
       <li css={styles.ArticleContent_ButtonElement}>
         <button
           type="button"
