@@ -1,8 +1,7 @@
-import { Button } from '@ridi/rsg';
 import React from 'react';
+import { Button } from '@ridi/rsg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import throttle from 'lodash-es/throttle';
 
 import { RidiSelectState } from 'app/store';
 import * as styles from 'app/scenes/ArticleContent/styles';
@@ -18,47 +17,12 @@ export const ArticleContentGetTicketToRead: React.FunctionComponent<{
     (state: RidiSelectState) => state.user.hasSubscribedBefore,
   );
 
-  const [isSticky, setIsSticky] = React.useState(true);
-  const getTicketToReadButtonWrapper = React.useRef<HTMLDivElement>(null);
-  const scrollFunction = () => {
-    if (
-      !getTicketToReadButtonWrapper ||
-      !getTicketToReadButtonWrapper.current ||
-      !getTicketToReadButtonWrapper.current.parentElement
-    ) {
-      return;
-    }
-    const { parentElement } = getTicketToReadButtonWrapper.current;
-    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (
-      window.innerHeight >= parentElement.offsetTop + parentElement.offsetHeight ||
-      currentScrollTop + window.innerHeight >= parentElement.offsetTop + parentElement.offsetHeight
-    ) {
-      setIsSticky(true);
-    } else {
-      setIsSticky(false);
-    }
-  };
-  const throttledScrollFunction = throttle(scrollFunction, 100);
-
-  React.useEffect(() => {
-    window.addEventListener('scroll', throttledScrollFunction);
-    scrollFunction();
-    return () => {
-      window.removeEventListener('scroll', throttledScrollFunction);
-    };
-  }, []);
-
   if (!articleState || !articleState.article || !articleState.article.isTeaser) {
     return null;
   }
 
   return (
-    <div
-      css={styles.ArticleContent_GetTicketToReadButtonWrapper}
-      className={isSticky ? 'sticky' : ''}
-      ref={getTicketToReadButtonWrapper}
-    >
+    <div className="StickyElement" css={styles.ArticleContent_GetTicketToReadButtonWrapper}>
       <Button
         size="large"
         color="blue"

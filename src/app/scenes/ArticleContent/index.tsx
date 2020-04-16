@@ -22,6 +22,9 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
   const dispatch = useDispatch();
 
   const articleState = useSelector((state: RidiSelectState) => state.articlesById[contentKey]);
+  const channelId = useSelector(
+    (state: RidiSelectState) => state.articlesById[contentKey]?.article?.channelId,
+  );
   const relatedArticles = useSelector(
     (state: RidiSelectState) => state.articlesById[contentKey]?.relatedArticles,
   );
@@ -81,6 +84,7 @@ const ArticleContent: React.FunctionComponent<OwnProps> = props => {
         <ArticleContentComponent contentKey={contentKey} />
         <ContentsUnderArticle
           contentKey={contentKey}
+          channelId={channelId}
           channelName={channelName}
           articleState={articleState}
           hasAvailableTicket={hasAvailableTicket}
