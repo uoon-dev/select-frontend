@@ -1,3 +1,4 @@
+import qs from 'qs';
 import { all, call, put, take, takeEvery, select } from 'redux-saga/effects';
 
 import history from 'app/config/history';
@@ -70,8 +71,11 @@ export function* loadPopularBooksRequest({
   const { page } = payload;
 
   const isLoggedIn = yield select((state: RidiSelectState) => state.user.isLoggedIn);
-  let userGroup = yield select((state: RidiSelectState) => state.user.userGroup);
-
+  let userGroup = yield select((state: RidiSelectState) => {
+    // 운영그룹에서 테스트 목적으로 사용하는 test_group 쿼리파라메터가 있을 경우 기존에 사용하는 userGroup 데이터를 사용하지 않도록
+    const query = qs.parse(state.router.location.search, { ignoreQueryPrefix: true });
+    return query.test_group || state.user.userGroup;
+  });
   try {
     if (isLoggedIn && !userGroup) {
       const userGroupResponse = yield call(requestUserGroup);
