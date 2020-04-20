@@ -1,9 +1,9 @@
 @import 'LNB.css';
-@import 'BigBanner.css';
 @import 'HomeSection.css';
 @import 'HomeSectionChartBook.css';
 @import 'HomeSectionSpotlight.css';
 @import 'SliderControls.css';
+@import 'slick.1.6.0.min.css';
 
 :root {
   --panel-margin: 4px;
