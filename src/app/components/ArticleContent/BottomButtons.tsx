@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import throttle from 'lodash-es/throttle';
+import classNames from 'classnames';
 
 import Share from 'svgs/Share.svg';
 import Heart from 'svgs/Heart.svg';
@@ -22,6 +23,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
   const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
 
   const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
+  const [isHideDown, setIsHideDown] = React.useState(false);
   const [isSticky, setIsSticky] = React.useState(false);
 
   let targetPosY = 0;
@@ -32,7 +34,8 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
     const isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
 
     const isScrollUp = prevScrollTop >= currentScrollTop;
-    setIsSticky(isScrollUp && isTargetOutOfScreen);
+    setIsSticky(isTargetOutOfScreen);
+    setIsHideDown(isTargetOutOfScreen && !isScrollUp);
 
     prevScrollTop = currentScrollTop;
   };
@@ -107,7 +110,13 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
       css={styles.ArticleContent_ButtonsContainer}
       ref={contentButtonsContainer}
     >
-      <ul className={isSticky ? 'sticky' : ''} css={styles.ArticleContent_ButtonsWrapper}>
+      <ul
+        className={classNames({
+          sticky: isSticky,
+          hideDown: isHideDown,
+        })}
+        css={styles.ArticleContent_ButtonsWrapper}
+      >
         <li css={styles.ArticleContent_ButtonElement}>
           <button
             type="button"

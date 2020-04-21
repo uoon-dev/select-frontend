@@ -51,23 +51,7 @@ export const ArticleContent_ContentWrapper = css`
   }
 `;
 
-const ArticleContent_StickyWrapper = css`
-  &.sticky {
-    .StickyElement {
-      position: fixed;
-      display: block;
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      box-sizing: border-box;
-      z-index: 50;
-    }
-  }
-`;
-
 export const ArticleContent_ButtonsContainer = css`
-  ${ArticleContent_StickyWrapper}
-
   position: relative;
   padding: 0 0 20px;
   min-height: 70px;
@@ -98,6 +82,12 @@ export const ArticleContent_ButtonsWrapper = css`
     left: 0;
     box-sizing: border-box;
     z-index: 50;
+    transition: transform 0.2s;
+    transform: translateY(0);
+    border-bottom: 1px solid white;
+  }
+  &.hideDown {
+    transform: translateY(100%);
   }
 `;
 
@@ -159,8 +149,6 @@ export const ArticleContent_ShareButton_Icon = css`
 `;
 
 export const ArticleContent_GetTicketToReadButtonContainer = css`
-  ${ArticleContent_StickyWrapper}
-
   position: absolute;
   bottom: 0;
   left: 0;
