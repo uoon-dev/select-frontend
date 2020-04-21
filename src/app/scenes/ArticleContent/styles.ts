@@ -53,14 +53,10 @@ export const ArticleContent_ContentWrapper = css`
 
 export const ArticleContent_ButtonsContainer = css`
   position: relative;
-  padding: 0 0 20px;
+  padding: 0;
   min-height: 70px;
   @media (max-width: 700px) {
     padding: 0 20px 20px;
-  }
-
-  &.sticky {
-    padding: 0;
   }
 `;
 
@@ -70,6 +66,7 @@ export const ArticleContent_ButtonsWrapper = css`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  text-align: center;
   background: white;
   border-top: 1px solid ${Colors.slategray_10};
   border-bottom: 1px solid ${Colors.slategray_10};
@@ -95,6 +92,7 @@ export const ArticleContent_ButtonElement = css`
   position: relative;
   display: inline-block;
   width: 50%;
+  max-width: 350px;
   padding: 0 4px;
   box-sizing: border-box;
 
@@ -122,17 +120,22 @@ export const ArticleContent_Button = css`
   width: 100%;
   height: 48px;
   font-size: 13px;
+  font-weight: 500;
   color: ${Colors.slategray_60};
   line-height: 48px;
   vertical-align: top;
 `;
 
+export const ArticleContent_Button_Number = css`
+  font-family: Roboto, Sans-serif;
+`;
+
 export const ArticleContent_LikeButton_Icon = css`
-  width: 13px;
-  margin-right: 4px;
+  width: 16px;
+  margin-right: 6px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 18px;
+  margin-top: 17px;
 
   &.active {
     fill: ${Colors.red_40};
@@ -140,12 +143,12 @@ export const ArticleContent_LikeButton_Icon = css`
 `;
 
 export const ArticleContent_ShareButton_Icon = css`
-  width: 14px;
-  height: 14px;
-  margin-right: 3px;
-  fill: ${Colors.slategray_60};
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 17px;
+  margin-top: 16px;
 `;
 
 export const ArticleContent_GetTicketToReadButtonContainer = css`

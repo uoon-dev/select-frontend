@@ -105,11 +105,7 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
     );
 
   return (
-    <div
-      className={isSticky ? 'sticky' : ''}
-      css={styles.ArticleContent_ButtonsContainer}
-      ref={contentButtonsContainer}
-    >
+    <div css={styles.ArticleContent_ButtonsContainer} ref={contentButtonsContainer}>
       <ul
         className={classNames({
           sticky: isSticky,
@@ -128,9 +124,11 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
               className={articleState.article.isFavorite ? 'active' : ''}
             />
             <span className="a11y">좋아요</span>
-            {typeof articleState.article.favoritesCount === 'number'
-              ? thousandsSeperator(articleState.article.favoritesCount)
-              : ''}
+            <span css={styles.ArticleContent_Button_Number}>
+              {typeof articleState.article.favoritesCount === 'number'
+                ? thousandsSeperator(articleState.article.favoritesCount)
+                : ''}
+            </span>
           </button>
         </li>
         <li css={styles.ArticleContent_ButtonElement}>
