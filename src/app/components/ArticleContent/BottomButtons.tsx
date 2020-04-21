@@ -27,13 +27,13 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
   const [isSticky, setIsSticky] = React.useState(false);
 
   let targetPosY = 0;
-  let prevScrollTop = 0;
+  let prevScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
   const scrollFunction = () => {
     const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
-
     const isScrollUp = prevScrollTop >= currentScrollTop;
+
     setIsSticky(isTargetOutOfScreen);
     setIsHideDown(isTargetOutOfScreen && !isScrollUp);
 
