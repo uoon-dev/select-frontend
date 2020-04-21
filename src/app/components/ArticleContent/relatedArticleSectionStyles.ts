@@ -1,7 +1,8 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { customMedia, resetLayout } from 'app/styles/customProperties';
+import { resetLayout } from 'app/styles/customProperties';
 
 export const relatedArticleSectionHeader = css`
   display: block;
@@ -18,7 +19,7 @@ export const relatedArticleSectionHeader = css`
   color: black;
   border-top: 4px solid ${Colors.slategray_10};
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     padding: 30px 0 15px;
     border-top: 1px solid ${Colors.slategray_10};
   }
@@ -28,7 +29,7 @@ export const relatedArticleList = css`
   margin: 0;
   padding: 0 20px 60px 20px;
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 0 100px 0;

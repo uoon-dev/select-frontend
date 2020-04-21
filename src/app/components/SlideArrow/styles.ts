@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { customMedia } from 'app/styles/customProperties';
 
 export const SlideArrowButton = css`
   position: absolute;
@@ -32,7 +32,7 @@ export const SlideArrowButton = css`
     }
   }
 
-  @media ${customMedia.mobileLayout} {
+  @media ${Media.PHONE} {
     top: 15px;
   }
 `;
@@ -43,7 +43,7 @@ export const SlideArrowButton_Left = css`
   left: -45px;
   justify-content: flex-start;
 
-  @media ${customMedia.mobileLayout} {
+  @media ${Media.PHONE} {
     top: 15px;
   }
 
@@ -77,7 +77,7 @@ export const ArrowButtonGradient = css`
   height: 100%;
   z-index: 10;
 
-  @media ${customMedia.mobileLayout} {
+  @media ${Media.PHONE} {
     top: 12px;
   }
 `;

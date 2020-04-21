@@ -1,7 +1,7 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 
-import { MOBILE_MAX_WIDTH, MIN_WIDTH } from 'app/constants';
+import { MOBILE_MAX_WIDTH, PC_MIN_WIDTH } from 'app/constants';
 import { Review } from 'app/services/review';
 import { ReviewClosed, ReviewSpoilerAlert, StarRating } from 'app/services/review/components';
 import { ReviewButtons } from 'app/services/review/components/ReviewList/ReviewButtons';
@@ -129,7 +129,7 @@ export class ReviewItem extends React.Component<ReviewItemProps, ReviewItemState
             </div>
             {isCommentSectionOpen && this.props.children}
           </MediaQuery>
-          <MediaQuery minWidth={MIN_WIDTH}>
+          <MediaQuery minWidth={PC_MIN_WIDTH}>
             <div className="ReviewItem_Left">
               {isBuyer && <StarRating rating={rating} width={60} />}
               <ReviewerMetadata maskedUId={maskedUId} isBuyer={isBuyer} />

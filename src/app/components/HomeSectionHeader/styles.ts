@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 
-import { customMedia } from 'app/styles/customProperties';
+import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
 
 export const sectionTitle = css`
@@ -18,7 +18,7 @@ export const sectionTitle = css`
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     display: block;
     width: 100%;
     padding-right: 80px;
@@ -35,7 +35,7 @@ export const sectionTitleArrowIcon = css`
   transition: fill 0.2s;
   fill: ${Colors.slategray_60};
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     position: relative;
     top: initial;
     right: initial;
@@ -52,7 +52,7 @@ export const sectionTitleLink = css`
   text-decoration: none;
   transition: color 0.2s;
 
-  @media ${customMedia.pcScreen} {
+  @media ${Media.PC} {
     position: absolute;
     top: 0;
     right: 0;
