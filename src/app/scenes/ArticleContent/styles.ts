@@ -89,6 +89,16 @@ export const ArticleContent_ButtonsWrapper = css`
   background: white;
   border-top: 1px solid ${Colors.slategray_10};
   border-bottom: 1px solid ${Colors.slategray_10};
+
+  &.sticky {
+    position: fixed;
+    display: block;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    z-index: 50;
+  }
 `;
 
 export const ArticleContent_ButtonElement = css`
@@ -169,6 +179,16 @@ export const ArticleContent_GetTicketToReadButtonWrapper = css`
 
   @media (max-width: 700px) {
     padding: 120px 20px 0;
+  }
+
+  &.sticky {
+    position: fixed;
+    display: block;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    z-index: 50;
   }
 `;
 
