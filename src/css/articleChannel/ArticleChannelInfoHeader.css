@@ -8,6 +8,9 @@
 }
 .ChannelInfoHeader_Meta {
   flex: 1;
+  min-width: 0;
+  padding-right: 10px;
+  box-sizing: border-box;
 }
 .ChannelInfoHeader_Title {
   display: block;
@@ -21,15 +24,22 @@
   margin: 2px 0 0;
   padding-right: 5px;
   display: block;
+  line-height: 18px;
+  font-size: 12px;
+  letter-spacing: -0.3px;
+  color: var(--slategray_60);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .ChannelInfoHeader_Desc_AuthorName {
   display: inline;
   word-break: break-all;
-  line-height: 18px;
-  font-size: 12px;
-  letter-spacing: -0.3px;
-  color: var(--slategray_60);
+  line-height: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit;
   padding-right: 5px;
   vertical-align: top;
 }
@@ -37,11 +47,12 @@
 .ChannelInfoHeader_Desc_PublishDate {
   display: inline;
   position: relative;
-  line-height: 18px;
-  font-size: 12px;
-  letter-spacing: -0.3px;
-  color: var(--slategray_60);
+  line-height: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit;
   vertical-align: top;
+
   &.ChannelInfoHeader_Desc_PublishDate-hasDivider {
     padding-left: 6px;
     &::before {

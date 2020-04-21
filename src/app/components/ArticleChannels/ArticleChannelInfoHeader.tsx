@@ -18,7 +18,9 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   channelId?: number;
   channelName?: string;
   contentKey: string;
+  isRenderDescription?: boolean;
 }> = props => {
+  const { isRenderDescription = false } = props;
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector(
     (state: RidiSelectState) => {
       if (!props.channelName) {
@@ -76,6 +78,30 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
     return <ArticleChannelInfoHeaderPlaceholder />;
   }
 
+  const renderDescription = () => {
+    if (!articleState.article || !channelState.channelMeta) {
+      return null;
+    }
+
+    return isRenderDescription ? (
+      <p className="ChannelInfoHeader_Desc">{channelState.channelMeta.description}</p>
+    ) : (
+      <p className="ChannelInfoHeader_Desc">
+        {authorName ? (
+          <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
+        ) : null}
+        <span
+          className={classNames(
+            'ChannelInfoHeader_Desc_PublishDate',
+            authorName && 'ChannelInfoHeader_Desc_PublishDate-hasDivider',
+          )}
+        >
+          {buildOnlyDateFormat(articleState.article.publishDate)}
+        </span>
+      </p>
+    );
+  };
+
   return (
     <div className="ChannelInfoHeader_Wrapper">
       <ArticleChannelThumbnail
@@ -93,19 +119,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>
-        <p className="ChannelInfoHeader_Desc">
-          {authorName ? (
-            <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
-          ) : null}
-          <span
-            className={classNames(
-              'ChannelInfoHeader_Desc_PublishDate',
-              authorName && 'ChannelInfoHeader_Desc_PublishDate-hasDivider',
-            )}
-          >
-            {buildOnlyDateFormat(articleState.article.publishDate)}
-          </span>
-        </p>
+        {renderDescription()}
       </div>
       <ArticleChannelFollowButton channelId={props.channelId} channelName={props.channelName} />
     </div>

@@ -33,6 +33,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
           channelId={channelId}
           channelName={channelName}
           contentKey={contentKey}
+          isRenderDescription
         />
       )}
       <RelatedArticleSection contentKey={contentKey} channelName={channelName} />
