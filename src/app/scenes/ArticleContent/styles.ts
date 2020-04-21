@@ -132,6 +132,7 @@ export const ArticleContent_Button_Number = css`
 
 export const ArticleContent_LikeButton_Icon = css`
   width: 16px;
+  height: 16px;
   margin-right: 6px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
