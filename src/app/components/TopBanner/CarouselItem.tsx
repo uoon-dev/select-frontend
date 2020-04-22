@@ -18,6 +18,7 @@ const BannerImage = styled.img`
 
   object-fit: cover;
   object-position: 0 0;
+  visibility: ${(props: { visible: boolean }) => (props.visible ? 'visible' : 'hidden')};
 `;
 
 interface CarouselItemContainerProps {
@@ -154,6 +155,7 @@ const BannerWidthSet = [450, 720, 760, 828, 900];
 export default function CarouselItem(props: CarouselItemProps) {
   const { itemWidth, banner, active, invisible, index, section } = props;
   const [intersecting, setIntersecting] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const ref = useViewportIntersection<HTMLLIElement>(setIntersecting);
   const [imageSrcSet, setImageSrcSet] = React.useState({
     src: '',
@@ -185,7 +187,16 @@ export default function CarouselItem(props: CarouselItemProps) {
         tabIndex={active ? 0 : -1}
         section={section}
       >
-        {(!invisible || intersecting) && <BannerImage alt={banner.title} {...imageSrcSet} />}
+        {(!invisible || intersecting) && (
+          <BannerImage
+            alt={banner.title}
+            onLoad={() => {
+              setIsLoaded(true);
+            }}
+            visible={isLoaded}
+            {...imageSrcSet}
+          />
+        )}
       </BannerImageLink>
     </CarouselItemContainer>
   );
