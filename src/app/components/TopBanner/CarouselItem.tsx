@@ -18,7 +18,7 @@ const BannerImage = styled.img`
 
   object-fit: cover;
   object-position: 0 0;
-  opacity: ${(props: { isLoaded: boolean }) => (props.isLoaded ? 1 : 0)};
+  visibility: ${(props: { visible: boolean }) => (props.visible ? 'visible' : 'hidden')};
 `;
 
 interface CarouselItemContainerProps {
@@ -193,7 +193,7 @@ export default function CarouselItem(props: CarouselItemProps) {
             onLoad={() => {
               setIsLoaded(true);
             }}
-            isLoaded={isLoaded}
+            visible={isLoaded}
             {...imageSrcSet}
           />
         )}
