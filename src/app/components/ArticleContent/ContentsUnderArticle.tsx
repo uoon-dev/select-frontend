@@ -25,7 +25,7 @@ const ContentsUnderArticle: React.FunctionComponent<{
     return null;
   }
 
-  return !hasAvailableTicket ? (
+  return hasAvailableTicket ? (
     <>
       <ArticleContentBottomButtons articleState={articleState} />
       {channelName && channelId && (

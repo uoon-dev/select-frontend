@@ -133,10 +133,10 @@ export const ArticleContent_Button_Number = css`
 export const ArticleContent_LikeButton_Icon = css`
   width: 16px;
   height: 16px;
+  margin-top: 17px;
   margin-right: 6px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 17px;
 
   &.active {
     fill: ${Colors.red_40};
@@ -146,10 +146,10 @@ export const ArticleContent_LikeButton_Icon = css`
 export const ArticleContent_ShareButton_Icon = css`
   width: 16px;
   height: 16px;
+  margin-top: 16px;
   margin-right: 6px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
-  margin-top: 16px;
 `;
 
 export const ArticleContent_GetTicketToReadButtonContainer = css`

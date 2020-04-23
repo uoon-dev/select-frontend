@@ -20,14 +20,14 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   contentKey: string;
   isRenderDescription?: boolean;
 }> = props => {
-  const { isRenderDescription = false } = props;
+  const { channelId, channelName, contentKey, isRenderDescription = false } = props;
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector(
     (state: RidiSelectState) => {
-      if (!props.channelName) {
+      if (!channelName) {
         return {};
       }
-      const articleById = state.articlesById[props.contentKey];
-      const channelById = state.articleChannelById[props.channelName];
+      const articleById = state.articlesById[contentKey];
+      const channelById = state.articleChannelById[channelName];
       return {
         articleState: articleById,
         channelState: channelById,
@@ -48,10 +48,10 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   const section = getSectionStringForTracking('select-article', 'content', 'channel');
 
   React.useEffect(() => {
-    if (!props.channelName || typeof isChannelFollowing === 'boolean') {
+    if (!channelName || typeof isChannelFollowing === 'boolean') {
       return;
     }
-    dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
+    dispatch(Actions.loadArticleChannelDetailRequest({ channelName }));
   }, []);
 
   const trackingClick = (index: number, id: string) => {
@@ -68,8 +68,8 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   };
 
   if (
-    !props.channelId ||
-    !props.channelName ||
+    !channelId ||
+    !channelName ||
     !articleState ||
     !articleState.article ||
     !channelState ||
@@ -121,7 +121,7 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
         </Link>
         {renderDescription()}
       </div>
-      <ArticleChannelFollowButton channelId={props.channelId} channelName={props.channelName} />
+      <ArticleChannelFollowButton channelId={channelId} channelName={channelName} />
     </div>
   );
 };
