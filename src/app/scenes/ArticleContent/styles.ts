@@ -57,6 +57,7 @@ export const ArticleContent_ButtonsContainer = css`
   min-height: 70px;
   @media (max-width: 700px) {
     padding: 0 20px 20px;
+    min-height: 50px;
   }
 `;
 
@@ -133,7 +134,7 @@ export const ArticleContent_Button_Number = css`
 export const ArticleContent_LikeButton_Icon = css`
   width: 16px;
   height: 16px;
-  margin-top: 17px;
+  margin-top: 16px;
   margin-right: 6px;
   fill: ${Colors.slategray_30};
   vertical-align: top;
