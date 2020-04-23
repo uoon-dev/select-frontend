@@ -1,5 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import throttle from 'lodash-es/throttle';
+import classNames from 'classnames';
 
 import Share from 'svgs/Share.svg';
 import Heart from 'svgs/Heart.svg';
@@ -13,12 +15,66 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
   articleState: ArticleItemState;
 }> = props => {
   const { articleState } = props;
-  const dispatch = useDispatch();
 
   if (!articleState || !articleState.article) {
     return null;
   }
 
+  const contentButtonsContainer = React.useRef<HTMLDivElement>(null);
+
+  const [windowInnerHeight, setWindowInnerHeight] = React.useState(window.innerHeight);
+  const [isHideDown, setIsHideDown] = React.useState(false);
+  const [isSticky, setIsSticky] = React.useState(false);
+
+  let targetPosY = 0;
+  let prevScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  const scrollFunction = () => {
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const isTargetOutOfScreen = currentScrollTop + windowInnerHeight < targetPosY;
+    const isScrollUp = prevScrollTop >= currentScrollTop;
+
+    setIsSticky(isTargetOutOfScreen);
+    setIsHideDown(isTargetOutOfScreen && !isScrollUp);
+
+    prevScrollTop = currentScrollTop;
+  };
+  const resizeFunction = () => setWindowInnerHeight(window.innerHeight);
+
+  const throttledScrollFunction = throttle(scrollFunction, 100);
+  const throttledResizeFunction = throttle(resizeFunction, 100);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', throttledResizeFunction);
+
+    return () => {
+      window.removeEventListener('resize', throttledResizeFunction);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    window.removeEventListener('scroll', throttledScrollFunction);
+
+    if (!articleState?.content || !contentButtonsContainer?.current?.parentElement) {
+      return;
+    }
+
+    targetPosY =
+      contentButtonsContainer.current.offsetTop +
+      contentButtonsContainer.current.offsetHeight +
+      contentButtonsContainer.current.parentElement.offsetTop;
+
+    if (windowInnerHeight < targetPosY) {
+      window.addEventListener('scroll', throttledScrollFunction);
+      scrollFunction();
+    }
+
+    return () => {
+      window.removeEventListener('scroll', throttledScrollFunction);
+    };
+  }, [articleState, windowInnerHeight]);
+
+  const dispatch = useDispatch();
   const copyUrl = () => {
     const domForCopyUrl = document.createElement('textarea');
     const locationUrl = new URL(location.href);
@@ -49,29 +105,39 @@ export const ArticleContentBottomButtons: React.FunctionComponent<{
     );
 
   return (
-    <ul className="StickyElement" css={styles.ArticleContent_ButtonsWrapper}>
-      <li css={styles.ArticleContent_ButtonElement}>
-        <button
-          type="button"
-          css={styles.ArticleContent_Button}
-          onClick={favoriteArticleActionClick}
-        >
-          <Heart
-            css={styles.ArticleContent_LikeButton_Icon}
-            className={articleState.article.isFavorite ? 'active' : ''}
-          />
-          <span className="a11y">좋아요</span>
-          {typeof articleState.article.favoritesCount === 'number'
-            ? thousandsSeperator(articleState.article.favoritesCount)
-            : ''}
-        </button>
-      </li>
-      <li css={styles.ArticleContent_ButtonElement}>
-        <button type="button" css={styles.ArticleContent_Button} onClick={copyUrl}>
-          <Share css={styles.ArticleContent_ShareButton_Icon} />
-          링크 복사하기
-        </button>
-      </li>
-    </ul>
+    <div css={styles.ArticleContent_ButtonsContainer} ref={contentButtonsContainer}>
+      <ul
+        className={classNames({
+          sticky: isSticky,
+          hideDown: isHideDown,
+        })}
+        css={styles.ArticleContent_ButtonsWrapper}
+      >
+        <li css={styles.ArticleContent_ButtonElement}>
+          <button
+            type="button"
+            css={styles.ArticleContent_Button}
+            onClick={favoriteArticleActionClick}
+          >
+            <Heart
+              css={styles.ArticleContent_LikeButton_Icon}
+              className={articleState.article.isFavorite ? 'active' : ''}
+            />
+            <span className="a11y">좋아요</span>
+            <span css={styles.ArticleContent_Button_Number}>
+              {typeof articleState.article.favoritesCount === 'number'
+                ? thousandsSeperator(articleState.article.favoritesCount)
+                : ''}
+            </span>
+          </button>
+        </li>
+        <li css={styles.ArticleContent_ButtonElement}>
+          <button type="button" css={styles.ArticleContent_Button} onClick={copyUrl}>
+            <Share css={styles.ArticleContent_ShareButton_Icon} />
+            링크 복사하기
+          </button>
+        </li>
+      </ul>
+    </div>
   );
 };

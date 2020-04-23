@@ -18,14 +18,16 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   channelId?: number;
   channelName?: string;
   contentKey: string;
+  isRenderDescription?: boolean;
 }> = props => {
+  const { channelId, channelName, contentKey, isRenderDescription = false } = props;
   const { channelState, articleState, authorName, isChannelFollowing } = useSelector(
     (state: RidiSelectState) => {
-      if (!props.channelName) {
+      if (!channelName) {
         return {};
       }
-      const articleById = state.articlesById[props.contentKey];
-      const channelById = state.articleChannelById[props.channelName];
+      const articleById = state.articlesById[contentKey];
+      const channelById = state.articleChannelById[channelName];
       return {
         articleState: articleById,
         channelState: channelById,
@@ -46,10 +48,10 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   const section = getSectionStringForTracking('select-article', 'content', 'channel');
 
   React.useEffect(() => {
-    if (!props.channelName || typeof isChannelFollowing === 'boolean') {
+    if (!channelName || typeof isChannelFollowing === 'boolean') {
       return;
     }
-    dispatch(Actions.loadArticleChannelDetailRequest({ channelName: props.channelName }));
+    dispatch(Actions.loadArticleChannelDetailRequest({ channelName }));
   }, []);
 
   const trackingClick = (index: number, id: string) => {
@@ -66,8 +68,8 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   };
 
   if (
-    !props.channelId ||
-    !props.channelName ||
+    !channelId ||
+    !channelName ||
     !articleState ||
     !articleState.article ||
     !channelState ||
@@ -75,6 +77,30 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
   ) {
     return <ArticleChannelInfoHeaderPlaceholder />;
   }
+
+  const renderDescription = () => {
+    if (!articleState.article || !channelState.channelMeta) {
+      return null;
+    }
+
+    return isRenderDescription ? (
+      <p className="ChannelInfoHeader_Desc">{channelState.channelMeta.description}</p>
+    ) : (
+      <p className="ChannelInfoHeader_Desc">
+        {authorName ? (
+          <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
+        ) : null}
+        <span
+          className={classNames(
+            'ChannelInfoHeader_Desc_PublishDate',
+            authorName && 'ChannelInfoHeader_Desc_PublishDate-hasDivider',
+          )}
+        >
+          {buildOnlyDateFormat(articleState.article.publishDate)}
+        </span>
+      </p>
+    );
+  };
 
   return (
     <div className="ChannelInfoHeader_Wrapper">
@@ -93,21 +119,9 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
         >
           <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
         </Link>
-        <p className="ChannelInfoHeader_Desc">
-          {authorName ? (
-            <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
-          ) : null}
-          <span
-            className={classNames(
-              'ChannelInfoHeader_Desc_PublishDate',
-              authorName && 'ChannelInfoHeader_Desc_PublishDate-hasDivider',
-            )}
-          >
-            {buildOnlyDateFormat(articleState.article.publishDate)}
-          </span>
-        </p>
+        {renderDescription()}
       </div>
-      <ArticleChannelFollowButton channelId={props.channelId} channelName={props.channelName} />
+      <ArticleChannelFollowButton channelId={channelId} channelName={channelName} />
     </div>
   );
 };
