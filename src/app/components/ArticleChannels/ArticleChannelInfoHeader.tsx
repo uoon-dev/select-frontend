@@ -160,12 +160,12 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
     }
 
     return isRenderDescription ? (
-      <ChannelInfoHeader.Description>{channelState.channelMeta.description}</ChannelInfoHeader.Description>
+      <ChannelInfoHeader.Description>
+        {channelState.channelMeta.description}
+      </ChannelInfoHeader.Description>
     ) : (
       <ChannelInfoHeader.Description>
-        {hasAuthorName && (
-          <ChannelInfoHeader.AuthorName>{authorName}</ChannelInfoHeader.AuthorName>
-        )}
+        {hasAuthorName && <ChannelInfoHeader.AuthorName>{authorName}</ChannelInfoHeader.AuthorName>}
         <ChannelInfoHeader.PublishDate hasAuthorName={hasAuthorName}>
           {buildOnlyDateFormat(articleState.article.publishDate)}
         </ChannelInfoHeader.PublishDate>
