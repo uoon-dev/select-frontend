@@ -1,8 +1,95 @@
-import { Button, Group, Icon } from '@ridi/rsg';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { Button, RSGButtonColor } from 'app/components/RSG';
 import { getIsMobile } from 'app/services/commonUI/selectors';
+import Media from 'app/styles/mediaQuery';
+import Colors from 'app/styles/colors';
+import ThreeDot from 'svgs/ThreeDot.svg';
+import ArrowLeft from 'svgs/ArrowNoneDashLeft.svg';
+import ArrowRight from 'svgs/ArrowNoneDashRight.svg';
+
+const DefaultHeight = 30;
+const defaultButtonStyle = css`
+  display: inline-block;
+  min-width: 42px;
+  height: ${DefaultHeight + 2}px;
+  margin-left: -1px;
+  padding: 0 10px;
+  line-height: ${DefaultHeight}px;
+  font-family: Roboto, sans-serif;
+`;
+const goIconStyle = css`
+  width: 6px;
+  height: 9px;
+  fill: ${Colors.slategray_50};
+`;
+const SC = {
+  Pagination: styled.div`
+    padding: 0;
+    height: auto;
+
+    @media ${Media.PC} {
+      padding-bottom: 60px;
+    }
+  `,
+  Wrapper: styled.div`
+    height: ${DefaultHeight}px;
+    margin: 0;
+    padding: 40px 0 40px;
+    line-height: ${DefaultHeight}px;
+    text-align: center;
+    white-space: nowrap;
+
+    @media ${Media.PC} {
+      padding-bottom: 0;
+    }
+  `,
+  Button: styled(Button)`
+    ${defaultButtonStyle}
+  `,
+  Group: styled.div`
+    white-space: nowrap;
+    display: inline-block;
+    margin: 0 6px;
+  `,
+  GroupButton: styled(Button)`
+    ${defaultButtonStyle}
+    position: relative;
+    z-index: 1;
+    margin: 0 0 0 -1px;
+    border-radius: 0;
+    &:not(:disabled):focus,
+    &:not(:disabled):active {
+      z-index: 2;
+    }
+    &:first-of-type {
+      margin-left: 0;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+    &:last-of-type {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  `,
+  DotIcon: styled(ThreeDot)`
+    display: inline-block;
+    width: 8px;
+    height: ${DefaultHeight}px;
+    padding: 0 6px;
+    vertical-align: middle;
+    fill: #bfc4c8;
+  `,
+  GoPrevIcon: styled(ArrowLeft)`
+    ${goIconStyle}
+  `,
+  GoNextIcon: styled(ArrowRight)`
+    ${goIconStyle}
+  `,
+};
 
 export interface PaginationProps {
   currentPage: number;
@@ -37,87 +124,78 @@ export const Pagination: React.SFC<PaginationProps> = props => {
   const isDisplayGoNext = totalPages > endPageNum;
 
   return (
-    <div className="Pagination">
+    <SC.Pagination>
       {totalPages > 1 && (
         <nav aria-label="페이지 내비게이션">
-          <h2 className="a11y indent_hidden">페이지 내비게이션</h2>
-          <ul className="PaginationWrapper">
+          <h2 className="a11y">페이지 내비게이션</h2>
+          <SC.Wrapper>
             {!isMobile && isDisplayGoPrev && (
               <>
-                <Button
+                <SC.Button
                   component={el}
-                  color="gray"
+                  color={RSGButtonColor.GRAY}
                   outline
-                  className="Pagination_Button museoSans"
                   aria-label="첫 페이지"
                   {...getProps(1)}
                 >
                   처음
-                </Button>
-                <span className="Pagination_Dots">
-                  <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
-                </span>
+                </SC.Button>
+                <SC.DotIcon />
               </>
             )}
             {isDisplayGoPrev && (
-              <Button
+              <SC.Button
                 component={el}
-                color="gray"
+                color={RSGButtonColor.GRAY}
                 outline
-                className="Pagination_Button museoSans"
                 aria-label="이전 페이지"
                 {...getProps(startPageNum - buttonRangeCount)}
               >
-                <Icon name="arrow_8_left" className="Pagination_GoPrevIcon" />
-              </Button>
+                <SC.GoPrevIcon />
+              </SC.Button>
             )}
-            <Group className="Pagination_Group">
+            <SC.Group>
               {pageNumbers.map(pageNumber => (
-                <Button
+                <SC.GroupButton
                   component={el}
-                  className="Pagination_Button museoSans RUIGroup_Element"
-                  color={currentPage === pageNumber ? 'blue' : 'gray'}
+                  color={currentPage === pageNumber ? RSGButtonColor.BLUE : RSGButtonColor.GRAY}
                   outline={!(currentPage === pageNumber)}
                   aria-label={`${pageNumber} 페이지`}
                   key={pageNumber}
                   {...getProps(pageNumber)}
                 >
                   {pageNumber}
-                </Button>
+                </SC.GroupButton>
               ))}
-            </Group>
+            </SC.Group>
             {isDisplayGoNext && (
-              <Button
+              <SC.Button
                 component={el}
-                color="gray"
+                color={RSGButtonColor.GRAY}
                 outline
-                className="Pagination_Button museoSans"
                 aria-label="다음 페이지"
                 {...getProps(endPageNum + 1)}
               >
-                <Icon name="arrow_8_right" className="Pagination_GoNextIcon" />
-              </Button>
+                <SC.GoNextIcon />
+              </SC.Button>
             )}
             {!isMobile && isDisplayGoNext && (
               <>
-                <span className="Pagination_Dots">
-                  <Icon name="dotdotdot" className="Pagination_DeviderIcon" />
-                </span>
-                <Button
+                <SC.DotIcon />
+                <SC.Button
                   component={el}
-                  color="gray"
+                  color={RSGButtonColor.GRAY}
                   outline
-                  className="Pagination_Button museoSans"
                   aria-label="마지막 페이지"
                   {...getProps(totalPages)}
                 >
                   마지막
-                </Button>
+                </SC.Button>
               </>
             )}
-          </ul>
+          </SC.Wrapper>
         </nav>
       )}
-    </div>
+    </SC.Pagination>
   );
 };
