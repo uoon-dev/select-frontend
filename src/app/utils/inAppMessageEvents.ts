@@ -17,7 +17,6 @@ export const setInitializeInAppEvent = () => {
         name: 'setBlacklistOfOutlink',
         args: [
           [
-            '//ridibooks.com',
             '//library.ridibooks.com',
             '//outstanding.kr/premium-membership',
             '//outstanding.kr/register',
