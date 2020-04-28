@@ -2,7 +2,7 @@ import { css } from '@emotion/core';
 
 import Media from 'app/styles/mediaQuery';
 import Colors from 'app/styles/colors';
-import { defaultFontFamily } from 'app/styles/customProperties';
+import { defaultFontFamily, hideScrollBar } from 'app/styles/customProperties';
 
 export const articleChartListWrapper = css`
   position: relative;
@@ -20,7 +20,7 @@ export const articleChartGroupContainer = css`
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+  ${hideScrollBar}
 
   @media ${Media.MOBILE} {
     padding: 0 10px;

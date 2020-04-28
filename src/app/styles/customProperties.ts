@@ -168,3 +168,17 @@ export const resetHeading = css`
   ${resetAppearance}
   font-size: inherit;
 `;
+
+export const hideScrollBar = css`
+  overflow: -moz-scrollbars-none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    appearance: none;
+    width: 0;
+    height: 0;
+    display: none !important;
+  }
+`;

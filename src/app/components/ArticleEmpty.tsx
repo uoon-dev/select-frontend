@@ -1,40 +1,59 @@
-import classNames from 'classnames';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import React from 'react';
+
+import ProfileIcon from 'svgs/People.svg';
+import DocumentIcon from 'svgs/Document.svg';
+import Colors from 'app/styles/colors';
 
 export interface ArticleEmptyProps {
   iconName: string;
-  iconClassName?: string;
   description: string;
   renderButton?: () => JSX.Element;
 }
 
-const ProfileComponent = (props: any) => (
-  <svg viewBox="0 0 24 24" {...props}>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 01-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 01-6 3.22z" />
-    <path d="M0 0h24v24H0z" fill="none" />
-  </svg>
-);
+const iconDefaultStyle = css`
+  margin: 0 auto;
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  fill: ${Colors.slategray_10};
+`;
 
-const DocumentComponent = (props: any) => (
-  <svg viewBox="0 0 24 24" {...props}>
-    <path d="M15 15H3v2h12v-2zm0-8H3v2h12V7zM3 13h18v-2H3v2zm0 8h18v-2H3v2zM3 3v2h18V3H3z" />
-    <path d="M0 0h24v24H0z" fill="none" />
-  </svg>
-);
+const SC = {
+  Empty: styled.div`
+    margin: 116px 0;
+    padding: 20px 0;
+  `,
+  ProfileIcon: styled(ProfileIcon)`
+    ${iconDefaultStyle}
+    padding: 4px;
+    border-radius: 999px;
+  `,
+  DocumentIcon: styled(DocumentIcon)`
+    ${iconDefaultStyle}
+    padding: 12.5px 10px;
+  `,
+  Description: styled.p`
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: ${Colors.slategray_60};
+  `,
+};
 
 export const ArticleEmpty: React.FunctionComponent<ArticleEmptyProps> = props => {
-  const { iconName, iconClassName, description, renderButton } = props;
+  const { iconName, description, renderButton } = props;
 
   return (
-    <div className="ArticleEmpty_Wrapper">
-      {iconName === 'profile' && (
-        <ProfileComponent className={classNames('ArticleEmpty_Icon', iconClassName)} />
-      )}
-      {iconName === 'document' && (
-        <DocumentComponent className={classNames('ArticleEmpty_Icon', iconClassName)} />
-      )}
-      <p className="ArticleEmpty_Description">{description}</p>
+    <SC.Empty>
+      {iconName === 'profile' && <SC.ProfileIcon />}
+      {iconName === 'document' && <SC.DocumentIcon />}
+      <SC.Description>{description}</SC.Description>
       {renderButton ? renderButton() : null}
-    </div>
+    </SC.Empty>
   );
 };

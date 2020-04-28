@@ -42,7 +42,6 @@
 @import 'placeholder/SubscriptionListPlaceholder.css';
 @import 'placeholder/MySelectHistoryPlaceholder.css';
 @import 'placeholder/BookDetailPlaceholder.css';
-@import 'placeholder/SlideChannelListPlaceholder.css';
 @import 'placeholder/GridArticleListPlaceholder.css';
 @import 'placeholder/ArticleSectionChartListPlaceholder.css';
 @import 'placeholder/ArticleContentPlaceholder.css';
@@ -50,8 +49,5 @@
 
 @import 'test_badge.css';
 
-@import 'base/ArticleEmpty.css';
 @import 'base/GridArticleList.css';
-@import 'article/index.css';
 @import 'article/ArticleThumbnail.css';
-@import 'articleFollowing/index.css';
