@@ -34,6 +34,7 @@ export const sectionTitleArrowIcon = css`
   height: 10px;
   transition: fill 0.2s;
   fill: ${Colors.slategray_60};
+  vertical-align: top;
 
   @media ${Media.PC} {
     position: relative;

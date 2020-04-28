@@ -11,7 +11,7 @@
 
   @media (--pc-screen) {
     text-align: left;
-    @nest :not(.PageBookDetail_Header-bright) & {
+    &:not(.PageBookDetail_Header-bright):not(.PageBookDetail_Header-default) {
       color: #fff;
       fill: #fff;
     }
@@ -256,7 +256,7 @@
     content: '';
     opacity: 0.3;
     @media (--pc-screen) {
-      @nest :not(.PageBookDetail_Header-bright) & {
+      @nest .PageBookDetail_Header-dark & {
         background-color: #fff;
       }
     }
@@ -275,7 +275,7 @@
     content: '';
     opacity: 0.3;
     @media (--pc-screen) {
-      @nest :not(.PageBookDetail_Header-bright) & {
+      @nest .PageBookDetail_Header-dark & {
         background-color: #fff;
       }
     }
@@ -316,7 +316,7 @@
   opacity: 0.8;
   fill: #000;
   @media (--pc-screen) {
-    @nest :not(.PageBookDetail_Header-bright) & {
+    @nest .PageBookDetail_Header-dark & {
       fill: #fff;
     }
   }
