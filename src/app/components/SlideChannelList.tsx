@@ -14,7 +14,7 @@ import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
-import DisabledIcon from 'svgs/disabled.svg';
+import DisabledIcon from 'svgs/Disabled.svg';
 import Media from 'app/styles/mediaQuery';
 import { PHABLET_MIN_WIDTH } from 'app/constants';
 import Colors from 'app/styles/colors';

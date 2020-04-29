@@ -9,7 +9,7 @@ import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 import * as styles from 'app/components/ArticleThumbnail/styles';
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
-import DisabledIcon from 'svgs/disabled.svg';
+import DisabledIcon from 'svgs/Disabled.svg';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;

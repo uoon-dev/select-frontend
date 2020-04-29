@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { objectfit } from 'modernizr';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
-import DisabledIcon from 'svgs/disabled.svg';
+import DisabledIcon from 'svgs/Disabled.svg';
 
 interface ArticleChannelThumbnailProps {
   linkUrl: string;
