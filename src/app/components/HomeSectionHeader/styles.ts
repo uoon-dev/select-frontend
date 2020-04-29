@@ -38,8 +38,8 @@ export const sectionTitleArrowIcon = css`
 
   @media ${Media.PC} {
     position: relative;
-    top: initial;
-    right: initial;
+    top: 4px;
+    right: 0;
     fill: ${Colors.slategray_30};
     margin-left: 7px;
   }
