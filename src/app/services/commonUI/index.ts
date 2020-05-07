@@ -95,7 +95,11 @@ commonUIReducer.on(Actions.updateGNBColor, (state, action) => {
   const blueCalc = color.b * 0.114;
   return {
     ...state,
-    gnbColor: color,
+    gnbColor: {
+      r: Math.round(color.r),
+      g: Math.round(color.g),
+      b: Math.round(color.b),
+    },
     gnbColorLevel: isDefaultColor(color)
       ? GNBColorLevel.DEFAULT
       : color.r === GNB_DEFAULT_COLOR.r && redCalc + greenCalc + blueCalc > 186
