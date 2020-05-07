@@ -27,7 +27,13 @@ const DetailButton = styled.button`
   text-decoration: underline;
 `;
 
-const DetailLink = DetailButton.withComponent('a');
+const DetailLink = styled.a`
+  font-size: 13px;
+  line-height: 20px;
+  color: ${Colors.slategray_70};
+  font-weight: 700;
+  text-decoration: underline;
+`;
 
 const SC = {
   Notice: styled.div`
