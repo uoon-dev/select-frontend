@@ -41,7 +41,7 @@ const Thumbnail = {
     left: 0;
     border-radius: 999px;
     box-sizing: border-box;
-    background-image: ${(props: { imageUrl: string }) => props.imageUrl};
+    background-image: url(${(props: { imageUrl: string }) => props.imageUrl});
     background-size: cover;
     background-position: center center;
     z-index: 1;

@@ -22,36 +22,6 @@ const FollowButton = styled(Button)`
   font-weight: 700;
   border-radius: 3px;
   border: 1px solid ${Colors.dodgerblue_50};
-
-  @media (hover: hover) {
-    &:hover {
-      transition: background 0.2s, color 0.2s;
-    }
-  }
-  @media (hover: none) {
-    &:active {
-      transition: background 0.2s, color 0.2s;
-    }
-  }
-
-  &.active {
-    background: white;
-
-    @media (hover: hover) {
-      &:hover {
-        background: white;
-        border-color: ${Colors.dodgerblue_60};
-        transition: background 0.2s, color 0.2s;
-      }
-    }
-    @media (hover: none) {
-      &:active {
-        background: white;
-        border-color: ${Colors.dodgerblue_60};
-        transition: background 0.2s, color 0.2s;
-      }
-    }
-  }
 `;
 
 const ButtonIcon = styled(PlusIcon)`

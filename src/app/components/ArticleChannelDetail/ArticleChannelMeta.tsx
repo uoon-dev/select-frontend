@@ -54,7 +54,7 @@ const ThumbnailImage = styled.img`
 const ThumbnailPolyFill = styled.div`
   ${ThumbnailCommonStyle}
   background-image: ${(props: { thumbnailUrl?: string }) =>
-    props.thumbnailUrl ? `url(${props.thumbnailUrl})` : ''}
+    props.thumbnailUrl ? `url(${props.thumbnailUrl})` : ''};
   background-size: cover;
   background-position: center center;
 `;
@@ -111,7 +111,7 @@ const MetaFollowing = styled.span`
   margin-top: 10px;
   font-size: 13px;
   letter-spacing: -0.3px;
-  color: ${Colors.slategray_50};
+  color: ${Colors.dodgerblue_50};
 `;
 
 const MetaFollowingCount = styled.strong`
@@ -119,7 +119,7 @@ const MetaFollowingCount = styled.strong`
   font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.3px;
-  color: ${Colors.slategray_50};
+  color: ${Colors.dodgerblue_50};
 `;
 
 export const ArticleChannelMeta: React.FunctionComponent<ArticleChannelMetaProps> = props => {

@@ -90,8 +90,7 @@ export const common = css`
     opacity: 0.5;
   }
 
-  &:not(:disabled):active,
-  &:not(:disabled):hover {
+  &:not(:disabled):active {
     background: ${colorGray60};
     transition: background 0.2s, color 0.2s;
 
@@ -109,6 +108,28 @@ export const common = css`
 
     &.brown {
       background: ${colorBrown60};
+    }
+  }
+  @media (hover: hover) {
+    &:not(:disabled):hover {
+      background: ${colorGray60};
+      transition: background 0.2s, color 0.2s;
+
+      .RSGButton_SVGIcon {
+        transition: fill 0.3s;
+      }
+
+      &.gray {
+        background: ${colorGray60};
+      }
+
+      &.blue {
+        background: ${colorBlue60};
+      }
+
+      &.brown {
+        background: ${colorBrown60};
+      }
     }
   }
 `;
@@ -219,8 +240,7 @@ export const outline = css`
     }
   }
 
-  &:not(:disabled):active,
-  &:not(:disabled):hover {
+  &:not(:disabled):active {
     background: ${colorGray10};
 
     &.gray {
@@ -233,6 +253,24 @@ export const outline = css`
 
     &.brown {
       background: ${colorBrown10};
+    }
+  }
+
+  @media (hover: hover) {
+    &:not(:disabled):hover {
+      background: ${colorGray10};
+
+      &.gray {
+        background: ${colorGray10};
+      }
+
+      &.blue {
+        background: ${colorBlue10};
+      }
+
+      &.brown {
+        background: ${colorBrown10};
+      }
     }
   }
 `;
