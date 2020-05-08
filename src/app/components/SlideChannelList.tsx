@@ -87,10 +87,16 @@ const DisabledChannel = {
     overflow: hidden;
     background-color: #b3b3b3;
     cursor: pointer;
+    position: relative;
   `,
   Icon: styled(DisabledIcon)`
     fill: #e6e6e6;
-    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
   `,
   Title: styled.div`
     text-decoration: none;
@@ -169,7 +175,7 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
                       type="button"
                       onClick={() => handleBlockChannelClick(channel.id, channel.name)}
                     >
-                      <DisabledChannel.Icon width={24} height={24} />
+                      <DisabledChannel.Icon />
                     </DisabledChannel.Button>
                     <DisabledChannel.Title>{channel.displayName}</DisabledChannel.Title>
                   </>
