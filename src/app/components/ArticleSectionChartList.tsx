@@ -81,7 +81,7 @@ export const ArticleSectionChartList: React.FunctionComponent<ArticleSectionChar
 
   return (
     <div css={styles.articleChartListWrapper}>
-      <div css={styles.articleChartGroupContainer} className="scrollBarHidden" ref={ref}>
+      <div css={styles.articleChartGroupContainer} ref={ref}>
         {articleList &&
           groupChartActicles(articleList, CHART_GROUPING_COUNT).map((groupedArticles, groupIdx) => (
             <ol

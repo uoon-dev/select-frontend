@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import Lazyload from 'react-lazyload';
 import { Link } from 'react-router-dom';
 
-import * as Modernizr from 'modernizr';
+import { objectfit } from 'modernizr';
 import { ImageSize } from 'app/constants';
 import getImageSrc from 'app/utils/getSelectResponsiveImageSrc';
 import * as styles from 'app/components/ArticleThumbnail/styles';
 import { ThumbnailShape } from 'app/components/ArticleThumbnail/types';
+import DisabledIcon from 'svgs/Disabled.svg';
 
 interface ArticleThumbnailProps {
   thumbnailShape?: ThumbnailShape;
@@ -55,20 +56,8 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
 
   const imageSrc = imageUrl ? getImageSrc(imageUrl, imageSize) : null;
 
-  const renderThumbnailImage = () => {
-    if (!Modernizr.objectfit) {
-      return (
-        <>
-          <div
-            className={classNames('ArticleThumbnail_BackgroundImage', imageClassName)}
-            style={{ backgroundImage: `url(${imageUrl}?${imageSize})` }}
-          />
-          <span className="ArticleThumbnail_CoverShadow" />
-        </>
-      );
-    }
-
-    return (
+  const renderThumbnailImage = () =>
+    objectfit ? (
       <>
         <img
           className={classNames('ArticleThumbnail_CoverImage', imageClassName)}
@@ -78,8 +67,15 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         />
         <span className="ArticleThumbnail_CoverShadow" />
       </>
+    ) : (
+      <>
+        <div
+          className={classNames('ArticleThumbnail_BackgroundImage', imageClassName)}
+          style={{ backgroundImage: `url(${imageUrl}?${imageSize})` }}
+        />
+        <span className="ArticleThumbnail_CoverShadow" />
+      </>
     );
-  };
 
   if (!isEnabled) {
     return (
@@ -88,7 +84,7 @@ export const ArticleThumbnail: React.FunctionComponent<ArticleThumbnailProps> = 
         css={[styles.ArticleThumbnail_Wrapper, thumbnailStyle]}
       >
         <div className="ArticleThumbnail_Block">
-          <BlockIconComponent className="ArticleThumbnail_BlockImage" />
+          <DisabledIcon width={40} height={40} className="ArticleThumbnail_BlockImage" />
           <p className="ArticleThumbnail_BlockText">이용할 수 없는 아티클입니다.</p>
         </div>
       </div>

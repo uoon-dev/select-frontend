@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import React from 'react';
 import { Method } from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,15 +10,106 @@ import { articleChannelToPath } from 'app/utils/toPath';
 import { Actions } from 'app/services/articleFollowing';
 import { useScrollSlider } from 'app/hooks/useScrollSlider';
 import { ArticleChannel } from 'app/services/articleChannel';
-import { BlockIconComponent } from 'app/components/ArticleThumbnail';
 import { getSectionStringForTracking } from 'app/services/tracking/utils';
 import { ConnectedTrackImpression } from 'app/components/TrackImpression';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 import { ArticleChannelThumbnail } from 'app/components/ArticleChannels/ArticleChannelThumbnail';
+import DisabledIcon from 'svgs/Disabled.svg';
+import Media from 'app/styles/mediaQuery';
+import { PHABLET_MIN_WIDTH } from 'app/constants';
+import Colors from 'app/styles/colors';
+import { hideScrollBar } from 'app/styles/customProperties';
 
 interface SlideChannelListProps {
   channels: ArticleChannel[];
 }
+
+const ListMaxWidth = 800;
+export const ChannelList = {
+  Wrapper: styled.section`
+    position: relative;
+    max-width: ${ListMaxWidth}px;
+    margin: 0 auto;
+  `,
+  List: styled.ul`
+    display: block;
+    white-space: nowrap;
+    padding: 30px 0px 10px;
+    margin: 0;
+    overflow: auto;
+    ${hideScrollBar}
+
+    @media (min-width: ${PHABLET_MIN_WIDTH}px) and (max-width: ${ListMaxWidth - 1}px) {
+      padding-left: 20px;
+    }
+    @media ${Media.PHONE} {
+      padding: 15px 10px;
+    }
+  `,
+  ListItem: styled.li`
+    display: inline-block;
+    vertical-align: top;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  `,
+  ItemContentsWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+
+    & .ArticleChannelThumbnail_Wrapper {
+      margin-right: 0;
+    }
+  `,
+  Link: styled(Link)`
+    text-decoration: none;
+    width: 62px;
+    padding-top: 5px;
+    font-size: 11px;
+    color: ${Colors.slategray_60};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+  `,
+};
+
+const DisabledChannel = {
+  Button: styled.button`
+    width: 40px;
+    height: 40px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    border-radius: 999px;
+    overflow: hidden;
+    background-color: #b3b3b3;
+    cursor: pointer;
+    position: relative;
+  `,
+  Icon: styled(DisabledIcon)`
+    fill: #e6e6e6;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  `,
+  Title: styled.div`
+    text-decoration: none;
+    width: 62px;
+    padding-top: 5px;
+    font-size: 11px;
+    color: ${Colors.slategray_60};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+  `,
+};
 
 export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = props => {
   const ref = React.useRef<HTMLUListElement>(null);
@@ -56,12 +148,12 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
   };
 
   return (
-    <section className="FollowingChannel_ListWrap">
-      <ul className="FollowingChannel_List scrollBarHidden" ref={ref}>
+    <ChannelList.Wrapper>
+      <ChannelList.List ref={ref}>
         {channels.map((channel, idx) => (
-          <li key={idx} className="FollowingChannel_Item">
+          <ChannelList.ListItem key={idx}>
             <ConnectedTrackImpression section={section} index={idx} id={`ch:${channel.id}`}>
-              <div className="FollowingChannel_Item_InnerWrapper">
+              <ChannelList.ItemContentsWrapper>
                 {channel.isEnabled ? (
                   <>
                     <ArticleChannelThumbnail
@@ -70,35 +162,29 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
                       linkUrl={articleChannelToPath({ channelName: channel.name })}
                       onLinkClick={() => trackingClick(idx, `ch:${channel.id}`)}
                     />
-                    <Link
+                    <ChannelList.Link
                       to={articleChannelToPath({ channelName: channel.name })}
-                      className="FollowingChannel_Item_Link"
                       onClick={() => trackingClick(idx, `ch:${channel.id}`)}
                     >
                       {channel.displayName}
-                    </Link>
+                    </ChannelList.Link>
                   </>
                 ) : (
                   <>
-                    <button
+                    <DisabledChannel.Button
                       type="button"
-                      className="ArticleFollowing_BlockButton"
                       onClick={() => handleBlockChannelClick(channel.id, channel.name)}
                     >
-                      <BlockIconComponent
-                        width={24}
-                        height={24}
-                        className="ArticleFollowing_BlockIcon"
-                      />
-                    </button>
-                    <div className="FollowingChannel_Block_Title">{channel.displayName}</div>
+                      <DisabledChannel.Icon />
+                    </DisabledChannel.Button>
+                    <DisabledChannel.Title>{channel.displayName}</DisabledChannel.Title>
                   </>
                 )}
-              </div>
+              </ChannelList.ItemContentsWrapper>
             </ConnectedTrackImpression>
-          </li>
+          </ChannelList.ListItem>
         ))}
-      </ul>
+      </ChannelList.List>
       <SlideArrow
         label="이전"
         side="left"
@@ -113,6 +199,6 @@ export const SlideChannelList: React.FunctionComponent<SlideChannelListProps> = 
         onClickHandler={moveRight}
         isHidden={!isOnTheRight}
       />
-    </section>
+    </ChannelList.Wrapper>
   );
 };

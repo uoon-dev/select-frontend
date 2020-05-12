@@ -1,5 +1,5 @@
+import styled from '@emotion/styled';
 import React from 'react';
-import classNames from 'classnames';
 import { Link, LinkProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,9 +15,45 @@ import { FetchStatusFlag, PageTitleText, RoutePaths } from 'app/constants';
 import { GridArticleListPlaceholder } from 'app/placeholder/GridArticleListPlaceholder';
 import { SlideChannelListPlaceholder } from 'app/placeholder/SlideChannelListPlaceholder';
 import { getArticleItems, getChannelItems } from 'app/services/articleFollowing/selectors';
+import { Scene } from 'app/styles/globals';
+import Colors from 'app/styles/colors';
+
+const SC = {
+  FollowingWrapper: styled.main`
+    ${Scene.Wrapper}
+    ${Scene.WithGNB}
+    ${Scene.WithLNB}
+    padding-bottom: 60px;
+  `,
+  FollowingList: styled.div`
+    max-width: 840px;
+    margin: 0 auto;
+  `,
+  AllChannelButton: styled(Link)`
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.35px;
+    line-height: 38px;
+    text-decoration: none;
+    width: 120px;
+    height: 40px;
+    border-radius: 3px;
+    border: solid 1px ${Colors.dodgerblue_60};
+    background-color: ${Colors.dodgerblue_50};
+    margin: 20px auto;
+    text-align: center;
+    &:hover,
+    &:active {
+      background-color: ${Colors.dodgerblue_60};
+      transition: background 0.2s, color 0.2s;
+    }
+  `,
+};
 
 const ArticleFollowing: React.FunctionComponent = () => {
-  const itemCountPerPage = 12;
+  const ItemCountPerPage = 12;
 
   const dispatch = useDispatch();
   const page = useSelector(getPageQuery);
@@ -63,23 +99,14 @@ const ArticleFollowing: React.FunctionComponent = () => {
   }, [hasAvailableTicket]);
 
   return (
-    <main
-      className={classNames(
-        'SceneWrapper',
-        'SceneWrapper_WithGNB',
-        'SceneWrapper_WithLNB',
-        'PageArticleFollowing',
-      )}
-    >
+    <SC.FollowingWrapper>
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FOLLOWING} />
-      <div className="a11y">
-        <h1>리디셀렉트 아티클 팔로잉</h1>
-      </div>
+      <h1 className="a11y">리디셀렉트 아티클 팔로잉</h1>
       {channelItems ? (
         channelItems.length > 0 ? (
           <>
             <SlideChannelList channels={channelItems} />
-            <div className="FollowingArticleList">
+            <SC.FollowingList>
               {articleItems && articleItems.length > 0 ? (
                 <GridArticleList
                   serviceTitleForTracking="select-article"
@@ -97,10 +124,10 @@ const ArticleFollowing: React.FunctionComponent = () => {
               ) : (
                 <GridArticleListPlaceholder gridSize="large" />
               )}
-            </div>
+            </SC.FollowingList>
             <Pagination
               currentPage={page}
-              totalPages={Math.ceil(itemCount / itemCountPerPage)}
+              totalPages={Math.ceil(itemCount / ItemCountPerPage)}
               item={{
                 el: Link,
                 getProps: (p): LinkProps => ({
@@ -112,24 +139,23 @@ const ArticleFollowing: React.FunctionComponent = () => {
         ) : (
           <ArticleEmpty
             iconName="profile"
-            iconClassName="ArticleEmpty_CircleIcon"
             description="팔로잉 중인 채널이 없습니다."
             renderButton={() => (
-              <Link to={RoutePaths.ARTICLE_CHANNELS} className="ArticleEmpty_Button">
+              <SC.AllChannelButton to={RoutePaths.ARTICLE_CHANNELS}>
                 전체 채널 보기
-              </Link>
+              </SC.AllChannelButton>
             )}
           />
         )
       ) : (
         <>
           <SlideChannelListPlaceholder />
-          <div className="FollowingArticleList">
+          <SC.FollowingList>
             <GridArticleListPlaceholder gridSize="large" />
-          </div>
+          </SC.FollowingList>
         </>
       )}
-    </main>
+    </SC.FollowingWrapper>
   );
 };
 

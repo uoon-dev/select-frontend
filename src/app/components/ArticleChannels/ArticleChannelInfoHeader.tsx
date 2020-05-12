@@ -1,8 +1,9 @@
-import classNames from 'classnames';
+import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Colors from 'app/styles/colors';
 import { ArticleChannelInfoHeaderPlaceholder } from 'app/placeholder/ArticleChannelInfoHeaderPlaceholder';
 import { Actions } from 'app/services/articleChannel';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
@@ -13,6 +14,80 @@ import { articleChannelToPath } from 'app/utils/toPath';
 
 import { ArticleChannelFollowButton } from './ArticleChannelFollowButton';
 import { ArticleChannelThumbnail } from './ArticleChannelThumbnail';
+
+type PublishDateProp = {
+  hasAuthorName: boolean;
+};
+
+const ChannelInfoHeader = {
+  Wrapper: styled.div`
+    display: flex;
+    padding: 0 18px;
+    align-items: center;
+  `,
+  Meta: styled.div`
+    flex: 1;
+    min-width: 0;
+    padding-right: 10px;
+    box-sizing: border-box;
+  `,
+  Link: styled(Link)`
+    text-decoration: none;
+  `,
+  Title: styled.span`
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: ${Colors.gray_100};
+  `,
+  Description: styled.p`
+    margin: 2px 0 0;
+    padding-right: 5px;
+    display: block;
+    line-height: 18px;
+    font-size: 12px;
+    letter-spacing: -0.3px;
+    color: ${Colors.slategray_60};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  `,
+  AuthorName: styled.span`
+    display: inline;
+    word-break: break-all;
+    line-height: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    padding-right: 5px;
+    vertical-align: top;
+  `,
+  PublishDate: styled.span`
+    display: inline;
+    position: relative;
+    line-height: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    vertical-align: top;
+    ${(publishDateProp: PublishDateProp) =>
+      publishDateProp.hasAuthorName
+        ? `
+          padding-left: 6px;
+          &::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 10px;
+            top: 5px;
+            left: 0;
+            background: ${Colors.slategray_30};
+          }
+        `
+        : ''}
+  `,
+};
 
 export const ArticleChannelInfoHeader: React.FunctionComponent<{
   channelId?: number;
@@ -78,50 +153,44 @@ export const ArticleChannelInfoHeader: React.FunctionComponent<{
     return <ArticleChannelInfoHeaderPlaceholder />;
   }
 
+  const hasAuthorName = authorName ? authorName.length > 0 : false;
   const renderDescription = () => {
     if (!articleState.article || !channelState.channelMeta) {
       return null;
     }
 
     return isRenderDescription ? (
-      <p className="ChannelInfoHeader_Desc">{channelState.channelMeta.description}</p>
+      <ChannelInfoHeader.Description>
+        {channelState.channelMeta.description}
+      </ChannelInfoHeader.Description>
     ) : (
-      <p className="ChannelInfoHeader_Desc">
-        {authorName ? (
-          <span className="ChannelInfoHeader_Desc_AuthorName">{authorName}</span>
-        ) : null}
-        <span
-          className={classNames(
-            'ChannelInfoHeader_Desc_PublishDate',
-            authorName && 'ChannelInfoHeader_Desc_PublishDate-hasDivider',
-          )}
-        >
+      <ChannelInfoHeader.Description>
+        {hasAuthorName && <ChannelInfoHeader.AuthorName>{authorName}</ChannelInfoHeader.AuthorName>}
+        <ChannelInfoHeader.PublishDate hasAuthorName={hasAuthorName}>
           {buildOnlyDateFormat(articleState.article.publishDate)}
-        </span>
-      </p>
+        </ChannelInfoHeader.PublishDate>
+      </ChannelInfoHeader.Description>
     );
   };
 
   return (
-    <div className="ChannelInfoHeader_Wrapper">
+    <ChannelInfoHeader.Wrapper className="ChannelInfoHeader_Wrapper">
       <ArticleChannelThumbnail
         imageUrl={channelState.channelMeta.thumbnailUrl}
-        thumbnailClassName="ChannelInfoHeader_ChannelThumbnailLink"
         linkUrl={articleChannelToPath({ channelName: channelState.channelMeta.name })}
         channelName={channelState.channelMeta.name}
         onLinkClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
       />
-      <div className="ChannelInfoHeader_Meta">
-        <Link
-          className="ChannelInfoHeader_ChannelLink"
+      <ChannelInfoHeader.Meta>
+        <ChannelInfoHeader.Link
           to={articleChannelToPath({ channelName: channelState.channelMeta.name })}
           onClick={() => trackingClick(0, `ch:${channelState.channelMeta!.id}`)}
         >
-          <span className="ChannelInfoHeader_Title">{channelState.channelMeta.displayName}</span>
-        </Link>
+          <ChannelInfoHeader.Title>{channelState.channelMeta.displayName}</ChannelInfoHeader.Title>
+        </ChannelInfoHeader.Link>
         {renderDescription()}
-      </div>
+      </ChannelInfoHeader.Meta>
       <ArticleChannelFollowButton channelId={channelId} channelName={channelName} />
-    </div>
+    </ChannelInfoHeader.Wrapper>
   );
 };

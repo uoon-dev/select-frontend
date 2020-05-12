@@ -6,8 +6,8 @@ import { useMediaQuery } from 'react-responsive';
 import { TOP_BANNER_IMAGE_WIDTH as IMAGE_WIDTH } from 'app/constants';
 import { AppStatus } from 'app/services/app';
 import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
-import ArrowRight from 'svgs/ArrowHeadRight.svg';
-import ArrowLeft from 'svgs/ArrowHeadLeft.svg';
+import ArrowRight from 'svgs/ArrowNoneDashRight.svg';
+import ArrowLeft from 'svgs/ArrowNoneDashLeft.svg';
 
 import BigBannerCarousel from './BigBannerCarousel';
 import CarouselItem from './CarouselItem';

@@ -1,7 +1,12 @@
-import { Icon } from '@ridi/rsg';
+import styled from '@emotion/styled';
 import React from 'react';
 
 import { sendPostRobotOpenBrowser } from 'app/utils/inAppMessageEvents';
+import Media from 'app/styles/mediaQuery';
+import ExclamationIcon from 'svgs/ExclamationCircleFill.svg';
+import Colors from 'app/styles/colors';
+import { resetButton } from 'app/styles/customProperties';
+import ArrowIcon from 'svgs/ArrowNoneDashRight.svg';
 
 export interface NoticeProps {
   isInApp: boolean;
@@ -13,34 +18,98 @@ export interface NoticeProps {
   detailLink?: string;
 }
 
+const DetailButton = styled.button`
+  ${resetButton}
+  font-size: 13px;
+  line-height: 20px;
+  color: ${Colors.slategray_70};
+  font-weight: 700;
+  text-decoration: underline;
+`;
+
+const DetailLink = styled.a`
+  font-size: 13px;
+  line-height: 20px;
+  color: ${Colors.slategray_70};
+  font-weight: 700;
+  text-decoration: underline;
+`;
+
+const SC = {
+  Notice: styled.div`
+    position: relative;
+    border-radius: 4px;
+    background-color: ${Colors.slategray_5};
+    padding: 12px;
+    margin-top: 15px;
+    margin-bottom: -5px;
+
+    @media ${Media.PC} {
+      margin: 0;
+    }
+  `,
+  ExclamationIcon: styled(ExclamationIcon)`
+    display: block;
+    position: absolute;
+    top: 11px;
+    left: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    margin-top: 3px;
+    float: left;
+    fill: ${Colors.slategray_40};
+  `,
+  Wrapper: styled.div`
+    padding-left: 28px;
+    box-sizing: border-box;
+  `,
+  MainText: styled.p`
+    margin: 0;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 20px;
+    color: ${Colors.slategray_70};
+    overflow: hidden;
+  `,
+  SubText: styled.span`
+    display: block;
+    overflow: hidden;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 20px;
+    color: ${Colors.slategray_70};
+  `,
+  DetailButton,
+  DetailLink,
+  LinkIcon: styled(ArrowIcon)`
+    width: 4.7px;
+    height: 8px;
+    margin-left: 4px;
+    fill: ${Colors.slategray_30};
+  `,
+};
+
 export const Notice: React.SFC<NoticeProps> = props => {
   const { isInApp, mainText, subText, detailLink } = props;
 
   return (
-    <div className="Notice">
-      <Icon className="RSGIcon-info" name="exclamation_3" />
-      <div className="Notice_ContentWrapper">
-        <p className="Notice_Main_Text" dangerouslySetInnerHTML={{ __html: mainText }} />
-        {subText && (
-          <span className="Sub_Notice">
-            <span className="Notice_Sub_Text" dangerouslySetInnerHTML={{ __html: subText }} />
-          </span>
-        )}
+    <SC.Notice>
+      <SC.ExclamationIcon />
+      <SC.Wrapper>
+        <SC.MainText dangerouslySetInnerHTML={{ __html: mainText }} />
+        {subText && <SC.SubText dangerouslySetInnerHTML={{ __html: subText }} />}
         {detailLink &&
           (isInApp ? (
-            <button
-              className="Notice_DetailLink"
-              type="button"
-              onClick={() => sendPostRobotOpenBrowser(detailLink)}
-            >
-              자세히 보기 <Icon className="Notice_DetailLink_Icon" name="arrow_2_right" />
-            </button>
+            <SC.DetailButton type="button" onClick={() => sendPostRobotOpenBrowser(detailLink)}>
+              자세히 보기 <SC.LinkIcon />
+            </SC.DetailButton>
           ) : (
-            <a className="Notice_DetailLink" href={detailLink}>
-              자세히 보기 <Icon className="Notice_DetailLink_Icon" name="arrow_2_right" />
-            </a>
+            <SC.DetailLink href={detailLink}>
+              자세히 보기 <SC.LinkIcon />
+            </SC.DetailLink>
           ))}
-      </div>
-    </div>
+      </SC.Wrapper>
+    </SC.Notice>
   );
 };

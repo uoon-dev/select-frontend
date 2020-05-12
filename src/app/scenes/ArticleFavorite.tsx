@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import styled from '@emotion/styled';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, LinkProps } from 'react-router-dom';
@@ -14,37 +14,45 @@ import { Actions as ArticleFollowingActions } from 'app/services/articleFollowin
 import { getPageQuery } from 'app/services/routing/selectors';
 import { RidiSelectState } from 'app/store';
 import { checkCorrectPath } from 'app/utils/utils';
+import { Scene } from 'app/styles/globals';
+
+const FavoriteWrapper = styled.main`
+  ${Scene.Wrapper}
+  ${Scene.WithGNB}
+  ${Scene.WithLNB}
+  padding-bottom: 60px;
+`;
+
+const FavoriteArticleList = styled.div`
+  max-width: 840px;
+  margin: 0 auto;
+`;
 
 const ArticleFavorite: React.FunctionComponent = () => {
-  const itemCountPerPage = 12;
+  const ItemCountPerPage = 12;
 
   const articleItems = useSelector(getFavoriteArticleList);
+  const page = useSelector(getPageQuery);
   const {
-    page,
     isFetched,
     favoriteArticleFetchStatus,
     itemCount,
     hasAvailableTicket,
     unseenFeedsFetchStatus,
-  } = useSelector((state: RidiSelectState) => {
-    const pageFromQuery = getPageQuery(state);
-
-    return {
-      page: pageFromQuery,
-      isFetched: state.favoriteArticle.itemListByPage[pageFromQuery]
-        ? state.favoriteArticle.itemListByPage[pageFromQuery].isFetched
-        : false,
-      favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[pageFromQuery]
-        ? state.favoriteArticle.itemListByPage[pageFromQuery].fetchStatus
-        : FetchStatusFlag.IDLE,
-      itemCount:
-        state.favoriteArticle && state.favoriteArticle.itemCount
-          ? state.favoriteArticle.itemCount
-          : 1,
-      hasAvailableTicket: state.user.hasAvailableTicket,
-      unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
-    };
-  });
+  } = useSelector((state: RidiSelectState) => ({
+    isFetched: state.favoriteArticle.itemListByPage[page]
+      ? state.favoriteArticle.itemListByPage[page].isFetched
+      : false,
+    favoriteArticleFetchStatus: state.favoriteArticle.itemListByPage[page]
+      ? state.favoriteArticle.itemListByPage[page].fetchStatus
+      : FetchStatusFlag.IDLE,
+    itemCount:
+      state.favoriteArticle && state.favoriteArticle.itemCount
+        ? state.favoriteArticle.itemCount
+        : 1,
+    hasAvailableTicket: state.user.hasAvailableTicket,
+    unseenFeedsFetchStatus: state.articleFollowing.unseenFeedsFetchStatus,
+  }));
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -66,20 +74,10 @@ const ArticleFavorite: React.FunctionComponent = () => {
   }, [hasAvailableTicket]);
 
   return (
-    <main
-      className={classNames(
-        'SceneWrapper',
-        'SceneWrapper_WithGNB',
-        'SceneWrapper_WithLNB',
-        'PageArticleFavorite',
-      )}
-    >
+    <FavoriteWrapper>
       <HelmetWithTitle titleName={PageTitleText.ARTICLE_FAVORITE} />
-      <div className="a11y">
-        <h1>리디셀렉트 좋아한 아티클</h1>
-      </div>
-
-      <div className="FollowingArticleList">
+      <h1 className="a11y">리디셀렉트 좋아한 아티클</h1>
+      <FavoriteArticleList>
         {articleItems ? (
           articleItems.length > 0 ? (
             <>
@@ -98,7 +96,7 @@ const ArticleFavorite: React.FunctionComponent = () => {
               />
               <Pagination
                 currentPage={page}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
+                totalPages={Math.ceil(itemCount / ItemCountPerPage)}
                 item={{
                   el: Link,
                   getProps: (p): LinkProps => ({
@@ -113,8 +111,8 @@ const ArticleFavorite: React.FunctionComponent = () => {
         ) : (
           <GridArticleListPlaceholder gridSize="large" />
         )}
-      </div>
-    </main>
+      </FavoriteArticleList>
+    </FavoriteWrapper>
   );
 };
 
