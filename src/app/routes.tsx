@@ -99,14 +99,15 @@ export const Routes: React.SFC<Props> = props => {
       <ConnectedAppManager>
         <Route
           render={({ location }) =>
-            (!props.isRidiApp || inAppGnbRoutes.includes(location.pathname as RoutePaths)) && (
-              <ConnectedGNB />
-            )
+            (!props.isRidiApp ||
+              location.pathname.includes(RoutePaths.CATEGORY) ||
+              inAppGnbRoutes.includes(location.pathname as RoutePaths)) && <ConnectedGNB />
           }
         />
         <Route
           render={({ location }) =>
-            LNBRoutes.includes(location.pathname as RoutePaths) && <ConnectedLNB />
+            (location.pathname.includes(RoutePaths.CATEGORY) ||
+              LNBRoutes.includes(location.pathname as RoutePaths)) && <ConnectedLNB />
           }
         />
         <React.Suspense fallback={<PageLoadingSpinner />}>
@@ -123,6 +124,7 @@ export const Routes: React.SFC<Props> = props => {
             <Route path={RoutePaths.NEW_RELEASE} component={NewReleases} {...props} />
             <Route path={RoutePaths.CHARTS} component={Charts} {...props} />
             <Route path={RoutePaths.COLLECTION} component={Collection} {...props} />
+            <Route path={`${RoutePaths.CATEGORY}/:categoryId`} component={Category} {...props} />
             <Route path={RoutePaths.CATEGORY} component={Category} {...props} />
             <Route path={RoutePaths.MY_SELECT} component={MySelect} {...props} />
             <Route path={RoutePaths.BOOK_DETAIL} component={BookDetail} {...props} />

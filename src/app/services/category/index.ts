@@ -5,11 +5,13 @@ import { FetchStatusFlag } from 'app/constants';
 import { CategoryBooksResponse } from 'app/services/category/requests';
 import { DefaultCollectionState } from 'app/services/collection';
 
+import { SortOptionValue } from './constants';
+
 export const Actions = {
   loadCategoryListRequest: createAction('loadCategoryListRequest'),
 
   loadCategoryListSuccess: createAction<{
-    categoryList: Category[];
+    categoryList: Categories[];
   }>('loadCategoryListSuccess'),
 
   loadCategoryListFailure: createAction('loadCategoryListFailure'),
@@ -28,6 +30,7 @@ export const Actions = {
   loadCategoryBooksRequest: createAction<{
     categoryId: number;
     page: number;
+    sort: SortOptionValue;
   }>('loadCategoryBooksRequest'),
 
   loadCategoryBooksSuccess: createAction<{
@@ -43,14 +46,22 @@ export const Actions = {
   }>('loadCategoryBooksFailure'),
 };
 
-export interface Category {
+export interface CategoryItem {
   id: number;
   name: string;
 }
 
+export interface Categories extends CategoryItem {
+  children: CategoryItem[];
+  parent: {
+    id: number;
+    name: string;
+  };
+}
+
 export interface CategoryListState {
   lastSelectedCategoryId?: number;
-  itemList: Category[];
+  itemList: Categories[];
   fetchStatus: FetchStatusFlag;
   isFetched: boolean;
 }
@@ -132,7 +143,6 @@ categoryBooksReducer.on(
           isFetched: true,
         },
       },
-      name: response.category.name,
       itemCount: response.totalCount,
     },
   }),

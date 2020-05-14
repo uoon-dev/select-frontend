@@ -1,88 +1,178 @@
-import React, { useEffect } from 'react';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, LinkProps, useHistory } from 'react-router-dom';
+import { Link, LinkProps, useHistory, useParams, useLocation } from 'react-router-dom';
 
-import { GridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
-import { PageTitleText } from 'app/constants';
+import { GridBookList, HelmetWithTitle } from 'app/components';
+import { PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { Actions as categoryActions } from 'app/services/category';
-import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
+import { Actions as categoryActions, Categories, CategoryItem } from 'app/services/category';
+import { isValidNumber } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 import { Pagination } from 'app/components/Pagination';
 import { getPageQuery } from 'app/services/routing/selectors';
-import { getIsMobile } from 'app/services/commonUI/selectors';
+import SelectDialog from 'app/components/SelectDialog';
+import TabList, { SC as TabListSC } from 'app/components/TabList';
+import Media from 'app/styles/mediaQuery';
+import SelectBox from 'app/components/SelectBox';
+import { SortOptionList } from 'app/services/category/constants';
 
 const ItemCountPerPage = 24;
+const CategoryWrapper = styled.div`
+  @media ${Media.MOBILE} {
+    padding: 10px 0 0 20px;
+  }
+  @media ${Media.PC} {
+    width: 800px;
+    margin: 0 auto;
+    padding: 40px 0 0 0;
+  }
+`;
+
+const Sort = styled.div`
+  padding-bottom: 6px;
+`;
 
 const Category: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const searchParams = useParams<{ categoryId: string }>();
+  const categoryId = Number(searchParams.categoryId);
+
+  const [selectedFirstCategory, setSelectedFirstCategory] = useState<Categories | null>(null);
+  const [selectedSecondCategoryList, setSelectedSecondCategoryList] = useState<
+    CategoryItem[] | null
+  >(null);
+  const [selectedSecondCategory, setSelectedSecondCategory] = useState<CategoryItem | null>(null);
+  const [selectedSortOption, setSelectedSortOption] = useState(SortOptionList[0]);
 
   const isCategoryListFetched = useSelector((state: RidiSelectState) => state.categories.isFetched);
   const categoryList = useSelector((state: RidiSelectState) => state.categories.itemList) || [];
-  const categoryId = useSelector((state: RidiSelectState) =>
-    Number(getIdFromLocationSearch(state.router.location.search)),
-  );
   const category = useSelector((state: RidiSelectState) => state.categoriesById[categoryId]);
   const books = useSelector((state: RidiSelectState) => state.booksById);
   const page = useSelector(getPageQuery);
-  const isMobile = useSelector(getIsMobile);
 
   const isValidCategoryId = isValidNumber(categoryId);
   const itemCount = category?.itemCount;
   const isCategoryItemFetched = category?.itemListByPage[page]?.isFetched;
 
+  const resetSort = () => {
+    if (selectedSortOption !== SortOptionList[0]) {
+      setSelectedSortOption(SortOptionList[0]);
+    }
+  };
+
+  const initializeCategoryInfo = () => {
+    if (!isValidCategoryId || !isCategoryListFetched) {
+      dispatch(
+        categoryActions.initializeCategoriesWhole({
+          shouldFetchCategoryList: !isCategoryListFetched,
+          shouldInitializeCategoryId: !isValidCategoryId,
+        }),
+      );
+    }
+  };
+
   useEffect(() => {
-    dispatch(
-      categoryActions.initializeCategoriesWhole({
-        shouldFetchCategoryList: !isCategoryListFetched,
-        shouldInitializeCategoryId: !isValidCategoryId,
-      }),
-    );
+    initializeCategoryInfo();
   }, []);
 
   useEffect(() => {
     if (isValidCategoryId) {
       dispatch(categoryActions.cacheCategoryId({ categoryId }));
-      !isCategoryItemFetched &&
-        dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page }));
+      dispatch(
+        categoryActions.loadCategoryBooksRequest({
+          categoryId,
+          page,
+          sort: selectedSortOption.value,
+        }),
+      );
     }
-  }, [categoryId, page]);
+  }, [location]);
 
-  const renderSelectBox = () =>
-    isValidCategoryId ? (
-      <div className="RUISelectBox RUISelectBox-outline Category_SelectBox">
-        <select
-          title="카테고리 선택"
-          className="RUISelectBox_Select"
-          value={categoryId}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            history.push(`/categories?id=${e.currentTarget.value}`);
-          }}
-        >
-          {categoryList.map(categoryItem => (
-            <option key={categoryItem.id} value={categoryItem.id}>
-              {categoryItem.name}
-            </option>
-          ))}
-        </select>
-        <svg viewBox="0 0 48 28" className="RUISelectBox_OpenIcon">
-          <path d="M48 .6H0l24 26.8z" />
-        </svg>
-      </div>
-    ) : null;
+  useEffect(() => {
+    resetSort();
+    initializeCategoryInfo();
 
-  const renderHeader = () =>
-    isMobile ? (
-      <div className="Category_Header GridBookList">{renderSelectBox()}</div>
-    ) : (
-      <PCPageHeader pageTitle={PageTitleText.CATEGORY}>{renderSelectBox()}</PCPageHeader>
-    );
+    let selectedFirstCategoryItem = null;
+    let selectedSecodeCategories = null;
+    let selectedSecondCategoryItem = null;
+    if (isValidCategoryId && categoryList) {
+      categoryList.forEach(firstCategoryItem => {
+        if (firstCategoryItem.id === categoryId) {
+          selectedFirstCategoryItem = firstCategoryItem;
+        }
+        const secondCategoryList = firstCategoryItem.children;
+        secondCategoryList.forEach(secondCategoryItem => {
+          if (secondCategoryItem.id === categoryId) {
+            selectedFirstCategoryItem = firstCategoryItem;
+            selectedSecodeCategories = secondCategoryList;
+            selectedSecondCategoryItem = secondCategoryItem;
+          }
+        });
+      });
+    }
+    setSelectedFirstCategory(selectedFirstCategoryItem);
+    setSelectedSecondCategoryList(selectedSecodeCategories);
+    setSelectedSecondCategory(selectedSecondCategoryItem);
+  }, [categoryId, categoryList]);
+
+  const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value: selectedOptionValue } = event.currentTarget;
+    const selectedItem = SortOptionList.filter(
+      optionItem => optionItem.value === selectedOptionValue,
+    )[0];
+    setSelectedSortOption(selectedItem);
+    history.push(`${RoutePaths.CATEGORY}/${categoryId}?sort=${selectedOptionValue}`);
+  };
+
+  const handleCategoryChange = (clickedCategoryId: number) => {
+    history.push(`${RoutePaths.CATEGORY}/${clickedCategoryId}?sort=${SortOptionList[0].value}`);
+  };
 
   return (
     <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
       <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
-      {renderHeader()}
+      <CategoryWrapper>
+        {selectedFirstCategory ? (
+          <SelectDialog
+            dialogTitle="카테고리"
+            items={categoryList}
+            selectedItem={selectedFirstCategory}
+            onClickItem={handleCategoryChange}
+          />
+        ) : null}
+        {selectedSecondCategoryList && selectedSecondCategory ? (
+          <TabList
+            tabTitle="2차 카테고리"
+            items={selectedSecondCategoryList}
+            selectedItem={selectedSecondCategory}
+            onClickItem={handleCategoryChange}
+            styles={css`
+              @media ${Media.MOBILE} {
+                margin-left: -20px;
+                ${TabListSC.TabList} {
+                  padding-left: 20px;
+                }
+              }
+            `}
+          />
+        ) : null}
+        <Sort>
+          <SelectBox
+            selectLabel="카테고리 도서 정렬"
+            selectId="CategoryOrder"
+            selectList={SortOptionList}
+            selectedItem={selectedSortOption}
+            onChangeSelect={handleSortOptionChange}
+            styles={css`
+              margin-top: 15px;
+            `}
+          />
+        </Sort>
+      </CategoryWrapper>
       {!isCategoryListFetched || !isValidCategoryId || !isCategoryItemFetched ? (
         <GridBookListSkeleton />
       ) : (
@@ -101,7 +191,7 @@ const Category: React.FunctionComponent = () => {
               item={{
                 el: Link,
                 getProps: (p): LinkProps => ({
-                  to: `/categories?id=${categoryId}&page=${p}`,
+                  to: `/categories/${categoryId}?sort=${selectedSortOption.value}&page=${p}`,
                 }),
               }}
             />
