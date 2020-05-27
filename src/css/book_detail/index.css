@@ -298,11 +298,14 @@
 
 .PageBookDetail_CategoryItem {
   display: inline-block;
+  margin-right: 3px;
 
   & + .PageBookDetail_CategoryItem {
     &::before {
+      color: inherit;
       display: inline;
       content: ', ';
+      font-family: Roboto, sans-serif;
     }
   }
 }
