@@ -9,15 +9,15 @@ import hoverStyles from 'app/styles/hover';
 
 interface SelectItem {
   name: string;
-  value: string | number;
+  value: string;
 }
 
 interface Props {
   selectLabel: string;
   selectId: string;
   selectList: SelectItem[];
-  selectedItem: SelectItem;
-  onChangeSelect: any;
+  value: string;
+  onChangeSelect: (value: string) => void;
   styles?: SerializedStyles;
 }
 
@@ -66,13 +66,17 @@ const SC = {
 };
 
 const SelectBox: React.FunctionComponent<Props> = (props: Props) => {
-  const { selectLabel, selectId, selectList, selectedItem, onChangeSelect, styles } = props;
+  const { selectLabel, selectId, selectList, value, onChangeSelect, styles } = props;
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onChangeSelect(event.currentTarget.value);
+  };
+
   return (
     <SC.SelectWrapper styles={styles}>
       <label className="a11y" htmlFor={`${selectId}_Select`}>
         {selectLabel}
       </label>
-      <SC.Select id={`${selectId}_Select`} onChange={onChangeSelect} value={selectedItem.value}>
+      <SC.Select id={`${selectId}_Select`} onChange={handleOptionChange} value={value}>
         {selectList.map((selectItem, index) => (
           <option key={`${selectId}_Item-${index}-${selectItem.value}`} value={selectItem.value}>
             {selectItem.name}

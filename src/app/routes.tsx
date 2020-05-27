@@ -32,7 +32,6 @@ export const HomeRoutes = [RoutePaths.HOME, RoutePaths.ARTICLE_HOME];
 export const inAppGnbRoutes = [
   RoutePaths.HOME,
   RoutePaths.NEW_RELEASE,
-  RoutePaths.CATEGORY,
   RoutePaths.MY_SELECT,
   RoutePaths.SEARCH_RESULT,
   RoutePaths.INTRO,
@@ -46,7 +45,6 @@ export const inAppGnbRoutes = [
 export const LNBRoutes = [
   RoutePaths.HOME,
   RoutePaths.NEW_RELEASE,
-  RoutePaths.CATEGORY,
   RoutePaths.MY_SELECT,
   /* 셀렉트 2.0 - 아티클 */
   RoutePaths.ARTICLE_HOME,

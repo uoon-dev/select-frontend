@@ -18,8 +18,8 @@ interface TabItem {
 
 interface Props {
   tabTitle?: string;
-  items: TabItem[];
-  selectedItem: TabItem;
+  items?: TabItem[];
+  selectedItem?: TabItem;
   onClickItem: any;
   styles?: SerializedStyles;
 }
@@ -303,7 +303,7 @@ const TabList: React.FunctionComponent<Props> = (props: Props) => {
   const handleItemClick = (event: React.MouseEvent<HTMLButtonElement & { value: ItemId }>) => {
     onClickItem(event.currentTarget.value);
   };
-  return (
+  return items && selectedItem ? (
     <SC.TabListWrapper styles={styles}>
       {tabTitle && <p className="a11y">{tabTitle}</p>}
       <SC.TabListScrollBox ref={tabListScrollBoxRef} onScroll={handleTabListScroll}>
@@ -345,7 +345,7 @@ const TabList: React.FunctionComponent<Props> = (props: Props) => {
         </>
       )}
     </SC.TabListWrapper>
-  );
+  ) : null;
 };
 
 export default React.memo(TabList);

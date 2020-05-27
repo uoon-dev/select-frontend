@@ -17,9 +17,9 @@ interface SelectItem {
 }
 
 interface Props {
-  dialogTitle: string;
-  items: SelectItem[];
-  selectedItem: SelectItem;
+  dialogTitle?: string;
+  items?: SelectItem[];
+  selectedItem?: SelectItem;
   onClickItem: any;
   styles?: SerializedStyles;
 }
@@ -230,7 +230,7 @@ const SelectDialog: React.FunctionComponent<Props> = ({
     onClickItem(event.currentTarget.value);
   };
 
-  return (
+  return items && selectedItem ? (
     <>
       <SC.ToggleButtonWrapper styles={styles}>
         <SC.ToggleButton type="button" onClick={toggleDialog}>
@@ -242,7 +242,7 @@ const SelectDialog: React.FunctionComponent<Props> = ({
           <SC.DimmedBG onClick={toggleDialog} />
           <SC.Dialog>
             <SC.DialogHeader>
-              <SC.DialogTitle>{dialogTitle}</SC.DialogTitle>
+              {dialogTitle && <SC.DialogTitle>{dialogTitle}</SC.DialogTitle>}
               <SC.CloseButton type="button" onClick={toggleDialog}>
                 <span className="a11y">닫기</span>
                 <SC.CloseIcon />
@@ -265,7 +265,7 @@ const SelectDialog: React.FunctionComponent<Props> = ({
         </SC.DialogWrapper>
       )}
     </>
-  );
+  ) : null;
 };
 
 export default React.memo(SelectDialog);

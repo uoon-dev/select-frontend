@@ -13,3 +13,7 @@ export const SortOptionList = [
     value: SortOptionValue.POPULAR,
   },
 ];
+
+export const DefaultSortOption = SortOptionList[0];
+
+export const ItemCountPerPage = 24;
