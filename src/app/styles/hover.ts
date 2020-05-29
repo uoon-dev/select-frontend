@@ -5,11 +5,13 @@ import { SerializedStyles, css } from '@emotion/core';
  * 부모요소 hover시 자식요소의 스타일이 변경되어야 하는 경우에 대응하여 parentTagName을 받음
  * */
 const hoverStyles = (styles: SerializedStyles, parentTagName?: string) => css`
-  ${parentTagName ? `${parentTagName}:not(:disabled):active &` : '&:not(:disabled):active'} {
-    ${styles}
+  @media (pointer: coarse) {
+    ${parentTagName ? `${parentTagName}:not(:disabled):active &` : '&:not(:disabled):active'} {
+      ${styles}
+    }
   }
 
-  @media (hover: hover) {
+  @media (pointer: fine) {
     ${parentTagName ? `${parentTagName}:not(:disabled):hover &` : '&:not(:disabled):hover'} {
       ${styles}
     }
