@@ -72,7 +72,7 @@
 }
 
 .PageBookDetail_HeaderContent {
-  flex: 1;
+  flex: 1 0 auto;
   padding: 20px 0;
   @media (--pc-screen) {
     display: flex;
@@ -302,10 +302,16 @@
 
   & + .PageBookDetail_CategoryItem {
     &::before {
-      color: inherit;
+      color: #9ea7ad;
       display: inline;
-      content: ', ';
+      padding-right: 3px;
+      content: ',';
       font-family: Roboto, sans-serif;
+      @media (--pc-screen) {
+        @nest .PageBookDetail_Header-dark & {
+          color: #fff;
+        }
+      }
     }
   }
 }

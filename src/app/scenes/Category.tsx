@@ -26,6 +26,7 @@ import {
   getIsCategoryItemFetched,
   getCategoryBooks,
 } from 'app/services/category/selectors';
+import CategoryEmpty from 'app/components/Empty/CategoryEmpty';
 
 const SC = {
   SceneWrapper: styled.main`
@@ -73,8 +74,8 @@ const Category: React.FunctionComponent = () => {
   const history = useHistory();
 
   const categoryId = Number(useParams<{ categoryId: string }>().categoryId);
-  const sort = useSelector(getSort);
-  const page = useSelector(getPageQuery);
+  const sort = useSelector(getSort) || DefaultSortOption.value;
+  const page = useSelector(getPageQuery) || 1;
 
   const categoryList = useSelector(getCategoryList) || [];
   const totalPages = useSelector((state: RidiSelectState) => getTotalPages(state, { categoryId }));
@@ -150,7 +151,40 @@ const Category: React.FunctionComponent = () => {
   };
 
   const handleCategoryChange = (clickedCategoryId: number) => {
-    history.push(getLocationTo({ categoryId: clickedCategoryId }));
+    history.push(getLocationTo({ categoryId: clickedCategoryId, sort }));
+  };
+
+  const renderBooks = () => {
+    if (!isCategoryListFetched || !isValidCategoryId || !isCategoryItemFetched) {
+      return <GridBookListSkeleton />;
+    }
+    if (categoryBooks.length === 0) {
+      return <CategoryEmpty />;
+    }
+    return (
+      <>
+        <GridBookList
+          serviceTitleForTracking="select-book"
+          pageTitleForTracking="category"
+          uiPartTitleForTracking="book-list"
+          miscTracking={JSON.stringify({
+            sect_cat_id: categoryId,
+            sect_page: page,
+          })}
+          books={categoryBooks}
+        />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          item={{
+            el: Link,
+            getProps: (pageNum): LinkProps => ({
+              to: getLocationTo({ sort, page: pageNum }),
+            }),
+          }}
+        />
+      </>
+    );
   };
 
   return (
@@ -181,32 +215,7 @@ const Category: React.FunctionComponent = () => {
           />
         </SC.Sort>
       </SC.CategoryWrapper>
-      {!isCategoryListFetched || !isValidCategoryId || !isCategoryItemFetched ? (
-        <GridBookListSkeleton />
-      ) : (
-        <>
-          <GridBookList
-            serviceTitleForTracking="select-book"
-            pageTitleForTracking="category"
-            uiPartTitleForTracking="book-list"
-            miscTracking={JSON.stringify({
-              sect_cat_id: categoryId,
-              sect_page: page,
-            })}
-            books={categoryBooks}
-          />
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            item={{
-              el: Link,
-              getProps: (pageNum): LinkProps => ({
-                to: getLocationTo({ sort, page: pageNum }),
-              }),
-            }}
-          />
-        </>
-      )}
+      {renderBooks()}
     </SC.SceneWrapper>
   );
 };

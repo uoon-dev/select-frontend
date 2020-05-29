@@ -30,6 +30,7 @@ const SC = {
   Pagination: styled.div`
     padding: 0;
     height: auto;
+    padding-bottom: 40px;
 
     @media ${Media.PC} {
       padding-bottom: 60px;
@@ -38,14 +39,10 @@ const SC = {
   Wrapper: styled.div`
     height: ${DefaultHeight}px;
     margin: 0;
-    padding: 40px 0 40px;
+    padding: 40px 0 0 0;
     line-height: ${DefaultHeight}px;
     text-align: center;
     white-space: nowrap;
-
-    @media ${Media.PC} {
-      padding-bottom: 0;
-    }
   `,
   Button: styled(Button)`
     ${defaultButtonStyle}

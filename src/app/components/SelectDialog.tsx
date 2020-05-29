@@ -38,8 +38,8 @@ const SC = {
   `,
   ToggleButton: styled.button`
     ${resetButton}
-    align-items: center;
-    display: flex;
+    padding-right: 20px;
+    position: relative;
     font-size: 20px;
     font-weight: 700;
     color: ${Colors.slategray_90};
@@ -48,8 +48,11 @@ const SC = {
   ToggleButtonIcon: styled(ArrowDownIcon)`
     width: 12px;
     height: 9px;
-    margin-left: 8px;
     fill: ${Colors.slategray_40};
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
   `,
   DialogWrapper: styled.div`
     position: fixed;
