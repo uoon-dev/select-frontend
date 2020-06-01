@@ -55,7 +55,9 @@ export const SearchResultBookList: React.SFC<Props &
               >
                 <h3
                   className="SearchResultBookList_Title"
-                  dangerouslySetInnerHTML={{ __html: book.highlight.title || book.title.main }}
+                  dangerouslySetInnerHTML={{
+                    __html: book.highlight.webTitleTitle || book.title.main,
+                  }}
                 />
                 <span
                   className="SearchResultBookList_Authors"
