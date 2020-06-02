@@ -1,5 +1,4 @@
 import { replace } from 'connected-react-router';
-import flatten from 'lodash-es/flatten';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
 import { FetchErrorFlag, RoutePaths } from 'app/constants';
@@ -74,12 +73,12 @@ export function* watchInitializeCategoryId() {
     const state: RidiSelectState = yield select(s => s);
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
     const categoryId =
-      (flatten(
-        (state.categories.itemList || []).map((category: Categories) => [
+      ((state.categories.itemList || [])
+        .flatMap((category: Categories) => [
           category.id,
           ...category.children.map((childCategory: Categories) => childCategory.id),
-        ]),
-      ).includes(idFromLocalStorage) &&
+        ])
+        .includes(idFromLocalStorage) &&
         idFromLocalStorage) ||
       state.categories.itemList[0].id;
     const pathname = `${RoutePaths.CATEGORY}/${categoryId}`;
