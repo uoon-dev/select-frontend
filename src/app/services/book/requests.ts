@@ -82,23 +82,12 @@ export interface BookDetailResponseV1 extends Omit<BookDetailResponseV2, 'introd
 
 export type BookDetailResponse = BookDetailResponseV2 & RedirectionRequiredResponse;
 
-export interface BooksResponse extends RedirectionRequiredResponse {
-  books: BookDetailResponseV2[];
-  size: number;
-  total_count: number;
-  total_page: number;
-}
-
-export const requestBooks = (bookIds: number[]): Promise<BookDetailResponseV2[]> =>
+export const requestBooks = (bookIds: number[]): Promise<BookDetailResponse> =>
   request({
-    url: '/api/books',
+    url: `/api/books?b_ids=${bookIds.join(',')}`,
     method: 'GET',
-    params: {
-      b_ids: bookIds.join(','),
-      size: bookIds.length,
-    },
   }).then(
-    response => camelize<AxiosResponse<BooksResponse>>(response, { recursive: true }).data.books,
+    response => camelize<AxiosResponse<BookDetailResponse>>(response, { recursive: true }).data,
   );
 
 export const requestBookDetail = (bookId: number): Promise<BookDetailResponse> =>
