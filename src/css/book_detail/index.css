@@ -72,7 +72,7 @@
 }
 
 .PageBookDetail_HeaderContent {
-  flex: 1;
+  flex: 1 0 auto;
   padding: 20px 0;
   @media (--pc-screen) {
     display: flex;
@@ -298,11 +298,20 @@
 
 .PageBookDetail_CategoryItem {
   display: inline-block;
+  margin-right: 3px;
 
   & + .PageBookDetail_CategoryItem {
     &::before {
+      color: #9ea7ad;
       display: inline;
-      content: ', ';
+      padding-right: 3px;
+      content: ',';
+      font-family: Roboto, sans-serif;
+      @media (--pc-screen) {
+        @nest .PageBookDetail_Header-dark & {
+          color: #fff;
+        }
+      }
     }
   }
 }
@@ -324,47 +333,13 @@
 
 .PageBookDetail_BookElements {
   margin: 14px 0 0;
-  color: var(--slategray_90);
+  color: var(--slategray_60);
   font-size: 13px;
   line-height: 18px;
   @media (--pc-screen) {
     min-height: 18px;
     margin-top: 20px;
     color: inherit;
-  }
-}
-
-.PageBookDetail_ExpandAuthors_Button {
-  padding-left: 0;
-  border: none;
-  background: none;
-  color: var(--slategray_90);
-  transition: opacity 0.2s;
-
-  @media (--pc-screen) {
-    color: inherit;
-  }
-  @media (hover: hover) {
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-  @media (hover: none) {
-    &:active {
-      opacity: 0.8;
-    }
-  }
-}
-.PageBookDetail_ExpandAuthors_Button_Icon {
-  width: 6px;
-  height: 3px;
-  margin: 6px 0 0 1px;
-  vertical-align: top;
-  fill: var(--slategray_90);
-
-  @media (--pc-screen) {
-    fill: #fff;
   }
 }
 

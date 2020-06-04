@@ -1,209 +1,223 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link, LinkProps } from 'react-router-dom';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, LinkProps, useHistory, useParams } from 'react-router-dom';
 
-import { GridBookList, HelmetWithTitle, PCPageHeader } from 'app/components';
-import history from 'app/config/history';
-import { PageTitleText } from 'app/constants';
+import { GridBookList, HelmetWithTitle } from 'app/components';
+import { PageTitleText, RoutePaths } from 'app/constants';
 import { GridBookListSkeleton } from 'app/placeholder/BookListPlaceholder';
-import { BookState } from 'app/services/book';
-import {
-  Category as CategoryState,
-  CategoryCollectionState,
-  Actions as categoryActions,
-} from 'app/services/category';
-import { getIdFromLocationSearch, isValidNumber } from 'app/services/category/utils';
+import { Actions as categoryActions, Categories, CategoryItem } from 'app/services/category';
+import { isValidNumber } from 'app/services/category/utils';
 import { RidiSelectState } from 'app/store';
 import { Pagination } from 'app/components/Pagination';
-import { getIsIosInApp } from 'app/services/environment/selectors';
 import { getPageQuery } from 'app/services/routing/selectors';
-import { getIsMobile } from 'app/services/commonUI/selectors';
+import SelectDialog from 'app/components/SelectDialog';
+import TabList, { SC as TabListSC } from 'app/components/TabList';
+import Media from 'app/styles/mediaQuery';
+import SelectBox from 'app/components/SelectBox';
+import { SortOptionList, DefaultSortOption } from 'app/services/category/constants';
+import { Scene } from 'app/styles/globals';
+import {
+  getSort,
+  getIsCategoryListFetched,
+  getCategoryList,
+  getTotalPages,
+  getIsCategoryItemFetched,
+  getCategoryBooks,
+} from 'app/services/category/selectors';
+import CategoryEmpty from 'app/components/Empty/CategoryEmpty';
 
-interface CategoryStateProps {
-  isIosInApp: boolean;
-  isCategoryListFetched: boolean;
-  categoryList: CategoryState[];
-  categoryId: number;
-  category: CategoryCollectionState;
-  books: BookState;
-  page: number;
-  isMobile: boolean;
-}
-
-type Props = CategoryStateProps & ReturnType<typeof mapDispatchToProps>;
-
-interface State {
-  isInitialized: boolean;
-}
-
-class Category extends React.Component<Props, State> {
-  private initialDispatchTimeout?: number | null;
-
-  public state: State = {
-    isInitialized: false,
-  };
-
-  private isFetched = (page: number) => {
-    const { category } = this.props;
-    return category && category.itemListByPage[page] && category.itemListByPage[page].isFetched;
-  };
-
-  private renderSelectBox() {
-    const { categoryId, categoryList = [] } = this.props;
-    return (
-      <div className="RUISelectBox RUISelectBox-outline Category_SelectBox">
-        <select
-          title="카테고리 선택"
-          className="RUISelectBox_Select"
-          value={categoryId}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            history.push(`/categories?id=${e.currentTarget.value}`);
-          }}
-        >
-          {categoryList.map(category => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        <svg viewBox="0 0 48 28" className="RUISelectBox_OpenIcon">
-          <path d="M48 .6H0l24 26.8z" />
-        </svg>
-      </div>
-    );
-  }
-
-  public componentDidMount() {
-    const {
-      categoryId,
-      page,
-      isCategoryListFetched,
-      dispatchCacheCategoryId,
-      dispatchInitializeCategoriesWhole,
-      dispatchLoadCategoryBooks,
-    } = this.props;
-
-    this.initialDispatchTimeout = window.setTimeout(() => {
-      if (isValidNumber(categoryId)) {
-        dispatchCacheCategoryId(categoryId);
-      }
-      dispatchInitializeCategoriesWhole(!isCategoryListFetched, !isValidNumber(categoryId));
-
-      if (!this.isFetched(page) && isValidNumber(categoryId)) {
-        dispatchLoadCategoryBooks(categoryId, page);
-      }
-
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
-    });
-  }
-
-  public shouldComponentUpdate(nextProps: Props, nextState: State) {
-    const { categoryId, dispatchCacheCategoryId } = nextProps;
-    const { isInitialized } = nextState;
-
-    if (isInitialized && isValidNumber(categoryId) && this.props.categoryId !== categoryId) {
-      dispatchCacheCategoryId(categoryId);
+const SC = {
+  SceneWrapper: styled.main`
+    ${Scene.Wrapper}
+    ${Scene.WithGNB}
+    ${Scene.WithLNB}
+  `,
+  CategoryWrapper: styled.div`
+    @media ${Media.MOBILE} {
+      padding: 10px 0 0 20px;
     }
-
-    if (!isValidNumber(categoryId)) {
-      return true;
+    @media ${Media.PC} {
+      width: 800px;
+      margin: 0 auto;
+      padding: 40px 0 0 0;
     }
+  `,
+  Sort: styled.div`
+    padding-bottom: 6px;
+  `,
+};
 
-    if (nextProps.page !== this.props.page || nextProps.categoryId !== this.props.categoryId) {
-      const { dispatchLoadCategoryBooks, page, category } = nextProps;
-
-      if (!(category && category.itemListByPage[page] && category.itemListByPage[page].isFetched)) {
-        dispatchLoadCategoryBooks(categoryId, page);
+const Styles = {
+  tabList: css`
+    @media ${Media.MOBILE} {
+      margin-left: -20px;
+      ${TabListSC.TabList} {
+        padding-left: 20px;
       }
     }
-    return true;
-  }
+  `,
+  selectBox: css`
+    margin-top: 15px;
+  `,
+};
 
-  public componentWillUnmount() {
-    if (this.initialDispatchTimeout) {
-      window.clearTimeout(this.initialDispatchTimeout);
-      this.initialDispatchTimeout = null;
-      this.setState({ isInitialized: true });
-    }
-  }
-
-  public render() {
-    const { books, category, categoryId, isCategoryListFetched, page, isMobile } = this.props;
-    const itemCount: any = category ? category.itemCount : 0;
-    const itemCountPerPage = 24;
-
-    const selectBoxTemplate = isValidNumber(categoryId) && this.renderSelectBox();
-    return (
-      <main className="SceneWrapper SceneWrapper_WithGNB SceneWrapper_WithLNB">
-        <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
-        <PCPageHeader pageTitle={PageTitleText.CATEGORY}>
-          {isValidNumber(categoryId) && this.renderSelectBox()}
-        </PCPageHeader>
-        {isMobile && <div className="Category_Header GridBookList">{selectBoxTemplate}</div>}
-        {!isCategoryListFetched || !isValidNumber(categoryId) || !this.isFetched(page) ? (
-          <GridBookListSkeleton />
-        ) : (
-          <>
-            <GridBookList
-              serviceTitleForTracking="select-book"
-              pageTitleForTracking="category"
-              uiPartTitleForTracking="book-list"
-              miscTracking={JSON.stringify({ sect_cat_id: categoryId, sect_page: page })}
-              books={category.itemListByPage[page].itemList.map(id => books[id].book!)}
-            />
-            {!isNaN(itemCount) && itemCount > 0 && (
-              <Pagination
-                currentPage={page}
-                totalPages={Math.ceil(itemCount / itemCountPerPage)}
-                item={{
-                  el: Link,
-                  getProps: (p): LinkProps => ({
-                    to: `/categories?id=${categoryId}&page=${p}`,
-                  }),
-                }}
-              />
-            )}
-          </>
-        )}
-      </main>
-    );
-  }
+interface LocationToParams {
+  categoryId?: number;
+  sort?: string;
+  page?: number;
 }
 
-const mapStateToProps = (rootState: RidiSelectState): CategoryStateProps => ({
-  isIosInApp: getIsIosInApp(rootState),
-  isCategoryListFetched: rootState.categories.isFetched,
-  categoryList: rootState.categories.itemList,
-  categoryId: Number(getIdFromLocationSearch(rootState.router.location.search)),
-  category:
-    rootState.categoriesById[Number(getIdFromLocationSearch(rootState.router.location.search))],
-  books: rootState.booksById,
-  page: getPageQuery(rootState),
-  isMobile: getIsMobile(rootState),
-});
+const Category: React.FunctionComponent = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-const mapDispatchToProps = (dispatch: any) => ({
-  dispatchInitializeCategoriesWhole: (
-    shouldFetchCategoryList: boolean,
-    shouldInitializeCategoryId: boolean,
-  ) =>
+  const categoryId = Number(useParams<{ categoryId: string }>().categoryId);
+  const sort = useSelector(getSort) || DefaultSortOption.value;
+  const page = useSelector(getPageQuery) || 1;
+
+  const categoryList = useSelector(getCategoryList) || [];
+  const totalPages = useSelector((state: RidiSelectState) => getTotalPages(state, { categoryId }));
+  const isCategoryListFetched = useSelector(getIsCategoryListFetched);
+  const isCategoryItemFetched = useSelector((state: RidiSelectState) =>
+    getIsCategoryItemFetched(state, { categoryId, page }),
+  );
+  const categoryBooks = useSelector((state: RidiSelectState) =>
+    getCategoryBooks(state, { categoryId, page }),
+  );
+
+  const isValidCategoryId = isValidNumber(categoryId);
+  const [firstCategory, setFirstCategory] = useState<Categories | undefined>(undefined);
+  const [secondCategoryList, setSecondCategoryList] = useState<CategoryItem[] | undefined>(
+    undefined,
+  );
+  const [secondCategory, setSecondCategory] = useState<CategoryItem | undefined>(undefined);
+
+  const initializeCategoryInfo = () => {
     dispatch(
       categoryActions.initializeCategoriesWhole({
-        shouldFetchCategoryList,
-        shouldInitializeCategoryId,
+        shouldFetchCategoryList: !isCategoryListFetched,
+        shouldInitializeCategoryId: !isValidCategoryId,
       }),
-    ),
-  dispatchLoadCategoryList: () => dispatch(categoryActions.loadCategoryListRequest()),
-  dispatchInitializeCategoryId: () => dispatch(categoryActions.initializeCategoryId()),
-  dispatchCacheCategoryId: (categoryId: number) =>
-    dispatch(categoryActions.cacheCategoryId({ categoryId })),
-  dispatchLoadCategoryBooks: (categoryId: number, page: number) =>
-    dispatch(categoryActions.loadCategoryBooksRequest({ categoryId, page })),
-});
+    );
+  };
 
-const ConnectedCategory = connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false,
-})(Category);
+  useEffect(() => {
+    initializeCategoryInfo();
+  }, []);
 
-export default ConnectedCategory;
+  useEffect(() => {
+    if (isValidCategoryId && isCategoryListFetched && categoryList) {
+      let selectedSecondCategory;
+      const selectedFirstCategory = categoryList.find(firstCategoryItem => {
+        selectedSecondCategory = firstCategoryItem.children.find(
+          secondCategoryItem => secondCategoryItem.id === categoryId,
+        );
+        return selectedSecondCategory;
+      });
+      setFirstCategory(selectedFirstCategory);
+      setSecondCategoryList(selectedFirstCategory?.children);
+      setSecondCategory(selectedSecondCategory);
+    } else {
+      initializeCategoryInfo();
+    }
+  }, [categoryId, isCategoryListFetched, categoryList]);
+
+  useEffect(() => {
+    if (isValidCategoryId) {
+      dispatch(categoryActions.cacheCategoryId({ categoryId }));
+      dispatch(
+        categoryActions.loadCategoryBooksRequest({
+          categoryId,
+          page,
+          sort,
+        }),
+      );
+    }
+  }, [categoryId, page, sort]);
+
+  const getLocationTo = (params: LocationToParams) => {
+    const {
+      categoryId: newCategoryId = categoryId,
+      sort: newSort = DefaultSortOption.value,
+      page: newPage = 1,
+    } = params;
+    return `${RoutePaths.CATEGORY}/${newCategoryId}?sort=${newSort}&page=${newPage}`;
+  };
+
+  const handleSortOptionChange = (clickedSort: string) => {
+    history.push(getLocationTo({ sort: clickedSort }));
+  };
+
+  const handleCategoryChange = (clickedCategoryId: number) => {
+    history.push(getLocationTo({ categoryId: clickedCategoryId, sort }));
+  };
+
+  const renderBooks = () => {
+    if (!isCategoryListFetched || !isValidCategoryId || !isCategoryItemFetched) {
+      return <GridBookListSkeleton />;
+    }
+    if (categoryBooks.length === 0) {
+      return <CategoryEmpty />;
+    }
+    return (
+      <>
+        <GridBookList
+          serviceTitleForTracking="select-book"
+          pageTitleForTracking="category"
+          uiPartTitleForTracking="book-list"
+          miscTracking={JSON.stringify({
+            sect_cat_id: categoryId,
+            sect_page: page,
+          })}
+          books={categoryBooks}
+        />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          item={{
+            el: Link,
+            getProps: (pageNum): LinkProps => ({
+              to: getLocationTo({ sort, page: pageNum }),
+            }),
+          }}
+        />
+      </>
+    );
+  };
+
+  return (
+    <SC.SceneWrapper>
+      <HelmetWithTitle titleName={PageTitleText.CATEGORY} />
+      <SC.CategoryWrapper>
+        <SelectDialog
+          dialogTitle="카테고리"
+          items={categoryList}
+          selectedItem={firstCategory}
+          onClickItem={handleCategoryChange}
+        />
+        <TabList
+          tabTitle="2차 카테고리"
+          items={secondCategoryList}
+          selectedItem={secondCategory}
+          onClickItem={handleCategoryChange}
+          styles={Styles.tabList}
+        />
+        <SC.Sort>
+          <SelectBox
+            selectLabel="도서 정렬"
+            selectId="CategoryOrder"
+            selectList={SortOptionList}
+            value={sort}
+            onChangeSelect={handleSortOptionChange}
+            styles={Styles.selectBox}
+          />
+        </SC.Sort>
+      </SC.CategoryWrapper>
+      {renderBooks()}
+    </SC.SceneWrapper>
+  );
+};
+
+export default Category;

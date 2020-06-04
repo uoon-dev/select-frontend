@@ -45,10 +45,14 @@ export function* loadMySelectList({ payload }: ReturnType<typeof Actions.loadMyS
         response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
       );
       const booksMap = keyBy(books, 'id');
-      response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = booksMap[book.bId];
-        response.userRidiSelectBooks[index].expire = getNotAvailableConvertDate(book.endDate);
-      });
+      const userRidiSelectBooks = response.userRidiSelectBooks
+        .filter(book => booksMap[book.bId])
+        .map(book => ({
+          ...book,
+          book: booksMap[book.bId],
+          expire: getNotAvailableConvertDate(book.endDate),
+        }));
+      response.userRidiSelectBooks = userRidiSelectBooks;
       yield put(BookActions.updateBooks({ books }));
     } else if (response.totalCount < page) {
       const res = yield call(reqeustMySelectHistory, 1);

@@ -39,12 +39,14 @@ export function* queryKeyword({ payload }: ReturnType<typeof Actions.queryKeywor
       );
       const booksMap = keyBy(books, 'id');
       yield put(BookActions.updateBooks({ books }));
-      const searchResultBooks: SearchResultBook[] = response.books.map(book => {
-        const searchResultBook: SearchResultBook = booksMap[book.bId] as SearchResultBook;
-        searchResultBook.highlight = book.highlight;
-        searchResultBook.publisher = { name: book.publisher };
-        return searchResultBook;
-      });
+      const searchResultBooks: SearchResultBook[] = response.books
+        .filter(book => booksMap[book.bId])
+        .map(book => {
+          const searchResultBook: SearchResultBook = booksMap[book.bId] as SearchResultBook;
+          searchResultBook.highlight = book.highlight;
+          searchResultBook.publisher = { name: book.publisher };
+          return searchResultBook;
+        });
       searchResultResponse.books = searchResultBooks;
     } else {
       const articlesResponse = yield call(

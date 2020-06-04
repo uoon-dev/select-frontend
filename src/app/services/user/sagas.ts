@@ -142,9 +142,13 @@ export function* loadMySelectHistory({
         response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
       );
       const booksMap = keyBy(books, 'id');
-      response.userRidiSelectBooks.forEach((book, index) => {
-        response.userRidiSelectBooks[index].book = booksMap[book.bId];
-      });
+      const userRidiSelectBooks = response.userRidiSelectBooks
+        .filter(book => booksMap[book.bId])
+        .map(book => ({
+          ...book,
+          book: booksMap[book.bId],
+        }));
+      response.userRidiSelectBooks = userRidiSelectBooks;
     }
 
     yield put(Actions.loadMySelectHistorySuccess({ page, response }));
@@ -194,9 +198,13 @@ export function* watchDeleteMySelectHistory() {
           response.userRidiSelectBooks.map(book => parseInt(book.bId, 10)),
         );
         const booksMap = keyBy(books, 'id');
-        response.userRidiSelectBooks.forEach((book, index) => {
-          response.userRidiSelectBooks[index].book = booksMap[book.bId];
-        });
+        const userRidiSelectBooks = response.userRidiSelectBooks
+          .filter(book => booksMap[book.bId])
+          .map(book => ({
+            ...book,
+            book: booksMap[book.bId],
+          }));
+        response.userRidiSelectBooks = userRidiSelectBooks;
       }
 
       yield put(Actions.deleteMySelectHistorySuccess({ page, response }));

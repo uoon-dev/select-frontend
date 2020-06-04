@@ -1,11 +1,10 @@
 import { replace } from 'connected-react-router';
-import * as qs from 'qs';
 import { all, call, put, select, take, takeEvery } from 'redux-saga/effects';
 
-import { FetchErrorFlag } from 'app/constants';
+import { FetchErrorFlag, RoutePaths } from 'app/constants';
 import history from 'app/config/history';
 import { Actions as BookActions } from 'app/services/book';
-import { Actions, Category } from 'app/services/category';
+import { Actions, Categories } from 'app/services/category';
 import {
   CategoryBooksResponse,
   requestCategoryBooks,
@@ -21,8 +20,17 @@ import {
 import toast from 'app/utils/toast';
 import showMessageForRequestError from 'app/utils/toastHelper';
 
-export async function loadCategoryList() {
-  return await requestCategoryList();
+export function* loadCategoryList() {
+  const categories = yield call(requestCategoryList);
+  categories.forEach((category: Categories, index: number) => {
+    if (category.children.length > 0) {
+      categories[index].children.unshift({
+        id: categories[index].id,
+        name: `${categories[index].name} 전체`,
+      });
+    }
+  });
+  return categories;
 }
 
 export function* watchLoadCategoryListRequest() {
@@ -64,23 +72,20 @@ export function* watchInitializeCategoryId() {
     yield take(Actions.initializeCategoryId.getType());
     const state: RidiSelectState = yield select(s => s);
     const idFromLocalStorage = localStorageManager.load().lastVisitedCategoryId;
-
     const categoryId =
       ((state.categories.itemList || [])
-        .map((category: Category) => category.id)
+        .flatMap((category: Categories) => [
+          category.id,
+          ...category.children.map((childCategory: Categories) => childCategory.id),
+        ])
         .includes(idFromLocalStorage) &&
         idFromLocalStorage) ||
       state.categories.itemList[0].id;
-
-    const parsedQueryString = qs.parse(state.router.location.search, { ignoreQueryPrefix: true });
-
+    const pathname = `${RoutePaths.CATEGORY}/${categoryId}`;
     yield put(
       replace({
         ...state.router.location,
-        search: qs.stringify({
-          ...parsedQueryString,
-          id: categoryId,
-        }),
+        pathname,
       }),
     );
 
@@ -90,7 +95,9 @@ export function* watchInitializeCategoryId() {
 
 export function* watchCacheCategoryId() {
   while (true) {
-    const { categoryId } = yield take(Actions.cacheCategoryId.getType());
+    const {
+      payload: { categoryId },
+    } = yield take(Actions.cacheCategoryId.getType());
     localStorageManager.save({ lastVisitedCategoryId: categoryId });
   }
 }
@@ -98,12 +105,17 @@ export function* watchCacheCategoryId() {
 export function* loadCategoryBooks({
   payload,
 }: ReturnType<typeof Actions.loadCategoryBooksRequest>) {
-  const { page, categoryId } = payload;
+  const { page, categoryId, sort } = payload;
   try {
     if (!isValidPaginationParameter(page)) {
       throw FetchErrorFlag.UNEXPECTED_PAGE_PARAMS;
     }
-    const response: CategoryBooksResponse = yield call(requestCategoryBooks, categoryId, page);
+    const response: CategoryBooksResponse = yield call(
+      requestCategoryBooks,
+      categoryId,
+      page,
+      sort,
+    );
     yield put(BookActions.updateBooks({ books: response.books }));
     yield put(Actions.loadCategoryBooksSuccess({ categoryId, page, response }));
   } catch (error) {

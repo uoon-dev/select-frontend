@@ -1,17 +1,24 @@
 import { Button, Icon } from '@ridi/rsg';
+import styled from '@emotion/styled';
 import classNames from 'classnames';
-import some from 'lodash-es/some';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { ConnectedBookDetailDownloadButton } from 'app/components/BookDetail/DownloadButton';
-import { BookAuthor, BookTitle, formatFileCount, formatFileSize } from 'app/services/book';
+import { BookTitle, formatFileCount, formatFileSize } from 'app/services/book';
 import { BookDetailResponse } from 'app/services/book/requests';
 import { GNBColorLevel } from 'app/services/commonUI';
 import { StarRating } from 'app/services/review';
 import { RidiSelectState } from 'app/store';
 import { thousandsSeperator } from 'app/utils/thousandsSeperator';
-import { stringifyAuthors } from 'app/utils/utils';
+import { RoutePaths } from 'app/constants';
+import Colors from 'app/styles/colors';
+import ArrowRightIcon from 'svgs/ArrowNoneDashRight.svg';
+import Media from 'app/styles/mediaQuery';
+
+import Authors from './Authors';
+import Publisher from './Publisher';
 
 interface BookDetailMetaContentsPorps {
   bookId: number;
@@ -27,10 +34,29 @@ interface BookDetailMetaContentsStatePorps {
 
 type Props = BookDetailMetaContentsStatePorps & BookDetailMetaContentsPorps;
 
+const SC = {
+  CategoryLink: styled(Link)`
+    text-decoration: none;
+    font-weight: 400;
+    font-size: inherit;
+    color: ${Colors.slategray_60};
+    @media ${Media.PC} {
+      color: inherit;
+    }
+  `,
+  CategoryDepthIcon: styled(ArrowRightIcon)`
+    margin: 0 4px;
+    width: 5px;
+    height: 8px;
+    fill: ${Colors.slategray_40};
+    @media ${Media.PC} {
+      fill: inherit;
+    }
+  `,
+};
+
 const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
   const { title, bookId, isMobile = false, bookDetail, gnbColorLevel, hasAvailableTicket } = props;
-
-  const [isAuthorsExpanded, setAuthorExpanded] = React.useState(false);
 
   const {
     file,
@@ -43,8 +69,6 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
     previewBId,
   } = bookDetail || {};
 
-  const hasMoreAuthors = some(authors, (people: BookAuthor[]) => people && people.length > 2);
-
   return (
     <div className="PageBookDetail_Meta">
       <ul className="PageBookDetail_Categories">
@@ -53,10 +77,10 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
             <li className="PageBookDetail_CategoryItem" key={key}>
               {categoryGroup.map((category, idx) => (
                 <span key={`${category.name}${idx}`}>
-                  {category.name}
-                  {idx !== categoryGroup.length - 1 && (
-                    <Icon name="arrow_5_right" className="PageBookDetail_CategoryArrow" />
-                  )}
+                  <SC.CategoryLink to={`${RoutePaths.CATEGORY}/${category.id}`}>
+                    {category.name}
+                  </SC.CategoryLink>
+                  {idx !== categoryGroup.length - 1 && <SC.CategoryDepthIcon />}
                 </span>
               ))}
             </li>
@@ -64,24 +88,8 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
       </ul>
       <h1 className="PageBookDetail_BookTitle">{title ? title.main : ''}</h1>
       <p className="PageBookDetail_BookElements">
-        {authors && (
-          <span className="PageBookDetail_Authors">
-            {isAuthorsExpanded || !hasMoreAuthors ? (
-              stringifyAuthors(authors)
-            ) : (
-              <button
-                className="PageBookDetail_ExpandAuthors_Button"
-                onClick={() => setAuthorExpanded(true)}
-              >
-                {stringifyAuthors(authors, 2)}
-                <Icon name="arrow_1_down" className="PageBookDetail_ExpandAuthors_Button_Icon" />
-              </button>
-            )}
-          </span>
-        )}
-        {publisher && (
-          <span className="PageBookDetail_Publisher">{` · ${publisher.name} 출판`}</span>
-        )}
+        <Authors authors={authors} />
+        <Publisher publisher={publisher} />
         {file && file.format && file.format !== 'bom' && (
           <span className="PageBookDetail_FileType">{`${file.format.toUpperCase()}`}</span>
         )}

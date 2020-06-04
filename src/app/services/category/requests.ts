@@ -3,27 +3,30 @@ import { AxiosResponse } from 'axios';
 
 import request from 'app/config/axios';
 import { Book } from 'app/services/book';
-import { Category } from 'app/services/category';
+import { Categories } from 'app/services/category';
+
+import { SortOptionValue } from './constants';
 
 export interface CategoryBooksResponse {
   totalCount: number;
-  category: Category;
+  category: Categories;
   books: Book[];
 }
 
 export const requestCategoryBooks = (
   categoryId: number,
   page: number,
+  sort: SortOptionValue,
 ): Promise<CategoryBooksResponse> =>
   request({
-    url: `/api/categories/${categoryId}/books`,
+    url: `/api/books?category=${categoryId}`,
     method: 'GET',
-    params: { page },
+    params: { sort, page },
   }).then(
     response => camelize<AxiosResponse<CategoryBooksResponse>>(response, { recursive: true }).data,
   );
 
-export const requestCategoryList = (): Promise<Category[]> =>
+export const requestCategoryList = (): Promise<Categories[]> =>
   request({
     url: '/api/categories',
     method: 'GET',

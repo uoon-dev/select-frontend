@@ -34,6 +34,8 @@ export const ArticleContent_Title = css`
 
   @media (max-width: 700px) {
     padding: 30px 20px 0;
+    font-size: 22px;
+    line-height: 34px;
   }
 `;
 
