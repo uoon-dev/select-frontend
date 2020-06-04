@@ -11,7 +11,6 @@ import { resetButton, resetLayout } from 'app/styles/customProperties';
 interface AuthorsWithRole {
   names: string[];
   role: string;
-  isOver: boolean;
   overCount: number;
 }
 
@@ -23,7 +22,6 @@ const getAuthors = (authors: BookAuthors) =>
     .map(key => ({
       names: authors[key].map(author => author.name),
       role: authorKoreanNames[key],
-      isOver: authors[key].length - AuthorLimitCount > 0,
       overCount: authors[key].length - AuthorLimitCount,
     }));
 
@@ -51,8 +49,8 @@ const ExpendedButton = styled.button`
 `;
 
 const AuthorsWithRole: React.FunctionComponent<{ authorsWithRole: AuthorsWithRole }> = props => {
-  const { names, role, isOver, overCount } = props.authorsWithRole;
-  const [isFolded, setIsFolded] = useState(isOver);
+  const { names, role, overCount } = props.authorsWithRole;
+  const [isFolded, setIsFolded] = useState(overCount > 0);
   return (
     <>
       {names.slice(0, isFolded ? AuthorLimitCount : names.length).map((authorName, nameIdx) => (
