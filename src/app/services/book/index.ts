@@ -59,6 +59,7 @@ export const Actions = {
 
 export enum AuthorKeys {
   'author' = 'author',
+  'comicAuthor' = 'comicAuthor',
   'storyWriter' = 'storyWriter',
   'illustrator' = 'illustrator',
   'translator' = 'translator',
@@ -67,6 +68,7 @@ export enum AuthorKeys {
 }
 export const authorKeys: AuthorKeys[] = [
   AuthorKeys.author,
+  AuthorKeys.comicAuthor,
   AuthorKeys.storyWriter,
   AuthorKeys.illustrator,
   AuthorKeys.translator,
@@ -74,7 +76,8 @@ export const authorKeys: AuthorKeys[] = [
   AuthorKeys.originalAuthor,
 ];
 export const authorKoreanNames = {
-  [AuthorKeys.author]: '저', // It can be "글, 그림" if the type of book is comic
+  [AuthorKeys.author]: '저',
+  [AuthorKeys.comicAuthor]: '글, 그림',
   [AuthorKeys.storyWriter]: '글',
   [AuthorKeys.illustrator]: '그림',
   [AuthorKeys.translator]: '역',
