@@ -2,7 +2,7 @@ import { Button, Icon } from '@ridi/rsg';
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ConnectedBookDetailDownloadButton } from 'app/components/BookDetail/DownloadButton';
@@ -16,6 +16,7 @@ import { RoutePaths } from 'app/constants';
 import Colors from 'app/styles/colors';
 import ArrowRightIcon from 'svgs/ArrowNoneDashRight.svg';
 import Media from 'app/styles/mediaQuery';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 
 import Authors from './Authors';
 import Publisher from './Publisher';
@@ -69,6 +70,16 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
     previewBId,
   } = bookDetail || {};
 
+  const dispatch = useDispatch();
+  const dispatchTrackCategoryClick = (categoryId: number) => {
+    const trackingParams: DefaultTrackingParams = {
+      section: 'select-book.detail.category',
+      index: 0,
+      id: categoryId,
+    };
+    dispatch(TrackingActions.trackClick({ trackingParams }));
+  };
+
   return (
     <div className="PageBookDetail_Meta">
       <ul className="PageBookDetail_Categories">
@@ -77,7 +88,12 @@ const BookDetailMetaContents: React.FunctionComponent<Props> = props => {
             <li className="PageBookDetail_CategoryItem" key={key}>
               {categoryGroup.map((category, idx) => (
                 <span key={`${category.name}${idx}`}>
-                  <SC.CategoryLink to={`${RoutePaths.CATEGORY}/${category.id}`}>
+                  <SC.CategoryLink
+                    to={`${RoutePaths.CATEGORY}/${category.id}`}
+                    onClick={() => {
+                      dispatchTrackCategoryClick(category.id);
+                    }}
+                  >
                     {category.name}
                   </SC.CategoryLink>
                   {idx !== categoryGroup.length - 1 && <SC.CategoryDepthIcon />}
