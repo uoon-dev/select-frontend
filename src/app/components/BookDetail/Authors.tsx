@@ -68,7 +68,7 @@ const AuthorsWithRole: React.FunctionComponent<{ authorsWithRole: AuthorsWithRol
 
   return (
     <>
-      {authors.slice(0, isFolded ? AuthorLimitCount : authors.length).map((author, nameIdx) => (
+      {(!isFolded ? authors : authors.slice(0, AuthorLimitCount)).map((author, nameIdx) => (
         <span key={`author_link-${author.id}`}>
           {nameIdx > 0 && ', '}
           <AuthorLink
