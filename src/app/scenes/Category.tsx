@@ -27,6 +27,7 @@ import {
   getCategoryBooks,
 } from 'app/services/category/selectors';
 import CategoryEmpty from 'app/components/Empty/CategoryEmpty';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 
 const SC = {
   SceneWrapper: styled.main`
@@ -67,6 +68,12 @@ interface LocationToParams {
   categoryId?: number;
   sort?: string;
   page?: number;
+}
+
+enum Section {
+  firstCategory = 'select-book.category.firstcategory',
+  secondCategory = 'select-book.category.secondcategory',
+  sort = 'select-book.category.sort',
 }
 
 const Category: React.FunctionComponent = () => {
@@ -148,10 +155,26 @@ const Category: React.FunctionComponent = () => {
 
   const handleSortOptionChange = (clickedSort: string) => {
     history.push(getLocationTo({ sort: clickedSort }));
+    const trackingParams: DefaultTrackingParams = {
+      section: Section.sort,
+      index: 0,
+      id: clickedSort,
+    };
+    dispatch(TrackingActions.trackClick({ trackingParams }));
   };
 
-  const handleCategoryChange = (clickedCategoryId: number) => {
+  const changeCategory = (clickedCategoryId: number, section: Section) => {
     history.push(getLocationTo({ categoryId: clickedCategoryId, sort }));
+    const trackingParams = { section, index: 0, id: clickedCategoryId };
+    dispatch(TrackingActions.trackClick({ trackingParams }));
+  };
+
+  const handleFirstCategoryChange = (clickedCategoryId: number) => {
+    changeCategory(clickedCategoryId, Section.firstCategory);
+  };
+
+  const handleSecondCategoryChange = (clickedCategoryId: number) => {
+    changeCategory(clickedCategoryId, Section.secondCategory);
   };
 
   const renderBooks = () => {
@@ -195,13 +218,13 @@ const Category: React.FunctionComponent = () => {
           dialogTitle="카테고리"
           items={categoryList}
           selectedItem={firstCategory}
-          onClickItem={handleCategoryChange}
+          onClickItem={handleFirstCategoryChange}
         />
         <TabList
           tabTitle="2차 카테고리"
           items={secondCategoryList}
           selectedItem={secondCategory}
-          onClickItem={handleCategoryChange}
+          onClickItem={handleSecondCategoryChange}
           styles={Styles.tabList}
         />
         <SC.Sort>

@@ -1,15 +1,17 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { authorKeys, authorKoreanNames, BookAuthors } from 'app/services/book';
+import { authorKeys, authorKoreanNames, BookAuthors, BookAuthor } from 'app/services/book';
 import { RoutePaths } from 'app/constants';
 import hoverStyles from 'app/styles/hover';
 import { resetButton, resetLayout } from 'app/styles/customProperties';
+import { Actions as TrackingActions, DefaultTrackingParams } from 'app/services/tracking';
 
 interface AuthorsWithRole {
-  names: string[];
+  authors: BookAuthor[];
   role: string;
   overCount: number;
 }
@@ -20,7 +22,7 @@ const getAuthors = (authors: BookAuthors) =>
   authorKeys
     .filter(key => authors[key])
     .map(key => ({
-      names: authors[key].map(author => author.name),
+      authors: authors[key],
       role: authorKoreanNames[key],
       overCount: authors[key].length - AuthorLimitCount,
     }));
@@ -49,17 +51,35 @@ const ExpendedButton = styled.button`
 `;
 
 const AuthorsWithRole: React.FunctionComponent<{ authorsWithRole: AuthorsWithRole }> = props => {
-  const { names, role, overCount } = props.authorsWithRole;
+  const { authors, role, overCount } = props.authorsWithRole;
   const [isFolded, setIsFolded] = useState(overCount > 0);
+
+  const dispatch = useDispatch();
+  const dispatchTrackClick = (authorId?: number) => {
+    if (authorId) {
+      const trackingParams: DefaultTrackingParams = {
+        section: 'select-book.detail.authors',
+        index: 0,
+        id: authorId,
+      };
+      dispatch(TrackingActions.trackClick({ trackingParams }));
+    }
+  };
+
   return (
     <>
-      {names.slice(0, isFolded ? AuthorLimitCount : names.length).map((authorName, nameIdx) => (
-        <>
+      {(!isFolded ? authors : authors.slice(0, AuthorLimitCount)).map((author, nameIdx) => (
+        <span key={`author_link-${author.id}`}>
           {nameIdx > 0 && ', '}
-          <AuthorLink to={`${RoutePaths.SEARCH_RESULT}?q=${authorName}&type=Books`}>
-            {authorName}
+          <AuthorLink
+            to={`${RoutePaths.SEARCH_RESULT}?q=${author.name}&type=Books`}
+            onClick={() => {
+              dispatchTrackClick(author.id);
+            }}
+          >
+            {author.name}
           </AuthorLink>
-        </>
+        </span>
       ))}
       {isFolded && (
         <>
@@ -87,10 +107,10 @@ const Authors: React.FunctionComponent<{ authors?: BookAuthors }> = props => {
   return (
     <>
       {getAuthors(authors).map((authorsWithRole, index) => (
-        <>
+        <span key={`authorsWithRole-${index}`}>
           {index > 0 && ', '}
           <AuthorsWithRole authorsWithRole={authorsWithRole} />
-        </>
+        </span>
       ))}
     </>
   );
