@@ -44,6 +44,14 @@ export function* initializeUser({ payload }: ReturnType<typeof Actions.initializ
       updateValue: payload.userDTO.uId,
     }),
   );
+  yield put(
+    TrackingActions.trackingArgsUpdate({
+      updateKey: 'serviceProps',
+      updateValue: {
+        is_subscribing: String(payload.userDTO.hasAvailableTicket),
+      },
+    }),
+  );
 }
 
 export function* watchInitializeUser() {
