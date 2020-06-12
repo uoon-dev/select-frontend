@@ -30,9 +30,10 @@ export const Actions = {
   trackMySelectAdded: createAction<{
     trackingParams: TrakcingCustomEventParams;
   }>('trackMySelectAdded'),
+
   trackingArgsUpdate: createAction<{
-    updateKey: 'userId' | 'deviceType';
-    updateValue: string;
+    updateKey: 'userId' | 'deviceType' | 'serviceProps';
+    updateValue: string | Record<string, string>;
   }>('trackingArgsUpdate'),
 
   trackingArticleActions: createAction<{
