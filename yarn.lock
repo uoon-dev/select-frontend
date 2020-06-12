@@ -1390,10 +1390,10 @@
     eslint-config-airbnb "^18.0.1"
     eslint-config-prettier "^6.10.0"
 
-"@ridi/event-tracker@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.8.4.tgz#127c4445134a3c7628a47e2c4b8c5fe331359212"
-  integrity sha512-LjrTTPvygO0OYRE+gXiHiglAK5UZhdeULuypSRJV+yCz18ZvC+yfcwVESB78rBZP8eT8eGD3dqQIL5GrN+pAvw==
+"@ridi/event-tracker@^0.8.9":
+  version "0.8.9"
+  resolved "https://registry.yarnpkg.com/@ridi/event-tracker/-/event-tracker-0.8.9.tgz#55ce6afd16887df403f84a8c4db12fdb1030c15d"
+  integrity sha512-p45aoLlOb+l/f5MgPFtAj0IRT+V80KBnbldGe5DP72y1NjD3a0Ey7SKo/UTfT/YJw5j47CIJ12OteGF0G2YFlA==
   dependencies:
     "@types/google.analytics" "0.0.39"
     js-cookie "^2.2.1"
