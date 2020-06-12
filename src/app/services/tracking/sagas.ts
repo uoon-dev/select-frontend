@@ -25,6 +25,9 @@ const initializeTracker = (state: RidiSelectState) => {
   tracker = new Tracker({
     deviceType,
     userId: state.user.uId,
+    serviceProps: {
+      is_subscribing: String(state.user.hasAvailableTicket),
+    },
     tagManagerOptions: {
       trackingId: 'GTM-WLRHQ86',
     },
