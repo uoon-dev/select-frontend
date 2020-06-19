@@ -14,7 +14,7 @@ const getCollectionIdList = (collections: CollectionResponse[]) => {
   const collectionIdList: CollectionId[] = collections.map(collection => collection.collectionId);
   // 별점 베스트, 인기도서 콜렉션을 임의의 순서로 추가
   collectionIdList.unshift(ReservedCollectionIds.SPOTLIGHT);
-  collectionIdList.splice(3, 0, ReservedCollectionIds.POPULAR);
+  collectionIdList.splice(2, 0, ReservedCollectionIds.POPULAR);
   return collectionIdList;
 };
 
